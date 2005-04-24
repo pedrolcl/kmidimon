@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="kmidimon" version="1">
+<MenuBar>
+  <Menu name="Control"><text>C&amp;ontrol</text>
+    <Action name="record" />
+    <Action name="stop" />
+  </Menu>
+</MenuBar>
+<ToolBar name="mainToolBar">
+	<text>Main Toolbar</text>
+	<Action name="file_save_as" />
+	<Action name="file_quit" />
+	<Separator />
+	<Action name="record" />
+	<Action name="stop" />
+	<Separator />
+	<Action name="options_configure" />
+</ToolBar>
+</kpartgui>
