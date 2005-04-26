@@ -74,6 +74,8 @@ private:
     KMidimonWidget *m_widget;
     KAction *m_stop;
     KAction *m_record;
+    KAction *m_prefs;
+    KAction *m_save;
 };
 
 #endif // _KMIDIMON_H_

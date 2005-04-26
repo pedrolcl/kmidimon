@@ -59,8 +59,10 @@ void KMidimon::setupActions()
 {
     KStdAction::quit( kapp, SLOT(quit()), actionCollection() );
     KStdAction::openNew( this, SLOT(fileNew()), actionCollection() );
-    KStdAction::saveAs( this, SLOT(fileSave()), actionCollection() );
-    KStdAction::preferences( this, SLOT(preferences()), actionCollection() );
+    m_save = KStdAction::saveAs( this, SLOT(fileSave()), 
+				 actionCollection() );
+    m_prefs = KStdAction::preferences( this, SLOT(preferences()), 
+				       actionCollection() );
     KStdAction::configureToolbars( this, SLOT(editToolbars()), 
 				   actionCollection() );
     m_record = new KAction( i18n("&Record"), "kmidimon_record", 
@@ -90,7 +92,6 @@ void KMidimon::fileSave()
 			i18n("*.txt|Plain text files (*.txt)"),
 			this, i18n("Save MIDI monitor data"));
     if (!path.isNull()) {
-	stop();
     	m_widget->saveTo(path);
     }
 }
@@ -147,7 +148,6 @@ void KMidimon::preferences()
     dlg.setRegRealTimeMsg(m_client->isRegRealTimeMsg());
     dlg.setRegSysexMsg(m_client->isRegSysexMsg());
     if (dlg.exec()) {
-    	stop();
     	m_client->setTempo(dlg.getTempo());
     	m_client->setResolution(dlg.getResolution());
 	m_client->setTickTime(dlg.isMusicalTime());
@@ -181,6 +181,8 @@ void KMidimon::updateActions()
 {
     m_stop->setEnabled(m_client->queue_running());
     m_record->setEnabled(!m_client->queue_running());
+    m_prefs->setEnabled(!m_client->queue_running());
+    m_save->setEnabled(!m_client->queue_running());
     QString status(m_client->queue_running()?"recording":"stopped");
     setCaption(QString("ALSA MIDI Monitor [%1]").arg(status));
 }
