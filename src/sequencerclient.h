@@ -94,7 +94,14 @@ public:
 private:
     int checkAlsaError(int rc, const char *message);
     MidiEvent *build_midi_event(snd_seq_event_t *ev);
+    MidiEvent *build_sysex_event(snd_seq_event_t *ev);
+    MidiEvent *build_channel_event( snd_seq_event_t *ev, QString statusText,
+				    bool useControl, bool hasD2);
+    MidiEvent *build_bender_event(snd_seq_event_t *ev);				    
     QString event_time(snd_seq_event_t *ev);
+    QString event_addr(snd_seq_event_t *ev);
+    QString event_sender(snd_seq_event_t *ev);
+    QString event_dest(snd_seq_event_t *ev);
     
     QWidget *m_widget;
     bool m_queue_running;

@@ -166,14 +166,22 @@ void SequencerClient::queue_set_tempo()
                     "drain_output (set_tempo)");
 }
 
-static QString event_syx(unsigned int len, unsigned char *data)
+MidiEvent *SequencerClient::build_sysex_event(snd_seq_event_t *ev)
 {
-    unsigned int i;
-    QString result; 
-    for (i = 0; i < len; ++i) {
-	result.append(QString(" %1").arg(data[i], 0, 16));
-    }
-    return result;
+    if (m_sysex) {
+	unsigned int i;
+	unsigned char *data = (unsigned char *)ev->data.ext.ptr;
+	QString text; 
+	for (i = 0; i < ev->data.ext.len; ++i) {
+	    text.append(QString(" %1").arg(data[i], 0, 16));
+	}
+	return new MidiEvent( event_time(ev), 
+			      "System exclusive",
+			      NULL,
+			      NULL,
+			      text );
+    } 
+    return NULL;
 }
 
 QString SequencerClient::event_time(snd_seq_event_t *ev)
@@ -185,22 +193,59 @@ QString SequencerClient::event_time(snd_seq_event_t *ev)
 				.arg(ev->time.time.tv_nsec/1000);
 }
 
-static QString event_addr(snd_seq_event_t *ev)
+QString SequencerClient::event_addr(snd_seq_event_t *ev)
 {
     return QString("%1:%2").arg(ev->data.addr.client)
     			   .arg(ev->data.addr.port);
 }
 
-static QString event_sender(snd_seq_event_t *ev)
+QString SequencerClient::event_sender(snd_seq_event_t *ev)
 {
     return QString("%1:%2").arg(ev->data.connect.sender.client)
     			   .arg(ev->data.connect.sender.port);
 }
 
-static QString event_dest(snd_seq_event_t *ev)
+QString SequencerClient::event_dest(snd_seq_event_t *ev)
 {
     return QString(" %1:%2").arg(ev->data.connect.dest.client)
     			   .arg(ev->data.connect.dest.port);
+}
+
+MidiEvent *SequencerClient::build_channel_event( snd_seq_event_t *ev,
+						 QString statusText,
+						 bool useControl,
+						 bool hasD2)
+{
+    MidiEvent *m = NULL;
+    if (m_channel) {
+        if (useControl) {
+	    m = new MidiEvent(  event_time(ev),
+				statusText,
+				QString("%1").arg(ev->data.control.channel+1), 
+				QString("%1").arg(ev->data.control.param), 
+				hasD2 ? QString(" %1")
+					    .arg(ev->data.control.value)
+				      : NULL );
+	} else {
+	    m = new MidiEvent(  event_time(ev), 
+				statusText,
+				QString("%1").arg(ev->data.note.channel+1),
+				QString("%1").arg(ev->data.note.note),
+				QString(" %1").arg(ev->data.note.velocity) );
+	}
+    }
+    return m;
+}
+
+MidiEvent *SequencerClient::build_bender_event(snd_seq_event_t *ev)
+{
+    if (m_channel) {
+	return new MidiEvent( event_time(ev), 
+			      "Pitch bend",
+			      QString("%1").arg(ev->data.control.channel+1), 
+			      QString("%1").arg(ev->data.control.value));
+    }
+    return NULL;
 }
 
 MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
@@ -208,90 +253,36 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
     MidiEvent *me = NULL;
     switch (ev->type) {
     case SND_SEQ_EVENT_NOTEON:
-        if (m_channel)
-	  me = new MidiEvent( event_time(ev), 
-		  	      "Note on",
-		              QString("%1").arg(ev->data.note.channel),
-		              QString("%1").arg(ev->data.note.note),
-		              QString(" %1").arg(ev->data.note.velocity));
+	me = build_channel_event( ev, "Note on", false, true );
 	break;
     case SND_SEQ_EVENT_NOTEOFF:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Note off",
-		       	      QString("%1").arg(ev->data.note.channel), 
-		     	      QString("%1").arg(ev->data.note.note), 
-			      QString(" %1").arg(ev->data.note.velocity));
+	me = build_channel_event( ev, "Note off", false, true );
 	break;
     case SND_SEQ_EVENT_KEYPRESS:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Polyphonic aftertouch",
-		       	      QString("%1").arg(ev->data.note.channel), 
-		              QString("%1").arg(ev->data.note.note), 
-		              QString(" %1").arg(ev->data.note.velocity));
+	me = build_channel_event( ev, "Polyphonic aftertouch", false, true );
 	break;
     case SND_SEQ_EVENT_CONTROLLER:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Control change",
-		       	      QString("%1").arg(ev->data.control.channel), 
-		       	      QString("%1").arg(ev->data.control.param), 
-		              QString(" %1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Control change", true, true );
 	break;
     case SND_SEQ_EVENT_PGMCHANGE:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-		              "Program change",
-		              QString("%1").arg(ev->data.control.channel), 
-		              QString("%1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Program change", true, false );
 	break;
     case SND_SEQ_EVENT_CHANPRESS:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-	 		      "Channel aftertouch",
-		       	      QString("%1").arg(ev->data.control.channel), 
-		       	      QString("%1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Channel aftertouch", true, false );
 	break;
     case SND_SEQ_EVENT_PITCHBEND:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Pitch bend",
-			      QString("%1").arg(ev->data.control.channel), 
-			      QString("%1").arg(ev->data.control.value));
+	me = build_bender_event( ev );
 	break;
     case SND_SEQ_EVENT_CONTROL14:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Control change",
-			      QString("%1").arg(ev->data.control.channel), 
-			      QString("%1").arg(ev->data.control.param), 
-			      QString(" %1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Control change", true, true );
 	break;
     case SND_SEQ_EVENT_NONREGPARAM:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Non-registered parameter",
-			      QString("%1").arg(ev->data.control.channel), 
-			      QString("%1").arg(ev->data.control.param), 
-			      QString(" %1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Non-registered parameter", true, true );
 	break;
     case SND_SEQ_EVENT_REGPARAM:
-	if (m_channel)    
-	  me = new MidiEvent( event_time(ev), 
-			      "Registered parameter",
-			      QString("%1").arg(ev->data.control.channel), 
-			      QString("%1").arg(ev->data.control.param), 
-			      QString(" %1").arg(ev->data.control.value));
+	me = build_channel_event( ev, "Registered parameter", true, true );
 	break;
     case SND_SEQ_EVENT_SYSEX:
-	if (m_sysex)    
-	  me = new MidiEvent( event_time(ev), 
-			      "System exclusive",
-			      NULL,
-			      NULL,
-			      event_syx( ev->data.ext.len, 
-			                 (unsigned char *)ev->data.ext.ptr) );
 	break;
 
     case SND_SEQ_EVENT_SONGPOS:
