@@ -50,7 +50,9 @@ int main(int argc, char **argv)
     KAboutData about("kmidimon", I18N_NOOP("KMidimon"), version, description,
                      KAboutData::License_GPL, "(C) 2005 Pedro Lopez-Cabanillas", 
                      0, 0, "plcl@users.sourceforge.net");
-    about.addAuthor( "Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net" );
+    about.addAuthor("Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net" );
+    about.addCredit("Christoph Eckert", 
+    		    I18N_NOOP("Documentation, good ideas and suggestions"));
     KCmdLineArgs::init(argc, argv, &about);
     //KCmdLineArgs::addCmdLineOptions( options );
     KApplication app;
