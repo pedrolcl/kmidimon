@@ -211,37 +211,38 @@ QString SequencerClient::event_dest(snd_seq_event_t *ev)
     			   .arg(ev->data.connect.dest.port);
 }
 
-MidiEvent *SequencerClient::build_channel_event( snd_seq_event_t *ev,
-						 QString statusText,
-						 bool useControl,
-						 bool hasD2)
+MidiEvent *SequencerClient::build_control_event( snd_seq_event_t *ev,
+						 QString statusText )
 {
-    MidiEvent *m = NULL;
     if (m_channel) {
-        if (useControl) {
-	    m = new MidiEvent(  event_time(ev),
+	return  new MidiEvent(  event_time(ev),
 				statusText,
 				QString("%1").arg(ev->data.control.channel+1), 
 				QString("%1").arg(ev->data.control.param), 
-				hasD2 ? QString(" %1")
-					    .arg(ev->data.control.value)
-				      : NULL );
-	} else {
-	    m = new MidiEvent(  event_time(ev), 
+				QString(" %1").arg(ev->data.control.value) );
+    }
+    return NULL;
+}
+
+MidiEvent *SequencerClient::build_note_event( snd_seq_event_t *ev,
+						 QString statusText )
+{
+    if (m_channel) {
+	return  new MidiEvent(  event_time(ev), 
 				statusText,
 				QString("%1").arg(ev->data.note.channel+1),
 				QString("%1").arg(ev->data.note.note),
 				QString(" %1").arg(ev->data.note.velocity) );
-	}
     }
-    return m;
+    return NULL;
 }
 
-MidiEvent *SequencerClient::build_bender_event(snd_seq_event_t *ev)
+MidiEvent *SequencerClient::build_controlv_event( snd_seq_event_t *ev, 
+						  QString statusText )
 {
     if (m_channel) {
 	return new MidiEvent( event_time(ev), 
-			      "Pitch bend",
+			      statusText,
 			      QString("%1").arg(ev->data.control.channel+1), 
 			      QString("%1").arg(ev->data.control.value));
     }
@@ -253,36 +254,37 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
     MidiEvent *me = NULL;
     switch (ev->type) {
     case SND_SEQ_EVENT_NOTEON:
-	me = build_channel_event( ev, "Note on", false, true );
+	me = build_note_event( ev, "Note on" );
 	break;
     case SND_SEQ_EVENT_NOTEOFF:
-	me = build_channel_event( ev, "Note off", false, true );
+	me = build_note_event( ev, "Note off" );
 	break;
     case SND_SEQ_EVENT_KEYPRESS:
-	me = build_channel_event( ev, "Polyphonic aftertouch", false, true );
+	me = build_note_event( ev, "Polyphonic aftertouch" );
 	break;
     case SND_SEQ_EVENT_CONTROLLER:
-	me = build_channel_event( ev, "Control change", true, true );
+	me = build_control_event( ev, "Control change" );
 	break;
     case SND_SEQ_EVENT_PGMCHANGE:
-	me = build_channel_event( ev, "Program change", true, false );
+	me = build_controlv_event( ev, "Program change" );
 	break;
     case SND_SEQ_EVENT_CHANPRESS:
-	me = build_channel_event( ev, "Channel aftertouch", true, false );
+	me = build_controlv_event( ev, "Channel aftertouch" );
 	break;
     case SND_SEQ_EVENT_PITCHBEND:
-	me = build_bender_event( ev );
+	me = build_controlv_event( ev, "Pitch bend" );
 	break;
     case SND_SEQ_EVENT_CONTROL14:
-	me = build_channel_event( ev, "Control change", true, true );
+	me = build_control_event( ev, "Control change" );
 	break;
     case SND_SEQ_EVENT_NONREGPARAM:
-	me = build_channel_event( ev, "Non-registered parameter", true, true );
+	me = build_control_event( ev, "Non-registered parameter" );
 	break;
     case SND_SEQ_EVENT_REGPARAM:
-	me = build_channel_event( ev, "Registered parameter", true, true );
+	me = build_control_event( ev, "Registered parameter" );
 	break;
     case SND_SEQ_EVENT_SYSEX:
+	me = build_sysex_event( ev );    
 	break;
 
     case SND_SEQ_EVENT_SONGPOS:
