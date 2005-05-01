@@ -25,8 +25,7 @@
 #include <alsa/asoundlib.h>
 #include "sequencerclient.h"
 
-using std::cerr;
-using std::endl;
+using namespace std;
 
 SequencerClient::SequencerClient(QWidget *parent):QThread(),
 	m_widget(parent),
@@ -176,9 +175,9 @@ MidiEvent *SequencerClient::build_sysex_event(snd_seq_event_t *ev)
 	    text.append(QString(" %1").arg(data[i], 0, 16));
 	}
 	return new MidiEvent( event_time(ev), 
-			      "System exclusive",
+			      i18n("System exclusive"),
 			      NULL,
-			      NULL,
+			      QString("%1").arg(ev->data.ext.len),
 			      text );
     } 
     return NULL;
@@ -211,6 +210,11 @@ QString SequencerClient::event_dest(snd_seq_event_t *ev)
     			   .arg(ev->data.connect.dest.port);
 }
 
+QString SequencerClient::common_param(snd_seq_event_t *ev)
+{
+    return QString("%1").arg(ev->data.control.value);
+}
+
 MidiEvent *SequencerClient::build_control_event( snd_seq_event_t *ev,
 						 QString statusText )
 {
@@ -237,6 +241,37 @@ MidiEvent *SequencerClient::build_note_event( snd_seq_event_t *ev,
     return NULL;
 }
 
+MidiEvent *SequencerClient::build_common_event( snd_seq_event_t *ev,
+						QString statusText,
+						QString param )
+{
+    if (m_common) {
+	return new MidiEvent( event_time(ev), statusText, NULL, param );
+    }
+    return NULL;
+}
+
+MidiEvent *SequencerClient::build_realtime_event( snd_seq_event_t *ev,
+						  QString statusText )
+{
+    if (m_realtime) {
+	return new MidiEvent( event_time(ev), statusText);
+    }
+    return NULL;
+}
+
+MidiEvent *SequencerClient::build_alsa_event( snd_seq_event_t *ev,
+					      QString statusText,
+					      QString srcAddr,
+					      QString dstAddr )
+{
+    if (m_alsa) {
+	return new MidiEvent( event_time(ev), statusText, 
+			      NULL, srcAddr, dstAddr );
+    }
+    return NULL;
+}
+
 MidiEvent *SequencerClient::build_controlv_event( snd_seq_event_t *ev, 
 						  QString statusText )
 {
@@ -253,137 +288,103 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
 {
     MidiEvent *me = NULL;
     switch (ev->type) {
+/* MIDI Channel events */    	
     case SND_SEQ_EVENT_NOTEON:
-	me = build_note_event( ev, "Note on" );
+	me = build_note_event( ev, i18n("Note on") );
 	break;
     case SND_SEQ_EVENT_NOTEOFF:
-	me = build_note_event( ev, "Note off" );
+	me = build_note_event( ev, i18n("Note off") );
 	break;
     case SND_SEQ_EVENT_KEYPRESS:
-	me = build_note_event( ev, "Polyphonic aftertouch" );
+	me = build_note_event( ev, i18n("Polyphonic aftertouch") );
 	break;
     case SND_SEQ_EVENT_CONTROLLER:
-	me = build_control_event( ev, "Control change" );
+	me = build_control_event( ev, i18n("Control change") );
 	break;
     case SND_SEQ_EVENT_PGMCHANGE:
-	me = build_controlv_event( ev, "Program change" );
+	me = build_controlv_event( ev, i18n("Program change") );
 	break;
     case SND_SEQ_EVENT_CHANPRESS:
-	me = build_controlv_event( ev, "Channel aftertouch" );
+	me = build_controlv_event( ev, i18n("Channel aftertouch") );
 	break;
     case SND_SEQ_EVENT_PITCHBEND:
-	me = build_controlv_event( ev, "Pitch bend" );
+	me = build_controlv_event( ev, i18n("Pitch bend") );
 	break;
     case SND_SEQ_EVENT_CONTROL14:
-	me = build_control_event( ev, "Control change" );
+	me = build_control_event( ev, i18n("Control change") );
 	break;
     case SND_SEQ_EVENT_NONREGPARAM:
-	me = build_control_event( ev, "Non-registered parameter" );
+	me = build_control_event( ev, i18n("Non-registered parameter") );
 	break;
     case SND_SEQ_EVENT_REGPARAM:
-	me = build_control_event( ev, "Registered parameter" );
+	me = build_control_event( ev, i18n("Registered parameter") );
 	break;
+/* MIDI Common events */
     case SND_SEQ_EVENT_SYSEX:
 	me = build_sysex_event( ev );    
 	break;
-
     case SND_SEQ_EVENT_SONGPOS:
-	if (m_common)    
-	    me = new MidiEvent( event_time(ev), "Song Position");
+	me = build_common_event( ev, i18n("Song Position"), common_param(ev) );
 	break;
     case SND_SEQ_EVENT_SONGSEL:
-	if (m_common)    
-	    me = new MidiEvent( event_time(ev), "Song Selection");
+	me = build_common_event( ev, i18n("Song Selection"), common_param(ev) );
 	break;
     case SND_SEQ_EVENT_QFRAME:
-	if (m_common)    
-	    me = new MidiEvent( event_time(ev), "Quarter Frame");
+	me = build_common_event( ev, i18n("Quarter Frame"), common_param(ev) );
 	break;
     case SND_SEQ_EVENT_TUNE_REQUEST:
-	if (m_common)    
-	    me = new MidiEvent( event_time(ev), "Tune Request");
+	me = build_common_event( ev, i18n("Tune Request") );
 	break;
-
+/* MIDI Realtime Events */
     case SND_SEQ_EVENT_START:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Start");
+	me = build_realtime_event( ev, i18n("Start") );
 	break;
     case SND_SEQ_EVENT_CONTINUE:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Continue");
+	me = build_realtime_event( ev, i18n("Continue") );
 	break;
     case SND_SEQ_EVENT_STOP:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Stop");
+	me = build_realtime_event( ev, i18n("Stop") );
 	break;
     case SND_SEQ_EVENT_CLOCK:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Clock");
+	me = build_realtime_event( ev, i18n("Clock") );
 	break;
     case SND_SEQ_EVENT_TICK:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Tick");
+	me = build_realtime_event( ev, i18n("Tick") );
 	break;
     case SND_SEQ_EVENT_RESET:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Reset");
+	me = build_realtime_event( ev, i18n("Reset") );
 	break;
     case SND_SEQ_EVENT_SENSING:
-	if (m_realtime)    
-	    me = new MidiEvent( event_time(ev), "Active Sensing");
+	me = build_realtime_event( ev, i18n("Active Sensing") );
 	break;
-
+/* ALSA Client/Port events */
     case SND_SEQ_EVENT_PORT_START:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Port start", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event( ev, i18n("ALSA Port start"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_EXIT:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Port exit", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event( ev, i18n("ALSA Port exit"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_CHANGE:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Port change", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event( ev, i18n("ALSA Port change"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_CLIENT_START:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Client start", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event ( ev, i18n("ALSA Client start"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_CLIENT_EXIT:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Client exit", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event ( ev, i18n("ALSA Client exit"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_CLIENT_CHANGE:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Client change", 
-			      NULL,
-			      event_addr(ev) );
+	me = build_alsa_event ( ev, i18n("ALSA Client change"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_SUBSCRIBED:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Port subscribed", 
-			      NULL,
-			      event_sender(ev),
-			      event_dest(ev) );
+	me = build_alsa_event ( ev, i18n("ALSA Port subscribed"),     
+				event_sender(ev), event_dest(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
-	if (m_alsa)    
-	  me = new MidiEvent( event_time(ev), "ALSA Port unsubscribed", 
-			      NULL,
-			      event_sender(ev),
-			      event_dest(ev) );
+	me = build_alsa_event ( ev, i18n("ALSA Port unsubscribed"),     
+				event_sender(ev), event_dest(ev) );
 	break;
-	
+/* Other events */	
     default:
 	  me = new MidiEvent( event_time(ev),
 			      QString("Event type %1").arg(ev->type));

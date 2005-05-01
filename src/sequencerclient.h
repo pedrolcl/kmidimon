@@ -98,10 +98,16 @@ private:
     MidiEvent *build_note_event( snd_seq_event_t *ev, QString statusText );
     MidiEvent *build_control_event( snd_seq_event_t *ev, QString statusText );
     MidiEvent *build_controlv_event( snd_seq_event_t *ev, QString statusText );
+    MidiEvent *build_common_event( snd_seq_event_t *ev, QString statusText,
+    				   QString param = NULL );
+    MidiEvent *build_realtime_event( snd_seq_event_t *ev, QString statusText );
+    MidiEvent *build_alsa_event( snd_seq_event_t *ev, QString statusText,
+				 QString srcAddr = NULL, QString dstAddr = NULL);
     QString event_time(snd_seq_event_t *ev);
     QString event_addr(snd_seq_event_t *ev);
     QString event_sender(snd_seq_event_t *ev);
     QString event_dest(snd_seq_event_t *ev);
+    QString common_param(snd_seq_event_t *ev);
     
     QWidget *m_widget;
     bool m_queue_running;
