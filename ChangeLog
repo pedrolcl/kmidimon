@@ -1,1 +1,33 @@
- 
+2005-05-01 14:35  plcl
+
+	* More code restructuration. Hopefully it works this time.
+
+2005-05-01 14:34  plcl
+
+	* Translations enabled. First Spanish translation.
+
+2005-04-30 00:37  plcl
+
+	* Fixed some problems with latest code restructuration
+
+2005-04-28 00:14  plcl
+
+	* Added Christoph Eckert to credits - about dialog
+
+2005-04-28 00:03  plcl
+
+	* Channel numbers from 1 to 16. Code restructured. Thanks to
+	  Christoph Eckert for his suggestions.
+
+2005-04-27 07:55  plcl
+
+	* Documentation updated. Thanks to Christoph Eckert
+
+2005-04-26 22:06  plcl
+
+	* Preferences and Save must be disabled while recording
+
+2005-04-25 00:58  plcl
+
+	* * initial import
+
