@@ -59,7 +59,7 @@ public slots:
     void preferences();
     void record();
     void stop();
-    void updateActions();
+    void updateState();
     void editToolbars();
     
 protected:

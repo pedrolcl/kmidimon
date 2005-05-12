@@ -1,19 +1,39 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="kmidimon" version="1">
 <MenuBar>
-  <Menu name="Control"><text>C&amp;ontrol</text>
-    <Action name="record" />
-    <Action name="stop" />
-  </Menu>
-</MenuBar>
-<ToolBar name="mainToolBar">
-	<text>Main Toolbar</text>
-	<Action name="file_save_as" />
-	<Action name="file_quit" />
-	<Separator />
+    <Menu name="Control"><text>C&amp;ontrol</text>
 	<Action name="record" />
 	<Action name="stop" />
-	<Separator />
-	<Action name="options_configure" />
+    </Menu>
+</MenuBar>
+<ToolBar name="mainToolBar">
+    <text>Main Toolbar</text>
+    <Action name="file_save_as" />
+    <Action name="file_quit" />
+    <Separator />
+    <Action name="record" />
+    <Action name="stop" />
+    <Separator />
+    <Action name="options_configure" />
 </ToolBar>
+<State name="recording">
+    <enable>
+	<Action name="stop" />
+    </enable>
+    <disable>
+	<Action name="record" />
+	<Action name="options_configure" />
+	<Action name="file_save_as" />
+    </disable>
+</State>
+<State name="stopped">
+    <enable>
+	<Action name="record" />
+	<Action name="options_configure" />
+	<Action name="file_save_as" />
+    </enable>
+    <disable>
+	<Action name="stop" />
+    </disable>
+</State>
 </kpartgui>

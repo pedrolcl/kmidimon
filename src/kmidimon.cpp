@@ -166,7 +166,7 @@ void KMidimon::record()
     if (!m_client->queue_running()) {
 	m_client->queue_start();
     }
-    updateActions();
+    updateState();
 }
 
 void KMidimon::stop()
@@ -174,17 +174,14 @@ void KMidimon::stop()
     if (m_client->queue_running()) {
 	m_client->queue_stop();
     }
-    updateActions();
+    updateState();
 }
 
-void KMidimon::updateActions() 
+void KMidimon::updateState() 
 {
-    m_stop->setEnabled(m_client->queue_running());
-    m_record->setEnabled(!m_client->queue_running());
-    m_prefs->setEnabled(!m_client->queue_running());
-    m_save->setEnabled(!m_client->queue_running());
-    QString status(m_client->queue_running()?"recording":"stopped");
-    setCaption(QString("ALSA MIDI Monitor [%1]").arg(status));
+    QString state( m_client->queue_running() ? "recording" : "stopped" );
+    setCaption( QString("ALSA MIDI Monitor [%1]").arg(state) );
+    slotStateChanged( state );
 }
 
 void KMidimon::editToolbars()
