@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
-  <!ENTITY kmidimon "<application>kmidimon 0&#46;1</application>">
+  <!ENTITY kmidimon "<application>kmidimon 0&#46;2</application>">
   <!ENTITY kappname "&kmidimon;"><!-- Do *not* replace kappname-->
   <!ENTITY package "kde-module"><!-- kdebase, kdeadmin, etc -->
   <!ENTITY % addindex "IGNORE">
@@ -76,8 +76,8 @@ Please respect the format of the date (YYYY-MM-DD) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>2005-04-27</date>
-<releaseinfo>0&#46;1</releaseinfo>
+<date>2005-05-12</date>
+<releaseinfo>0&#46;2</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
