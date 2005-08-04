@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>328</width>
-            <height>322</height>
+            <width>320</width>
+            <height>384</height>
         </rect>
     </property>
     <property name="caption">
@@ -32,11 +32,11 @@
             <property name="name">
                 <cstring>layout4</cstring>
             </property>
-            <grid>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QGroupBox" row="0" column="0">
+                <widget class="QGroupBox">
                     <property name="name">
                         <cstring>sequencerGroup</cstring>
                     </property>
@@ -93,60 +93,7 @@
                         </widget>
                     </grid>
                 </widget>
-                <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>messageGroup</cstring>
-                    </property>
-                    <property name="title">
-                        <string>Register Message Types</string>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>m_channel</cstring>
-                            </property>
-                            <property name="text">
-                                <string>MIDI Channel Messages</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>m_common</cstring>
-                            </property>
-                            <property name="text">
-                                <string>MIDI System Common Messages</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>m_realtime</cstring>
-                            </property>
-                            <property name="text">
-                                <string>MIDI System Real-Time Messages</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>m_sysex</cstring>
-                            </property>
-                            <property name="text">
-                                <string>MIDI System Exclusive Messages</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>m_alsa</cstring>
-                            </property>
-                            <property name="text">
-                                <string>ALSA Messages</string>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget class="QButtonGroup" row="0" column="1">
+                <widget class="QButtonGroup">
                     <property name="name">
                         <cstring>timeGroup</cstring>
                     </property>
@@ -178,7 +125,81 @@
                         </widget>
                     </vbox>
                 </widget>
-            </grid>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>messageGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Register Message Types</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_channel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>MIDI Channel Messages</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_common</cstring>
+                    </property>
+                    <property name="text">
+                        <string>MIDI System Common Messages</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_realtime</cstring>
+                    </property>
+                    <property name="text">
+                        <string>MIDI System Real-Time Messages</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_sysex</cstring>
+                    </property>
+                    <property name="text">
+                        <string>MIDI System Exclusive Messages</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_alsa</cstring>
+                    </property>
+                    <property name="text">
+                        <string>ALSA Messages</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>displayGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Display Options</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showClientNames</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Client Names</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">

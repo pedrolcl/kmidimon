@@ -18,70 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/*
- * Copyright (C) 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- */
+#ifndef CONNECTDLG_H
+#define CONNECTDLG_H
 
-#ifndef _KMIDIMON_H_
-#define _KMIDIMON_H_
+#include <vector>
+#include <kdialogbase.h>
+#include <qstringlist.h>
+#include <qgroupbox.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <kmainwindow.h>
-#include "sequencerclient.h"
-#include "kmidimonwidget.h"
-
-/**
- * @short Application Main Window
- * @author Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- * @version 0.1
- */
-class KMidimon : public KMainWindow
+ class ConnectDlg : public KDialogBase
 {
     Q_OBJECT
 public:
-    /**
-     * Default Constructor
-     */
-    KMidimon();
+    ConnectDlg( QWidget *parent, 
+		const QStringList& clients, 
+		const QStringList& subs );
+		
+    QStringList getSelected() const;
 
-    /**
-     * Default Destructor
-     */
-    virtual ~KMidimon();
-    bool queryExit();
-    
-public slots:
-    void fileNew();
-    void fileSave();
-    void preferences();
-    void record();
-    void stop();
-    void connectAll();
-    void disconnectAll();
-    void configConnections();
-    void updateState();
-    void editToolbars();
-    
-protected:
-    void customEvent( QCustomEvent * e );
-    void saveConfiguration();
-    void readConfiguration();
-    
 private:
-    void setupActions();
-
-    SequencerClient *m_client;
-    KMidimonWidget *m_widget;
-    KAction *m_stop;
-    KAction *m_record;
-    KAction *m_prefs;
-    KAction *m_save;
-    KAction *m_connectAll;
-    KAction *m_disconnectAll;
-    KAction *m_configConns;
+    QGroupBox *group;
 };
 
-#endif // _KMIDIMON_H_
+#endif

@@ -5,6 +5,12 @@
 	<Action name="record" />
 	<Action name="stop" />
     </Menu>
+    <Menu name="Connections"><text>Connec&amp;tions</text>
+	<Action name="connect_all" />
+	<Action name="disconnect_all" />
+	<Separator />
+	<Action name="connections_dialog" />
+    </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
     <text>Main Toolbar</text>

@@ -33,6 +33,8 @@
 #include "kmidimonwidget.h"
 #include "sequencerclient.h"
 #include "configdialog.h"
+#include "connectdlg.h"
+#include "debugdef.h"
 
 KMidimon::KMidimon()
     : KMainWindow( 0, "KMidimon" )
@@ -70,6 +72,19 @@ void KMidimon::setupActions()
     			    actionCollection(), "record" );    
     m_stop = new KAction( i18n("&Stop"), "player_stop",  KShortcut( Key_S ),
 			  this, SLOT(stop()), actionCollection(), "stop");    
+			  
+    m_connectAll = new KAction( i18n("&Connect All"), KShortcut::null(),
+				this, SLOT(connectAll()), 
+				actionCollection(), "connect_all" );    
+				
+    m_disconnectAll = new KAction( i18n("&Disconnect All"), KShortcut::null(),
+				   this, SLOT(disconnectAll()), 
+				   actionCollection(), "disconnect_all" );
+    
+    m_configConns = new KAction( i18n("Con&figure Connections"), KShortcut::null(),
+				 this, SLOT(configConnections()), 
+				 actionCollection(), "connections_dialog" );
+			  
     setStandardToolBarMenuEnabled( true );                 
     createGUI();
 }
@@ -114,6 +129,7 @@ void KMidimon::saveConfiguration()
     config->writeEntry("common", m_client->isRegCommonMsg());
     config->writeEntry("realtime", m_client->isRegRealTimeMsg());
     config->writeEntry("sysex", m_client->isRegSysexMsg());
+    config->writeEntry("clientNames", m_client->showClientNames());
 }
 
 void KMidimon::readConfiguration()
@@ -128,6 +144,7 @@ void KMidimon::readConfiguration()
     m_client->setRegCommonMsg(config->readBoolEntry("common", true));
     m_client->setRegRealTimeMsg(config->readBoolEntry("realtime", true));
     m_client->setRegSysexMsg(config->readBoolEntry("sysex", true));
+    m_client->setShowClientNames(config->readBoolEntry("clientNames", false));
     m_client->queue_set_tempo();
     m_client->change_port_settings();
 }
@@ -147,6 +164,7 @@ void KMidimon::preferences()
     dlg.setRegCommonMsg(m_client->isRegCommonMsg());
     dlg.setRegRealTimeMsg(m_client->isRegRealTimeMsg());
     dlg.setRegSysexMsg(m_client->isRegSysexMsg());
+    dlg.setShowClientNames(m_client->showClientNames());
     if (dlg.exec()) {
     	m_client->setTempo(dlg.getTempo());
     	m_client->setResolution(dlg.getResolution());
@@ -156,6 +174,7 @@ void KMidimon::preferences()
 	m_client->setRegCommonMsg(dlg.isRegCommonMsg());
 	m_client->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
 	m_client->setRegSysexMsg(dlg.isRegSysexMsg());
+	m_client->setShowClientNames(dlg.showClientNames());
     	m_client->queue_set_tempo();
 	m_client->change_port_settings();
     }
@@ -189,6 +208,37 @@ void KMidimon::editToolbars()
     KEditToolbar dlg(actionCollection());
     if (dlg.exec()) {
 	createGUI();
+    }
+}
+
+void KMidimon::connectAll()
+{
+    m_client->connect_all();	
+}
+
+void KMidimon::disconnectAll()
+{
+    m_client->disconnect_all();
+}
+
+void KMidimon::configConnections()
+{
+    ConnectDlg dlg( this, m_client->inputConnections(), 
+    		    m_client->list_subscribers() );
+    if (dlg.exec()) {
+    	QStringList desired = dlg.getSelected();
+	QStringList subs = m_client->list_subscribers();    	
+	QStringList::Iterator i;
+	for ( i = subs.begin(); i != subs.end(); ++i) {
+	    if (desired.contains(*i) == 0) {
+	    	m_client->disconnect_port(*i);
+	    }
+	}
+	for ( i = desired.begin(); i != desired.end(); ++i) {
+	    if (subs.contains(*i) == 0) {
+		m_client->connect_port(*i);
+	    }
+	}
     }
 }
 

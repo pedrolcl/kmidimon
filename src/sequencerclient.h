@@ -23,6 +23,7 @@
 
 #include <qthread.h>
 #include <qevent.h>
+#include <qmap.h>
 #include <klocale.h>
 #include <alsa/asoundlib.h>
 
@@ -34,33 +35,34 @@ class MidiEvent : public QCustomEvent
 {
 public:
      MidiEvent( QString time, 
+     		QString src,
      		QString kind, 
      		QString ch = NULL, 
      		QString d1 = NULL, 
      		QString d2 = NULL)
 	: QCustomEvent( MONITOR_EVENT_TYPE ), 
 	m_time(time), 
+	m_src(src),
 	m_kind(kind),
 	m_chan(ch),
 	m_data1(d1),
 	m_data2(d2) {}
 	
 	QString getTime() { return m_time; }
+	QString getSource() { return m_src; }
 	QString getKind() { return m_kind; }
 	QString getChannel() { return m_chan; }
 	QString getData1() { return m_data1; }
 	QString getData2() { return m_data2; }
 private:
      QString m_time;
+     QString m_src;
      QString m_kind;
      QString m_chan;
      QString m_data1;
      QString m_data2;
 };
 
-/**
-@author Pedro Lopez-Cabanillas
-*/
 class SequencerClient: public QThread
 {
 public:
@@ -81,6 +83,7 @@ public:
     bool isRegRealTimeMsg() { return m_realtime; }
     bool isRegSysexMsg() { return m_sysex; }
     bool isRegAlsaMsg() { return m_alsa; }
+    bool showClientNames() { return m_showClientNames; }
     
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
@@ -90,6 +93,15 @@ public:
     void setRegRealTimeMsg(bool newValue) { m_realtime = newValue; }
     void setRegSysexMsg(bool newValue) { m_sysex = newValue; }
     void setRegAlsaMsg(bool newValue) { m_alsa = newValue; }
+    void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
+
+    void connect_port(QString name);
+    void disconnect_port(QString name);
+    void connect_all();
+    void disconnect_all();
+    QStringList inputConnections();
+    QStringList outputConnections();
+    QStringList list_subscribers();
     
 private:
     int checkAlsaError(int rc, const char *message);
@@ -103,11 +115,17 @@ private:
     MidiEvent *build_realtime_event( snd_seq_event_t *ev, QString statusText );
     MidiEvent *build_alsa_event( snd_seq_event_t *ev, QString statusText,
 				 QString srcAddr = NULL, QString dstAddr = NULL);
+				 
+    QString client_name(int client_number);
+    QString event_source(snd_seq_event_t *ev);
     QString event_time(snd_seq_event_t *ev);
+    QString event_client(snd_seq_event_t *ev);
     QString event_addr(snd_seq_event_t *ev);
     QString event_sender(snd_seq_event_t *ev);
     QString event_dest(snd_seq_event_t *ev);
     QString common_param(snd_seq_event_t *ev);
+    QStringList list_ports(unsigned int mask);
+    void refreshClientList();
     
     QWidget *m_widget;
     bool m_queue_running;
@@ -119,12 +137,14 @@ private:
     bool m_realtime;
     bool m_sysex;
     bool m_alsa;
+    bool m_showClientNames;
+    bool m_needsRefresh;
 
     snd_seq_t *m_handle;
     int m_client;
     int m_input;
     int m_queue;
-    
+    QMap<int, QString> m_clients;
 };
 
 #endif

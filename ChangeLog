@@ -1,3 +1,28 @@
+2005-08-05 00:10  plcl
+	* Version 0.3 released
+	
+	* New Connections menu, with three items: connect-all, 
+	  disconnect-all and a dialog allowing the user to configure
+	  ALSA sequencer connections from inside the program.
+	  
+	* New column showing the source ALSA client/port for
+	  each event.
+	  
+	* New configurable option to show the ALSA client name 
+	  or number, applied to the new column and elsewhere.
+	  
+2005-05-13 00:02  plcl
+
+	* Version 0.2 released
+
+2005-05-12 23:23  plcl
+
+	* Use <State> in xml.rc, instead of setEnabled() in code.
+
+2005-05-01 14:39  plcl
+
+	* Changelog created
+
 2005-05-01 14:35  plcl
 
 	* More code restructuration. Hopefully it works this time.
@@ -29,5 +54,5 @@
 
 2005-04-25 00:58  plcl
 
-	* * initial import
+	* initial import
 

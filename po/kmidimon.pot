@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-05-01 13:48+0200\n"
+"POT-Creation-Date: 2005-08-04 23:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,96 +15,40 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: configdialogbase.cpp:164 rc.cpp:3
-msgid "Preferences"
+#: connectdlg.cpp:32
+msgid "Connections"
 msgstr ""
 
-#: configdialogbase.cpp:165 rc.cpp:4
-msgid "Sequencer Settings"
+#: connectdlg.cpp:35
+msgid "Available Ports"
 msgstr ""
 
-#: configdialogbase.cpp:166 rc.cpp:5
-msgid "Resolution"
-msgstr ""
-
-#: configdialogbase.cpp:167 rc.cpp:6
-msgid "Tempo (BPM)"
-msgstr ""
-
-#: configdialogbase.cpp:168 rc.cpp:7
-msgid "Register Message Types"
-msgstr ""
-
-#: configdialogbase.cpp:169 rc.cpp:8
-msgid "MIDI Channel Messages"
-msgstr ""
-
-#: configdialogbase.cpp:170 rc.cpp:9
-msgid "MIDI System Common Messages"
-msgstr ""
-
-#: configdialogbase.cpp:171 rc.cpp:10
-msgid "MIDI System Real-Time Messages"
-msgstr ""
-
-#: configdialogbase.cpp:172 rc.cpp:11
-msgid "MIDI System Exclusive Messages"
-msgstr ""
-
-#: configdialogbase.cpp:173 rc.cpp:12
-msgid "ALSA Messages"
-msgstr ""
-
-#: configdialogbase.cpp:174 rc.cpp:13
-msgid "Display Time"
-msgstr ""
-
-#: configdialogbase.cpp:175 rc.cpp:14
-msgid "Musical Time"
-msgstr ""
-
-#: configdialogbase.cpp:176 rc.cpp:15
-msgid "Clock Time"
-msgstr ""
-
-#: kmidimon.cpp:68
+#: kmidimon.cpp:70
 msgid "&Record"
 msgstr ""
 
-#: kmidimon.cpp:71
+#: kmidimon.cpp:73
 msgid "&Stop"
 msgstr ""
 
-#: kmidimon.cpp:92
+#: kmidimon.cpp:76
+msgid "&Connect All"
+msgstr ""
+
+#: kmidimon.cpp:80
+msgid "&Disconnect All"
+msgstr ""
+
+#: kmidimon.cpp:84
+msgid "Con&figure Connections"
+msgstr ""
+
+#: kmidimon.cpp:107
 msgid "*.txt|Plain text files (*.txt)"
 msgstr ""
 
-#: kmidimon.cpp:93
+#: kmidimon.cpp:108
 msgid "Save MIDI monitor data"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:32 kmidimonwidgetbase.cpp:63 rc.cpp:21
-msgid "Time"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:34 kmidimonwidgetbase.cpp:64 rc.cpp:22
-msgid "Event kind"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:36 kmidimonwidgetbase.cpp:65 rc.cpp:23
-msgid "Chan"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:38 kmidimonwidgetbase.cpp:66 rc.cpp:24
-msgid "Data 1"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:40 kmidimonwidgetbase.cpp:67 rc.cpp:25
-msgid "Data 2"
-msgstr ""
-
-#: kmidimonwidgetbase.cpp:62 rc.cpp:20
-msgid "MIDI Monitor"
 msgstr ""
 
 #: main.cpp:38
@@ -123,111 +67,203 @@ msgstr ""
 msgid "C&ontrol"
 msgstr ""
 
-#: sequencerclient.cpp:178
+#: rc.cpp:2
+msgid "Connec&tions"
+msgstr ""
+
+#: rc.cpp:4
+msgid "Preferences"
+msgstr ""
+
+#: rc.cpp:5
+msgid "Sequencer Settings"
+msgstr ""
+
+#: rc.cpp:6
+msgid "Resolution"
+msgstr ""
+
+#: rc.cpp:7
+msgid "Tempo (BPM)"
+msgstr ""
+
+#: rc.cpp:8
+msgid "Display Time"
+msgstr ""
+
+#: rc.cpp:9
+msgid "Musical Time"
+msgstr ""
+
+#: rc.cpp:10
+msgid "Clock Time"
+msgstr ""
+
+#: rc.cpp:11
+msgid "Register Message Types"
+msgstr ""
+
+#: rc.cpp:12
+msgid "MIDI Channel Messages"
+msgstr ""
+
+#: rc.cpp:13
+msgid "MIDI System Common Messages"
+msgstr ""
+
+#: rc.cpp:14
+msgid "MIDI System Real-Time Messages"
+msgstr ""
+
+#: rc.cpp:15
+msgid "MIDI System Exclusive Messages"
+msgstr ""
+
+#: rc.cpp:16
+msgid "ALSA Messages"
+msgstr ""
+
+#: rc.cpp:17
+msgid "Display Options"
+msgstr ""
+
+#: rc.cpp:18
+msgid "Show Client Names"
+msgstr ""
+
+#: rc.cpp:23
+msgid "MIDI Monitor"
+msgstr ""
+
+#: rc.cpp:24
+msgid "Time"
+msgstr ""
+
+#: rc.cpp:25
+msgid "Source"
+msgstr ""
+
+#: rc.cpp:26
+msgid "Event kind"
+msgstr ""
+
+#: rc.cpp:27
+msgid "Chan"
+msgstr ""
+
+#: rc.cpp:28
+msgid "Data 1"
+msgstr ""
+
+#: rc.cpp:29
+msgid "Data 2"
+msgstr ""
+
+#: sequencerclient.cpp:182
 msgid "System exclusive"
 msgstr ""
 
-#: sequencerclient.cpp:293
+#: sequencerclient.cpp:328
 msgid "Note on"
 msgstr ""
 
-#: sequencerclient.cpp:296
+#: sequencerclient.cpp:331
 msgid "Note off"
 msgstr ""
 
-#: sequencerclient.cpp:299
+#: sequencerclient.cpp:334
 msgid "Polyphonic aftertouch"
 msgstr ""
 
-#: sequencerclient.cpp:302 sequencerclient.cpp:314
+#: sequencerclient.cpp:337 sequencerclient.cpp:349
 msgid "Control change"
 msgstr ""
 
-#: sequencerclient.cpp:305
+#: sequencerclient.cpp:340
 msgid "Program change"
 msgstr ""
 
-#: sequencerclient.cpp:308
+#: sequencerclient.cpp:343
 msgid "Channel aftertouch"
 msgstr ""
 
-#: sequencerclient.cpp:311
+#: sequencerclient.cpp:346
 msgid "Pitch bend"
 msgstr ""
 
-#: sequencerclient.cpp:317
+#: sequencerclient.cpp:352
 msgid "Non-registered parameter"
 msgstr ""
 
-#: sequencerclient.cpp:320
+#: sequencerclient.cpp:355
 msgid "Registered parameter"
 msgstr ""
 
-#: sequencerclient.cpp:327
+#: sequencerclient.cpp:362
 msgid "Song Position"
 msgstr ""
 
-#: sequencerclient.cpp:330
+#: sequencerclient.cpp:365
 msgid "Song Selection"
 msgstr ""
 
-#: sequencerclient.cpp:333
+#: sequencerclient.cpp:368
 msgid "Quarter Frame"
 msgstr ""
 
-#: sequencerclient.cpp:336
+#: sequencerclient.cpp:371
 msgid "Tune Request"
 msgstr ""
 
-#: sequencerclient.cpp:340
+#: sequencerclient.cpp:375
 msgid "Start"
 msgstr ""
 
-#: sequencerclient.cpp:349
+#: sequencerclient.cpp:384
 msgid "Clock"
 msgstr ""
 
-#: sequencerclient.cpp:352
+#: sequencerclient.cpp:387
 msgid "Tick"
 msgstr ""
 
-#: sequencerclient.cpp:355
+#: sequencerclient.cpp:390
 msgid "Reset"
 msgstr ""
 
-#: sequencerclient.cpp:358
+#: sequencerclient.cpp:393
 msgid "Active Sensing"
 msgstr ""
 
-#: sequencerclient.cpp:362
+#: sequencerclient.cpp:398
 msgid "ALSA Port start"
 msgstr ""
 
-#: sequencerclient.cpp:365
+#: sequencerclient.cpp:401
 msgid "ALSA Port exit"
 msgstr ""
 
-#: sequencerclient.cpp:368
+#: sequencerclient.cpp:405
 msgid "ALSA Port change"
 msgstr ""
 
-#: sequencerclient.cpp:371
+#: sequencerclient.cpp:409
 msgid "ALSA Client start"
 msgstr ""
 
-#: sequencerclient.cpp:374
+#: sequencerclient.cpp:412
 msgid "ALSA Client exit"
 msgstr ""
 
-#: sequencerclient.cpp:377
+#: sequencerclient.cpp:416
 msgid "ALSA Client change"
 msgstr ""
 
-#: sequencerclient.cpp:380
+#: sequencerclient.cpp:419
 msgid "ALSA Port subscribed"
 msgstr ""
 
-#: sequencerclient.cpp:384
+#: sequencerclient.cpp:423
 msgid "ALSA Port unsubscribed"
 msgstr ""
 

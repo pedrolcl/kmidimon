@@ -37,15 +37,17 @@ KMidimonWidget::KMidimonWidget(QWidget* parent, const char* name, WFlags fl)
     eventListView->setSorting(-1);
     eventListView->setColumnWidthMode(0, QListView::Maximum);
     eventListView->setColumnWidthMode(1, QListView::Maximum);
-    eventListView->setColumnWidthMode(2, QListView::Manual);
-    eventListView->setColumnWidthMode(3, QListView::Manual);
+    eventListView->setColumnWidthMode(2, QListView::Maximum);
+    eventListView->setColumnWidthMode(3, QListView::Maximum);
     eventListView->setColumnWidthMode(4, QListView::Maximum);
+    eventListView->setColumnWidthMode(5, QListView::Maximum);
     
     eventListView->setColumnAlignment(0, Qt::AlignRight);
-    eventListView->setColumnAlignment(1, Qt::AlignLeft);
-    eventListView->setColumnAlignment(2, Qt::AlignRight);
+    eventListView->setColumnAlignment(1, Qt::AlignRight);
+    eventListView->setColumnAlignment(2, Qt::AlignLeft);
     eventListView->setColumnAlignment(3, Qt::AlignRight);
-    eventListView->setColumnAlignment(4, Qt::AlignLeft);
+    eventListView->setColumnAlignment(4, Qt::AlignRight);
+    eventListView->setColumnAlignment(5, Qt::AlignLeft);
     
     eventListView->setItemMargin(2);
     eventListView->setSelectionMode(QListView::NoSelection);
@@ -63,6 +65,7 @@ void KMidimonWidget::add(MidiEvent *ev)
 {
     new KListViewItem(  eventListView, 
 			ev->getTime(),
+			ev->getSource(),
 			ev->getKind(),
 			ev->getChannel(),
 			ev->getData1(),
@@ -81,7 +84,8 @@ void KMidimonWidget::saveTo(QString path)
 	       << item->text(1).stripWhiteSpace() << "," 	
 	       << item->text(2).stripWhiteSpace() << "," 	
 	       << item->text(3).stripWhiteSpace() << "," 	
-	       << item->text(4).stripWhiteSpace() << endl;
+	       << item->text(4).stripWhiteSpace() << "," 	
+	       << item->text(5).stripWhiteSpace() << endl;
 	++it;
     }
     file.close();

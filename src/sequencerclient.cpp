@@ -24,6 +24,7 @@
 #include <klocale.h>
 #include <alsa/asoundlib.h>
 #include "sequencerclient.h"
+#include "debugdef.h"
 
 using namespace std;
 
@@ -37,7 +38,9 @@ SequencerClient::SequencerClient(QWidget *parent):QThread(),
 	m_common(true),
 	m_realtime(true),
 	m_sysex(true),
-	m_alsa(true)
+	m_alsa(true),
+	m_showClientNames(false),
+	m_needsRefresh(true)
 {
     int err;
     snd_seq_port_info_t *pinfo;
@@ -175,6 +178,7 @@ MidiEvent *SequencerClient::build_sysex_event(snd_seq_event_t *ev)
 	    text.append(QString(" %1").arg(data[i], 0, 16));
 	}
 	return new MidiEvent( event_time(ev), 
+			      event_source(ev),	
 			      i18n("System exclusive"),
 			      NULL,
 			      QString("%1").arg(ev->data.ext.len),
@@ -192,21 +196,45 @@ QString SequencerClient::event_time(snd_seq_event_t *ev)
 				.arg(ev->time.time.tv_nsec/1000);
 }
 
+QString SequencerClient::client_name(int client_number)
+{
+    if (showClientNames()) {	
+    	if (m_needsRefresh) refreshClientList();
+//	snd_seq_client_info_t *cinfo;
+//	snd_seq_client_info_alloca(&cinfo);
+//	snd_seq_get_any_client_info(m_handle, client_number, cinfo);
+//	return QString(snd_seq_client_info_get_name(cinfo));
+	return m_clients[client_number];
+    }
+    return QString("%1").arg(client_number);
+}
+
+QString SequencerClient::event_source(snd_seq_event_t *ev)
+{
+    return QString("%1:%2").arg(client_name(ev->source.client))
+    			   .arg(ev->source.port);
+}
+
 QString SequencerClient::event_addr(snd_seq_event_t *ev)
 {
-    return QString("%1:%2").arg(ev->data.addr.client)
+    return QString("%1:%2").arg(client_name(ev->data.addr.client))
     			   .arg(ev->data.addr.port);
+}
+
+QString SequencerClient::event_client(snd_seq_event_t *ev)
+{
+    return client_name(ev->data.addr.client);
 }
 
 QString SequencerClient::event_sender(snd_seq_event_t *ev)
 {
-    return QString("%1:%2").arg(ev->data.connect.sender.client)
+    return QString("%1:%2").arg(client_name(ev->data.connect.sender.client))
     			   .arg(ev->data.connect.sender.port);
 }
 
 QString SequencerClient::event_dest(snd_seq_event_t *ev)
 {
-    return QString(" %1:%2").arg(ev->data.connect.dest.client)
+    return QString(" %1:%2").arg(client_name(ev->data.connect.dest.client))
     			   .arg(ev->data.connect.dest.port);
 }
 
@@ -220,6 +248,7 @@ MidiEvent *SequencerClient::build_control_event( snd_seq_event_t *ev,
 {
     if (m_channel) {
 	return  new MidiEvent(  event_time(ev),
+				event_source(ev),	
 				statusText,
 				QString("%1").arg(ev->data.control.channel+1), 
 				QString("%1").arg(ev->data.control.param), 
@@ -233,6 +262,7 @@ MidiEvent *SequencerClient::build_note_event( snd_seq_event_t *ev,
 {
     if (m_channel) {
 	return  new MidiEvent(  event_time(ev), 
+				event_source(ev),	
 				statusText,
 				QString("%1").arg(ev->data.note.channel+1),
 				QString("%1").arg(ev->data.note.note),
@@ -246,7 +276,9 @@ MidiEvent *SequencerClient::build_common_event( snd_seq_event_t *ev,
 						QString param )
 {
     if (m_common) {
-	return new MidiEvent( event_time(ev), statusText, NULL, param );
+	return new MidiEvent( event_time(ev), 
+			      event_source(ev),	
+			      statusText, NULL, param );
     }
     return NULL;
 }
@@ -255,7 +287,7 @@ MidiEvent *SequencerClient::build_realtime_event( snd_seq_event_t *ev,
 						  QString statusText )
 {
     if (m_realtime) {
-	return new MidiEvent( event_time(ev), statusText);
+	return new MidiEvent( event_time(ev), event_source(ev), statusText);
     }
     return NULL;
 }
@@ -266,7 +298,9 @@ MidiEvent *SequencerClient::build_alsa_event( snd_seq_event_t *ev,
 					      QString dstAddr )
 {
     if (m_alsa) {
-	return new MidiEvent( event_time(ev), statusText, 
+	return new MidiEvent( event_time(ev), 
+			      event_source(ev), 
+			      statusText, 
 			      NULL, srcAddr, dstAddr );
     }
     return NULL;
@@ -277,6 +311,7 @@ MidiEvent *SequencerClient::build_controlv_event( snd_seq_event_t *ev,
 {
     if (m_channel) {
 	return new MidiEvent( event_time(ev), 
+			      event_source(ev),	
 			      statusText,
 			      QString("%1").arg(ev->data.control.channel+1), 
 			      QString("%1").arg(ev->data.control.value));
@@ -359,22 +394,26 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
 	break;
 /* ALSA Client/Port events */
     case SND_SEQ_EVENT_PORT_START:
+        m_needsRefresh = true;
 	me = build_alsa_event( ev, i18n("ALSA Port start"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_EXIT:
 	me = build_alsa_event( ev, i18n("ALSA Port exit"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_PORT_CHANGE:
+	m_needsRefresh = true;    
 	me = build_alsa_event( ev, i18n("ALSA Port change"), event_addr(ev) );
 	break;
     case SND_SEQ_EVENT_CLIENT_START:
-	me = build_alsa_event ( ev, i18n("ALSA Client start"), event_addr(ev) );
+	m_needsRefresh = true;
+	me = build_alsa_event(ev, i18n("ALSA Client start"), event_client(ev));
 	break;
     case SND_SEQ_EVENT_CLIENT_EXIT:
-	me = build_alsa_event ( ev, i18n("ALSA Client exit"), event_addr(ev) );
+	me = build_alsa_event(ev, i18n("ALSA Client exit"), event_client(ev));
 	break;
     case SND_SEQ_EVENT_CLIENT_CHANGE:
-	me = build_alsa_event ( ev, i18n("ALSA Client change"), event_addr(ev) );
+	m_needsRefresh = true;
+	me = build_alsa_event(ev, i18n("ALSA Client change"), event_client(ev));
 	break;
     case SND_SEQ_EVENT_PORT_SUBSCRIBED:
 	me = build_alsa_event ( ev, i18n("ALSA Port subscribed"),     
@@ -387,8 +426,126 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
 /* Other events */	
     default:
 	  me = new MidiEvent( event_time(ev),
+			      event_source(ev),	
 			      QString("Event type %1").arg(ev->type));
     }
     
     return me;
+}
+
+QStringList SequencerClient::inputConnections()
+{
+    return list_ports(SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ);
+}
+
+QStringList SequencerClient::outputConnections()
+{
+    return list_ports(SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE);
+}
+
+QStringList SequencerClient::list_ports(unsigned int mask)
+{
+    QStringList list;
+    snd_seq_client_info_t *cinfo;
+    snd_seq_port_info_t *pinfo;
+    snd_seq_client_info_alloca(&cinfo);
+    snd_seq_port_info_alloca(&pinfo);
+    snd_seq_client_info_set_client(cinfo, -1);
+    while (snd_seq_query_next_client(m_handle, cinfo) >= 0) {
+	int client = snd_seq_client_info_get_client(cinfo);
+	if (client == SND_SEQ_CLIENT_SYSTEM || client == m_client)
+	    continue;
+	snd_seq_port_info_set_client(pinfo, client);
+	snd_seq_port_info_set_port(pinfo, -1);
+	while (snd_seq_query_next_port(m_handle, pinfo) >= 0) {
+	    if ((snd_seq_port_info_get_capability(pinfo) & mask) != mask)
+		continue;
+	    list += QString("%1:%2").arg(snd_seq_client_info_get_name(cinfo))
+				    .arg(snd_seq_port_info_get_port(pinfo));
+	}
+    }
+    return list;
+}
+
+void SequencerClient::connect_port(QString name)
+{
+    snd_seq_addr_t src;
+    DEBUGSTREAM << "connecting: " << name << endl;
+    checkAlsaError(snd_seq_parse_address(m_handle, &src, name.ascii()),
+    		   "snd_seq_parse_address");
+    checkAlsaError(snd_seq_connect_from(m_handle, m_input, src.client, src.port),
+                   "snd_seq_connect_from");
+}
+
+void SequencerClient::disconnect_port(QString name)
+{
+    snd_seq_addr_t src;
+    DEBUGSTREAM << "disconnecting: " << name << endl;
+    checkAlsaError(snd_seq_parse_address(m_handle, &src, name.ascii()),
+    		   "snd_seq_parse_address");
+    checkAlsaError(snd_seq_disconnect_from(m_handle, m_input, src.client, src.port),
+    		   "snd_seq_disconnect_from");
+}
+
+QStringList SequencerClient::list_subscribers()
+{
+    QStringList list;
+    snd_seq_addr_t root_addr, subs_addr;
+    snd_seq_query_subscribe_t *qry;
+    snd_seq_client_info_t *cinfo;
+    int index = 0;
+    
+    snd_seq_query_subscribe_alloca(&qry);
+    snd_seq_client_info_alloca(&cinfo);
+    root_addr.client = m_client;
+    root_addr.port = m_input;
+    snd_seq_query_subscribe_set_root(qry, &root_addr);
+    snd_seq_query_subscribe_set_type(qry,  SND_SEQ_QUERY_SUBS_WRITE);
+    snd_seq_query_subscribe_set_index(qry, index);
+    while (snd_seq_query_port_subscribers(m_handle, qry) >= 0) {
+    	subs_addr = *snd_seq_query_subscribe_get_addr(qry);
+    	if (subs_addr.client != SND_SEQ_CLIENT_SYSTEM) {
+	    snd_seq_get_any_client_info(m_handle, subs_addr.client, cinfo);
+    	    list += QString("%1:%2").arg(snd_seq_client_info_get_name(cinfo))
+    	                            .arg(subs_addr.port);
+    	}
+    	snd_seq_query_subscribe_set_index(qry, ++index);
+    }
+    return list;
+}
+
+void SequencerClient::disconnect_all()
+{
+    QStringList subs = list_subscribers();
+    QStringList::Iterator i;
+    for ( i = subs.begin(); i != subs.end(); ++i) {
+    	disconnect_port(*i);
+    }
+}
+
+void SequencerClient::connect_all()
+{
+    QStringList subs = list_subscribers();
+    QStringList ports = inputConnections();
+    QStringList::Iterator i;
+    for ( i = ports.begin(); i != ports.end(); ++i) {
+	if (subs.contains(*i) == 0)
+    	    connect_port(*i);
+    }
+}
+
+void SequencerClient::refreshClientList()
+{
+    snd_seq_client_info_t *cinfo;
+    snd_seq_client_info_alloca(&cinfo);
+    snd_seq_client_info_set_client(cinfo, -1);
+    m_clients.clear();
+    DEBUGSTREAM << "Regenerating client list" << endl;
+    while (snd_seq_query_next_client(m_handle, cinfo) >= 0) {
+	int cnum = snd_seq_client_info_get_client(cinfo);
+        QString cname(snd_seq_client_info_get_name(cinfo));
+	m_clients[ cnum ] = cname;
+	DEBUGSTREAM << "client[" << cnum << "] = " << cname << endl;
+    }
+    m_needsRefresh = false;
 }

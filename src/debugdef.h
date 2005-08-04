@@ -18,70 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/*
- * Copyright (C) 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- */
 
-#ifndef _KMIDIMON_H_
-#define _KMIDIMON_H_
+#ifndef DEBUGDEF_H
+#define DEBUGDEF_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <kdebug.h>
+
+
+#define KDEBUG_AREA	200507
+
+#define DEBUGSTREAM	kdDebug(KDEBUG_AREA)
+
 #endif
-
-#include <kmainwindow.h>
-#include "sequencerclient.h"
-#include "kmidimonwidget.h"
-
-/**
- * @short Application Main Window
- * @author Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- * @version 0.1
- */
-class KMidimon : public KMainWindow
-{
-    Q_OBJECT
-public:
-    /**
-     * Default Constructor
-     */
-    KMidimon();
-
-    /**
-     * Default Destructor
-     */
-    virtual ~KMidimon();
-    bool queryExit();
-    
-public slots:
-    void fileNew();
-    void fileSave();
-    void preferences();
-    void record();
-    void stop();
-    void connectAll();
-    void disconnectAll();
-    void configConnections();
-    void updateState();
-    void editToolbars();
-    
-protected:
-    void customEvent( QCustomEvent * e );
-    void saveConfiguration();
-    void readConfiguration();
-    
-private:
-    void setupActions();
-
-    SequencerClient *m_client;
-    KMidimonWidget *m_widget;
-    KAction *m_stop;
-    KAction *m_record;
-    KAction *m_prefs;
-    KAction *m_save;
-    KAction *m_connectAll;
-    KAction *m_disconnectAll;
-    KAction *m_configConns;
-};
-
-#endif // _KMIDIMON_H_

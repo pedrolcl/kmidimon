@@ -59,6 +59,9 @@ public:
     void setRegSysexMsg(bool newValue) { m_sysex->setChecked(newValue); }
     void setRegAlsaMsg(bool newValue) { m_alsa->setChecked(newValue); }
     
+    bool showClientNames() { return m_showClientNames->isChecked(); }
+    void setShowClientNames(bool newValue) { m_showClientNames->setChecked(newValue); }
+    
 };
 
 #endif

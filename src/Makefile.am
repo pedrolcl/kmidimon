@@ -4,7 +4,7 @@ SUBDIRS = icons
 INCLUDES = $(all_includes) $(ALSA_CFLAGS)
 
 # these are the headers for your project
-noinst_HEADERS = kmidimon.h sequencerclient.h configdialog.h
+noinst_HEADERS = kmidimon.h kmidimonwidget.h sequencerclient.h configdialog.h connectdlg.h debugdef.h
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
@@ -22,7 +22,7 @@ KDE_ICON = kmidimon
 bin_PROGRAMS = kmidimon
 
 # the application source, library search path, and link libraries
-kmidimon_SOURCES = main.cpp kmidimon.cpp kmidimonwidget.cpp kmidimonwidgetbase.ui sequencerclient.cpp configdialogbase.ui configdialog.cpp
+kmidimon_SOURCES = main.cpp kmidimon.cpp kmidimonwidget.cpp kmidimonwidgetbase.ui sequencerclient.cpp configdialogbase.ui configdialog.cpp connectdlg.cpp
 kmidimon_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kmidimon_LDADD = $(LIB_KDEUI) $(LIB_KIO) $(ALSA_LIBS)
 

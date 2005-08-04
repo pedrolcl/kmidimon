@@ -135,7 +135,7 @@ many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
 your application. -->
 
 <para>
-After starting &kmidimon; use a MIDI connection tool like qjackctl to connect the application or MIDI in port to monitor with &kmidimon;:
+After starting &kmidimon; use a MIDI connection tool like qjackctl to connect the application or MIDI port to monitor with &kmidimon;:
 </para>
 <para>
 <!-- Note that all graphics should be in .png format. Use no gifs because of
