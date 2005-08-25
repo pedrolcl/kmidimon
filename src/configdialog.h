@@ -25,7 +25,7 @@
 #include <qradiobutton.h>
 #include <knuminput.h>
 
-#include <configdialogbase.h>
+#include "configdialogbase.h"
 
 /**
 @author Pedro Lopez-Cabanillas
@@ -62,6 +62,14 @@ public:
     bool showClientNames() { return m_showClientNames->isChecked(); }
     void setShowClientNames(bool newValue) { m_showClientNames->setChecked(newValue); }
     
+    bool translateSysex() { return m_translateSysex->isChecked(); }
+    void setTranslateSysex(bool newValue) { m_translateSysex->setChecked(newValue); }
+    
+    bool useFixedFont() { return m_useFixedFont->isChecked(); }
+    void setUseFixedFont(bool newValue) { m_useFixedFont->setChecked(newValue); }
+    
+    bool showColumn(int colNum);
+    void setShowColumn(int colNum, bool newValue);
 };
 
 #endif

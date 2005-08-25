@@ -28,15 +28,11 @@
     </enable>
     <disable>
 	<Action name="record" />
-	<Action name="options_configure" />
-	<Action name="file_save_as" />
     </disable>
 </State>
 <State name="stopped">
     <enable>
 	<Action name="record" />
-	<Action name="options_configure" />
-	<Action name="file_save_as" />
     </enable>
     <disable>
 	<Action name="stop" />

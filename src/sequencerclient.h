@@ -37,9 +37,9 @@ public:
      MidiEvent( QString time, 
      		QString src,
      		QString kind, 
-     		QString ch = NULL, 
-     		QString d1 = NULL, 
-     		QString d2 = NULL)
+     		QString ch = QString::null, 
+     		QString d1 = QString::null, 
+     		QString d2 = QString::null)
 	: QCustomEvent( MONITOR_EVENT_TYPE ), 
 	m_time(time), 
 	m_src(src),
@@ -84,6 +84,7 @@ public:
     bool isRegSysexMsg() { return m_sysex; }
     bool isRegAlsaMsg() { return m_alsa; }
     bool showClientNames() { return m_showClientNames; }
+    bool translateSysex() { return m_translateSysex; }
     
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
@@ -94,6 +95,7 @@ public:
     void setRegSysexMsg(bool newValue) { m_sysex = newValue; }
     void setRegAlsaMsg(bool newValue) { m_alsa = newValue; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
+    void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
 
     void connect_port(QString name);
     void disconnect_port(QString name);
@@ -106,6 +108,7 @@ public:
 private:
     int checkAlsaError(int rc, const char *message);
     MidiEvent *build_midi_event(snd_seq_event_t *ev);
+    MidiEvent *build_translated_sysex(snd_seq_event_t *ev);
     MidiEvent *build_sysex_event(snd_seq_event_t *ev);
     MidiEvent *build_note_event( snd_seq_event_t *ev, QString statusText );
     MidiEvent *build_control_event( snd_seq_event_t *ev, QString statusText );
@@ -138,6 +141,7 @@ private:
     bool m_sysex;
     bool m_alsa;
     bool m_showClientNames;
+    bool m_translateSysex;
     bool m_needsRefresh;
 
     snd_seq_t *m_handle;

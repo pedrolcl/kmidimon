@@ -18,49 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/*
- * Copyright (C) 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- */
 
-#ifndef _KMIDIMONWIDGET_H_
-#define _KMIDIMONWIDGET_H_
+#ifndef FANCYLISTVIEWITEM_H_
+#define FANCYLISTVIEWITEM_H_
 
-#include "kmidimonwidgetbase.h"
-#include "sequencerclient.h"
+#include <klistview.h>
 
-class KMidimonWidget : public KMidimonWidgetBase
-{
-    Q_OBJECT
-
-public:
-    KMidimonWidget(QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
-    ~KMidimonWidget();
-    /*$PUBLIC_FUNCTIONS$*/
-    void clear();
-    void add(MidiEvent *ev);
-    void saveTo(QString path);
+class FancyListViewItem : public KListViewItem
+    {
+    public:
+        FancyListViewItem(QListView *parent, const QString &label1, const QString &label2, const QString &label3,
+                                             const QString &label4, const QString &label5, const QString &label6)
+            : KListViewItem(parent, label1, label2, label3, label4, label5, label6 )
+        {}
     
-    void setFixedFont(bool newValue);
-    bool getFixedFont() const { return m_useFixedFont; }
+        void paintCell(QPainter *painter, const QColorGroup &cg,
+                       int column, int width, int align);
+        int width(const QFontMetrics &fm, const QListView *lv, int column) const;
     
-    void setShowColumn(int colNum, bool newValue);
-    bool getShowColumn(int colNum);
+        QFont getFont() const { return m_font; }
+        void setFont(const QFont &font) { m_font = font; }
     
-public slots:
-    /*$PUBLIC_SLOTS$*/
+    private:
+        QFont m_font;
+        
+    };
 
-protected:
-    /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-    /*$PROTECTED_SLOTS$*/
-
-private:
-	bool  m_useFixedFont;
-	bool  m_showColumn[6];
-	QFont m_font;
-
-};
-
-#endif
-
+#endif /*FANCYLISTVIEWITEM_H_*/

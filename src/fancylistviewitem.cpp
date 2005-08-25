@@ -18,49 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/*
- * Copyright (C) 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- */
 
-#ifndef _KMIDIMONWIDGET_H_
-#define _KMIDIMONWIDGET_H_
+#include <qpainter.h>
 
-#include "kmidimonwidgetbase.h"
-#include "sequencerclient.h"
+#include "fancylistviewitem.h"
 
-class KMidimonWidget : public KMidimonWidgetBase
+void FancyListViewItem::paintCell(QPainter *painter, const QColorGroup &cg,
+                                  int column, int width, int align)
 {
-    Q_OBJECT
+	painter->save();
+	painter->setFont(m_font);
+	KListViewItem::paintCell(painter, cg, column, width, align);
+	painter->restore();
+}
 
-public:
-    KMidimonWidget(QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
-    ~KMidimonWidget();
-    /*$PUBLIC_FUNCTIONS$*/
-    void clear();
-    void add(MidiEvent *ev);
-    void saveTo(QString path);
-    
-    void setFixedFont(bool newValue);
-    bool getFixedFont() const { return m_useFixedFont; }
-    
-    void setShowColumn(int colNum, bool newValue);
-    bool getShowColumn(int colNum);
-    
-public slots:
-    /*$PUBLIC_SLOTS$*/
-
-protected:
-    /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-    /*$PROTECTED_SLOTS$*/
-
-private:
-	bool  m_useFixedFont;
-	bool  m_showColumn[6];
-	QFont m_font;
-
-};
-
-#endif
-
+int FancyListViewItem::width(const QFontMetrics&, const QListView *lv, int column) const
+{
+	int width;
+	QFontMetrics fm2(m_font);
+	width = QListViewItem::width(fm2, lv, column);
+	return width;
+}

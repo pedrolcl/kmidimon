@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>320</width>
-            <height>384</height>
+            <width>330</width>
+            <height>580</height>
         </rect>
     </property>
     <property name="caption">
@@ -196,7 +196,71 @@
                         <cstring>m_showClientNames</cstring>
                     </property>
                     <property name="text">
-                        <string>Show Client Names</string>
+                        <string>Translate ALSA Client IDs Into Names</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_translateSysex</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Translate Universal SysEx Messages</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_useFixedFont</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use Fixed Font</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showTimeColumn</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Time Column</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showSourceColumn</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Source Column</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showEventTypeColumn</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Event Type Column</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showChannelColumn</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Channel Column</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showData1Column</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Data 1 Column</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>m_showData2Column</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Data 2 Column</string>
                     </property>
                 </widget>
             </vbox>
@@ -291,6 +355,15 @@
     <tabstop>m_realtime</tabstop>
     <tabstop>m_sysex</tabstop>
     <tabstop>m_alsa</tabstop>
+    <tabstop>m_showClientNames</tabstop>
+    <tabstop>m_translateSysex</tabstop>
+    <tabstop>m_useFixedFont</tabstop>
+    <tabstop>m_showTimeColumn</tabstop>
+    <tabstop>m_showSourceColumn</tabstop>
+    <tabstop>m_showEventTypeColumn</tabstop>
+    <tabstop>m_showChannelColumn</tabstop>
+    <tabstop>m_showData1Column</tabstop>
+    <tabstop>m_showData2Column</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
 </tabstops>

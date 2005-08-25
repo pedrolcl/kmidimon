@@ -27,13 +27,24 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <klistview.h>
+#include <kglobalsettings.h>
 
+#include "fancylistviewitem.h"
 #include "kmidimonwidget.h"
 #include "sequencerclient.h"
 
 KMidimonWidget::KMidimonWidget(QWidget* parent, const char* name, WFlags fl)
         : KMidimonWidgetBase(parent,name,fl) 
 {
+	m_useFixedFont = false;
+	m_font = KGlobalSettings::generalFont();
+	m_showColumn[0] = true;
+	m_showColumn[1] = true;
+	m_showColumn[2] = true;
+	m_showColumn[3] = true;
+	m_showColumn[4] = true;
+	m_showColumn[5] = true;
+	
     eventListView->setSorting(-1);
     eventListView->setColumnWidthMode(0, QListView::Maximum);
     eventListView->setColumnWidthMode(1, QListView::Maximum);
@@ -63,13 +74,15 @@ void KMidimonWidget::clear()
 
 void KMidimonWidget::add(MidiEvent *ev)
 {
-    new KListViewItem(  eventListView, 
+	FancyListViewItem *k;
+    k = new FancyListViewItem( eventListView, 
 			ev->getTime(),
 			ev->getSource(),
 			ev->getKind(),
 			ev->getChannel(),
 			ev->getData1(),
 			ev->getData2() );
+    k->setFont( m_font );    
 }
 
 void KMidimonWidget::saveTo(QString path)
@@ -79,17 +92,49 @@ void KMidimonWidget::saveTo(QString path)
     QTextStream stream(&file);
     QListViewItemIterator it( eventListView );
     while ( it.current() ) {
-	QListViewItem *item = it.current();
-	stream << item->text(0).stripWhiteSpace() << "," 
-	       << item->text(1).stripWhiteSpace() << "," 	
-	       << item->text(2).stripWhiteSpace() << "," 	
-	       << item->text(3).stripWhiteSpace() << "," 	
-	       << item->text(4).stripWhiteSpace() << "," 	
-	       << item->text(5).stripWhiteSpace() << endl;
-	++it;
+		QListViewItem *item = it.current();
+		stream << item->text(0).stripWhiteSpace() << "," 
+		       << item->text(1).stripWhiteSpace() << "," 	
+		       << item->text(2).stripWhiteSpace() << "," 	
+		       << item->text(3).stripWhiteSpace() << "," 	
+		       << item->text(4).stripWhiteSpace() << "," 	
+		       << item->text(5).stripWhiteSpace() << endl;
+		++it;
     }
     file.close();
 }
 
-#include "kmidimonwidget.moc"
+void KMidimonWidget::setFixedFont(bool newValue)
+{
+	if (m_useFixedFont != newValue) {
+		m_useFixedFont = newValue;
+		if (m_useFixedFont) {
+			m_font = KGlobalSettings::fixedFont();
+		} else {
+			m_font = KGlobalSettings::generalFont();
+		}
+	}
+}
 
+void KMidimonWidget::setShowColumn(int colNum, bool newValue)
+{
+	if (colNum < 0 || colNum > 5) return;
+	if (newValue != m_showColumn[colNum]) {
+		m_showColumn[colNum] = newValue;
+		if (newValue) {
+			eventListView->setColumnWidthMode(colNum, QListView::Maximum);
+			eventListView->setColumnWidth(colNum, 60);
+		} else {
+			eventListView->setColumnWidthMode(colNum, QListView::Manual);
+			eventListView->setColumnWidth(colNum, 0);
+		}
+	}
+}
+
+bool KMidimonWidget::getShowColumn(int colNum)
+{
+	if (colNum < 0 || colNum > 5) return false;
+	return m_showColumn[colNum];
+}
+
+#include "kmidimonwidget.moc"

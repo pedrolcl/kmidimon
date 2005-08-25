@@ -119,6 +119,7 @@ bool KMidimon::queryExit()
 
 void KMidimon::saveConfiguration()
 {
+	int i;
     KConfig *config = kapp->config();
     config->setGroup("Settings");
     config->writeEntry("resolution", m_client->getResolution());
@@ -129,11 +130,17 @@ void KMidimon::saveConfiguration()
     config->writeEntry("common", m_client->isRegCommonMsg());
     config->writeEntry("realtime", m_client->isRegRealTimeMsg());
     config->writeEntry("sysex", m_client->isRegSysexMsg());
-    config->writeEntry("clientNames", m_client->showClientNames());
+    config->writeEntry("client_names", m_client->showClientNames());
+    config->writeEntry("translate_sysex", m_client->translateSysex());
+    config->writeEntry("fixed_font", m_widget->getFixedFont());
+    for(i = 0; i < 6; ++i) {
+    	config->writeEntry(QString("show_column_%1").arg(i), m_widget->getShowColumn(i));
+    }
 }
 
 void KMidimon::readConfiguration()
 {
+	int i;
     KConfig *config = kapp->config();
     config->setGroup("Settings");
     m_client->setResolution(config->readNumEntry("resolution", RESOLUTION));
@@ -144,13 +151,19 @@ void KMidimon::readConfiguration()
     m_client->setRegCommonMsg(config->readBoolEntry("common", true));
     m_client->setRegRealTimeMsg(config->readBoolEntry("realtime", true));
     m_client->setRegSysexMsg(config->readBoolEntry("sysex", true));
-    m_client->setShowClientNames(config->readBoolEntry("clientNames", false));
+    m_client->setShowClientNames(config->readBoolEntry("client_names", false));
+    m_client->setTranslateSysex(config->readBoolEntry("translate_sysex", false));
     m_client->queue_set_tempo();
     m_client->change_port_settings();
+    m_widget->setFixedFont(config->readBoolEntry("fixed_font", false));
+    for(i = 0; i < 6; ++i) {
+    	m_widget->setShowColumn(i, config->readBoolEntry(QString("show_column_%1").arg(i), true));
+    }
 }
 
 void KMidimon::preferences()
 {
+	int i;
     ConfigDialog dlg;
     dlg.setTempo(m_client->getTempo());
     dlg.setResolution(m_client->getResolution());
@@ -165,25 +178,38 @@ void KMidimon::preferences()
     dlg.setRegRealTimeMsg(m_client->isRegRealTimeMsg());
     dlg.setRegSysexMsg(m_client->isRegSysexMsg());
     dlg.setShowClientNames(m_client->showClientNames());
+    dlg.setTranslateSysex(m_client->translateSysex());
+    dlg.setUseFixedFont(m_widget->getFixedFont());
+    for(i = 0; i < 6; ++i) {
+    	dlg.setShowColumn(i, m_widget->getShowColumn(i));
+    }
     if (dlg.exec()) {
+    	bool was_running = m_client->queue_running();
+    	if (was_running) stop();
     	m_client->setTempo(dlg.getTempo());
     	m_client->setResolution(dlg.getResolution());
-	m_client->setTickTime(dlg.isMusicalTime());
-	m_client->setRegAlsaMsg(dlg.isRegAlsaMsg());
-	m_client->setRegChannelMsg(dlg.isRegChannelMsg());
-	m_client->setRegCommonMsg(dlg.isRegCommonMsg());
-	m_client->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
-	m_client->setRegSysexMsg(dlg.isRegSysexMsg());
-	m_client->setShowClientNames(dlg.showClientNames());
+		m_client->setTickTime(dlg.isMusicalTime());
+		m_client->setRegAlsaMsg(dlg.isRegAlsaMsg());
+		m_client->setRegChannelMsg(dlg.isRegChannelMsg());
+		m_client->setRegCommonMsg(dlg.isRegCommonMsg());
+		m_client->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
+		m_client->setRegSysexMsg(dlg.isRegSysexMsg());
+		m_client->setShowClientNames(dlg.showClientNames());
+		m_client->setTranslateSysex(dlg.translateSysex());
     	m_client->queue_set_tempo();
-	m_client->change_port_settings();
+		m_client->change_port_settings();
+		m_widget->setFixedFont(dlg.useFixedFont());
+		for(i = 0; i < 6; ++i) {
+			m_widget->setShowColumn(i, dlg.showColumn(i));
+		}
+		if (was_running) record();
     }
 }
 
 void KMidimon::record()
 {
     if (!m_client->queue_running()) {
-	m_client->queue_start();
+		m_client->queue_start();
     }
     updateState();
 }
@@ -191,15 +217,15 @@ void KMidimon::record()
 void KMidimon::stop()
 {
     if (m_client->queue_running()) {
-	m_client->queue_stop();
+		m_client->queue_stop();
     }
     updateState();
 }
 
 void KMidimon::updateState() 
 {
-    QString state( m_client->queue_running() ? "recording" : "stopped" );
-    setCaption( QString("ALSA MIDI Monitor [%1]").arg(state) );
+    QString state( m_client->queue_running() ? i18n("recording") : i18n("stopped") );
+    setCaption( i18n("ALSA MIDI Monitor [%1]").arg(state) );
     slotStateChanged( state );
 }
 
@@ -207,7 +233,7 @@ void KMidimon::editToolbars()
 {
     KEditToolbar dlg(actionCollection());
     if (dlg.exec()) {
-	createGUI();
+		createGUI();
     }
 }
 
@@ -224,21 +250,21 @@ void KMidimon::disconnectAll()
 void KMidimon::configConnections()
 {
     ConnectDlg dlg( this, m_client->inputConnections(), 
-    		    m_client->list_subscribers() );
+					m_client->list_subscribers() );
     if (dlg.exec()) {
     	QStringList desired = dlg.getSelected();
-	QStringList subs = m_client->list_subscribers();    	
-	QStringList::Iterator i;
-	for ( i = subs.begin(); i != subs.end(); ++i) {
-	    if (desired.contains(*i) == 0) {
-	    	m_client->disconnect_port(*i);
-	    }
-	}
-	for ( i = desired.begin(); i != desired.end(); ++i) {
-	    if (subs.contains(*i) == 0) {
-		m_client->connect_port(*i);
-	    }
-	}
+		QStringList subs = m_client->list_subscribers();    	
+		QStringList::Iterator i;
+		for ( i = subs.begin(); i != subs.end(); ++i) {
+		    if (desired.contains(*i) == 0) {
+		    	m_client->disconnect_port(*i);
+		    }
+		}
+		for ( i = desired.begin(); i != desired.end(); ++i) {
+		    if (subs.contains(*i) == 0) {
+				m_client->connect_port(*i);
+		    }
+		}
     }
 }
 

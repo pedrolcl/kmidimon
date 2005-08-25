@@ -19,4 +19,48 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "configdialog.h"
+
+bool ConfigDialog::showColumn(int colNum)
+{
+	switch (colNum) {
+		case 0:
+			return m_showTimeColumn->isChecked();
+		case 1:
+			return m_showSourceColumn->isChecked();
+		case 2:
+			return m_showEventTypeColumn->isChecked();
+		case 3:
+			return m_showChannelColumn->isChecked();
+		case 4:
+			return m_showData1Column->isChecked();
+		case 5:
+			return m_showData2Column->isChecked();
+	}
+	return false;
+}
+
+void ConfigDialog::setShowColumn(int colNum, bool newValue)
+{
+	switch (colNum) {
+		case 0:
+			m_showTimeColumn->setChecked(newValue);
+			break;
+		case 1:
+			m_showSourceColumn->setChecked(newValue);
+			break;
+		case 2:
+			m_showEventTypeColumn->setChecked(newValue);
+			break;
+		case 3:
+			m_showChannelColumn->setChecked(newValue);
+			break;
+		case 4:
+			m_showData1Column->setChecked(newValue);
+			break;
+		case 5:
+			m_showData2Column->setChecked(newValue);
+			break;
+	}
+}
+
 #include "configdialog.moc"
