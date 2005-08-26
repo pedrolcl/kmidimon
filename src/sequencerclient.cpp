@@ -171,6 +171,8 @@ void SequencerClient::queue_set_tempo()
 
 MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
 {
+    int val, cmd;
+    unsigned int i, len;
     unsigned char *ptr = (unsigned char *)(ev->data.ext.ptr);
     if (ev->data.ext.len < 6) return NULL;
     if (*ptr++ != 0xf0) return NULL;
@@ -352,7 +354,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                 switch (subId2) {
                     case 0x01:
                         if (ev->data.ext.len < 8) return NULL;
-                        int val = *ptr++;
+                        val = *ptr++;
                         val += (*ptr++ * 128);
                         data2 = i18n("Bar Marker: %1").arg(val - 8192);
                         break;
@@ -369,7 +371,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
             case 0x04:
                 data1 = i18n("GM Master");
                 if (ev->data.ext.len < 8) return NULL;
-                int val = *ptr++;
+                val = *ptr++;
                 val += (*ptr++ * 128);
                 switch (subId2) {
                     case 0x01:
@@ -413,9 +415,9 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                         data2 = i18n("Eject");
                         break;
                     case 0x40:
-                        unsigned int len = *ptr++;
+                        len = *ptr++;
                         if (ev->data.ext.len < (7+len)) return NULL;
-                        int cmd = *ptr++;
+                        cmd = *ptr++;
                         switch (cmd) {
                             case 0x4f:
                                 data2 = i18n("Track Record Ready:");
@@ -432,7 +434,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                             default:
                                 return NULL;
                         }
-                        for (unsigned int i=1; i < len; ++i) {
+                        for (i=1; i < len; ++i) {
                             data2.append(QString(" %1").arg(*ptr++, 0, 16));
                         }
                         break;
