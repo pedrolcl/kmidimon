@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>330</width>
-            <height>580</height>
+            <height>391</height>
         </rect>
     </property>
     <property name="caption">
@@ -28,242 +28,276 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QLayoutWidget">
+        <widget class="QTabWidget">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>m_tabWidget</cstring>
             </property>
-            <hbox>
+            <widget class="QWidget">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>tab</cstring>
                 </property>
-                <widget class="QGroupBox">
+                <attribute name="title">
+                    <string>Sequencer</string>
+                </attribute>
+                <vbox>
                     <property name="name">
-                        <cstring>sequencerGroup</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property name="title">
-                        <string>Sequencer Settings</string>
-                    </property>
-                    <grid>
+                    <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>sequencerGroup</cstring>
                         </property>
-                        <widget class="QLabel" row="1" column="0">
+                        <property name="title">
+                            <string>Sequencer Settings</string>
+                        </property>
+                        <grid>
                             <property name="name">
-                                <cstring>lblResolution</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Resolution</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>m_resolution</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KIntSpinBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>m_resolution</cstring>
-                            </property>
-                            <property name="maxValue">
-                                <number>960</number>
-                            </property>
-                            <property name="minValue">
-                                <number>48</number>
-                            </property>
-                        </widget>
-                        <widget class="KIntSpinBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>m_tempo</cstring>
-                            </property>
-                            <property name="maxValue">
-                                <number>480</number>
-                            </property>
-                            <property name="minValue">
-                                <number>24</number>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>lblTempo</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Tempo (BPM)</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>m_tempo</cstring>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget class="QButtonGroup">
-                    <property name="name">
-                        <cstring>timeGroup</cstring>
-                    </property>
-                    <property name="title">
-                        <string>Display Time</string>
-                    </property>
-                    <vbox>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>lblResolution</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Resolution</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>m_resolution</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KIntSpinBox" row="1" column="1">
+                                <property name="name">
+                                    <cstring>m_resolution</cstring>
+                                </property>
+                                <property name="maxValue">
+                                    <number>960</number>
+                                </property>
+                                <property name="minValue">
+                                    <number>48</number>
+                                </property>
+                            </widget>
+                            <widget class="KIntSpinBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>m_tempo</cstring>
+                                </property>
+                                <property name="maxValue">
+                                    <number>480</number>
+                                </property>
+                                <property name="minValue">
+                                    <number>24</number>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>lblTempo</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Tempo (BPM)</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>m_tempo</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QButtonGroup">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>timeGroup</cstring>
                         </property>
-                        <widget class="QRadioButton">
+                        <property name="title">
+                            <string>Display Time</string>
+                        </property>
+                        <vbox>
                             <property name="name">
-                                <cstring>m_musicalTime</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Musical Time</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QRadioButton">
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>m_musicalTime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Musical Time</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>m_clockTime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Clock Time</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Filters</string>
+                </attribute>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QGroupBox">
+                        <property name="name">
+                            <cstring>messageGroup</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Register Message Types</string>
+                        </property>
+                        <vbox>
                             <property name="name">
-                                <cstring>m_clockTime</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Clock Time</string>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_channel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>MIDI Channel Messages</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_common</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>MIDI System Common Messages</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_realtime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>MIDI System Real-Time Messages</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_sysex</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>MIDI System Exclusive Messages</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_alsa</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>ALSA Messages</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>TabPage</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Display</string>
+                </attribute>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QGroupBox">
+                        <property name="name">
+                            <cstring>displayGroup</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Display Options</string>
+                        </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
                             </property>
-                        </widget>
-                    </vbox>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>messageGroup</cstring>
-            </property>
-            <property name="title">
-                <string>Register Message Types</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_channel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>MIDI Channel Messages</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_common</cstring>
-                    </property>
-                    <property name="text">
-                        <string>MIDI System Common Messages</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_realtime</cstring>
-                    </property>
-                    <property name="text">
-                        <string>MIDI System Real-Time Messages</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_sysex</cstring>
-                    </property>
-                    <property name="text">
-                        <string>MIDI System Exclusive Messages</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_alsa</cstring>
-                    </property>
-                    <property name="text">
-                        <string>ALSA Messages</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>displayGroup</cstring>
-            </property>
-            <property name="title">
-                <string>Display Options</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showClientNames</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Translate ALSA Client IDs Into Names</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_translateSysex</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Translate Universal SysEx Messages</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_useFixedFont</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Use Fixed Font</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showTimeColumn</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Time Column</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showSourceColumn</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Source Column</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showEventTypeColumn</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Event Type Column</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showChannelColumn</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Channel Column</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showData1Column</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Data 1 Column</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>m_showData2Column</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show Data 2 Column</string>
-                    </property>
-                </widget>
-            </vbox>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showClientNames</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Translate ALSA Client IDs Into Names</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_translateSysex</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Translate Universal SysEx Messages</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_useFixedFont</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use Fixed Font</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showTimeColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Time Column</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showSourceColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Source Column</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showEventTypeColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Event Type Column</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showChannelColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Channel Column</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showData1Column</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Data 1 Column</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showData2Column</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Data 2 Column</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                </vbox>
+            </widget>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
@@ -346,24 +380,6 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>m_tempo</tabstop>
-    <tabstop>m_resolution</tabstop>
-    <tabstop>m_musicalTime</tabstop>
-    <tabstop>m_clockTime</tabstop>
-    <tabstop>m_channel</tabstop>
-    <tabstop>m_common</tabstop>
-    <tabstop>m_realtime</tabstop>
-    <tabstop>m_sysex</tabstop>
-    <tabstop>m_alsa</tabstop>
-    <tabstop>m_showClientNames</tabstop>
-    <tabstop>m_translateSysex</tabstop>
-    <tabstop>m_useFixedFont</tabstop>
-    <tabstop>m_showTimeColumn</tabstop>
-    <tabstop>m_showSourceColumn</tabstop>
-    <tabstop>m_showEventTypeColumn</tabstop>
-    <tabstop>m_showChannelColumn</tabstop>
-    <tabstop>m_showData1Column</tabstop>
-    <tabstop>m_showData2Column</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
 </tabstops>

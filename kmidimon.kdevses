@@ -12,6 +12,8 @@
   <kdevvalgrind>
    <executable path="" params="" />
    <valgrind path="" params="" />
+   <calltree path="" params="" />
+   <kcachegrind path="" />
   </kdevvalgrind>
   <kdevdebugger>
    <breakpointList/>
