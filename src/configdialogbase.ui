@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>ConfigDialogBase</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>330</width>
-            <height>391</height>
+            <height>425</height>
         </rect>
     </property>
     <property name="caption">
@@ -45,10 +45,10 @@
                     </property>
                     <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>sequencerGroup</cstring>
+                            <cstring>queueGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Sequencer Settings</string>
+                            <string>Queue Settings</string>
                         </property>
                         <grid>
                             <property name="name">
@@ -105,7 +105,7 @@
                             <cstring>timeGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Display Time</string>
+                            <string>Time Settings</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -147,10 +147,10 @@
                     </property>
                     <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>messageGroup</cstring>
+                            <cstring>filterGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Register Message Types</string>
+                            <string>Show Message Types</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -213,10 +213,71 @@
                     </property>
                     <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>displayGroup</cstring>
+                            <cstring>columnsGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Display Options</string>
+                            <string>Show Columns</string>
+                        </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showTimeColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Time</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showSourceColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Source</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showEventTypeColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Message Type</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showChannelColumn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Channel</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showData1Column</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Data 1</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_showData2Column</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Data 2</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                    <widget class="QGroupBox">
+                        <property name="name">
+                            <cstring>miscGroup</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Misc. Options</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -244,54 +305,6 @@
                                 </property>
                                 <property name="text">
                                     <string>Use Fixed Font</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showTimeColumn</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Time Column</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showSourceColumn</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Source Column</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showEventTypeColumn</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Event Type Column</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showChannelColumn</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Channel Column</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showData1Column</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Data 1 Column</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>m_showData2Column</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show Data 2 Column</string>
                                 </property>
                             </widget>
                         </vbox>
