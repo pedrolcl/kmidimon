@@ -44,11 +44,10 @@ public:
     bool getFixedFont() const { return m_useFixedFont; }
     
     void setShowColumn(int colNum, bool newValue);
-    bool getShowColumn(int colNum);
     
 public slots:
     /*$PUBLIC_SLOTS$*/
-
+    
 protected:
     /*$PROTECTED_FUNCTIONS$*/
 
@@ -57,7 +56,6 @@ protected slots:
 
 private:
 	bool  m_useFixedFont;
-	bool  m_showColumn[6];
 	QFont m_font;
 
 };

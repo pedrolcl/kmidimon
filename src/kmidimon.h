@@ -33,6 +33,10 @@
 #include "sequencerclient.h"
 #include "kmidimonwidget.h"
 
+class KAction;
+class KToggleAction;
+class QPopupMenu;
+
 /**
  * @short Application Main Window
  * @author Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
@@ -43,7 +47,8 @@ class KMidimon : public KMainWindow
     Q_OBJECT
 public:
     /**
-     * Default Constructor
+     * Default Constructoclass KMainWindow;
+     * r
      */
     KMidimon();
 
@@ -60,10 +65,20 @@ public slots:
     void record();
     void stop();
     void connectAll();
+    
     void disconnectAll();
     void configConnections();
     void updateState();
     void editToolbars();
+    void contextMenuEvent( QContextMenuEvent *ev );
+    void setColumnStatus(int colNum, bool status);
+    void toggleColumn(int colNum);
+    void toggleColumn0();
+    void toggleColumn1();
+    void toggleColumn2();
+    void toggleColumn3();
+    void toggleColumn4();
+    void toggleColumn5();
     
 protected:
     void customEvent( QCustomEvent * e );
@@ -82,6 +97,8 @@ private:
     KAction *m_connectAll;
     KAction *m_disconnectAll;
     KAction *m_configConns;
+    KToggleAction *m_popupAction[6];
+    QPopupMenu *popup;
 };
 
 #endif // _KMIDIMON_H_

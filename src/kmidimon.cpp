@@ -22,12 +22,14 @@
  * Copyright (C) 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
  */
 
+#include <qpopupmenu.h>
 #include <kmainwindow.h>
 #include <klocale.h>
 #include <kaction.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kedittoolbar.h>
+#include <klistview.h>
 
 #include "kmidimon.h"
 #include "kmidimonwidget.h"
@@ -84,15 +86,31 @@ void KMidimon::setupActions()
     m_configConns = new KAction( i18n("Con&figure Connections"), KShortcut::null(),
 				 this, SLOT(configConnections()), 
 				 actionCollection(), "connections_dialog" );
+
+    m_popupAction[0] = new KToggleAction( i18n("&Time"), KShortcut::null(),
+                           this, SLOT(toggleColumn0()), actionCollection(), "show_time" );
+    m_popupAction[1] = new KToggleAction( i18n("&Source"), KShortcut::null(),
+                           this, SLOT(toggleColumn1()), actionCollection(), "show_source" );
+    m_popupAction[2] = new KToggleAction( i18n("&Event Kind"), KShortcut::null(),
+                           this, SLOT(toggleColumn2()), actionCollection(), "show_kind" );
+    m_popupAction[3] = new KToggleAction( i18n("&Channel"), KShortcut::null(),
+                           this, SLOT(toggleColumn3()), actionCollection(), "show_channel" );
+    m_popupAction[4] = new KToggleAction( i18n("Data &1"), KShortcut::null(),
+                           this, SLOT(toggleColumn4()), actionCollection(), "show_data1" );
+    m_popupAction[5] = new KToggleAction( i18n("Data &2"), KShortcut::null(),
+                           this, SLOT(toggleColumn5()), actionCollection(), "show_data2" );
 			  
     setStandardToolBarMenuEnabled( true );                 
     createGUI();
+    
+    popup = static_cast<QPopupMenu *>(factory()->container("popup", this)); 
+    Q_CHECK_PTR( popup );
 }
 
 void KMidimon::customEvent( QCustomEvent * e )
 {
     if(e->type() == MONITOR_EVENT_TYPE) {
-	m_widget->add((MidiEvent *)e);	
+	   m_widget->add((MidiEvent *)e);	
     }
 }
 
@@ -104,8 +122,8 @@ void KMidimon::fileNew()
 void KMidimon::fileSave()
 {
     QString path = KFileDialog::getSaveFileName(":MIDIMONITOR",
-			i18n("*.txt|Plain text files (*.txt)"),
-			this, i18n("Save MIDI monitor data"));
+                        i18n("*.txt|Plain text files (*.txt)"),
+                        this, i18n("Save MIDI monitor data"));
     if (!path.isNull()) {
     	m_widget->saveTo(path);
     }
@@ -134,13 +152,14 @@ void KMidimon::saveConfiguration()
     config->writeEntry("translate_sysex", m_client->translateSysex());
     config->writeEntry("fixed_font", m_widget->getFixedFont());
     for(i = 0; i < 6; ++i) {
-    	config->writeEntry(QString("show_column_%1").arg(i), m_widget->getShowColumn(i));
+    	config->writeEntry(QString("show_column_%1").arg(i), m_popupAction[i]->isChecked() );
     }
 }
 
 void KMidimon::readConfiguration()
 {
 	int i;
+    bool status;
     KConfig *config = kapp->config();
     config->setGroup("Settings");
     m_client->setResolution(config->readNumEntry("resolution", RESOLUTION));
@@ -157,14 +176,17 @@ void KMidimon::readConfiguration()
     m_client->change_port_settings();
     m_widget->setFixedFont(config->readBoolEntry("fixed_font", false));
     for(i = 0; i < 6; ++i) {
-    	m_widget->setShowColumn(i, config->readBoolEntry(QString("show_column_%1").arg(i), true));
+        status = config->readBoolEntry(QString("show_column_%1").arg(i), true);
+        setColumnStatus(i, status);
     }
 }
 
 void KMidimon::preferences()
 {
 	int i;
+    bool was_running;
     ConfigDialog dlg;
+    
     dlg.setTempo(m_client->getTempo());
     dlg.setResolution(m_client->getResolution());
     if (m_client->isTickTime()) {
@@ -181,10 +203,10 @@ void KMidimon::preferences()
     dlg.setTranslateSysex(m_client->translateSysex());
     dlg.setUseFixedFont(m_widget->getFixedFont());
     for(i = 0; i < 6; ++i) {
-    	dlg.setShowColumn(i, m_widget->getShowColumn(i));
+    	dlg.setShowColumn(i, m_popupAction[i]->isChecked());
     }
     if (dlg.exec()) {
-    	bool was_running = m_client->queue_running();
+    	was_running = m_client->queue_running();
     	if (was_running) stop();
     	m_client->setTempo(dlg.getTempo());
     	m_client->setResolution(dlg.getResolution());
@@ -200,7 +222,7 @@ void KMidimon::preferences()
 		m_client->change_port_settings();
 		m_widget->setFixedFont(dlg.useFixedFont());
 		for(i = 0; i < 6; ++i) {
-			m_widget->setShowColumn(i, dlg.showColumn(i));
+            setColumnStatus(i, dlg.showColumn(i));
 		}
 		if (was_running) record();
     }
@@ -266,6 +288,53 @@ void KMidimon::configConnections()
 		    }
 		}
     }
+}
+
+void KMidimon::setColumnStatus(int colNum, bool status)
+{
+    m_widget->setShowColumn(colNum, status);
+    m_popupAction[colNum]->setChecked(status);
+}
+
+void KMidimon::toggleColumn(int colNum)
+{
+    m_widget->setShowColumn(colNum, m_popupAction[colNum]->isChecked());
+}
+
+void KMidimon::toggleColumn0()
+{
+    toggleColumn(0);
+}
+
+void KMidimon::toggleColumn1()
+{
+    toggleColumn(1);
+}
+
+void KMidimon::toggleColumn2()
+{
+    toggleColumn(2);
+}
+
+void KMidimon::toggleColumn3()
+{
+    toggleColumn(3);
+}
+
+void KMidimon::toggleColumn4()
+{
+    toggleColumn(4);
+}
+
+void KMidimon::toggleColumn5()
+{
+    toggleColumn(5);
+}
+
+void KMidimon::contextMenuEvent( QContextMenuEvent *ev )
+{
+    Q_CHECK_PTR( popup );
+    popup->popup( ev->pos() );
 }
 
 #include "kmidimon.moc"

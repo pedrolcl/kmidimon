@@ -28,6 +28,7 @@
 #include <qtextstream.h>
 #include <klistview.h>
 #include <kglobalsettings.h>
+#include <kmainwindow.h>
 
 #include "fancylistviewitem.h"
 #include "kmidimonwidget.h"
@@ -38,12 +39,6 @@ KMidimonWidget::KMidimonWidget(QWidget* parent, const char* name, WFlags fl)
 {
 	m_useFixedFont = false;
 	m_font = KGlobalSettings::generalFont();
-	m_showColumn[0] = true;
-	m_showColumn[1] = true;
-	m_showColumn[2] = true;
-	m_showColumn[3] = true;
-	m_showColumn[4] = true;
-	m_showColumn[5] = true;
 	
     eventListView->setSorting(-1);
     eventListView->setColumnWidthMode(0, QListView::Maximum);
@@ -119,22 +114,13 @@ void KMidimonWidget::setFixedFont(bool newValue)
 void KMidimonWidget::setShowColumn(int colNum, bool newValue)
 {
 	if (colNum < 0 || colNum > 5) return;
-	if (newValue != m_showColumn[colNum]) {
-		m_showColumn[colNum] = newValue;
-		if (newValue) {
-			eventListView->setColumnWidthMode(colNum, QListView::Maximum);
-			eventListView->setColumnWidth(colNum, 60);
-		} else {
-			eventListView->setColumnWidthMode(colNum, QListView::Manual);
-			eventListView->setColumnWidth(colNum, 0);
-		}
+	if (newValue) {
+		eventListView->setColumnWidthMode(colNum, QListView::Maximum);
+		eventListView->setColumnWidth(colNum, 80);
+	} else {
+		eventListView->setColumnWidthMode(colNum, QListView::Manual);
+		eventListView->setColumnWidth(colNum, 0);
 	}
-}
-
-bool KMidimonWidget::getShowColumn(int colNum)
-{
-	if (colNum < 0 || colNum > 5) return false;
-	return m_showColumn[colNum];
 }
 
 #include "kmidimonwidget.moc"

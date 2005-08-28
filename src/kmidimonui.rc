@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kmidimon" version="1">
+<kpartgui name="kmidimon" version="2">
 <MenuBar>
     <Menu name="Control"><text>C&amp;ontrol</text>
 	<Action name="record" />
@@ -12,6 +12,15 @@
 	<Action name="connections_dialog" />
     </Menu>
 </MenuBar>
+<Menu name="popup">
+  <title>List Columns</title>
+  <Action name="show_time"/> 
+  <Action name="show_source"/> 
+  <Action name="show_kind"/> 
+  <Action name="show_channel"/> 
+  <Action name="show_data1"/> 
+  <Action name="show_data2"/>
+</Menu>
 <ToolBar name="mainToolBar">
     <text>Main Toolbar</text>
     <Action name="file_save_as" />
