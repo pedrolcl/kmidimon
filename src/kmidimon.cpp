@@ -234,6 +234,7 @@ void KMidimon::record()
 		m_client->queue_start();
     }
     updateState();
+    slotStateChanged("recording_state");
 }
 
 void KMidimon::stop()
@@ -242,13 +243,13 @@ void KMidimon::stop()
 		m_client->queue_stop();
     }
     updateState();
+    slotStateChanged("stopped_state");
 }
 
 void KMidimon::updateState() 
 {
     QString state( m_client->queue_running() ? i18n("recording") : i18n("stopped") );
     setCaption( i18n("ALSA MIDI Monitor [%1]").arg(state) );
-    slotStateChanged( state );
 }
 
 void KMidimon::editToolbars()

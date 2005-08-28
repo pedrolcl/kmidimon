@@ -31,7 +31,7 @@
     <Separator />
     <Action name="options_configure" />
 </ToolBar>
-<State name="recording">
+<State name="recording_state">
     <enable>
 	<Action name="stop" />
     </enable>
@@ -39,7 +39,7 @@
 	<Action name="record" />
     </disable>
 </State>
-<State name="stopped">
+<State name="stopped_state">
     <enable>
 	<Action name="record" />
     </enable>
