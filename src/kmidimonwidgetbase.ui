@@ -92,9 +92,6 @@
         </widget>
     </vbox>
 </widget>
-<slots>
-    <slot>button_clicked()</slot>
-</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
