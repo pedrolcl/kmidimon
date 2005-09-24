@@ -1,3 +1,41 @@
+2005-09-24 00:00  plcl
+        * Version 0.4 released
+        * RPM spec files included
+
+2005-09-03 01:59  plcl
+
+	* UI files cleanup
+
+2005-08-29 00:23  plcl
+
+	* Internationalization updates 
+        * Spanish translation updated
+
+2005-08-28 22:44  plcl
+
+	* Context menu to hide/show list columns
+
+2005-08-27 12:27  plcl
+
+	* Reorganized preferences dialog
+
+2005-08-27 11:55  plcl
+
+	* antialiased icons
+
+2005-08-26 02:00  plcl
+
+	* Configuration dialog redesign, using tabs to take less 
+          screen real estate.
+
+2005-08-25 18:00  plcl
+
+        * Option for using fixed font 
+        * Format sysex with 2 hex digits per byte 
+        * Show/hide columns 
+        * Option for translating universal sysex messages 
+        * Configure dialog available even when recording.
+
 2005-08-05 00:10  plcl
 	* Version 0.3 released
 	
