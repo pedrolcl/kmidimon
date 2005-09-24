@@ -25,6 +25,7 @@
 #include <qstringlist.h>
 #include <qobjectlist.h>
 #include "connectdlg.h"
+#include "debugdef.h"
 
 ConnectDlg::ConnectDlg( QWidget *parent, 
 			const QStringList& clients, 
@@ -46,8 +47,10 @@ QStringList ConnectDlg::getSelected() const
     for (QObject *obj = btns.first(); obj; obj = btns.next()) {
     	if (obj->isA("QCheckBox")) {
     	    QCheckBox *chk = (QCheckBox *)obj;
-    	    if (chk->isChecked())
-		lst += chk->text();
+    	    if (chk->isChecked()) {
+                //DEBUGSTREAM << "checked: " << chk->text() << endl;
+		lst += chk->text().remove("&");
+            }
     	}
     }
     return lst;

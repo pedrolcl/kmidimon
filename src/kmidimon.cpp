@@ -137,7 +137,7 @@ bool KMidimon::queryExit()
 
 void KMidimon::saveConfiguration()
 {
-	int i;
+    int i;
     KConfig *config = kapp->config();
     config->setGroup("Settings");
     config->writeEntry("resolution", m_client->getResolution());
@@ -158,7 +158,7 @@ void KMidimon::saveConfiguration()
 
 void KMidimon::readConfiguration()
 {
-	int i;
+    int i;
     bool status;
     KConfig *config = kapp->config();
     config->setGroup("Settings");
@@ -273,21 +273,23 @@ void KMidimon::disconnectAll()
 void KMidimon::configConnections()
 {
     ConnectDlg dlg( this, m_client->inputConnections(), 
-					m_client->list_subscribers() );
+                    m_client->list_subscribers() );
     if (dlg.exec()) {
     	QStringList desired = dlg.getSelected();
-		QStringList subs = m_client->list_subscribers();    	
-		QStringList::Iterator i;
-		for ( i = subs.begin(); i != subs.end(); ++i) {
-		    if (desired.contains(*i) == 0) {
-		    	m_client->disconnect_port(*i);
-		    }
-		}
-		for ( i = desired.begin(); i != desired.end(); ++i) {
-		    if (subs.contains(*i) == 0) {
-				m_client->connect_port(*i);
-		    }
-		}
+	QStringList subs = m_client->list_subscribers();    	
+	QStringList::Iterator i;
+	for ( i = subs.begin(); i != subs.end(); ++i) {
+	    if (desired.contains(*i) == 0) {
+                //DEBUGSTREAM << "desired.contains(" << *i << ")" << endl;
+	    	m_client->disconnect_port(*i);
+	    }
+	}
+	for ( i = desired.begin(); i != desired.end(); ++i) {
+	    if (subs.contains(*i) == 0) {
+                //DEBUGSTREAM << "subs.contains(" << *i << ")" << endl;
+		m_client->connect_port(*i);
+	    }
+	}
     }
 }
 

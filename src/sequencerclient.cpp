@@ -840,12 +840,12 @@ void SequencerClient::refreshClientList()
     snd_seq_client_info_alloca(&cinfo);
     snd_seq_client_info_set_client(cinfo, -1);
     m_clients.clear();
-    DEBUGSTREAM << "Regenerating client list" << endl;
+    //DEBUGSTREAM << "Regenerating client list" << endl;
     while (snd_seq_query_next_client(m_handle, cinfo) >= 0) {
 	int cnum = snd_seq_client_info_get_client(cinfo);
         QString cname(snd_seq_client_info_get_name(cinfo));
 	m_clients[ cnum ] = cname;
-	DEBUGSTREAM << "client[" << cnum << "] = " << cname << endl;
+	//DEBUGSTREAM << "client[" << cnum << "] = " << cname << endl;
     }
     m_needsRefresh = false;
 }
