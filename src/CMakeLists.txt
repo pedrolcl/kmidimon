@@ -32,6 +32,7 @@ SET(kmidimon_SRCS
 	main.cpp
 	sequencerclient.cpp
 	sequencerclient.h
+	qt_kde.h
 )
 
 SET(kmidimon_UI 

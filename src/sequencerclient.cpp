@@ -271,8 +271,9 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                     case 0x02:
                         if (ev->data.ext.len < 15) return NULL;
                         data2 = i18n("Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9")
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++)
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++);
+                                .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
+                                .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
+                                .arg(ptr[8]);
                         break;
                     default:
                         return NULL;
@@ -338,13 +339,14 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                     case 0x01:
                         if (ev->data.ext.len < 10) return NULL;
                         data2 = i18n("Full Frame: %1 %2 %3 %4")
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++);
+                                .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3]);
                         break;
                     case 0x02:
                         if (ev->data.ext.len < 15) return NULL;
                         data2 = i18n("User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9")
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++)
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++).arg(*ptr++);
+                                .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
+                                .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
+                                .arg(ptr[8]);
                         break;
                     default:
                         return NULL;
@@ -363,7 +365,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                     case 0x42:
                         if (ev->data.ext.len < 9) return NULL;
                         data2 = i18n("Time Signature: %1 (%2/%3)")
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++);
+                                .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]);
                         break;
                     default:
                         return NULL;
@@ -443,8 +445,8 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                         if (ev->data.ext.len < 13) return NULL;
                         *ptr++; *ptr++;
                         data2 = i18n("Locate: %1 %2 %3 %4 %5")
-                                .arg(*ptr++).arg(*ptr++).arg(*ptr++)
-                                .arg(*ptr++).arg(*ptr++);
+                                .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
+                                .arg(ptr[4]);
                         break;
                     default:
                         return NULL;

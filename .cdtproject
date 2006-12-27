@@ -7,7 +7,7 @@
 <data>
 <item id="org.eclipse.cdt.core.pathentry">
 <pathentry kind="src" path=""/>
-<pathentry kind="out" path=""/>
+<pathentry kind="out" path="build"/>
 <pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
 <pathentry include="/usr/lib/qt3/include" kind="inc" path="" system="true"/>
 </item>

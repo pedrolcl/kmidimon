@@ -44,7 +44,6 @@
 #include <sstream>
 #include <stack>
 #include <string>
-#include <strstream>
 #include <utility>
 #include <vector>
 
