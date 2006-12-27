@@ -1,0 +1,2 @@
+SET(PO_FILES es.po)
+ADD_TRANSLATIONS(kmidimon ${PO_FILES})

@@ -2,16 +2,17 @@
 
 Summary: ALSA MIDI monitor
 Name: kmidimon
-Version: 0.4
+Version: @VERSION@
 Release: 1
 License: GPL
 Group: Applications/Multimedia
 URL: http://kmetronome.sourceforge.net/kmidimon/
-Source0: %{name}-%{version}.tar.gz
+Source0: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Vendor: Planet CCRMA
 Distribution: Planet CCRMA
 
+BuildRequires: cmake
 BuildRequires: gcc-c++, kdelibs-devel, alsa-lib-devel
 %{?fc1:BuildRequires: XFree86-devel, zlib-devel, libjpeg-devel, libpng-devel, libart_lgpl-devel, arts-devel}
 %{?rh9:BuildRequires: XFree86-devel, zlib-devel, libjpeg-devel, libpng-devel, libart_lgpl-devel, arts-devel}
@@ -23,7 +24,7 @@ MIDI monitor for Linux using ALSA sequencer and KDE user interface.
 %setup -q
 
 %build
-%configure
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
 %{__make} %{?_smp_mflags}
 
 %install
@@ -65,6 +66,8 @@ desktop-file-install --vendor %{desktop_vendor} \
 %{_datadir}/applications/%{desktop_vendor}-%{name}.desktop
 
 %changelog
+* Wed Dec 27 2006 Pedro Lopez-Cabanillas <plcl@users.sf.net> 0.5-1
+- CMake build system
 * Fri Aug 19 2005 Fernando Lopez-Lezcano <nando@ccrma.stanford.edu> 0.3-1
 - updated to version 0.3
 * Wed May  4 2005 Fernando Lopez-Lezcano <nando@ccrma.stanford.edu> 0.1-1

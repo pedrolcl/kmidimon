@@ -1,5 +1,5 @@
 %define name    kmidimon
-%define version 0.4
+%define version @VERSION@
 %define release 1 
 
 Name:           %{name}
@@ -11,6 +11,8 @@ Group:          Sound
 URL:            http://kmetronome.sourceforge.net/kmidimon/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot 
 Source0:        %{name}-%{version}.tar.bz2
+BuildRequires:  cmake
+BuildRequires:  alsa-devel
 
 %description
 KMidimon monitors events coming from a MIDI external port or application 
@@ -24,7 +26,7 @@ text file.
 %setup -q a 1
 
 %build
-%configure
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DWANT_PCH=YES
 %make
 
 %install
@@ -59,6 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_menudir}/*
 
 %changelog
+* Wed Dec 27 2006 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.5
+- CMake build system
+
 * Sat Sep 24 2005 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.4
 - Sources updated.
 
