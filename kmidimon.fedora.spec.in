@@ -29,7 +29,7 @@ cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
 
 %install
 %{__rm} -rf %{buildroot}
-%{makeinstall}
+%{__make} DESTDIR=%{buildroot} install
 
 %{__cat} << EOF > %{desktop_vendor}-%{name}.desktop
 [Desktop Entry]
@@ -58,7 +58,7 @@ desktop-file-install --vendor %{desktop_vendor} \
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
 %{_bindir}/kmidimon
-%exclude %{_datadir}/applnk/Utilities/kmidimon.desktop
+%exclude %{_datadir}/applications/kmidimon.desktop
 %{_datadir}/apps/kmidimon/kmidimonui.rc
 %{_datadir}/doc/HTML/en/kmidimon
 %{_datadir}/icons/hicolor/*/actions/kmidimon_record.png
