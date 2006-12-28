@@ -30,7 +30,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 SET (VERSION_MAJOR "0")
 SET (VERSION_MINOR "5")
 SET (VERSION_PATCH "0")
-SET (VERSION_SUFFIX "-cvs")
+SET (VERSION_SUFFIX "")
 SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
@@ -116,7 +116,7 @@ SET(CMAKE_CXX_FLAGS_RELEASE         "-O2 -w -fexceptions -DNDEBUG")
 SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "-O2 -g -Wall -fexceptions -DDEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG           "-O0 -g3 -Wall -fexceptions -DDEBUG")
 
-MESSAGE(STATUS "KMIDIMON ${VERSION} will be built for install into ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "kmidimon ${VERSION} will be built for install into ${CMAKE_INSTALL_PREFIX}")
 
 IF(WANT_DEBUG)
     IF(WANT_FULLDBG)
@@ -190,8 +190,8 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r doc kmidimon-${VERSION}
     COMMAND cp -r po kmidimon-${VERSION}
     COMMAND cp -r src kmidimon-${VERSION}
-    COMMAND cp CMakeLists.txt AUTHORS COPYING INSTALL README kmidimon.* kmidimon-${VERSION}
-    COMMAND tar -cj --exclude CVS -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
+    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec.in kmidimon-${VERSION}
+    COMMAND tar -cj --exclude CVS --exclude .cvsignore -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
     COMMAND rm -rf kmidimon-${VERSION}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )

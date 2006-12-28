@@ -25,12 +25,6 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 
-//#ifdef HAVE_CONFIG_H
-//#include <config.h>
-//#else
-//#define VERSION "0.1"
-//#endif
-
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
 

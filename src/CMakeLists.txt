@@ -76,11 +76,13 @@ INSTALL(FILES icons/hi32-app-kmidimon.png
         DESTINATION share/icons/hicolor/32x32/apps   
         RENAME kmidimon.png)
 INSTALL(FILES icons/hi16-action-kmidimon_record.png
-		DESTINATION share/icons/hicolor/16x16/actions        
+	DESTINATION share/icons/hicolor/16x16/actions        
         RENAME kmidimon_record.png)
 INSTALL(FILES icons/hi22-action-kmidimon_record.png
-		DESTINATION share/icons/hicolor/22x22/actions        
+	DESTINATION share/icons/hicolor/22x22/actions        
         RENAME kmidimon_record.png)
 INSTALL(FILES icons/hi32-action-kmidimon_record.png
-		DESTINATION share/icons/hicolor/32x32/actions        
+	DESTINATION share/icons/hicolor/32x32/actions        
         RENAME kmidimon_record.png)
+INSTALL(FILES kmidimon.desktop
+	DESTINATION share/applications)
