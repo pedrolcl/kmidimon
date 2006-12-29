@@ -13,6 +13,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:        %{name}-%{version}.tar.bz2
 BuildRequires:  cmake
 BuildRequires:  libalsa2-devel
+BuildRequires:	kdelibs-devel
 
 %description
 KMidimon monitors events coming from a MIDI external port or application 
