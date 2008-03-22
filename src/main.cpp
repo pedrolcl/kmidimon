@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2006 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2008 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,11 +19,13 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "kmidimon.h"
+#include <exception>
 #include <kapplication.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
+#include <kmessagebox.h>
+#include "kmidimon.h"
 
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
@@ -38,36 +40,35 @@ static const char version[] = VERSION;
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kmidimon", I18N_NOOP("KMidimon"), version, description,
-        KAboutData::License_GPL, "(C) 2005-2006 Pedro Lopez-Cabanillas", 
-        0, 0, "plcl@users.sourceforge.net");
-    about.addAuthor("Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net");
-    about.addCredit("Christoph Eckert", 
-    		    I18N_NOOP("Documentation, good ideas and suggestions"));
-    KCmdLineArgs::init(argc, argv, &about);
-    //KCmdLineArgs::addCmdLineOptions( options );
-    KApplication app;
-    KMidimon *mainWin = 0;
+	KAboutData about("kmidimon", I18N_NOOP("KMidimon"), version, description,
+			KAboutData::License_GPL, "(C) 2005-2006 Pedro Lopez-Cabanillas", 
+			0, 0, "plcl@users.sourceforge.net");
+	about.addAuthor("Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net");
+	about.addCredit("Christoph Eckert", 
+			I18N_NOOP("Documentation, good ideas and suggestions"));
+	KCmdLineArgs::init(argc, argv, &about);
+	//KCmdLineArgs::addCmdLineOptions( options );
+	KApplication app;
+	KMidimon *mainWin = 0;
 
-    if (app.isRestored())
-    {
-        RESTORE(KMidimon);
-    }
-    else
-    {
-        // no session.. just start up normally
-        //KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-        /// @todo do something with the command line args here
-
-        mainWin = new KMidimon();
-        app.setMainWidget( mainWin );
-        mainWin->show();
-
-        //args->clear();
-    }
-
-    // mainWin has WDestructiveClose flag by default, so it will delete itself.
-    return app.exec();
+	try {
+		if (app.isRestored())
+		{
+			RESTORE(KMidimon);
+		}
+		else
+		{
+			// no session.. just start up normally
+			//KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+			/// @todo do something with the command line args here
+			mainWin = new KMidimon();
+			app.setMainWidget( mainWin );
+			mainWin->show();
+			//args->clear();
+		}
+		// mainWin has WDestructiveClose flag by default, so it will delete itself.
+		return app.exec();
+	} catch ( std::exception *ex ) {
+		KMessageBox::error(0, ex->what());
+	}
 }
-

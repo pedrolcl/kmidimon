@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2006 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2008 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include <iostream>
+#include <stdexcept>
 #include <qstringlist.h>
 #include <kapplication.h>
 #include <klocale.h>
@@ -47,11 +48,17 @@ SequencerClient::SequencerClient(QWidget *parent):QThread(),
     int err;
     snd_seq_port_info_t *pinfo;
     
-    err = snd_seq_open( &m_handle, 
-    			"default", 
-    			SND_SEQ_OPEN_DUPLEX, 
-    			SND_SEQ_NONBLOCK );
+    err = snd_seq_open( &m_handle, "default", SND_SEQ_OPEN_DUPLEX, SND_SEQ_NONBLOCK );
     checkAlsaError(err, "Sequencer open");
+	if (err < 0) {
+		QString errorstr = i18n("Fatal error opening the ALSA sequencer. Function: snd_seq_open().\n"
+		                   "This usually happens when the kernel doesn't have ALSA support, "
+		                   "or the device node (/dev/snd/seq) doesn't exists, "
+				           "or the kernel module (snd_seq) is not loaded.\n"
+				           "Please check your ALSA/MIDI configuration. Returned error was: %1 (%2)").arg(err).arg(snd_strerror(err));
+		throw new std::runtime_error(errorstr.data());
+	}
+    
     m_client = snd_seq_client_id(m_handle);
     snd_seq_set_client_name(m_handle, "KMidimon");
 
