@@ -188,7 +188,7 @@ ADD_CUSTOM_TARGET ( distclean
     COMMAND rm -f  {,src/,po/,doc/}CPackSourceConfig.cmake
     COMMAND rm -f  {,src/,po/,doc/}install_manifest.txt
     COMMAND rm -f  {,src/,po/,doc/}progress.make
-    COMMAND rm -f  {,src/,po/,doc/}kmidimon.{fedora,mdk}.spec
+    COMMAND rm -f  {,src/,po/,doc/}kmidimon.spec
     COMMAND rm -f  {,src/,po/,doc/}Makefile
     COMMAND rm -rf {,src/,po/,doc/}CMakeFiles
     COMMAND rm -rf {,src/,po/,doc/}_CPack_Packages
