@@ -1,43 +1,29 @@
 
-You will need CMake 2.4.2 or later.  If your Linux distribution
+You will need CMake 2.4.4 or newer.  If your Linux distribution
 doesn't provide CMake, or if it provides an older version, you can get
 it here:
 
-  http://cmake.org/HTML/Download.html
+    http://www.cmake.org/HTML/Download.html
 
-There are ready to use binary packages available for Linux-i386 from
-that page.  They seem to work well -- use them!  We advise you avoid
-building CMake from source if possible.  (If you must build it from
-source, please read the instructions supplied with the CMake tarball,
-and remember that it will install to /usr/local by default.)
+There are ready to use binary packages available for Linux from
+that page.  If you must build it from source, please read the instructions
+supplied here:
 
-A Typical Build with CMake
----------------------------
+    http://www.cmake.org/HTML/install.html
+    
+Building with CMake
+-------------------
 
-If you are a typical end user wanting to play with the latest
-kmidimon, and to install it in the same place the distro package you
-are replacing came from, then the the following instructions are
-probably all you need to do in order to get up and running:
-
-First, unpack the tarball or check out CVS.  We'll assume you have the
-source in ~/src/kmidimon and need to change to that directory:
+Unpack the tarball or check out CVS.  Assuming that you have the
+source in ~/src/kmidimon, you need to change to that directory:
 
 $ cd ~/src/kmidimon
 
-Now run CMake to generate the build files, and specify the location
-where your system's KDE libraries are installed.  A nice general way
-to do this is:
-
-$ cmake . -DCMAKE_INSTALL_PREFIX=`kde-config --prefix`
-
-If you omit the install prefix and just run
+Now run CMake to generate the build files.
 
 $ cmake .
 
-instead, cmake will prepare to install kmidimon and its data files
-beneath /usr/local.  
-
-Finally, run make, and then (sudo) make install, and you're all set:
+Finally, run make, and then (sudo) make install, and you're done.
 
 $ make
 # make install
@@ -45,7 +31,6 @@ $ make
 To uninstall, use:
 
 # make uninstall
-
 
 Advanced Build Options
 ----------------------
@@ -55,12 +40,14 @@ prefer to see full command lines, use:
 
 $ make VERBOSE=1
 
-By default, the install prefix will be /usr/local. If your KDE is
-installed at some other prefix, you probably want to override this
-setting, as suggested in "A Typical Build with CMake."  You may
-install to /usr/local or anywhere else, but if you do so, you must add
-that location to your KDEDIRS environment variable before running
-kmidimon.  For example:
+The default installation directory will be the same where your KDE 3 
+is already installed, as reported by the command:
+
+$ kde-config --prefix  
+
+You may install kmidimon to /usr/local or anywhere else, but if you 
+do so, you must add that location to your KDEDIRS environment variable 
+before running kmidimon. For example:
 
 $ export KDEDIRS=/usr/local:$KDEDIRS
 $ kmidimon
@@ -87,7 +74,7 @@ Some variables you may want to set:
 The above options can take any of the following values: 0, 1, OFF, ON,
 TRUE, FALSE, YES, NO (case insensitive). For example:
 
-$ cmake . -DWANT_DEBUG=YES -DCMAKE_INSTALL_PREFIX=/opt/kde
+$ cmake . -DWANT_DEBUG=YES -DCMAKE_INSTALL_PREFIX=/usr/local
 
 To enable FULLDBG you also need to enable DEBUG.
 
@@ -99,53 +86,14 @@ $ ccmake .
 Dealing with Configuration Problems
 -----------------------------------
 
-To locate Qt, CMake searches for qmake in your execute path
-($PATH). CMake does not use the QTDIR environment variable. So make
-sure that the first qmake found in the execution path is the one you
-like to use.
+First, look for an answer in CMake FAQ:
 
-When CMake has finished, it will have created a file called
-"CMakeCache.txt".  This file contains all the settings CMake has
-detected on your system. If you want to run CMake with another
-generator or you want CMake to detect everything again, delete this
-file.
+    http://www.cmake.org/Wiki/CMake_FAQ
 
-If CMake didn't find something, but you know it is somewhere on your
-box, you can tell CMake where to find it manually. CMake uses
-variables to store this information. These variables are cached in the
-aforementioned file CMakeCache.txt. You have three options to adjust
-these variables manually:
+You may want to read the documentation at:
 
-    * tell CMake the correct value via the command line: 
-      $ cmake . -DNAME_OF_THE_VARIABLE=value
+    http://www.cmake.org/HTML/CMake-2.4.html
 
-    * use ccmake, which provides a curses based GUI to adjust the 
-      CMake variables (run: ccmake .)
+If you can't solve your problem, open a request for support at the project site:
 
-    * edit the file CMakeCache.txt directly (not recommended) 
-
-You should run "ccmake ." at least once so that you get an idea which
-variables CMake uses. Press "T" to see also the "advanced"
-variables. So, if CMake didn't find something, start ccmake and adjust
-it manually.
-
-
-Some other environment variables you may want to set
-----------------------------------------------------
-
-If you have headers and libraries installed in non-standard locations
-that cmake cannot find (e.g., on /sw), then set the following as
-environment variables.  Despite the similar naming convention, these
-will not work as arguments on the cmake command line:
-
-    * CMAKE_INCLUDE_PATH: directory where headers reside
-    * CMAKE_LIBRARY_PATH: directory where shared libraries reside
-
-Example:
-$ export CMAKE_INCLUDE_PATH=/sw/include
-$ export CMAKE_LIBRARY_PATH=/sw/lib 
-
-For more information on variables, see this cmake.org wiki page: 
-
-    http://www.cmake.org/Wiki/CMake_Useful_Variables
-
+    http://sourceforge.net/projects/kmetronome/
