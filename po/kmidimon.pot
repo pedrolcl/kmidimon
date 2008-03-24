@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-03-23 23:11+0100\n"
+"POT-Creation-Date: 2008-03-24 15:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,47 +22,47 @@ msgstr ""
 msgid "Available Ports"
 msgstr ""
 
-#: src/kmidimon.cpp:69
+#: src/kmidimon.cpp:68
 msgid "&Record"
 msgstr ""
 
-#: src/kmidimon.cpp:72
+#: src/kmidimon.cpp:71
 msgid "&Stop"
 msgstr ""
 
-#: src/kmidimon.cpp:75
+#: src/kmidimon.cpp:74
 msgid "&Connect All"
 msgstr ""
 
-#: src/kmidimon.cpp:79
+#: src/kmidimon.cpp:78
 msgid "&Disconnect All"
 msgstr ""
 
-#: src/kmidimon.cpp:83
+#: src/kmidimon.cpp:82
 msgid "Con&figure Connections"
 msgstr ""
 
-#: src/kmidimon.cpp:87
+#: src/kmidimon.cpp:86
 msgid "&Time"
 msgstr ""
 
-#: src/kmidimon.cpp:89
+#: src/kmidimon.cpp:88
 msgid "&Source"
 msgstr ""
 
-#: src/kmidimon.cpp:91
+#: src/kmidimon.cpp:90
 msgid "&Event Kind"
 msgstr ""
 
-#: src/kmidimon.cpp:93
+#: src/kmidimon.cpp:92
 msgid "&Channel"
 msgstr ""
 
-#: src/kmidimon.cpp:95
+#: src/kmidimon.cpp:94
 msgid "Data &1"
 msgstr ""
 
-#: src/kmidimon.cpp:97
+#: src/kmidimon.cpp:96
 msgid "Data &2"
 msgstr ""
 
@@ -74,15 +74,15 @@ msgstr ""
 msgid "Save MIDI monitor data"
 msgstr ""
 
-#: src/kmidimon.cpp:248
+#: src/kmidimon.cpp:265
 msgid "recording"
 msgstr ""
 
-#: src/kmidimon.cpp:248
+#: src/kmidimon.cpp:266
 msgid "stopped"
 msgstr ""
 
-#: src/kmidimon.cpp:249
+#: src/kmidimon.cpp:267
 msgid "ALSA MIDI Monitor [%1]"
 msgstr ""
 
@@ -556,12 +556,12 @@ msgstr ""
 msgid "Show Columns"
 msgstr ""
 
-#: po/rc.cpp:54 po/rc.cpp:107
+#: po/rc.cpp:54 po/rc.cpp:110
 #, no-c-format
 msgid "Time"
 msgstr ""
 
-#: po/rc.cpp:57 po/rc.cpp:110
+#: po/rc.cpp:57 po/rc.cpp:113
 #, no-c-format
 msgid "Source"
 msgstr ""
@@ -576,12 +576,12 @@ msgstr ""
 msgid "Channel"
 msgstr ""
 
-#: po/rc.cpp:66 po/rc.cpp:119
+#: po/rc.cpp:66 po/rc.cpp:122
 #, no-c-format
 msgid "Data 1"
 msgstr ""
 
-#: po/rc.cpp:69 po/rc.cpp:122
+#: po/rc.cpp:69 po/rc.cpp:125
 #, no-c-format
 msgid "Data 2"
 msgstr ""
@@ -606,43 +606,48 @@ msgstr ""
 msgid "Use Fixed Font"
 msgstr ""
 
-#: po/rc.cpp:92
+#: po/rc.cpp:84
 #, no-c-format
-msgid "C&ontrol"
+msgid "Sort events by time (newer at bottom)"
 msgstr ""
 
 #: po/rc.cpp:95
 #, no-c-format
-msgid "Connec&tions"
+msgid "C&ontrol"
 msgstr ""
 
 #: po/rc.cpp:98
 #, no-c-format
+msgid "Connec&tions"
+msgstr ""
+
+#: po/rc.cpp:101
+#, no-c-format
 msgid "List Columns"
 msgstr ""
 
-#: po/rc.cpp:104
+#: po/rc.cpp:107
 #, no-c-format
 msgid "MIDI Monitor"
 msgstr ""
 
-#: po/rc.cpp:113
+#: po/rc.cpp:116
 #, no-c-format
 msgid "Event kind"
 msgstr ""
 
-#: po/rc.cpp:116
+#: po/rc.cpp:119
 #, no-c-format
 msgid "Chan"
 msgstr ""
 
-#: po/rc.cpp:123
+#: po/rc.cpp:126
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr ""
 
-#: po/rc.cpp:125
+#: po/rc.cpp:128
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"

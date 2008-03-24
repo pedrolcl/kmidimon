@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2008-03-23 23:11+0100\n"
-"PO-Revision-Date: 2008-03-23 23:15+0100\n"
+"POT-Creation-Date: 2008-03-24 15:01+0100\n"
+"PO-Revision-Date: 2008-03-24 15:02+0100\n"
 "Last-Translator: Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -24,47 +24,47 @@ msgstr "Conexiones"
 msgid "Available Ports"
 msgstr "Puertos disponibles"
 
-#: src/kmidimon.cpp:69
+#: src/kmidimon.cpp:68
 msgid "&Record"
 msgstr "&Grabar"
 
-#: src/kmidimon.cpp:72
+#: src/kmidimon.cpp:71
 msgid "&Stop"
 msgstr "&Parar"
 
-#: src/kmidimon.cpp:75
+#: src/kmidimon.cpp:74
 msgid "&Connect All"
 msgstr "&Conectar todo"
 
-#: src/kmidimon.cpp:79
+#: src/kmidimon.cpp:78
 msgid "&Disconnect All"
 msgstr "&Desconectar todo"
 
-#: src/kmidimon.cpp:83
+#: src/kmidimon.cpp:82
 msgid "Con&figure Connections"
 msgstr "Con&figurar conexiones"
 
-#: src/kmidimon.cpp:87
+#: src/kmidimon.cpp:86
 msgid "&Time"
 msgstr "&Tiempo"
 
-#: src/kmidimon.cpp:89
+#: src/kmidimon.cpp:88
 msgid "&Source"
 msgstr "&Origen"
 
-#: src/kmidimon.cpp:91
+#: src/kmidimon.cpp:90
 msgid "&Event Kind"
 msgstr "Tipo de &evento"
 
-#: src/kmidimon.cpp:93
+#: src/kmidimon.cpp:92
 msgid "&Channel"
 msgstr "&Canal"
 
-#: src/kmidimon.cpp:95
+#: src/kmidimon.cpp:94
 msgid "Data &1"
 msgstr "Datos &1"
 
-#: src/kmidimon.cpp:97
+#: src/kmidimon.cpp:96
 msgid "Data &2"
 msgstr "Datos &2"
 
@@ -76,15 +76,15 @@ msgstr "*.txt|Archivos de texto simple (*.txt)"
 msgid "Save MIDI monitor data"
 msgstr "Guardar datos MIDI registrados"
 
-#: src/kmidimon.cpp:248
+#: src/kmidimon.cpp:265
 msgid "recording"
 msgstr "grabando"
 
-#: src/kmidimon.cpp:248
+#: src/kmidimon.cpp:266
 msgid "stopped"
 msgstr "parado"
 
-#: src/kmidimon.cpp:249
+#: src/kmidimon.cpp:267
 msgid "ALSA MIDI Monitor [%1]"
 msgstr "Monitor ALSA MIDI [%1]"
 
@@ -109,11 +109,11 @@ msgid ""
 "Please check your ALSA/MIDI configuration. Returned error was: %1 (%2)"
 msgstr ""
 "Error fatal abriendo el secuenciador ALSA. Función: snd_seq_open().\n"
-"Esto ocurre normalmente cuando el núcleo no tiene soporte ALSA, o el "
-"nodo de dispositivo (/dev/snd/seq) no existe, o bien el módulo del núcleo "
+"Esto ocurre normalmente cuando el núcleo no tiene soporte ALSA, o el nodo "
+"de dispositivo (/dev/snd/seq) no existe, o bien el módulo del núcleo "
 "(snd_seq) no ha sido cargado.\n"
-"Por favor, compruebe la configuración de ALSA y MIDI. "
-"El error devuelto ha sido %1 (%2) "
+"Por favor, compruebe la configuración de ALSA y MIDI. El error devuelto ha "
+"sido %1 (%2) "
 
 #: src/sequencerclient.cpp:192
 msgid "broadcast"
@@ -564,12 +564,12 @@ msgstr "Mostrar"
 msgid "Show Columns"
 msgstr "Mostrar columnas"
 
-#: po/rc.cpp:54 po/rc.cpp:107
+#: po/rc.cpp:54 po/rc.cpp:110
 #, no-c-format
 msgid "Time"
 msgstr "Tiempo"
 
-#: po/rc.cpp:57 po/rc.cpp:110
+#: po/rc.cpp:57 po/rc.cpp:113
 #, no-c-format
 msgid "Source"
 msgstr "Origen"
@@ -584,12 +584,12 @@ msgstr "Tipo de mensaje"
 msgid "Channel"
 msgstr "Canal"
 
-#: po/rc.cpp:66 po/rc.cpp:119
+#: po/rc.cpp:66 po/rc.cpp:122
 #, no-c-format
 msgid "Data 1"
 msgstr "Datos 1"
 
-#: po/rc.cpp:69 po/rc.cpp:122
+#: po/rc.cpp:69 po/rc.cpp:125
 #, no-c-format
 msgid "Data 2"
 msgstr "Datos 2"
@@ -614,43 +614,48 @@ msgstr "Traducir mensajes universales de sistema exclusivo"
 msgid "Use Fixed Font"
 msgstr "Usar fuente de paso fijo"
 
-#: po/rc.cpp:92
+#: po/rc.cpp:84
+#, no-c-format
+msgid "Sort events by time (newer at bottom)"
+msgstr "Ordenar eventos por tiempo (nuevos al final)"
+
+#: po/rc.cpp:95
 #, no-c-format
 msgid "C&ontrol"
 msgstr "C&ontrol"
 
-#: po/rc.cpp:95
+#: po/rc.cpp:98
 #, no-c-format
 msgid "Connec&tions"
 msgstr "Cone&xiones"
 
-#: po/rc.cpp:98
+#: po/rc.cpp:101
 #, no-c-format
 msgid "List Columns"
 msgstr "Columnas de la lista"
 
-#: po/rc.cpp:104
+#: po/rc.cpp:107
 #, no-c-format
 msgid "MIDI Monitor"
 msgstr "Monitor MIDI"
 
-#: po/rc.cpp:113
+#: po/rc.cpp:116
 #, no-c-format
 msgid "Event kind"
 msgstr "Tipo de evento"
 
-#: po/rc.cpp:116
+#: po/rc.cpp:119
 #, no-c-format
 msgid "Chan"
 msgstr "Canal"
 
-#: po/rc.cpp:123
+#: po/rc.cpp:126
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
 msgstr "Pedro López-Cabanillas"
 
-#: po/rc.cpp:125
+#: po/rc.cpp:128
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
