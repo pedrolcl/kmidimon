@@ -1,4 +1,22 @@
-# - Try to find precompiled headers support for GCC 3.4 and 4.x
+# KMidimon - ALSA Sequencer based MIDI Monitor
+# Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA
+
+# Try to find precompiled headers support for GCC 3.4 and 4.x
 # Once done this will define:
 #
 # Variable:
@@ -8,11 +26,9 @@
 #   ADD_PRECOMPILED_HEADER
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-    EXEC_PROGRAM(${CMAKE_CXX_COMPILER} 
-        ARGS --version OUTPUT_VARIABLE _compiler_output)
-    STRING(REGEX REPLACE ".* ([0-9]\\.[0-9]\\.[0-9]) .*" "\\1" 
-           gcc_compiler_version ${_compiler_output})
-    #MESSAGE("GCC Version: ${_compiler_version}")
+    EXEC_PROGRAM(${CMAKE_CXX_COMPILER}
+                 ARGS -dumpversion
+                 OUTPUT_VARIABLE gcc_compiler_version)
     IF(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
         SET(PCHSupport_FOUND TRUE)
     ELSE(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
@@ -22,7 +38,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     ENDIF(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-MACRO(ADD_QTKDE_PRECOMPILED_HEADER _targetName _input)
+MACRO(ADD_PRECOMPILED_HEADER _targetName _input)
     GET_FILENAME_COMPONENT(_name ${_input} NAME)
     SET(_source "${CMAKE_CURRENT_SOURCE_DIR}/${_input}")
     SET(_outdir "${CMAKE_CURRENT_BINARY_DIR}/${_name}.gch")
@@ -46,4 +62,4 @@ MACRO(ADD_QTKDE_PRECOMPILED_HEADER _targetName _input)
     ADD_CUSTOM_TARGET(${_targetName} DEPENDS ${_output})
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-include ${_name} -Winvalid-pch -H")
     SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-include ${_name} -Winvalid-pch")
-ENDMACRO(ADD_QTKDE_PRECOMPILED_HEADER)
+ENDMACRO(ADD_PRECOMPILED_HEADER)

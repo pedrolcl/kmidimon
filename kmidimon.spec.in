@@ -1,0 +1,49 @@
+%define name    kmidimon
+%define version @VERSION@
+%define release 1 
+
+Name:           %{name}
+Version:        %{version}
+Release:        %{release}
+License:        GPL
+Summary:        KDE MIDI Monitor for ALSA Sequencer
+Group:          Productivity/Multimedia/Sound/Midi
+URL:            http://kmetronome.sourceforge.net/kmidimon/
+Source0:        %{name}-%{version}.tar.bz2
+BuildRequires:  cmake
+BuildRequires:  alsa-devel
+BuildRequires:	kdelibs3-devel
+BuildRequires:	kdebase3-devel
+BuildRequires:	kdeutils3-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-build
+
+%description
+ALSA sequencer based MIDI monitor for Linux
+
+%prep
+%setup -q a 1
+
+%build
+cmake .
+make
+
+%install
+make DESTDIR=$RPM_BUILD_ROOT install
+%find_lang %{name}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files -f %{name}.lang
+%defattr(-, root, root)
+%doc INSTALL README ChangeLog AUTHORS TODO COPYING
+/opt/kde3/bin/%{name}
+/opt/kde3/share/apps/%{name}/*
+/opt/kde3/share/icons/hicolor/*/*/*
+/opt/kde3/share/applications/kde/*.desktop
+/opt/kde3/share/locale/*/LC_MESSAGES/*
+/opt/kde3/share/doc/HTML/*/%{name}/*
+
+%changelog
+* Mon Mar 24 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> @VERSION@
+- Release @VERSION@

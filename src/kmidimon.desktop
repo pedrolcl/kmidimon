@@ -5,3 +5,4 @@ Exec=kmidimon
 Icon=kmidimon
 Type=Application
 Comment=ALSA Sequencer MIDI monitor
+Categories=AudioVideo;Music

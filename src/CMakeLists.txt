@@ -1,3 +1,21 @@
+# KMidimon - ALSA Sequencer based MIDI Monitor
+# Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA
+
 IF(NOT KMIDIMON_SOURCE_DIR)
     MESSAGE(FATAL_ERROR "You need to run cmake or ccmake at the root directory")
 ENDIF(NOT KMIDIMON_SOURCE_DIR)
@@ -60,29 +78,29 @@ TARGET_LINK_LIBRARIES( kmidimon
 )
 
 # Install targets
-INSTALL( TARGETS kmidimon
-         RUNTIME DESTINATION bin )
+INSTALL(TARGETS kmidimon
+        RUNTIME DESTINATION ${KDE3EXECDIR})
 
 # Install GUI resource files
 FILE(GLOB RC_FILES *.rc)
-INSTALL( FILES ${RC_FILES}
-         DESTINATION share/apps/kmidimon )
+INSTALL(FILES ${RC_FILES}
+        DESTINATION ${KDE3DATADIR}/kmidimon)
 
 # Install icons
 INSTALL(FILES icons/hi16-app-kmidimon.png
-        DESTINATION share/icons/hicolor/16x16/apps   
+        DESTINATION ${KDE3ICONDIR}/hicolor/16x16/apps   
         RENAME kmidimon.png)
 INSTALL(FILES icons/hi32-app-kmidimon.png
-        DESTINATION share/icons/hicolor/32x32/apps   
+        DESTINATION ${KDE3ICONDIR}/hicolor/32x32/apps   
         RENAME kmidimon.png)
 INSTALL(FILES icons/hi16-action-kmidimon_record.png
-	DESTINATION share/icons/hicolor/16x16/actions        
+	DESTINATION ${KDE3ICONDIR}/hicolor/16x16/actions        
         RENAME kmidimon_record.png)
 INSTALL(FILES icons/hi22-action-kmidimon_record.png
-	DESTINATION share/icons/hicolor/22x22/actions        
+	DESTINATION ${KDE3ICONDIR}/hicolor/22x22/actions        
         RENAME kmidimon_record.png)
 INSTALL(FILES icons/hi32-action-kmidimon_record.png
-	DESTINATION share/icons/hicolor/32x32/actions        
+	DESTINATION ${KDE3ICONDIR}/hicolor/32x32/actions        
         RENAME kmidimon_record.png)
 INSTALL(FILES kmidimon.desktop
-	DESTINATION share/applications)
+	DESTINATION ${KDE3MENUDIR})

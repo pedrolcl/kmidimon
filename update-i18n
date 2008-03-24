@@ -1,0 +1,64 @@
+#!/bin/bash
+# KMidimon - ALSA Sequencer based MIDI Monitor
+# Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA
+
+PROJECTNAME="kmidimon"
+SOURCEDIR="src"
+WORKDIR="po"
+KDEDIR=$(kde-config --prefix)
+KDEPOT=$KDEDIR/include/kde.pot
+mkdir -p $WORKDIR
+pushd $WORKDIR
+rm -f *.old
+rm -f rcfiles.list
+rm -f infiles.list
+rm -f rc.cpp
+rm -f messages.pot
+popd
+
+echo "Preparing rc/ui/kcfg files"
+find $SOURCEDIR -name '*.rc' -o -name '*.ui' -o -name '*.kcfg' | sort > ${WORKDIR}/rcfiles.list
+xargs --arg-file=${WORKDIR}/rcfiles.list extractrc > ${WORKDIR}/rc.cpp
+echo -e 'i18n("_: NAME OF TRANSLATORS\\n"\n"Your names")\ni18n("_: EMAIL OF TRANSLATORS\\n"\n"Your emails")' >> ${WORKDIR}/rc.cpp
+
+echo "Preparing sources list"
+find $SOURCEDIR -name '*.cpp' -o -name '*.h' -o -name '*.c' | sort > ${WORKDIR}/infiles.list
+echo "${WORKDIR}/rc.cpp" >> ${WORKDIR}/infiles.list
+
+echo "Extracting messages"
+pushd $WORKDIR
+kde-xgettext -C -ki18n -ktr2i18n -kI18N_NOOP -ktranslate -kaliasLocale -x $KDEPOT \
+             --files-from=infiles.list -D.. -D. -o messages.pot || { echo "Error extracting messages with xgettext. Aborting."; exit 1; }
+if [ -e ${PROJECTNAME}.pot ]; then
+    mv ${PROJECTNAME}.pot ${PROJECTNAME}.pot.old
+fi
+mv messages.pot ${PROJECTNAME}.pot
+
+echo "Merging existing translations"
+for CATALOG in *.po; do
+    msgmerge $CATALOG ${PROJECTNAME}.pot -o $CATALOG.new || { echo "Error merging catalog $CATALOG with msgmerge. Aborting."; exit 1; }
+    mv $CATALOG $CATALOG.old
+    mv $CATALOG.new $CATALOG
+done
+
+echo "Cleaning"
+rm -f rcfiles.list
+rm -f infiles.list
+rm -f rc.cpp
+popd
+echo "Done"
