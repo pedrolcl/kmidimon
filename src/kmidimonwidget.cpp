@@ -31,78 +31,82 @@
 #include "kmidimonwidget.h"
 #include "sequencerclient.h"
 
-KMidimonWidget::KMidimonWidget(QWidget* parent, const char* name, WFlags fl)
-        : KMidimonWidgetBase(parent,name,fl) 
+KMidimonWidget::KMidimonWidget(QWidget* parent, const char* name, WFlags fl) :
+	KMidimonWidgetBase(parent, name, fl)
 {
 	m_useFixedFont = false;
+	m_sortEvents = false;
 	m_font = KGlobalSettings::generalFont();
-	
-    eventListView->setSorting(-1);
-    eventListView->setColumnWidthMode(0, QListView::Maximum);
-    eventListView->setColumnWidthMode(1, QListView::Maximum);
-    eventListView->setColumnWidthMode(2, QListView::Maximum);
-    eventListView->setColumnWidthMode(3, QListView::Maximum);
-    eventListView->setColumnWidthMode(4, QListView::Maximum);
-    eventListView->setColumnWidthMode(5, QListView::Maximum);
-    
-    eventListView->setColumnAlignment(0, Qt::AlignRight);
-    eventListView->setColumnAlignment(1, Qt::AlignRight);
-    eventListView->setColumnAlignment(2, Qt::AlignLeft);
-    eventListView->setColumnAlignment(3, Qt::AlignRight);
-    eventListView->setColumnAlignment(4, Qt::AlignRight);
-    eventListView->setColumnAlignment(5, Qt::AlignLeft);
-    
-    eventListView->setItemMargin(2);
-    eventListView->setSelectionMode(QListView::NoSelection);
-    //eventListView->setResizeMode(QListView::LastColumn);
+
+	eventListView->setSorting(-1);
+	eventListView->setColumnWidthMode(0, QListView::Maximum);
+	eventListView->setColumnWidthMode(1, QListView::Maximum);
+	eventListView->setColumnWidthMode(2, QListView::Maximum);
+	eventListView->setColumnWidthMode(3, QListView::Maximum);
+	eventListView->setColumnWidthMode(4, QListView::Maximum);
+	eventListView->setColumnWidthMode(5, QListView::Maximum);
+
+	eventListView->setColumnAlignment(0, Qt::AlignRight);
+	eventListView->setColumnAlignment(1, Qt::AlignRight);
+	eventListView->setColumnAlignment(2, Qt::AlignLeft);
+	eventListView->setColumnAlignment(3, Qt::AlignRight);
+	eventListView->setColumnAlignment(4, Qt::AlignRight);
+	eventListView->setColumnAlignment(5, Qt::AlignLeft);
+
+	eventListView->setItemMargin(2);
+
+	eventListView->setSelectionMode(QListView::NoSelection);
+	//eventListView->setResizeMode(QListView::LastColumn);
 }
 
-KMidimonWidget::~KMidimonWidget() {}
-
-void KMidimonWidget::clear() 
+KMidimonWidget::~KMidimonWidget()
 {
-    eventListView->clear();
+}
+
+void KMidimonWidget::clear()
+{
+	eventListView->clear();
 }
 
 void KMidimonWidget::add(MidiEvent *ev)
 {
-	FancyListViewItem *k;
-    k = new FancyListViewItem( eventListView, 
+	FancyListViewItem *k = new FancyListViewItem( eventListView,
 			ev->getTime(),
 			ev->getSource(),
 			ev->getKind(),
 			ev->getChannel(),
 			ev->getData1(),
 			ev->getData2() );
-    k->setFont( m_font );    
+	k->setFont(m_font );
+	eventListView->ensureItemVisible(k );
 }
 
 void KMidimonWidget::saveTo(QString path)
 {
-    QFile file(path);
-    file.open(IO_WriteOnly);
-    QTextStream stream(&file);
-    QListViewItemIterator it( eventListView );
-    while ( it.current() ) {
+	QFile file(path);
+	file.open(IO_WriteOnly);
+	QTextStream stream(&file);
+	QListViewItemIterator it(eventListView );
+	while (it.current() )
+	{
 		QListViewItem *item = it.current();
-		stream << item->text(0).stripWhiteSpace() << "," 
-		       << item->text(1).stripWhiteSpace() << "," 	
-		       << item->text(2).stripWhiteSpace() << "," 	
-		       << item->text(3).stripWhiteSpace() << "," 	
-		       << item->text(4).stripWhiteSpace() << "," 	
-		       << item->text(5).stripWhiteSpace() << endl;
+		stream << item->text(0).stripWhiteSpace() << ","<< item->text(1).stripWhiteSpace() << ","<< item->text(2).stripWhiteSpace() << ","<< item->text(3).stripWhiteSpace() << ","<< item->text(4).stripWhiteSpace() << ","<< item->text(5).stripWhiteSpace() << endl;
 		++it;
-    }
-    file.close();
+	}
+	file.close();
 }
 
 void KMidimonWidget::setFixedFont(bool newValue)
 {
-	if (m_useFixedFont != newValue) {
+	if (m_useFixedFont != newValue)
+	{
 		m_useFixedFont = newValue;
-		if (m_useFixedFont) {
+		if (m_useFixedFont)
+		{
 			m_font = KGlobalSettings::fixedFont();
-		} else {
+		}
+		else
+		{
 			m_font = KGlobalSettings::generalFont();
 		}
 	}
@@ -110,13 +114,33 @@ void KMidimonWidget::setFixedFont(bool newValue)
 
 void KMidimonWidget::setShowColumn(int colNum, bool newValue)
 {
-	if (colNum < 0 || colNum > 5) return;
-	if (newValue) {
+	if (colNum < 0 || colNum > 5)return;
+	if (newValue)
+	{
 		eventListView->setColumnWidthMode(colNum, QListView::Maximum);
 		eventListView->setColumnWidth(colNum, 80);
-	} else {
+	}
+	else
+	{
 		eventListView->setColumnWidthMode(colNum, QListView::Manual);
 		eventListView->setColumnWidth(colNum, 0);
+	}
+}
+
+void KMidimonWidget::setSortEvents(bool newValue)
+{
+	if (m_sortEvents!= newValue)
+	{
+		m_sortEvents = newValue;
+		if (m_sortEvents)
+		{
+			eventListView->setSorting(0, true);
+		}
+		else
+		{
+			eventListView->setSorting(-1);
+		}
+		eventListView->sort();
 	}
 }
 

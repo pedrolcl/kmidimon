@@ -25,23 +25,25 @@
 #include <klistview.h>
 
 class FancyListViewItem : public KListViewItem
-    {
-    public:
-        FancyListViewItem(QListView *parent, const QString &label1, const QString &label2, const QString &label3,
-                                             const QString &label4, const QString &label5, const QString &label6)
-            : KListViewItem(parent, label1, label2, label3, label4, label5, label6 )
-        {}
+{
+public:
+    FancyListViewItem(QListView *parent, const QString &label1, const QString &label2, const QString &label3,
+                                         const QString &label4, const QString &label5, const QString &label6)
+        : KListViewItem(parent, label1, label2, label3, label4, label5, label6 )
+    {}
+
+    void paintCell(QPainter *painter, const QColorGroup &cg,
+                   int column, int width, int align);
+    int width(const QFontMetrics &fm, const QListView *lv, int column) const;
+
+    QFont getFont() const { return m_font; }
+    void setFont(const QFont &font) { m_font = font; }
+
+    int compare(QListViewItem * i, int col, bool ascending) const;
     
-        void paintCell(QPainter *painter, const QColorGroup &cg,
-                       int column, int width, int align);
-        int width(const QFontMetrics &fm, const QListView *lv, int column) const;
+private:
+    QFont m_font;
     
-        QFont getFont() const { return m_font; }
-        void setFont(const QFont &font) { m_font = font; }
-    
-    private:
-        QFont m_font;
-        
-    };
+};
 
 #endif /*FANCYLISTVIEWITEM_H_*/

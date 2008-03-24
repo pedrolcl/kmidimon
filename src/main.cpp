@@ -41,7 +41,7 @@ static const char version[] = VERSION;
 int main(int argc, char **argv)
 {
 	KAboutData about("kmidimon", I18N_NOOP("KMidimon"), version, description,
-			KAboutData::License_GPL, "(C) 2005-2006 Pedro Lopez-Cabanillas", 
+			KAboutData::License_GPL, "(C) 2005-2008 Pedro Lopez-Cabanillas", 
 			0, 0, "plcl@users.sourceforge.net");
 	about.addAuthor("Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net");
 	about.addCredit("Christoph Eckert", 

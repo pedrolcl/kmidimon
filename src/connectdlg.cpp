@@ -28,33 +28,35 @@
 #include "connectdlg.h"
 #include "debugdef.h"
 
-ConnectDlg::ConnectDlg( QWidget *parent, 
-			const QStringList& clients, 
-			const QStringList& subs ):
+ConnectDlg::ConnectDlg(QWidget *parent, const QStringList& clients,
+		const QStringList& subs) :
 	KDialogBase(parent, NULL, true, i18n("Connections"), Ok | Cancel )
 {
-    QVBox *vbox = makeVBoxMainWidget();
-    group = new QGroupBox(1, Qt::Horizontal, i18n("Available Ports"), vbox);
-    for ( unsigned int i = 0; i < clients.size(); ++i) {
-	QCheckBox *chk = new QCheckBox(clients[i], group);
-	chk->setChecked(subs.contains(clients[i]) > 0);
-    }
+	QVBox *vbox = makeVBoxMainWidget();
+	group = new QGroupBox(1, Qt::Horizontal, i18n("Available Ports"), vbox);
+	for (unsigned int i = 0; i < clients.size(); ++i)
+	{
+		QCheckBox *chk = new QCheckBox(clients[i], group);
+		chk->setChecked(subs.contains(clients[i]) > 0);
+	}
 }
 
 QStringList ConnectDlg::getSelected() const
 {
-    QStringList lst;
-    QObjectList btns = *group->children();
-    for (QObject *obj = btns.first(); obj; obj = btns.next()) {
-    	if (obj->isA("QCheckBox")) {
-    	    QCheckBox *chk = (QCheckBox *)obj;
-    	    if (chk->isChecked()) {
-                //DEBUGSTREAM << "checked: " << chk->text() << endl;
-		lst += chk->text().remove("&");
-            }
-    	}
-    }
-    return lst;
+	QStringList lst;
+	QObjectList btns = *group->children();
+	for (QObject *obj = btns.first(); obj; obj = btns.next())
+	{
+		if (obj->isA("QCheckBox"))
+		{
+			QCheckBox *chk =( QCheckBox *)obj;
+			if (chk->isChecked())
+			{
+				lst += chk->text().remove("&");
+			}
+		}
+	}
+	return lst;
 }
 
 #include "connectdlg.moc"

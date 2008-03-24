@@ -1,5 +1,25 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>ConfigDialogBase</class>
+<comment>
+KMidimon - ALSA Sequencer based MIDI Monitor
+Copyright (C) 2005-2008 Pedro Lopez-Cabanillas &lt;plcl@users.sourceforge.net&gt;
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301, USA
+</comment>
+<author>Pedro Lopez-Cabanillas &lt;plcl@users.sourceforge.net&gt;</author>
 <widget class="QDialog">
     <property name="name">
         <cstring>ConfigDialogBase</cstring>
@@ -307,6 +327,14 @@
                                     <string>Use Fixed Font</string>
                                 </property>
                             </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>m_sortEvents</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Sort events by time (newer at bottom)</string>
+                                </property>
+                            </widget>
                         </vbox>
                     </widget>
                 </vbox>
@@ -398,6 +426,7 @@
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
 </includehints>
 </UI>

@@ -39,3 +39,23 @@ int FancyListViewItem::width(const QFontMetrics&, const QListView *lv, int colum
 	width = QListViewItem::width(fm2, lv, column);
 	return width;
 }
+
+int FancyListViewItem::compare(QListViewItem * i, int col, bool ascending) const
+{
+	if (col != 0)
+	{
+		return QListViewItem::compare(i, col, ascending);
+	}
+	else
+	{
+       QString s1 = this->text(0); 
+       QString s2 = i->text(0);
+       if (s1 == s2)
+       {
+           return 0;
+       }
+       double d1 = s1.toDouble();
+       double d2 = s2.toDouble();
+       return d1 < d2 ? -1 : 1;
+	}
+}

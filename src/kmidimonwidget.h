@@ -40,6 +40,9 @@ public:
     void setFixedFont(bool newValue);
     bool getFixedFont() const { return m_useFixedFont; }
     
+    void setSortEvents(bool newValue);
+    bool getSortEvents() const { return m_sortEvents; }
+    
     void setShowColumn(int colNum, bool newValue);
     
 public slots:
@@ -53,6 +56,7 @@ protected slots:
 
 private:
 	bool  m_useFixedFont;
+	bool  m_sortEvents;
 	QFont m_font;
 
 };

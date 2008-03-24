@@ -504,10 +504,15 @@ MidiEvent *SequencerClient::build_sysex_event(snd_seq_event_t *ev)
 QString SequencerClient::event_time(snd_seq_event_t *ev)
 {
     if (m_tickTime)
+    {
 		return QString("%1 ").arg(ev->time.tick);
+    }
     else
-		return QString("%1.%2 ").arg(ev->time.time.tv_sec)
-					.arg(ev->time.time.tv_nsec/1000);
+    {
+    	QString d = QString::number(ev->time.time.tv_nsec/1000, 'f', 0);
+    	d = d.left(4).leftJustify(4, '0');
+		return QString("%1.%2 ").arg(ev->time.time.tv_sec).arg(d);
+    }
 }
 
 QString SequencerClient::client_name(int client_number)
