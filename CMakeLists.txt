@@ -25,9 +25,7 @@ PROJECT(KMIDIMON)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
 
 # Show full commands and messages. It generates a lot of console output.
-# It is necessary for Eclipse warning/error parser, 
-# but it can be enabled anyway with "make VERBOSE=1"
-SET(CMAKE_VERBOSE_MAKEFILE OFF)
+SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Seems that relative paths break some scripts. Don't set it ON
 SET(CMAKE_USE_RELATIVE_PATHS OFF)
@@ -39,7 +37,6 @@ SET(CMAKE_SKIP_RULE_DEPENDENCY OFF)
 # Misc settings
 SET(CMAKE_COLOR_MAKEFILE ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 
 # Additional CMake modules for 3rd party library checks reside here
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
@@ -47,15 +44,16 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 # KMIDIMON version string
 SET (VERSION_MAJOR "0")
 SET (VERSION_MINOR "5")
-SET (VERSION_PATCH "1")
-SET (VERSION_SUFFIX "")
+SET (VERSION_PATCH "2")
+SET (VERSION_SUFFIX "svn")
 SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
 # User options
-OPTION(WANT_DEBUG   "Include debug support" OFF)
-OPTION(WANT_FULLDBG "Full debug support (BIG executables!)" OFF)
-OPTION(WANT_PCH     "Use precompiled headers" OFF)
+OPTION(WANT_PCH "Use precompiled headers" OFF)
+
+# Save the compiler flags
+SET(SAVED_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
 # Check for KDE3
 FIND_PACKAGE(KDE3 REQUIRED QUIET)
@@ -75,8 +73,8 @@ ELSE(KDE3_FOUND)
     MESSAGE(FATAL_ERROR "KDE3 Not found")
 ENDIF(KDE3_FOUND)
 
-# Clear the flags set by FindKDE3 
-SET(CMAKE_CXX_FLAGS "")
+# Restore the compiler flags after FindKDE3
+SET(CMAKE_CXX_FLAGS "${SAVED_CXX_FLAGS} -fexceptions") 
 
 # Provide the KDE3 prefix as a default prefix (if the user has CMake 2.4.4)
 IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -136,27 +134,7 @@ IF(WANT_PCH)
     ENDIF(PCHSupport_FOUND)
 ENDIF(WANT_PCH)
 
-SET(CMAKE_CXX_FLAGS_RELEASE         "-O2 -w -fexceptions -DNDEBUG")
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "-O2 -g -Wall -fexceptions -DDEBUG")
-SET(CMAKE_CXX_FLAGS_DEBUG           "-O0 -g3 -Wall -fexceptions -DDEBUG")
-
 MESSAGE(STATUS "kmidimon ${VERSION} install prefix: ${CMAKE_INSTALL_PREFIX}")
-
-IF(WANT_DEBUG)
-    IF(WANT_FULLDBG)
-        MESSAGE(STATUS "Build configuration: full debug")
-        SET(CMAKE_BUILD_TYPE Debug CACHE STRING
-            "Choose the type of build, options are: Debug Release RelWithDebInfo" FORCE)
-    ELSE(WANT_FULLDBG)
-        MESSAGE(STATUS "Build configuration: debug")
-        SET(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
-            "Choose the type of build, options are: Debug Release RelWithDebInfo" FORCE)
-    ENDIF(WANT_FULLDBG)
-ELSE(WANT_DEBUG)
-    MESSAGE(STATUS "Build configuration: release")
-    SET(CMAKE_BUILD_TYPE Release CACHE STRING
-        "Choose the type of build, options are: Debug Release RelWithDebInfo" FORCE)
-ENDIF(WANT_DEBUG)
 
 # Recurse into the "src" subdirectory. This does not actually
 # cause another cmake executable to run. The same process will walk through
