@@ -19,44 +19,41 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
+#include <QGroupBox>
+#include <QVBoxLayout>
+#include <QCheckBox>
+#include <QStringList>
 #include <klocale.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
-#include <qcheckbox.h>
-#include <qstringlist.h>
-#include <qobjectlist.h>
-#include "connectdlg.h"
-#include "debugdef.h"
 
-ConnectDlg::ConnectDlg(QWidget *parent, const QStringList& clients,
-		const QStringList& subs) :
-	KDialogBase(parent, NULL, true, i18n("Connections"), Ok | Cancel )
+#include "connectdlg.h"
+
+ConnectDlg::ConnectDlg( QWidget *parent,
+                        const QStringList& clients,
+		                const QStringList& subs ) : KDialog(parent)
 {
-	QVBox *vbox = makeVBoxMainWidget();
-	group = new QGroupBox(1, Qt::Horizontal, i18n("Available Ports"), vbox);
-	for (unsigned int i = 0; i < clients.size(); ++i)
-	{
-		QCheckBox *chk = new QCheckBox(clients[i], group);
+    setCaption( i18n("Connections") );
+    setModal( true );
+    setButtons( Ok | Cancel );
+    QWidget* w = mainWidget();
+    QVBoxLayout* vbl1 = new QVBoxLayout(w);
+	m_group = new QGroupBox(i18n("Available Ports"), w);
+	vbl1->addWidget(m_group);
+    QVBoxLayout* vbl2 = new QVBoxLayout(m_group);
+	for (int i = 0; i < clients.size(); ++i) {
+		QCheckBox *chk = new QCheckBox(clients[i], m_group);
 		chk->setChecked(subs.contains(clients[i]) > 0);
+		vbl2->addWidget(chk);
 	}
 }
 
 QStringList ConnectDlg::getSelected() const
 {
 	QStringList lst;
-	QObjectList btns = *group->children();
-	for (QObject *obj = btns.first(); obj; obj = btns.next())
-	{
-		if (obj->isA("QCheckBox"))
-		{
-			QCheckBox *chk =( QCheckBox *)obj;
-			if (chk->isChecked())
-			{
-				lst += chk->text().remove("&");
-			}
-		}
+	QList<QCheckBox*> checks = m_group->findChildren<QCheckBox*>();
+	foreach ( QCheckBox* chk, checks ) {
+        if (chk->isChecked()) {
+            lst += chk->text().remove("&");
+        }
 	}
 	return lst;
 }
-
-#include "connectdlg.moc"

@@ -1,4 +1,4 @@
-# KMidimon - ALSA Sequencer based MIDI Monitor
+# KMetronome - ALSA Sequencer based MIDI metronome
 # Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -29,13 +29,10 @@ IF(MEINPROC_EXECUTABLE)
     SET(MEINPROC_FOUND TRUE)
 ELSE(MEINPROC_EXECUTABLE)
     FIND_PROGRAM(MEINPROC_EXECUTABLE
-	NAME meinproc 
-	PATHS ${KDE3_BIN_INSTALL_DIR}
-	 $ENV{KDEDIR}/bin
+	NAME meinproc4
+	PATHS $ENV{KDEDIR}/bin
 	 /usr/bin
 	 /usr/local/bin
-	 /opt/kde/bin
-	 /opt/kde3/bin )
     IF(MEINPROC_EXECUTABLE)
 	SET(MEINPROC_FOUND TRUE)
     ELSE(MEINPROC_EXECUTABLE)
@@ -59,10 +56,10 @@ MACRO(ADD_DOCS _baseName)
 	    ARGS --check --cache ${_out} ${_in}
     	    DEPENDS ${_in} )
 	INSTALL(FILES ${_out}
-    	    DESTINATION ${KDE3HTMLDIR}/${_dir}/${_baseName}
+    	    DESTINATION ${HTML_INSTALL_DIR}/${_dir}/${_baseName}
 	    RENAME index.cache.bz2)
 	INSTALL(FILES ${_in} ${_images}
-    	    DESTINATION ${KDE3HTMLDIR}/${_dir}/${_baseName})
+    	    DESTINATION ${HTML_INSTALL_DIR}/${_dir}/${_baseName})
 	SET(_outputs ${_outputs} ${_out})
     ENDFOREACH(_dir)
     ADD_CUSTOM_TARGET(documentation ALL DEPENDS ${_outputs})

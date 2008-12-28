@@ -22,23 +22,24 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-#include <vector>
-#include <kdialogbase.h>
-#include <qstringlist.h>
-#include <qgroupbox.h>
+#include <kdialog.h>
 
- class ConnectDlg : public KDialogBase
+class QGroupBox;
+class QStringList;
+
+ class ConnectDlg : public KDialog
 {
     Q_OBJECT
-public:
-    ConnectDlg( QWidget *parent, 
-		const QStringList& clients, 
-		const QStringList& subs );
-		
+
+ public:
+    ConnectDlg( QWidget *parent,
+                const QStringList& clients,
+                const QStringList& subs );
+
     QStringList getSelected() const;
 
 private:
-    QGroupBox *group;
+    QGroupBox* m_group;
 };
 
 #endif

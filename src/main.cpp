@@ -32,43 +32,42 @@ static const char description[] =
 
 static const char version[] = VERSION;
 
-/*static KCmdLineOptions options[] =
-{
-//    { "+[URL]", I18N_NOOP( "Document to open." ), 0 },
-    KCmdLineLastOption
-};*/
-
 int main(int argc, char **argv)
 {
-	KAboutData about("kmidimon", I18N_NOOP("KMidimon"), version, description,
-			KAboutData::License_GPL, "(C) 2005-2008 Pedro Lopez-Cabanillas", 
-			0, 0, "plcl@users.sourceforge.net");
-	about.addAuthor("Pedro Lopez-Cabanillas", 0, "plcl@users.sourceforge.net");
-	about.addCredit("Christoph Eckert", 
-			I18N_NOOP("Documentation, good ideas and suggestions"));
+	KAboutData about("kmidimon", 0, ki18n("KMidimon"), version,
+	                 ki18n(description), KAboutData::License_GPL,
+	                 ki18n("(C) 2005-2008 Pedro Lopez-Cabanillas"),
+	                 KLocalizedString(),
+	                 "http://kmetronome.sourceforge.net/kmidimon",
+	                 "plcl@users.sourceforge.net");
+	about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
+	                "plcl@users.sourceforge.net");
+	about.addCredit(ki18n("Christoph Eckert"),
+	                ki18n("Documentation, good ideas and suggestions"));
 	KCmdLineArgs::init(argc, argv, &about);
+    //KCmdLineOptions options;
+    //options.add("+[URL]", ki18n( "Document to open" ));
 	//KCmdLineArgs::addCmdLineOptions( options );
 	KApplication app;
 	KMidimon *mainWin = 0;
-
 	try {
-		if (app.isRestored())
-		{
+		if (app.isSessionRestored()) {
 			RESTORE(KMidimon);
-		}
-		else
-		{
+		} else {
 			// no session.. just start up normally
 			//KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-			/// @todo do something with the command line args here
-			mainWin = new KMidimon();
-			app.setMainWidget( mainWin );
+			mainWin = new KMidimon;
 			mainWin->show();
 			//args->clear();
 		}
-		// mainWin has WDestructiveClose flag by default, so it will delete itself.
 		return app.exec();
-	} catch ( std::exception *ex ) {
-		KMessageBox::error(0, ex->what());
-	}
+    } catch (SequencerError& ex) {
+        QString errorstr = i18n("Fatal error from the ALSA sequencer. "
+            "This usually happens when the kernel doesn't have ALSA support, "
+            "or the device node (/dev/snd/seq) doesn't exists, "
+            "or the kernel module (snd_seq) is not loaded. "
+            "Please check your ALSA/MIDI configuration. Returned error was: %1")
+            .arg(ex.qstrError());
+        KMessageBox::error(0, errorstr, i18n("Error"));
+    }
 }

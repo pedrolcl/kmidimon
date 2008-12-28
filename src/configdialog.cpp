@@ -63,5 +63,3 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
 			break;
 	}
 }
-
-#include "configdialog.moc"

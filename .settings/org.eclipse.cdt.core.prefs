@@ -1,5 +1,10 @@
-#Fri Mar 21 18:12:35 CET 2008
+#Sat Dec 27 00:38:32 CET 2008
 eclipse.preferences.version=1
-indexer/indexerId=org.eclipse.cdt.core.fastIndexer
+indexer/filesToParseUpFront=
+indexer/indexAllFiles=false
+indexer/indexerId=org.eclipse.cdt.core.domsourceindexer
+indexer/skipMacroReferences=false
+indexer/skipReferences=false
+indexer/skipTypeReferences=false
 indexerId=org.eclipse.cdt.core.fastIndexer
 instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true

@@ -21,17 +21,23 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <qstringlist.h>
+#include <QStringList>
+#include <QDebug>
+
 #include <kapplication.h>
 #include <klocale.h>
-#include <alsa/asoundlib.h>
-#include "sequencerclient.h"
-#include "debugdef.h"
+
+#include <client.h>
+#include <port.h>
+#include <queue.h>
+#include <subscription.h>
+#include <event.h>
+
+#include "sequenceradaptor.h"
 
 using namespace std;
 
-SequencerClient::SequencerClient(QWidget *parent):QThread(),
-	m_widget(parent),
+SequencerAdaptor::SequencerAdaptor(QObject *parent) : QObject(parent),
 	m_queue_running(false),
 	m_resolution(RESOLUTION),
 	m_tempo(TEMPO_BPM),
@@ -45,144 +51,84 @@ SequencerClient::SequencerClient(QWidget *parent):QThread(),
 	m_translateSysex(false),
 	m_needsRefresh(true)
 {
-    int err;
-    snd_seq_port_info_t *pinfo;
-    
-    err = snd_seq_open( &m_handle, "default", SND_SEQ_OPEN_DUPLEX, SND_SEQ_NONBLOCK );
-    checkAlsaError(err, "Sequencer open");
-	if (err < 0) {
-		QString errorstr = i18n("Fatal error opening the ALSA sequencer. Function: snd_seq_open().\n"
-		                   "This usually happens when the kernel doesn't have ALSA support, "
-		                   "or the device node (/dev/snd/seq) doesn't exists, "
-				           "or the kernel module (snd_seq) is not loaded.\n"
-				           "Please check your ALSA/MIDI configuration. Returned error was: %1 (%2)").arg(err).arg(snd_strerror(err));
-		throw new std::runtime_error(errorstr.data());
+	m_client = new MidiClient(this);
+	m_port = new MidiPort(this);
+
+	m_client->setOpenMode(SND_SEQ_OPEN_DUPLEX);
+    m_client->setBlockMode(false);
+    m_client->open();
+	m_client->setClientName("KMidimon");
+    m_clientId = m_client->getClientId();
+    connect(m_client, SIGNAL(eventReceived(SequencerEvent*)),
+                      SLOT(sequencerEvent(SequencerEvent*)));
+
+    m_queue = m_client->createQueue("KMidimon");
+	m_queueId = m_queue->getId();
+
+	m_port->setMidiClient(m_client);
+	m_port->setPortName("KMidimon Input");
+	m_port->setCapability( SND_SEQ_PORT_CAP_WRITE |
+			               SND_SEQ_PORT_CAP_SUBS_WRITE );
+	m_port->setPortType( SND_SEQ_PORT_TYPE_MIDI_GENERIC |
+    		             SND_SEQ_PORT_TYPE_APPLICATION );
+	m_port->setMidiChannels(16);
+	m_port->setTimestamping(true);
+	m_port->setTimestampReal(true);
+	m_port->setTimestampQueue(m_queueId);
+	m_port->attach();
+	m_port->subscribeFromAnnounce();
+    m_client->startSequencerInput();
+}
+
+SequencerAdaptor::~SequencerAdaptor()
+{
+	m_client->stopSequencerInput();
+	m_port->detach();
+	m_client->close();
+}
+
+void SequencerAdaptor::change_port_settings()
+{
+	m_port->setTimestampReal(!m_tickTime);
+}
+
+void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
+{
+	if (m_queue_running) {
+		MidiEvent *me = build_midi_event(ev);
+		if (me != NULL) {
+			KApplication::postEvent(parent(), me);
+		}
 	}
-    
-    m_client = snd_seq_client_id(m_handle);
-    snd_seq_set_client_name(m_handle, "KMidimon");
-
-    m_queue = snd_seq_alloc_named_queue(m_handle, "KMidiMon_queue");
-    checkAlsaError( m_queue, "Creating queue" );
-
-    snd_seq_port_info_alloca(&pinfo);
-    snd_seq_port_info_set_capability( pinfo,
-				      SND_SEQ_PORT_CAP_WRITE |
-				      SND_SEQ_PORT_CAP_SUBS_WRITE );
-    snd_seq_port_info_set_type( pinfo,
-				SND_SEQ_PORT_TYPE_MIDI_GENERIC |
-				SND_SEQ_PORT_TYPE_APPLICATION );
-    snd_seq_port_info_set_midi_channels(pinfo, 16);
-    snd_seq_port_info_set_timestamping(pinfo, 1);
-    snd_seq_port_info_set_timestamp_real(pinfo, 1);    
-    snd_seq_port_info_set_timestamp_queue(pinfo, m_queue);
-    snd_seq_port_info_set_name(pinfo, "input");
-    m_input = snd_seq_create_port(m_handle, pinfo);
-    checkAlsaError( m_input, "Creating input port" );
-   
-    err = snd_seq_connect_from( m_handle, 
-				m_input, 
-				SND_SEQ_CLIENT_SYSTEM, 
-				SND_SEQ_PORT_SYSTEM_ANNOUNCE );
-    checkAlsaError(err, "connecting from system::announce");
-    start();
+	delete ev;
 }
 
-SequencerClient::~SequencerClient()
+void SequencerAdaptor::queue_start()
 {
-    int err;
-    queue_stop();
-    err = snd_seq_free_queue(m_handle, m_queue);
-    checkAlsaError(err, "Freeing queue");
-    err = snd_seq_close(m_handle);
-    checkAlsaError(err, "Closing");
+	m_queue->start();
+	m_queue_running = m_queue->getStatus().isRunning();
 }
 
-void SequencerClient::change_port_settings() 
+void SequencerAdaptor::queue_stop()
 {
-    snd_seq_port_info_t *pinfo;
-    snd_seq_port_info_alloca(&pinfo);
-    checkAlsaError( snd_seq_get_port_info(m_handle, m_input, pinfo),
-		    "get_port_info" );
-    snd_seq_port_info_set_timestamp_real(pinfo, m_tickTime ? 0 : 1);            
-    checkAlsaError( snd_seq_set_port_info(m_handle, m_input, pinfo),
-		    "set_port_info" );    
+	m_queue->stop();
+	m_queue_running = m_queue->getStatus().isRunning();
 }
 
-int SequencerClient::checkAlsaError(int rc, const char *message) 
+void SequencerAdaptor::queue_set_tempo()
 {
-    if (rc < 0) {
-		cerr << "KMidiMon ALSA Error " << message << " rc: " << rc
-		     << " (" << snd_strerror(rc) << ")" << endl;
-    }
-    return rc;
+    QueueTempo tempo = m_queue->getTempo();
+    tempo.setPPQ(m_resolution);
+    tempo.setNominalBPM(m_tempo);
+    m_queue->setTempo(tempo);
 }
 
-void SequencerClient::run()
-{
-    struct pollfd *pfds;
-    int npfds;
-    int rt, err = 0;
-    npfds = snd_seq_poll_descriptors_count(m_handle, POLLIN);
-    pfds = (pollfd *)alloca(sizeof(*pfds) * npfds);
-    snd_seq_poll_descriptors(m_handle, pfds, npfds, POLLIN);
-    while(true) {
-		rt = poll(pfds, npfds, 1000);
-		if (rt >= 0)
-		do {
-		    snd_seq_event_t *ev;
-		    err = snd_seq_event_input(m_handle, &ev);
-		    if (err >= 0 && ev) {
-		    	if (m_queue_running) {
-		    	    MidiEvent *me = build_midi_event(ev);
-		    	    if (me != NULL) {
-						KApplication::postEvent(m_widget, me);
-		    	    }
-		    	}
-		    }
-		} while (snd_seq_event_input_pending(m_handle, 0) > 0);
-    }
-}
-
-void SequencerClient::queue_start()
-{
-    int err = 0;
-    err = checkAlsaError( snd_seq_start_queue(m_handle, m_queue, NULL), 
-			  "start_queue" );
-    err = checkAlsaError( snd_seq_drain_output(m_handle), 
-			  "drain_output (queue_start)" );
-    m_queue_running = (err == 0);
-}
-
-void SequencerClient::queue_stop()
-{
-    int err = 0;
-    err = checkAlsaError( snd_seq_stop_queue(m_handle, m_queue, NULL), 
-			  "stop_queue" );
-    err = checkAlsaError( snd_seq_drain_output(m_handle), 
-			  "drain_output (queue_stop)" );
-    m_queue_running = !(err == 0);
-}
-
-void SequencerClient::queue_set_tempo()
-{
-    snd_seq_queue_tempo_t *qtempo;
-    int tempo = (int) (6e7 / m_tempo);
-    snd_seq_queue_tempo_alloca(&qtempo);
-    snd_seq_queue_tempo_set_tempo(qtempo, tempo);
-    snd_seq_queue_tempo_set_ppq(qtempo, m_resolution);
-    checkAlsaError( snd_seq_set_queue_tempo(m_handle, m_queue, qtempo), 
-    		    "set_queue_tempo");
-    checkAlsaError( snd_seq_drain_output(m_handle), 
-                    "drain_output (set_tempo)");
-}
-
-MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
+MidiEvent *SequencerAdaptor::build_translated_sysex(SysExEvent *ev)
 {
     int val, cmd;
     unsigned int i, len;
-    unsigned char *ptr = (unsigned char *)(ev->data.ext.ptr);
-    if (ev->data.ext.len < 6) return NULL;
+    unsigned char *ptr = (unsigned char *) ev->getData();
+    if (ev->getLength() < 6) return NULL;
     if (*ptr++ != 0xf0) return NULL;
     int msgId = *ptr++;
     int deviceId = *ptr++;
@@ -255,7 +201,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                     default:
                         return NULL;
                 }
-                break;                            
+                break;
             case 0x05:
                 data1 = i18n("Sample Dump");
                 switch (subId2) {
@@ -268,7 +214,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                     default:
                         return NULL;
                 }
-                break;                            
+                break;
             case 0x06:
                 data1 = i18n("Gen.Info");
                 switch (subId2) {
@@ -276,7 +222,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                         data2 = i18n("Identity Request");
                         break;
                     case 0x02:
-                        if (ev->data.ext.len < 15) return NULL;
+                        if (ev->getLength() < 15) return NULL;
                         data2 = i18n("Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9")
                                 .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
                                 .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
@@ -288,7 +234,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                 break;
             case 0x08:
                 data1 = i18n("Tuning");
-                if (ev->data.ext.len < 7) return NULL;
+                if (ev->getLength() < 7) return NULL;
                 switch (subId2) {
                     case 0x00:
                         data2 = i18n("Dump Request: %1").arg(*ptr++);
@@ -330,26 +276,26 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                 break;
             default:
                 return NULL;
-        }              
-        return new MidiEvent( event_time(ev), 
-                              event_source(ev), 
+        }
+        return new MidiEvent( event_time(ev),
+                              event_source(ev),
                               i18n("Universal Non Real Time SysEx"),
                               devid,
                               data1,
                               data2 );
-    } else                              
+    } else
     if (msgId == 0x7f) { // Universal Real Time
         switch (subId1) {
             case 0x01:
                 data1 = i18n("MTC");
                 switch (subId2) {
                     case 0x01:
-                        if (ev->data.ext.len < 10) return NULL;
+                        if (ev->getLength() < 10) return NULL;
                         data2 = i18n("Full Frame: %1 %2 %3 %4")
                                 .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3]);
                         break;
                     case 0x02:
-                        if (ev->data.ext.len < 15) return NULL;
+                        if (ev->getLength() < 15) return NULL;
                         data2 = i18n("User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9")
                                 .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
                                 .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
@@ -363,14 +309,14 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                 data1 = i18n("Notation");
                 switch (subId2) {
                     case 0x01:
-                        if (ev->data.ext.len < 8) return NULL;
+                        if (ev->getLength() < 8) return NULL;
                         val = *ptr++;
                         val += (*ptr++ * 128);
                         data2 = i18n("Bar Marker: %1").arg(val - 8192);
                         break;
                     case 0x02:
                     case 0x42:
-                        if (ev->data.ext.len < 9) return NULL;
+                        if (ev->getLength() < 9) return NULL;
                         data2 = i18n("Time Signature: %1 (%2/%3)")
                                 .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]);
                         break;
@@ -380,7 +326,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                 break;
             case 0x04:
                 data1 = i18n("GM Master");
-                if (ev->data.ext.len < 8) return NULL;
+                if (ev->getLength() < 8) return NULL;
                 val = *ptr++;
                 val += (*ptr++ * 128);
                 switch (subId2) {
@@ -397,36 +343,36 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
 	        case 0x06:
                 data1 = i18n("MMC");
     	        switch (subId2) {
-    	            case 0x01: 
+    	            case 0x01:
     	                data2 = i18n("Stop");
     	                break;
-    				case 0x02:  
+    				case 0x02:
     	                data2 = i18n("Play");
     	                break;
-    				case 0x03:  
+    				case 0x03:
     	                data2 = i18n("Deferred Play");
     	                break;
-    				case 0x04:  
+    				case 0x04:
     	                data2 = i18n("Fast Forward");
     	                break;
-    				case 0x05:  
+    				case 0x05:
     	                data2 = i18n("Rewind");
     	                break;
-    				case 0x06:  
+    				case 0x06:
     	                data2 = i18n("Punch In");
     	                break;
-    				case 0x07:  
+    				case 0x07:
     	                data2 = i18n("Punch out");
     	                break;
-    				case 0x09:  
+    				case 0x09:
     	                data2 = i18n("Pause");
     	                break;
-                    case 0x0a:  
+                    case 0x0a:
                         data2 = i18n("Eject");
                         break;
                     case 0x40:
                         len = *ptr++;
-                        if (ev->data.ext.len < (7+len)) return NULL;
+                        if (ev->getLength() < (7+len)) return NULL;
                         cmd = *ptr++;
                         switch (cmd) {
                             case 0x4f:
@@ -436,7 +382,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                                 data2 = i18n("Track Sync Monitor:");
                                 break;
                             case 0x53:
-                                data2 = i18n("Track Input Monitor:"); 
+                                data2 = i18n("Track Input Monitor:");
                                 break;
                             case 0x62:
                                 data2 = i18n("Track Mute:");
@@ -449,7 +395,7 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
                         }
                         break;
                     case 0x44:
-                        if (ev->data.ext.len < 13) return NULL;
+                        if (ev->getLength() < 13) return NULL;
                         *ptr++; *ptr++;
                         data2 = i18n("Locate: %1 %2 %3 %4 %5")
                                 .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
@@ -462,143 +408,137 @@ MidiEvent *SequencerClient::build_translated_sysex(snd_seq_event_t *ev)
             default:
                 return NULL;
         }
-        return new MidiEvent( event_time(ev), 
-                              event_source(ev), 
+        return new MidiEvent( event_time(ev),
+                              event_source(ev),
                               i18n("Universal Real Time SysEx"),
                               devid,
                               data1,
                               data2 );
-    } 
+    }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_sysex_event(snd_seq_event_t *ev)
+MidiEvent *SequencerAdaptor::build_sysex_event(SysExEvent *ev)
 {
     if (m_sysex) {
         MidiEvent *me;
-        
         if (m_translateSysex) {
             me = build_translated_sysex(ev);
             if (me != NULL) return me;
         }
-        
 		unsigned int i;
-		unsigned char *data = (unsigned char *)ev->data.ext.ptr;
-		QString text; 
-		for (i = 0; i < ev->data.ext.len; ++i) {
+		unsigned char *data = (unsigned char *) ev->getData();
+		QString text;
+		for (i = 0; i < ev->getLength(); ++i) {
 			QString h(QString("%1").arg(data[i], 0, 16));
 			if (h.length() < 2) h.prepend('0');
 		    h.prepend(' ');
 		    text.append(h);
 		}
-		return new MidiEvent( event_time(ev), 
-				      event_source(ev),	
+		return new MidiEvent( event_time(ev),
+				      event_source(ev),
 				      i18n("System exclusive"),
 				      NULL,
-				      QString("%1").arg(ev->data.ext.len),
+				      QString("%1").arg(ev->getLength()),
 				      text );
-    } 
+    }
     return NULL;
 }
 
-QString SequencerClient::event_time(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_time(SequencerEvent *ev)
 {
-    if (m_tickTime)
-    {
-		return QString("%1 ").arg(ev->time.tick);
-    }
-    else
-    {
-    	QString d = QString::number(ev->time.time.tv_nsec/1000, 'f', 0);
-    	d = d.left(4).leftJustify(4, '0');
-		return QString("%1.%2 ").arg(ev->time.time.tv_sec).arg(d);
+    if (m_tickTime) {
+		return QString("%1 ").arg(ev->getTick());
+    } else {
+    	QString d = QString::number(ev->getRealTimeNanos()/1000, 'f', 0);
+    	d = d.left(4).leftJustified(4, '0');
+		return QString("%1.%2 ").arg(ev->getRealTimeSecs()).arg(d);
     }
 }
 
-QString SequencerClient::client_name(int client_number)
+QString SequencerAdaptor::client_name(int client_number)
 {
-    if (showClientNames()) {	
-    	if (m_needsRefresh) refreshClientList();
-		return m_clients[client_number];
+    if (showClientNames()) {
+     	return m_client->getClientName(client_number);
     }
     return QString("%1").arg(client_number);
 }
 
-QString SequencerClient::event_source(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_source(SequencerEvent *ev)
 {
-    return QString("%1:%2").arg(client_name(ev->source.client))
-    			   .arg(ev->source.port);
+    return QString("%1:%2").arg(client_name(ev->getSourceClient()))
+    			           .arg(ev->getSourcePort());
 }
 
-QString SequencerClient::event_addr(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_addr(SequencerEvent *ev)
 {
-    return QString("%1:%2").arg(client_name(ev->data.addr.client))
-    			   .arg(ev->data.addr.port);
+    return QString("%1:%2").arg(client_name(ev->getHandle()->data.addr.client))
+    			   .arg(ev->getHandle()->data.addr.port);
 }
 
-QString SequencerClient::event_client(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_client(SequencerEvent *ev)
 {
-    return client_name(ev->data.addr.client);
+    return client_name(ev->getHandle()->data.addr.client);
 }
 
-QString SequencerClient::event_sender(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_sender(SequencerEvent *ev)
 {
-    return QString("%1:%2").arg(client_name(ev->data.connect.sender.client))
-    			   .arg(ev->data.connect.sender.port);
+    return QString("%1:%2").arg(client_name(ev->getHandle()->data.connect.sender.client))
+    			   .arg(ev->getHandle()->data.connect.sender.port);
 }
 
-QString SequencerClient::event_dest(snd_seq_event_t *ev)
+QString SequencerAdaptor::event_dest(SequencerEvent *ev)
 {
-    return QString(" %1:%2").arg(client_name(ev->data.connect.dest.client))
-    			   .arg(ev->data.connect.dest.port);
+    return QString(" %1:%2").arg(client_name(ev->getHandle()->data.connect.dest.client))
+    			   .arg(ev->getHandle()->data.connect.dest.port);
 }
 
-QString SequencerClient::common_param(snd_seq_event_t *ev)
+QString SequencerAdaptor::common_param(SequencerEvent *ev)
 {
-    return QString("%1").arg(ev->data.control.value);
+    return QString("%1").arg(ev->getHandle()->data.control.value);
 }
 
-MidiEvent *SequencerClient::build_control_event( snd_seq_event_t *ev,
+MidiEvent *SequencerAdaptor::build_control_event(ControllerEvent *ev,
 						 QString statusText )
 {
     if (m_channel) {
 		return  new MidiEvent(  event_time(ev),
-					event_source(ev),	
+					event_source(ev),
 					statusText,
-					QString("%1").arg(ev->data.control.channel+1), 
-					QString("%1").arg(ev->data.control.param), 
-					QString(" %1").arg(ev->data.control.value) );
+					QString("%1").arg(ev->getChannel()+1),
+					QString("%1").arg(ev->getParam()),
+					QString(" %1").arg(ev->getValue()));
     }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_note_event( snd_seq_event_t *ev,
+MidiEvent *SequencerAdaptor::build_note_event( KeyEvent *ev,
 						 QString statusText )
 {
     if (m_channel) {
-		return  new MidiEvent(  event_time(ev), 
-					event_source(ev),	
-					statusText,
-					QString("%1").arg(ev->data.note.channel+1),
-					QString("%1").arg(ev->data.note.note),
-					QString(" %1").arg(ev->data.note.velocity) );
+		return  new MidiEvent(event_time(ev),
+						event_source(ev),
+						statusText,
+						QString("%1").arg(ev->getChannel()+1),
+						QString("%1").arg(ev->getKey()),
+						QString(" %1").arg(ev->getVelocity()));
     }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_common_event( snd_seq_event_t *ev,
+MidiEvent *SequencerAdaptor::build_common_event( SequencerEvent *ev,
 						QString statusText,
 						QString param )
 {
     if (m_common) {
-		return new MidiEvent( event_time(ev), 
-				      event_source(ev),	
+		return new MidiEvent( event_time(ev),
+				      event_source(ev),
 				      statusText, NULL, param );
     }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_realtime_event( snd_seq_event_t *ev,
+MidiEvent *SequencerAdaptor::build_realtime_event( SequencerEvent *ev,
 						  QString statusText )
 {
     if (m_realtime) {
@@ -607,117 +547,119 @@ MidiEvent *SequencerClient::build_realtime_event( snd_seq_event_t *ev,
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_alsa_event( snd_seq_event_t *ev,
+MidiEvent *SequencerAdaptor::build_alsa_event( SequencerEvent *ev,
 					      QString statusText,
 					      QString srcAddr,
 					      QString dstAddr )
 {
     if (m_alsa) {
-		return new MidiEvent( event_time(ev), 
-				      event_source(ev), 
-				      statusText, 
+		return new MidiEvent( event_time(ev),
+				      event_source(ev),
+				      statusText,
 				      NULL, srcAddr, dstAddr );
     }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_controlv_event( snd_seq_event_t *ev, 
+MidiEvent *SequencerAdaptor::build_controlv_event(SequencerEvent *ev,
 						  QString statusText )
 {
     if (m_channel) {
-		return new MidiEvent( event_time(ev), 
-				      event_source(ev),	
+    	ChannelEvent* cev = static_cast<ChannelEvent*>(ev);
+    	int value = cev->getHandle()->data.control.value;
+		return new MidiEvent( event_time(ev),
+				      event_source(ev),
 				      statusText,
-				      QString("%1").arg(ev->data.control.channel+1), 
-				      QString("%1").arg(ev->data.control.value));
+				      QString("%1").arg(cev->getChannel()+1),
+				      QString("%1").arg(value));
     }
     return NULL;
 }
 
-MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
+MidiEvent *SequencerAdaptor::build_midi_event(SequencerEvent *ev)
 {
     MidiEvent *me = NULL;
-    switch (ev->type) {
-		/* MIDI Channel events */    	
+    switch (ev->getSequencerType()) {
+		/* MIDI Channel events */
 	    case SND_SEQ_EVENT_NOTEON:
-			me = build_note_event( ev, i18n("Note on") );
+			me = build_note_event(static_cast<KeyEvent*>(ev), i18n("Note on"));
 			break;
 	    case SND_SEQ_EVENT_NOTEOFF:
-			me = build_note_event( ev, i18n("Note off") );
+			me = build_note_event(static_cast<KeyEvent*>(ev), i18n("Note off"));
 			break;
 	    case SND_SEQ_EVENT_KEYPRESS:
-			me = build_note_event( ev, i18n("Polyphonic aftertouch") );
+			me = build_note_event(static_cast<KeyEvent*>(ev), i18n("Polyphonic aftertouch"));
 			break;
 	    case SND_SEQ_EVENT_CONTROLLER:
-			me = build_control_event( ev, i18n("Control change") );
+			me = build_control_event(static_cast<ControllerEvent*>(ev), i18n("Control change"));
 			break;
 	    case SND_SEQ_EVENT_PGMCHANGE:
-			me = build_controlv_event( ev, i18n("Program change") );
+			me = build_controlv_event(ev, i18n("Program change"));
 			break;
 	    case SND_SEQ_EVENT_CHANPRESS:
-			me = build_controlv_event( ev, i18n("Channel aftertouch") );
+			me = build_controlv_event(ev, i18n("Channel aftertouch"));
 			break;
 	    case SND_SEQ_EVENT_PITCHBEND:
-			me = build_controlv_event( ev, i18n("Pitch bend") );
+			me = build_controlv_event(ev, i18n("Pitch bend"));
 			break;
 	    case SND_SEQ_EVENT_CONTROL14:
-			me = build_control_event( ev, i18n("Control change") );
+			me = build_control_event(static_cast<ControllerEvent*>(ev), i18n("Control change"));
 			break;
 	    case SND_SEQ_EVENT_NONREGPARAM:
-			me = build_control_event( ev, i18n("Non-registered parameter") );
+			me = build_control_event(static_cast<ControllerEvent*>(ev), i18n("Non-registered parameter"));
 			break;
 	    case SND_SEQ_EVENT_REGPARAM:
-			me = build_control_event( ev, i18n("Registered parameter") );
+			me = build_control_event(static_cast<ControllerEvent*>(ev), i18n("Registered parameter"));
 			break;
 		/* MIDI Common events */
 	    case SND_SEQ_EVENT_SYSEX:
-			me = build_sysex_event( ev );    
+			me = build_sysex_event(static_cast<SysExEvent*>(ev));
 			break;
 	    case SND_SEQ_EVENT_SONGPOS:
-			me = build_common_event( ev, i18n("Song Position"), common_param(ev) );
+			me = build_common_event(ev, i18n("Song Position"), common_param(ev));
 			break;
 	    case SND_SEQ_EVENT_SONGSEL:
-			me = build_common_event( ev, i18n("Song Selection"), common_param(ev) );
+			me = build_common_event(ev, i18n("Song Selection"), common_param(ev));
 			break;
 	    case SND_SEQ_EVENT_QFRAME:
-			me = build_common_event( ev, i18n("MTC Quarter Frame"), common_param(ev) );
+			me = build_common_event(ev, i18n("MTC Quarter Frame"), common_param(ev));
 			break;
 	    case SND_SEQ_EVENT_TUNE_REQUEST:
-			me = build_common_event( ev, i18n("Tune Request") );
+			me = build_common_event(ev, i18n("Tune Request"));
 			break;
 		/* MIDI Realtime Events */
 	    case SND_SEQ_EVENT_START:
-			me = build_realtime_event( ev, i18n("Start") );
+			me = build_realtime_event(ev, i18n("Start"));
 			break;
 	    case SND_SEQ_EVENT_CONTINUE:
-			me = build_realtime_event( ev, i18n("Continue") );
+			me = build_realtime_event(ev, i18n("Continue"));
 			break;
 	    case SND_SEQ_EVENT_STOP:
-			me = build_realtime_event( ev, i18n("Stop") );
+			me = build_realtime_event(ev, i18n("Stop"));
 			break;
 	    case SND_SEQ_EVENT_CLOCK:
-			me = build_realtime_event( ev, i18n("Clock") );
+			me = build_realtime_event(ev, i18n("Clock"));
 			break;
 	    case SND_SEQ_EVENT_TICK:
-			me = build_realtime_event( ev, i18n("Tick") );
+			me = build_realtime_event(ev, i18n("Tick"));
 			break;
 	    case SND_SEQ_EVENT_RESET:
-			me = build_realtime_event( ev, i18n("Reset") );
+			me = build_realtime_event(ev, i18n("Reset"));
 			break;
 	    case SND_SEQ_EVENT_SENSING:
-			me = build_realtime_event( ev, i18n("Active Sensing") );
+			me = build_realtime_event(ev, i18n("Active Sensing"));
 			break;
 		/* ALSA Client/Port events */
 	    case SND_SEQ_EVENT_PORT_START:
 	        m_needsRefresh = true;
-			me = build_alsa_event( ev, i18n("ALSA Port start"), event_addr(ev) );
+			me = build_alsa_event(ev, i18n("ALSA Port start"), event_addr(ev));
 			break;
 	    case SND_SEQ_EVENT_PORT_EXIT:
-			me = build_alsa_event( ev, i18n("ALSA Port exit"), event_addr(ev) );
+			me = build_alsa_event(ev, i18n("ALSA Port exit"), event_addr(ev));
 			break;
 	    case SND_SEQ_EVENT_PORT_CHANGE:
-			m_needsRefresh = true;    
-			me = build_alsa_event( ev, i18n("ALSA Port change"), event_addr(ev) );
+			m_needsRefresh = true;
+			me = build_alsa_event(ev, i18n("ALSA Port change"), event_addr(ev));
 			break;
 	    case SND_SEQ_EVENT_CLIENT_START:
 			m_needsRefresh = true;
@@ -731,136 +673,74 @@ MidiEvent *SequencerClient::build_midi_event(snd_seq_event_t *ev)
 			me = build_alsa_event(ev, i18n("ALSA Client change"), event_client(ev));
 			break;
 	    case SND_SEQ_EVENT_PORT_SUBSCRIBED:
-			me = build_alsa_event ( ev, i18n("ALSA Port subscribed"),     
-						event_sender(ev), event_dest(ev) );
+			me = build_alsa_event(ev, i18n("ALSA Port subscribed"),
+						event_sender(ev), event_dest(ev));
 			break;
 	    case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
-			me = build_alsa_event ( ev, i18n("ALSA Port unsubscribed"),     
-						event_sender(ev), event_dest(ev) );
+			me = build_alsa_event (ev, i18n("ALSA Port unsubscribed"),
+						event_sender(ev), event_dest(ev));
 			break;
-		/* Other events */	
+		/* Other events */
 	    default:
-			me = new MidiEvent( event_time(ev),
-								event_source(ev),	
-								QString("Event type %1").arg(ev->type));
+			me = new MidiEvent(event_time(ev),
+							   event_source(ev),
+							   QString("Event type %1").arg(ev->getSequencerType()));
     }
-    
     return me;
 }
 
-QStringList SequencerClient::inputConnections()
+QStringList SequencerAdaptor::inputConnections()
 {
-    return list_ports(SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ);
+	PortInfoList inputs(m_client->getAvailableInputs());
+	return list_ports(inputs);
 }
 
-QStringList SequencerClient::outputConnections()
+QStringList SequencerAdaptor::list_ports(PortInfoList& refs)
 {
-    return list_ports(SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE);
-}
-
-QStringList SequencerClient::list_ports(unsigned int mask)
-{
-    QStringList list;
-    snd_seq_client_info_t *cinfo;
-    snd_seq_port_info_t *pinfo;
-    snd_seq_client_info_alloca(&cinfo);
-    snd_seq_port_info_alloca(&pinfo);
-    snd_seq_client_info_set_client(cinfo, -1);
-    while (snd_seq_query_next_client(m_handle, cinfo) >= 0) {
-	int client = snd_seq_client_info_get_client(cinfo);
-	if (client == SND_SEQ_CLIENT_SYSTEM || client == m_client)
-	    continue;
-	snd_seq_port_info_set_client(pinfo, client);
-	snd_seq_port_info_set_port(pinfo, -1);
-	while (snd_seq_query_next_port(m_handle, pinfo) >= 0) {
-	    if ((snd_seq_port_info_get_capability(pinfo) & mask) != mask)
-		continue;
-	    list += QString("%1:%2").arg(snd_seq_client_info_get_name(cinfo))
-				    .arg(snd_seq_port_info_get_port(pinfo));
+	QStringList lst;
+	foreach(PortInfo p, refs) {
+		lst += QString("%1:%2").arg(p.getClientName()).arg(p.getPort());
 	}
-    }
-    return list;
+	return lst;
 }
 
-void SequencerClient::connect_port(QString name)
+void SequencerAdaptor::connect_port(QString name)
 {
-    snd_seq_addr_t src;
-    DEBUGSTREAM << "connecting: " << name << endl;
-    checkAlsaError(snd_seq_parse_address(m_handle, &src, name.ascii()),
-    		   "snd_seq_parse_address");
-    checkAlsaError(snd_seq_connect_from(m_handle, m_input, src.client, src.port),
-                   "snd_seq_connect_from");
+	//qDebug() << "connecting: " << name;
+	m_port->subscribeFrom(name);
 }
 
-void SequencerClient::disconnect_port(QString name)
+void SequencerAdaptor::disconnect_port(QString name)
 {
-    snd_seq_addr_t src;
-    DEBUGSTREAM << "disconnecting: " << name << endl;
-    checkAlsaError(snd_seq_parse_address(m_handle, &src, name.ascii()),
-    		   "snd_seq_parse_address");
-    checkAlsaError(snd_seq_disconnect_from(m_handle, m_input, src.client, src.port),
-    		   "snd_seq_disconnect_from");
+	//qDebug() << "disconnecting: " << name;
+	m_port->unsubscribeFrom(name);
 }
 
-QStringList SequencerClient::list_subscribers()
+QStringList SequencerAdaptor::list_subscribers()
 {
     QStringList list;
-    snd_seq_addr_t root_addr, subs_addr;
-    snd_seq_query_subscribe_t *qry;
-    snd_seq_client_info_t *cinfo;
-    int index = 0;
-    
-    snd_seq_query_subscribe_alloca(&qry);
-    snd_seq_client_info_alloca(&cinfo);
-    root_addr.client = m_client;
-    root_addr.port = m_input;
-    snd_seq_query_subscribe_set_root(qry, &root_addr);
-    snd_seq_query_subscribe_set_type(qry,  SND_SEQ_QUERY_SUBS_WRITE);
-    snd_seq_query_subscribe_set_index(qry, index);
-    while (snd_seq_query_port_subscribers(m_handle, qry) >= 0) {
-    	subs_addr = *snd_seq_query_subscribe_get_addr(qry);
-    	if (subs_addr.client != SND_SEQ_CLIENT_SYSTEM) {
-	    snd_seq_get_any_client_info(m_handle, subs_addr.client, cinfo);
-    	    list += QString("%1:%2").arg(snd_seq_client_info_get_name(cinfo))
-    	                            .arg(subs_addr.port);
-    	}
-    	snd_seq_query_subscribe_set_index(qry, ++index);
+    m_port->updateSubscribers();
+    PortInfoList subs(m_port->getWriteSubscribers());
+    PortInfoList::ConstIterator it;
+    for(it = subs.constBegin(); it != subs.constEnd(); ++it) {
+    	PortInfo p = *it;
+        list += QString("%1:%2").arg(p.getClientName()).arg(p.getPort());
     }
     return list;
 }
 
-void SequencerClient::disconnect_all()
+void SequencerAdaptor::disconnect_all()
 {
-    QStringList subs = list_subscribers();
-    QStringList::Iterator i;
-    for ( i = subs.begin(); i != subs.end(); ++i) {
-    	disconnect_port(*i);
-    }
+	m_port->unsubscribeAll();
 }
 
-void SequencerClient::connect_all()
+void SequencerAdaptor::connect_all()
 {
     QStringList subs = list_subscribers();
     QStringList ports = inputConnections();
-    QStringList::Iterator i;
-    for ( i = ports.begin(); i != ports.end(); ++i) {
-	if (subs.contains(*i) == 0)
-    	    connect_port(*i);
+    QStringList::ConstIterator it;
+    for ( it = ports.constBegin(); it != ports.constEnd(); ++it ) {
+	if (subs.contains(*it) == 0)
+		connect_port(*it);
     }
-}
-
-void SequencerClient::refreshClientList()
-{
-    snd_seq_client_info_t *cinfo;
-    snd_seq_client_info_alloca(&cinfo);
-    snd_seq_client_info_set_client(cinfo, -1);
-    m_clients.clear();
-    //DEBUGSTREAM << "Regenerating client list" << endl;
-    while (snd_seq_query_next_client(m_handle, cinfo) >= 0) {
-	int cnum = snd_seq_client_info_get_client(cinfo);
-        QString cname(snd_seq_client_info_get_name(cinfo));
-	m_clients[ cnum ] = cname;
-	//DEBUGSTREAM << "client[" << cnum << "] = " << cname << endl;
-    }
-    m_needsRefresh = false;
 }

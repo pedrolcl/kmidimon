@@ -22,39 +22,25 @@
 #ifndef _KMIDIMON_H_
 #define _KMIDIMON_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <kmainwindow.h>
-#include "sequencerclient.h"
-#include "kmidimonwidget.h"
+#include <kxmlguiwindow.h>
+#include "sequenceradaptor.h"
 
 class KAction;
 class KToggleAction;
-class QPopupMenu;
+class QMenu;
+class QEvent;
+class QContextMenuEvent;
+class QTreeView;
+class QStandardItemModel;
 
-/**
- * @short Application Main Window
- * @author Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
- * @version 0.1
- */
-class KMidimon : public KMainWindow
+class KMidimon : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    /**
-     * Default Constructoclass KMainWindow;
-     * r
-     */
     KMidimon();
-
-    /**
-     * Default Destructor
-     */
-    virtual ~KMidimon();
+    virtual ~KMidimon() {}
     bool queryExit();
-    
+
 public slots:
     void fileNew();
     void fileSave();
@@ -62,10 +48,10 @@ public slots:
     void record();
     void stop();
     void connectAll();
-    
+
     void disconnectAll();
     void configConnections();
-    void updateState();
+    void updateState(const QString newState);
     void editToolbars();
     void contextMenuEvent( QContextMenuEvent *ev );
     void setColumnStatus(int colNum, bool status);
@@ -76,17 +62,19 @@ public slots:
     void toggleColumn3();
     void toggleColumn4();
     void toggleColumn5();
-    
+
 protected:
-    void customEvent( QCustomEvent * e );
+    void customEvent( QEvent* e );
     void saveConfiguration();
     void readConfiguration();
-    
-private:
     void setupActions();
+    void setFixedFont(bool newValue);
+    bool getFixedFont() const { return m_useFixedFont; }
+    void setSortEvents(bool newValue);
+    bool getSortEvents() const { return m_sortEvents; }
 
-    SequencerClient *m_client;
-    KMidimonWidget *m_widget;
+private:
+    SequencerAdaptor *m_adaptor;
     KAction *m_stop;
     KAction *m_record;
     KAction *m_prefs;
@@ -95,7 +83,11 @@ private:
     KAction *m_disconnectAll;
     KAction *m_configConns;
     KToggleAction *m_popupAction[6];
-    QPopupMenu *popup;
+    QMenu* m_popup;
+    QTreeView* m_view;
+    QStandardItemModel* m_model;
+	bool m_useFixedFont;
+	bool m_sortEvents;
 };
 
 #endif // _KMIDIMON_H_

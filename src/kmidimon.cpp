@@ -19,111 +19,205 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include <qpopupmenu.h>
-#include <kmainwindow.h>
+#include <QMenu>
+#include <QEvent>
+#include <QContextMenuEvent>
+#include <QCursor>
+#include <QTreeView>
+#include <QStandardItemModel>
+#include <QTextStream>
+
 #include <klocale.h>
 #include <kaction.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kedittoolbar.h>
-#include <klistview.h>
-#include <qcursor.h>
+#include <kglobal.h>
+#include <kglobalsettings.h>
+#include <ktoggleaction.h>
+#include <kstandardaction.h>
+#include <kactioncollection.h>
+#include <kxmlguifactory.h>
+#include <kurl.h>
 
 #include "kmidimon.h"
-#include "kmidimonwidget.h"
-#include "sequencerclient.h"
 #include "configdialog.h"
 #include "connectdlg.h"
-#include "debugdef.h"
 
-KMidimon::KMidimon() :
-	KMainWindow( 0, "KMidimon")
+KMidimon::KMidimon() : KXmlGuiWindow(0)
 {
-	m_widget = new KMidimonWidget( this );
-	m_client = new SequencerClient( this );
-	setCentralWidget(m_widget );
+	m_useFixedFont = false;
+	m_sortEvents = false;
+
+	m_model = new QStandardItemModel( 0, 6, this );
+    m_model->setHeaderData(0, Qt::Horizontal, i18n("Time"));
+    m_model->setHeaderData(1, Qt::Horizontal, i18n("Source"));
+    m_model->setHeaderData(2, Qt::Horizontal, i18n("Event kind"));
+    m_model->setHeaderData(3, Qt::Horizontal, i18n("Chan"));
+    m_model->setHeaderData(4, Qt::Horizontal, i18n("Data 1"));
+    m_model->setHeaderData(5, Qt::Horizontal, i18n("Data 2"));
+
+	m_view = new QTreeView(this);
+	m_view->setRootIsDecorated(false);
+	m_view->setAlternatingRowColors(true);
+	m_view->setModel(m_model);
+	m_view->setSortingEnabled(false);
+	m_view->setSelectionMode(QAbstractItemView::NoSelection);
+
+	m_view->resizeColumnToContents(0);
+	m_view->resizeColumnToContents(1);
+	m_view->resizeColumnToContents(2);
+	m_view->resizeColumnToContents(3);
+	m_view->resizeColumnToContents(4);
+	m_view->resizeColumnToContents(5);
+
+	m_adaptor = new SequencerAdaptor(this);
+	setCentralWidget(m_view);
 	setupActions();
 	setAutoSaveSettings();
 	readConfiguration();
 	record();
 }
 
-KMidimon::~KMidimon()
-{
-	if (m_client->running())
-	{
-		m_client->terminate();
-		m_client->wait();
-	}
-	delete m_client;
-}
-
 void KMidimon::setupActions()
 {
-	KStdAction::quit( kapp, SLOT(quit()), actionCollection());
-	KStdAction::openNew( this, SLOT(fileNew()), actionCollection() );
-	m_save = KStdAction::saveAs( this, SLOT(fileSave()), actionCollection() );
-	m_prefs = KStdAction::preferences( this, SLOT(preferences()), actionCollection() );
-	KStdAction::configureToolbars( this, SLOT(editToolbars()), actionCollection() );
-	m_record = new KAction( i18n("&Record"), "kmidimon_record",
-			KShortcut( Key_R ), this, SLOT(record()),
-			actionCollection(), "record" );
-	m_stop = new KAction( i18n("&Stop"), "player_stop", KShortcut( Key_S ),
-			this, SLOT(stop()), actionCollection(), "stop");
+	KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
+	KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
+	m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
+	m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
+	KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
 
-	m_connectAll = new KAction( i18n("&Connect All"), KShortcut::null(),
-			this, SLOT(connectAll()),
-			actionCollection(), "connect_all" );
+	m_record = new KAction(this);
+    m_record->setText(i18n("&Record"));
+	m_record->setIcon(KIcon("media-record"));
+	m_record->setShortcut( Qt::Key_R );
+    connect(m_record, SIGNAL(triggered()), SLOT(record()));
+    actionCollection()->addAction("record", m_record);
 
-	m_disconnectAll = new KAction( i18n("&Disconnect All"), KShortcut::null(),
-			this, SLOT(disconnectAll()),
-			actionCollection(), "disconnect_all" );
+    m_stop = new KAction(this);
+    m_stop->setText( i18n("&Stop") );
+    m_stop->setIcon(KIcon("media-playback-stop"));
+    m_stop->setShortcut( Qt::Key_S );
+    connect(m_stop, SIGNAL(triggered()), SLOT(stop()));
+    actionCollection()->addAction("stop", m_stop);
 
-	m_configConns = new KAction( i18n("Con&figure Connections"), KShortcut::null(),
-			this, SLOT(configConnections()),
-			actionCollection(), "connections_dialog" );
+	m_connectAll = new KAction(this);
+	m_connectAll->setText(i18n("&Connect All"));
+	connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
+	actionCollection()->addAction("connect_all", m_connectAll);
 
-	m_popupAction[0] = new KToggleAction( i18n("&Time"), KShortcut::null(),
-			this, SLOT(toggleColumn0()), actionCollection(), "show_time" );
-	m_popupAction[1] = new KToggleAction( i18n("&Source"), KShortcut::null(),
-			this, SLOT(toggleColumn1()), actionCollection(), "show_source" );
-	m_popupAction[2] = new KToggleAction( i18n("&Event Kind"), KShortcut::null(),
-			this, SLOT(toggleColumn2()), actionCollection(), "show_kind" );
-	m_popupAction[3] = new KToggleAction( i18n("&Channel"), KShortcut::null(),
-			this, SLOT(toggleColumn3()), actionCollection(), "show_channel" );
-	m_popupAction[4] = new KToggleAction( i18n("Data &1"), KShortcut::null(),
-			this, SLOT(toggleColumn4()), actionCollection(), "show_data1" );
-	m_popupAction[5] = new KToggleAction( i18n("Data &2"), KShortcut::null(),
-			this, SLOT(toggleColumn5()), actionCollection(), "show_data2" );
+	m_disconnectAll = new KAction(this);
+	m_disconnectAll->setText(i18n("&Disconnect All")); //, KShortcut::null(),
+	connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
+	actionCollection()->addAction( "disconnect_all", m_disconnectAll );
 
-	setStandardToolBarMenuEnabled( true);
-	createGUI();
+	m_configConns = new KAction(this);
+	m_configConns->setText(i18n("Con&figure Connections"));
+	connect(m_configConns, SIGNAL(triggered()),	SLOT(configConnections()));
+	actionCollection()->addAction("connections_dialog", m_configConns );
 
-	popup = static_cast <QPopupMenu *>(factory()->container("popup", this));
-	Q_CHECK_PTR( popup );
+	m_popupAction[0] = new KToggleAction(i18n("&Time"), this);
+	connect(m_popupAction[0], SIGNAL(triggered()), SLOT(toggleColumn0()));
+    actionCollection()->addAction("show_time", m_popupAction[0]);
+
+	m_popupAction[1] = new KToggleAction(i18n("&Source"), this);
+    connect(m_popupAction[1], SIGNAL(triggered()), SLOT(toggleColumn1()));
+    actionCollection()->addAction("show_source", m_popupAction[1]);
+
+    m_popupAction[2] = new KToggleAction( i18n("&Event Kind"), this );
+	connect(m_popupAction[2], SIGNAL(triggered()), SLOT(toggleColumn2()));
+	actionCollection()->addAction("show_kind", m_popupAction[2]);
+
+	m_popupAction[3] = new KToggleAction( i18n("&Channel"), this );
+	connect(m_popupAction[3], SIGNAL(triggered()), SLOT(toggleColumn3()));
+	actionCollection()->addAction("show_channel", m_popupAction[3]);
+
+	m_popupAction[4] = new KToggleAction( i18n("Data &1"), this );
+	connect(m_popupAction[4], SIGNAL(triggered()), SLOT(toggleColumn4()));
+	actionCollection()->addAction("show_data1", m_popupAction[4]);
+
+	m_popupAction[5] = new KToggleAction( i18n("Data &2"), this );
+	connect(m_popupAction[5], SIGNAL(triggered()), SLOT(toggleColumn5()));
+	actionCollection()->addAction("show_data2", m_popupAction[5]);
+
+	setStandardToolBarMenuEnabled(true);
+	setupGUI();
+
+	m_popup = static_cast <QMenu*>(guiFactory()->container("popup", this));
+	Q_CHECK_PTR( m_popup );
 }
 
-void KMidimon::customEvent(QCustomEvent * e)
+void KMidimon::customEvent(QEvent* e)
 {
-	if (e->type() == MONITOR_EVENT_TYPE)
-	{
-		m_widget->add((MidiEvent *)e);
+	int r;
+	QStandardItem* itm;
+	if (e->type() == MONITOR_EVENT_TYPE) {
+		MidiEvent* ev = static_cast<MidiEvent*>(e);
+		r = (m_sortEvents ? m_model->rowCount() : 0);
+	    m_model->insertRow(r);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 0));
+	    itm->setText(ev->getTime());
+	    itm->setTextAlignment(Qt::AlignRight);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 1));
+	    itm->setText(ev->getSource());
+	    itm->setTextAlignment(Qt::AlignRight);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 2));
+	    itm->setText(ev->getKind());
+	    itm->setTextAlignment(Qt::AlignLeft);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 3));
+	    itm->setText(ev->getChannel());
+	    itm->setTextAlignment(Qt::AlignRight);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 4));
+	    itm->setText(ev->getData1());
+	    itm->setTextAlignment(Qt::AlignRight);
+
+	    itm = m_model->itemFromIndex(m_model->index(r, 5));
+	    itm->setText(ev->getData2());
+	    itm->setTextAlignment(Qt::AlignLeft);
+
+		m_view->resizeColumnToContents(0);
+		m_view->resizeColumnToContents(1);
+		m_view->resizeColumnToContents(2);
+		m_view->resizeColumnToContents(3);
+		m_view->resizeColumnToContents(4);
+		m_view->resizeColumnToContents(5);
+
+	    if (m_sortEvents)
+	    	m_view->scrollToBottom();
 	}
 }
 
 void KMidimon::fileNew()
 {
-	m_widget->clear();
+	int allrows = m_model->rowCount();
+	m_model->removeRows(0, allrows);
 }
 
 void KMidimon::fileSave()
 {
-	QString path = KFileDialog::getSaveFileName(":MIDIMONITOR",
+	int i;
+	QString path = KFileDialog::getSaveFileName(
+			KUrl("kfiledialog:///MIDIMONITOR"),
 			i18n("*.txt|Plain text files (*.txt)"), this,
 			i18n("Save MIDI monitor data"));
-	if (!path.isNull())
-	{
-		m_widget->saveTo(path);
+	if (!path.isNull()) {
+		QFile file(path);
+		file.open(QIODevice::WriteOnly);
+		QTextStream stream(&file);
+		for( i = 0; i < m_model->rowCount(); ++i ) {
+			stream << m_model->item(i, 0)->text().trimmed() << ","
+			       << m_model->item(i, 1)->text().trimmed() << ","
+			       << m_model->item(i, 2)->text().trimmed() << ","
+				   << m_model->item(i, 3)->text().trimmed() << ","
+				   << m_model->item(i, 4)->text().trimmed() << ","
+				   << m_model->item(i, 5)->text().trimmed() << endl;
+		}
+		file.close();
 	}
 }
 
@@ -136,49 +230,47 @@ bool KMidimon::queryExit()
 void KMidimon::saveConfiguration()
 {
 	int i;
-	KConfig *config= kapp->config();
-	config->setGroup("Settings");
-	config->writeEntry("resolution", m_client->getResolution());
-	config->writeEntry("tempo", m_client->getTempo());
-	config->writeEntry("tick_time", m_client->isTickTime());
-	config->writeEntry("alsa", m_client->isRegAlsaMsg());
-	config->writeEntry("channel", m_client->isRegChannelMsg());
-	config->writeEntry("common", m_client->isRegCommonMsg());
-	config->writeEntry("realtime", m_client->isRegRealTimeMsg());
-	config->writeEntry("sysex", m_client->isRegSysexMsg());
-	config->writeEntry("client_names", m_client->showClientNames());
-	config->writeEntry("translate_sysex", m_client->translateSysex());
-	config->writeEntry("fixed_font", m_widget->getFixedFont());
-	config->writeEntry("sort_events", m_widget->getSortEvents());
-	for (i = 0; i < 6; ++i)
-	{
-		config->writeEntry(QString("show_column_%1").arg(i), m_popupAction[i]->isChecked() );
+	KConfigGroup config = KGlobal::config()->group("Settings");
+	config.writeEntry("resolution", m_adaptor->getResolution());
+	config.writeEntry("tempo", m_adaptor->getTempo());
+	config.writeEntry("tick_time", m_adaptor->isTickTime());
+	config.writeEntry("alsa", m_adaptor->isRegAlsaMsg());
+	config.writeEntry("channel", m_adaptor->isRegChannelMsg());
+	config.writeEntry("common", m_adaptor->isRegCommonMsg());
+	config.writeEntry("realtime", m_adaptor->isRegRealTimeMsg());
+	config.writeEntry("sysex", m_adaptor->isRegSysexMsg());
+	config.writeEntry("client_names", m_adaptor->showClientNames());
+	config.writeEntry("translate_sysex", m_adaptor->translateSysex());
+	config.writeEntry("fixed_font", getFixedFont());
+	config.writeEntry("sort_events", getSortEvents());
+	for (i = 0; i < 6; ++i)	{
+		config.writeEntry( QString("show_column_%1").arg(i),
+		                   m_popupAction[i]->isChecked() );
 	}
+	config.sync();
 }
 
 void KMidimon::readConfiguration()
 {
 	int i;
 	bool status;
-	KConfig *config= kapp->config();
-	config->setGroup("Settings");
-	m_client->setResolution(config->readNumEntry("resolution", RESOLUTION));
-	m_client->setTempo(config->readNumEntry("tempo", TEMPO_BPM));
-	m_client->setTickTime(config->readBoolEntry("tick_time", true));
-	m_client->setRegAlsaMsg(config->readBoolEntry("alsa", true));
-	m_client->setRegChannelMsg(config->readBoolEntry("channel", true));
-	m_client->setRegCommonMsg(config->readBoolEntry("common", true));
-	m_client->setRegRealTimeMsg(config->readBoolEntry("realtime", true));
-	m_client->setRegSysexMsg(config->readBoolEntry("sysex", true));
-	m_client->setShowClientNames(config->readBoolEntry("client_names", false));
-	m_client->setTranslateSysex(config->readBoolEntry("translate_sysex", false));
-	m_client->queue_set_tempo();
-	m_client->change_port_settings();
-	m_widget->setFixedFont(config->readBoolEntry("fixed_font", false));
-	m_widget->setSortEvents(config->readBoolEntry("sort_events", false));
-	for (i = 0; i < 6; ++i)
-	{
-		status = config->readBoolEntry(QString("show_column_%1").arg(i), true);
+    KConfigGroup config = KGlobal::config()->group("Settings");
+	m_adaptor->setResolution(config.readEntry("resolution", RESOLUTION));
+	m_adaptor->setTempo(config.readEntry("tempo", TEMPO_BPM));
+	m_adaptor->setTickTime(config.readEntry("tick_time", true));
+	m_adaptor->setRegAlsaMsg(config.readEntry("alsa", true));
+	m_adaptor->setRegChannelMsg(config.readEntry("channel", true));
+	m_adaptor->setRegCommonMsg(config.readEntry("common", true));
+	m_adaptor->setRegRealTimeMsg(config.readEntry("realtime", true));
+	m_adaptor->setRegSysexMsg(config.readEntry("sysex", true));
+	m_adaptor->setShowClientNames(config.readEntry("client_names", false));
+	m_adaptor->setTranslateSysex(config.readEntry("translate_sysex", false));
+	m_adaptor->queue_set_tempo();
+	m_adaptor->change_port_settings();
+	setFixedFont(config.readEntry("fixed_font", false));
+	setSortEvents(config.readEntry("sort_events", false));
+	for (i = 0; i < 6; ++i) {
+		status = config.readEntry(QString("show_column_%1").arg(i), true);
 		setColumnStatus(i, status);
 	}
 }
@@ -189,50 +281,44 @@ void KMidimon::preferences()
 	bool was_running;
 	ConfigDialog dlg;
 
-	dlg.setTempo(m_client->getTempo());
-	dlg.setResolution(m_client->getResolution());
-	if (m_client->isTickTime())
-	{
+	dlg.setTempo(m_adaptor->getTempo());
+	dlg.setResolution(m_adaptor->getResolution());
+	if (m_adaptor->isTickTime()) {
 		dlg.setMusicalTime();
-	}
-	else
-	{
+	} else 	{
 		dlg.setClockTime();
 	}
-	dlg.setRegAlsaMsg(m_client->isRegAlsaMsg());
-	dlg.setRegChannelMsg(m_client->isRegChannelMsg());
-	dlg.setRegCommonMsg(m_client->isRegCommonMsg());
-	dlg.setRegRealTimeMsg(m_client->isRegRealTimeMsg());
-	dlg.setRegSysexMsg(m_client->isRegSysexMsg());
-	dlg.setShowClientNames(m_client->showClientNames());
-	dlg.setTranslateSysex(m_client->translateSysex());
-	dlg.setUseFixedFont(m_widget->getFixedFont());
-	dlg.setSortEvents(m_widget->getSortEvents());
-	for (i = 0; i < 6; ++i)
-	{
+	dlg.setRegAlsaMsg(m_adaptor->isRegAlsaMsg());
+	dlg.setRegChannelMsg(m_adaptor->isRegChannelMsg());
+	dlg.setRegCommonMsg(m_adaptor->isRegCommonMsg());
+	dlg.setRegRealTimeMsg(m_adaptor->isRegRealTimeMsg());
+	dlg.setRegSysexMsg(m_adaptor->isRegSysexMsg());
+	dlg.setShowClientNames(m_adaptor->showClientNames());
+	dlg.setTranslateSysex(m_adaptor->translateSysex());
+	dlg.setUseFixedFont(getFixedFont());
+	dlg.setSortEvents(getSortEvents());
+	for (i = 0; i < 6; ++i) {
 		dlg.setShowColumn(i, m_popupAction[i]->isChecked());
 	}
-	if (dlg.exec())
-	{
-		was_running = m_client->queue_running();
+	if (dlg.exec()) {
+		was_running = m_adaptor->queue_running();
 		if (was_running)
 			stop();
-		m_client->setTempo(dlg.getTempo());
-		m_client->setResolution(dlg.getResolution());
-		m_client->setTickTime(dlg.isMusicalTime());
-		m_client->setRegAlsaMsg(dlg.isRegAlsaMsg());
-		m_client->setRegChannelMsg(dlg.isRegChannelMsg());
-		m_client->setRegCommonMsg(dlg.isRegCommonMsg());
-		m_client->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
-		m_client->setRegSysexMsg(dlg.isRegSysexMsg());
-		m_client->setShowClientNames(dlg.showClientNames());
-		m_client->setTranslateSysex(dlg.translateSysex());
-		m_client->queue_set_tempo();
-		m_client->change_port_settings();
-		m_widget->setFixedFont(dlg.useFixedFont());
-		m_widget->setSortEvents(dlg.sortEvents());
-		for (i = 0; i < 6; ++i)
-		{
+		m_adaptor->setTempo(dlg.getTempo());
+		m_adaptor->setResolution(dlg.getResolution());
+		m_adaptor->setTickTime(dlg.isMusicalTime());
+		m_adaptor->setRegAlsaMsg(dlg.isRegAlsaMsg());
+		m_adaptor->setRegChannelMsg(dlg.isRegChannelMsg());
+		m_adaptor->setRegCommonMsg(dlg.isRegCommonMsg());
+		m_adaptor->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
+		m_adaptor->setRegSysexMsg(dlg.isRegSysexMsg());
+		m_adaptor->setShowClientNames(dlg.showClientNames());
+		m_adaptor->setTranslateSysex(dlg.translateSysex());
+		m_adaptor->queue_set_tempo();
+		m_adaptor->change_port_settings();
+		setFixedFont(dlg.useFixedFont());
+		setSortEvents(dlg.sortEvents());
+		for (i = 0; i < 6; ++i) {
 			setColumnStatus(i, dlg.showColumn(i));
 		}
 		if (was_running)
@@ -242,73 +328,62 @@ void KMidimon::preferences()
 
 void KMidimon::record()
 {
-	if (!m_client->queue_running())
-	{
-		m_client->queue_start();
+	if (!m_adaptor->queue_running()) {
+		m_adaptor->queue_start();
 	}
-	updateState();
-	slotStateChanged("recording_state");
+	updateState("recording_state");
 }
 
 void KMidimon::stop()
 {
-	if (m_client->queue_running())
-	{
-		m_client->queue_stop();
+	if (m_adaptor->queue_running()) {
+		m_adaptor->queue_stop();
 	}
-	updateState();
-	slotStateChanged("stopped_state");
+	updateState("stopped_state");
 }
 
-void KMidimon::updateState()
+void KMidimon::updateState(const QString newState)
 {
-	QString state(m_client->queue_running() ? i18n("recording")
-			: i18n("stopped") );
-	setCaption(i18n("ALSA MIDI Monitor [%1]").arg(state) );
+	QString s(m_adaptor->queue_running() ? i18n("recording") : i18n("stopped"));
+	setCaption(i18n("ALSA MIDI Monitor [%1]").arg(s));
+	slotStateChanged(newState);
 }
 
 void KMidimon::editToolbars()
 {
-	KEditToolbar dlg(actionCollection());
-	if (dlg.exec())
-	{
-		createGUI();
+	KEditToolBar dlg(actionCollection());
+	if (dlg.exec()) {
+		setupGUI();
 	}
 }
 
 void KMidimon::connectAll()
 {
-	m_client->connect_all();
+	m_adaptor->connect_all();
 }
 
 void KMidimon::disconnectAll()
 {
-	m_client->disconnect_all();
+	m_adaptor->disconnect_all();
 }
 
 void KMidimon::configConnections()
 {
-	ConnectDlg dlg( this, m_client->inputConnections(),
-			m_client->list_subscribers() );
-	if (dlg.exec())
-	{
+	QStringList inputs = m_adaptor->inputConnections();
+	QStringList subs = m_adaptor->list_subscribers();
+	ConnectDlg dlg( this, inputs, subs );
+	if (dlg.exec())	{
 		QStringList desired = dlg.getSelected();
-		QStringList subs = m_client->list_subscribers();
-		QStringList::Iterator i;
-		for (i = subs.begin(); i != subs.end(); ++i)
-		{
-			if (desired.contains(*i) == 0)
-			{
-				//DEBUGSTREAM << "desired.contains(" << *i << ")" << endl;
-				m_client->disconnect_port(*i);
+		subs = m_adaptor->list_subscribers();
+		QStringList::ConstIterator i;
+		for (i = subs.constBegin(); i != subs.constEnd(); ++i) {
+			if (desired.contains(*i) == 0) {
+				m_adaptor->disconnect_port(*i);
 			}
 		}
-		for (i = desired.begin(); i != desired.end(); ++i)
-		{
-			if (subs.contains(*i) == 0)
-			{
-				//DEBUGSTREAM << "subs.contains(" << *i << ")" << endl;
-				m_client->connect_port(*i);
+		for (i = desired.constBegin(); i != desired.constEnd(); ++i) {
+			if (subs.contains(*i) == 0) {
+				m_adaptor->connect_port(*i);
 			}
 		}
 	}
@@ -316,13 +391,13 @@ void KMidimon::configConnections()
 
 void KMidimon::setColumnStatus(int colNum, bool status)
 {
-	m_widget->setShowColumn(colNum, status);
+	m_view->setColumnHidden(colNum, !status);
 	m_popupAction[colNum]->setChecked(status);
 }
 
 void KMidimon::toggleColumn(int colNum)
 {
-	m_widget->setShowColumn(colNum, m_popupAction[colNum]->isChecked());
+	m_view->setColumnHidden(colNum, !m_popupAction[colNum]->isChecked());
 }
 
 void KMidimon::toggleColumn0()
@@ -355,10 +430,25 @@ void KMidimon::toggleColumn5()
 	toggleColumn(5);
 }
 
-void KMidimon::contextMenuEvent(QContextMenuEvent *ev)
+void KMidimon::contextMenuEvent(QContextMenuEvent*)
 {
-	Q_CHECK_PTR( popup );
-	popup->exec(QCursor::pos());
+	Q_CHECK_PTR( m_popup );
+	m_popup->exec(QCursor::pos());
 }
 
-#include "kmidimon.moc"
+void KMidimon::setFixedFont(bool newValue)
+{
+	if (m_useFixedFont != newValue) {
+		m_useFixedFont = newValue;
+		m_view->setFont(m_useFixedFont ? KGlobalSettings::fixedFont()
+				                         : KGlobalSettings::generalFont());
+	}
+}
+
+void KMidimon::setSortEvents(bool newValue)
+{
+	if (m_sortEvents != newValue) {
+		m_sortEvents = newValue;
+		fileNew();
+	}
+}

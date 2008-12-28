@@ -22,33 +22,36 @@
 #ifndef SEQUENCERCLIENT_H
 #define SEQUENCERCLIENT_H
 
-#include <qthread.h>
-#include <qevent.h>
-#include <qmap.h>
-#include <klocale.h>
-#include <alsa/asoundlib.h>
+#include <QEvent>
+#include <QMap>
 
-#define MONITOR_EVENT_TYPE (QEvent::User + 1)
-#define TEMPO_BPM 120
-#define RESOLUTION 240
+#include <queue.h>
+#include <port.h>
+#include <event.h>
 
-class MidiEvent : public QCustomEvent
+using namespace ALSA::Sequencer;
+
+const QEvent::Type MONITOR_EVENT_TYPE = QEvent::Type(QEvent::User + 1);
+const int TEMPO_BPM(120);
+const int RESOLUTION(240);
+
+class MidiEvent : public QEvent
 {
 public:
-     MidiEvent( QString time, 
+     MidiEvent( QString time,
      		QString src,
-     		QString kind, 
-     		QString ch = QString::null, 
-     		QString d1 = QString::null, 
+     		QString kind,
+     		QString ch = QString::null,
+     		QString d1 = QString::null,
      		QString d2 = QString::null)
-	: QCustomEvent( MONITOR_EVENT_TYPE ), 
-	m_time(time), 
+	: QEvent( MONITOR_EVENT_TYPE ),
+	m_time(time),
 	m_src(src),
 	m_kind(kind),
 	m_chan(ch),
 	m_data1(d1),
 	m_data2(d2) {}
-	
+
 	QString getTime() { return m_time; }
 	QString getSource() { return m_src; }
 	QString getKind() { return m_kind; }
@@ -64,18 +67,18 @@ private:
      QString m_data2;
 };
 
-class SequencerClient: public QThread
+class SequencerAdaptor: public QObject
 {
+	Q_OBJECT
 public:
-    SequencerClient(QWidget *parent);
-    ~SequencerClient();
-    virtual void run();
+    SequencerAdaptor(QObject *parent);
+    ~SequencerAdaptor();
     bool queue_running() { return m_queue_running; }
     void queue_start();
     void queue_stop();
     void queue_set_tempo();
     void change_port_settings();
-    
+
     int getTempo() { return m_tempo; }
     int getResolution() { return m_resolution; }
     bool isTickTime() { return m_tickTime; }
@@ -86,7 +89,7 @@ public:
     bool isRegAlsaMsg() { return m_alsa; }
     bool showClientNames() { return m_showClientNames; }
     bool translateSysex() { return m_translateSysex; }
-    
+
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
     void setTickTime(bool newValue) { m_tickTime = newValue; }
@@ -103,35 +106,36 @@ public:
     void connect_all();
     void disconnect_all();
     QStringList inputConnections();
-    QStringList outputConnections();
     QStringList list_subscribers();
-    
+
+public slots:
+    /* handler for the sequencer events */
+    void sequencerEvent( SequencerEvent* ev );
+
 private:
-    int checkAlsaError(int rc, const char *message);
-    MidiEvent *build_midi_event(snd_seq_event_t *ev);
-    MidiEvent *build_translated_sysex(snd_seq_event_t *ev);
-    MidiEvent *build_sysex_event(snd_seq_event_t *ev);
-    MidiEvent *build_note_event( snd_seq_event_t *ev, QString statusText );
-    MidiEvent *build_control_event( snd_seq_event_t *ev, QString statusText );
-    MidiEvent *build_controlv_event( snd_seq_event_t *ev, QString statusText );
-    MidiEvent *build_common_event( snd_seq_event_t *ev, QString statusText,
-    				   QString param = NULL );
-    MidiEvent *build_realtime_event( snd_seq_event_t *ev, QString statusText );
-    MidiEvent *build_alsa_event( snd_seq_event_t *ev, QString statusText,
+    MidiEvent *build_midi_event(SequencerEvent *ev);
+    MidiEvent *build_translated_sysex(SysExEvent *ev);
+    MidiEvent *build_sysex_event(SysExEvent *ev);
+    MidiEvent *build_note_event(KeyEvent *ev, QString statusText);
+    MidiEvent *build_control_event(ControllerEvent *ev, QString statusText);
+    MidiEvent *build_controlv_event(SequencerEvent *ev, QString statusText);
+    MidiEvent *build_common_event(SequencerEvent *ev, QString statusText,
+    				   QString param = NULL);
+    MidiEvent *build_realtime_event(SequencerEvent *ev, QString statusText);
+    MidiEvent *build_alsa_event(SequencerEvent *ev, QString statusText,
 				 QString srcAddr = NULL, QString dstAddr = NULL);
-				 
+
     QString client_name(int client_number);
-    QString event_source(snd_seq_event_t *ev);
-    QString event_time(snd_seq_event_t *ev);
-    QString event_client(snd_seq_event_t *ev);
-    QString event_addr(snd_seq_event_t *ev);
-    QString event_sender(snd_seq_event_t *ev);
-    QString event_dest(snd_seq_event_t *ev);
-    QString common_param(snd_seq_event_t *ev);
-    QStringList list_ports(unsigned int mask);
+    QString event_source(SequencerEvent *ev);
+    QString event_time(SequencerEvent *ev);
+    QString event_client(SequencerEvent *ev);
+    QString event_addr(SequencerEvent *ev);
+    QString event_sender(SequencerEvent *ev);
+    QString event_dest(SequencerEvent *ev);
+    QString common_param(SequencerEvent *ev);
+    QStringList list_ports(PortInfoList& refs);
     void refreshClientList();
-    
-    QWidget *m_widget;
+
     bool m_queue_running;
     int m_resolution;
     int m_tempo;
@@ -145,11 +149,12 @@ private:
     bool m_translateSysex;
     bool m_needsRefresh;
 
-    snd_seq_t *m_handle;
-    int m_client;
-    int m_input;
-    int m_queue;
-    QMap<int, QString> m_clients;
+    int m_inputPort;
+    int m_queueId;
+    int m_clientId;
+    MidiClient* m_client;
+    MidiQueue* m_queue;
+    MidiPort* m_port;
 };
 
 #endif
