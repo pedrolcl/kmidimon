@@ -1,5 +1,4 @@
-
-You will need CMake 2.4.4 or newer.  If your Linux distribution
+You will need CMake 2.6.0 or newer.  If your Linux distribution
 doesn't provide CMake, or if it provides an older version, you can get
 it here:
 
@@ -26,11 +25,11 @@ $ cmake .
 Finally, run make, and then (sudo) make install, and you're done.
 
 $ make
-# make install
+$ sudo make install
 
 To uninstall, use:
 
-# make uninstall
+$ sudo make uninstall
 
 Advanced Build Options
 ----------------------
@@ -39,18 +38,6 @@ By default, make will output brief details of each build step.  If you
 prefer to see full command lines, use:
 
 $ make VERBOSE=1
-
-The default installation directory will be the same where your KDE 3 
-is already installed, as reported by the command:
-
-$ kde-config --prefix  
-
-You may install kmidimon to /usr/local or anywhere else, but if you 
-do so, you must add that location to your KDEDIRS environment variable 
-before running kmidimon. For example:
-
-$ export KDEDIRS=/usr/local:$KDEDIRS
-$ kmidimon
 
 Another option, useful for packagers, is setting DESTDIR at install
 time. The DESTDIR directory will be prepended to the prefix when
@@ -64,24 +51,23 @@ Some variables you may want to set:
       cmake . -DCMAKE_INSTALL_PREFIX=/opt/kde is the equivalent to
       ./configure --prefix=/opt/kde for programs that use autotools
 
-    * WANT_XXXX: there are several options, e.g. WANT_JACK or WANT_DSSI. 
-      If you disable them, cmake will not even try to find the packages. 
-
-    WANT_DEBUG   Include debug support (default OFF)
-    WANT_FULLDBG Full debug support (BIG executables!) (default OFF)
+    * WANT_XXXX: there are some options available:  
+    WANT_STATIC  Statically linked aseqmm (default ON)
     WANT_PCH     Use precompiled headers (default OFF)
 
 The above options can take any of the following values: 0, 1, OFF, ON,
 TRUE, FALSE, YES, NO (case insensitive). For example:
 
-$ cmake . -DWANT_DEBUG=YES -DCMAKE_INSTALL_PREFIX=/usr/local
-
-To enable FULLDBG you also need to enable DEBUG.
+$ cmake . -DWANT_PCH=YES -DCMAKE_INSTALL_PREFIX=/usr
 
 If you would prefer to avoid all this typing, you can use ccmake to
 view and change these options using a friendly curses-based interface:
 
 $ ccmake .
+
+or a GUI equivalent:
+
+$ cmake-gui
 
 Dealing with Configuration Problems
 -----------------------------------

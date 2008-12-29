@@ -70,8 +70,8 @@ Please respect the format of the date (YYYY-MM-DD) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>2008-03-24</date>
-<releaseinfo>0&#46;5&#46;1</releaseinfo>
+<date>2008-12-29</date>
+<releaseinfo>0&#46;6&#46;0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -316,7 +316,7 @@ url="http://sourceforge.net/projects/kmetronome">Project home page</ulink>
 <title>Requirements</title>
 
 <para>
-In order to successfully use &kmidimon;, you need &kde; 3.X. and ALSA
+In order to successfully use &kmidimon;, you need &kde; 4.X. and ALSA
 drivers and library.
 </para>
 

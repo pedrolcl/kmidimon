@@ -51,5 +51,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/apps/*/*
 
 %changelog
-* Sun Dec 28 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> @VERSION@
+* Sun Dec 29 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> @VERSION@
 - Release @VERSION@
+* Sun Apr 27 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.5.2svn-0
+- New version
+* Sun Apr 6 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.5.1-0
+- openSuse build service
+* Mon Mar 24 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.5.1
+- Release 0.5.1

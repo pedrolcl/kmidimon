@@ -20,8 +20,11 @@
 PROJECTNAME="kmidimon"
 SOURCEDIR="src"
 WORKDIR="po"
-KDEDIR=$(kde-config --prefix)
-KDEPOT=$KDEDIR/include/kde.pot
+KDEDIR=$(kde4-config --prefix)
+EXTRACTRC=$KDEDIR/bin/extractrc
+# MSGID-Bugs
+BUGADDR="http://sourceforge.net/tracker/?atid=731542&group_id=134956"
+
 mkdir -p $WORKDIR
 pushd $WORKDIR
 rm -f *.old
@@ -33,8 +36,9 @@ popd
 
 echo "Preparing rc/ui/kcfg files"
 find $SOURCEDIR -name '*.rc' -o -name '*.ui' -o -name '*.kcfg' | sort > ${WORKDIR}/rcfiles.list
-xargs --arg-file=${WORKDIR}/rcfiles.list extractrc > ${WORKDIR}/rc.cpp
-echo -e 'i18n("_: NAME OF TRANSLATORS\\n"\n"Your names")\ni18n("_: EMAIL OF TRANSLATORS\\n"\n"Your emails")' >> ${WORKDIR}/rc.cpp
+xargs --arg-file=${WORKDIR}/rcfiles.list ${EXTRACTRC} > ${WORKDIR}/rc.cpp
+echo 'i18nc("NAME OF TRANSLATORS","Your names");' >> ${WORKDIR}/rc.cpp
+echo 'i18nc("EMAIL OF TRANSLATORS","Your emails");' >> ${WORKDIR}/rc.cpp
 
 echo "Preparing sources list"
 find $SOURCEDIR -name '*.cpp' -o -name '*.h' -o -name '*.c' | sort > ${WORKDIR}/infiles.list
@@ -42,15 +46,18 @@ echo "${WORKDIR}/rc.cpp" >> ${WORKDIR}/infiles.list
 
 echo "Extracting messages"
 pushd $WORKDIR
-kde-xgettext -C -ki18n -ktr2i18n -kI18N_NOOP -ktranslate -kaliasLocale -x $KDEPOT \
-             --files-from=infiles.list -D.. -D. -o messages.pot || { echo "Error extracting messages with xgettext. Aborting."; exit 1; }
+xgettext --from-code=UTF-8 -C -kde -ci18n -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 -ktr2i18n:1 \
+         -kI18N_NOOP:1 -kI18N_NOOP2:1c,2 -kaliasLocale -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3 \
+         --msgid-bugs-address="${BUGADDR}" \
+         --files-from=infiles.list -D.. -D. -o messages.pot || { echo "error while calling xgettext. aborting."; exit 1; }
 if [ -e ${PROJECTNAME}.pot ]; then
     mv ${PROJECTNAME}.pot ${PROJECTNAME}.pot.old
 fi
 mv messages.pot ${PROJECTNAME}.pot
 
 echo "Merging existing translations"
-for CATALOG in *.po; do
+catalogs=$(find . -name '*.po')
+for CATALOG in $catalogs; do
     msgmerge $CATALOG ${PROJECTNAME}.pot -o $CATALOG.new || { echo "Error merging catalog $CATALOG with msgmerge. Aborting."; exit 1; }
     mv $CATALOG $CATALOG.old
     mv $CATALOG.new $CATALOG

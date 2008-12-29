@@ -1,16 +1,14 @@
-Begin3
-Title:          kmidimon -- ALSA Sequencer MIDI monitor
-Version:        0.5.1
-Entered-date:   
-Description:    
-Keywords:       MIDI ALSA KDE Qt
-Author:         Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
-Maintained-by:  Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
-Home-page:      http://kmetronome.sourceforge.net/kmidimon
-Alternate-site: http://sourceforge.net/projects/kmetronome
-Primary-site:   
-                xxxxxx  kmidimon-0.5.1.tar.bz2
-                xxx     kmidimon-lsm
-Platform:       Linux. Needs KDE
+Begin4
+Title:          KMidimon
+Version:        0.6.0
+Entered-date:   2008-12-29
+Description:    ALSA Sequencer MIDI monitor
+Keywords:       MIDI Qt ALSA KDE monitor
+Author:         plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
+Maintained-by:  plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
+Primary-site:   http://sourceforge.net/projects/kmetronome
+Alternate-site: http://kmetronome.sourceforge.net/kmidimon
+Original-site:  http://sourceforge.net/projects/kmetronome
+Platform:       Linux, requires KDE4 and ALSA
 Copying-policy: GPL
 End
