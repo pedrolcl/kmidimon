@@ -24,7 +24,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 SET (VERSION_MAJOR "0")
 SET (VERSION_MINOR "6")
 SET (VERSION_PATCH "0")
-SET (VERSION_SUFFIX "cvs")
+SET (VERSION_SUFFIX "pre")
 SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
@@ -137,7 +137,7 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r po kmidimon-${VERSION}
     COMMAND cp -r src kmidimon-${VERSION}
     COMMAND cp -rH aseqmm kmidimon-${VERSION}
-    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec* kmidimon-${VERSION}
+    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec* *.desktop *.lsm kmidimon-${VERSION}
     COMMAND tar -cj --exclude CVS --exclude .cvsignore -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
     COMMAND tar -cz --exclude CVS --exclude .cvsignore -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
     COMMAND rm -rf kmidimon-${VERSION}
@@ -146,4 +146,3 @@ ADD_CUSTOM_TARGET ( tarball
 
 INSTALL( FILES kmidimon.desktop
          DESTINATION ${XDG_APPS_INSTALL_DIR} )
-
