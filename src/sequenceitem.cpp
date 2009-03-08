@@ -19,27 +19,10 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef CONNECTDLG_H
-#define CONNECTDLG_H
+#include "sequenceitem.h"
 
-#include <kdialog.h>
+SequenceItem::SequenceItem()
+{}
 
-class QGroupBox;
-class QStringList;
-
- class ConnectDlg : public KDialog
-{
-    Q_OBJECT
-
- public:
-    ConnectDlg( QWidget *parent,
-                const QStringList& clients,
-                const QStringList& subs );
-
-    QStringList getSelected() const;
-
-private:
-    QGroupBox* m_group;
-};
-
-#endif
+SequenceItem::~SequenceItem()
+{}

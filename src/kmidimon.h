@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2008 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2009 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,7 +31,8 @@ class QMenu;
 class QEvent;
 class QContextMenuEvent;
 class QTreeView;
-class QStandardItemModel;
+class QModelIndex;
+class SequenceModel;
 
 class KMidimon : public KXmlGuiWindow
 {
@@ -62,9 +63,9 @@ public slots:
     void toggleColumn3();
     void toggleColumn4();
     void toggleColumn5();
+    void resizeColumns(const QModelIndex& parent, int start, int end);
 
 protected:
-    void customEvent( QEvent* e );
     void saveConfiguration();
     void readConfiguration();
     void setupActions();
@@ -85,7 +86,7 @@ private:
     KToggleAction *m_popupAction[6];
     QMenu* m_popup;
     QTreeView* m_view;
-    QStandardItemModel* m_model;
+    SequenceModel* m_model;
 	bool m_useFixedFont;
 	bool m_sortEvents;
 };

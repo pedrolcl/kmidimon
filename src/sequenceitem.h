@@ -19,27 +19,42 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef CONNECTDLG_H
-#define CONNECTDLG_H
+#ifndef SEQUENCEITEM_H_
+#define SEQUENCEITEM_H_
 
-#include <kdialog.h>
+#include <event.h>
 
-class QGroupBox;
-class QStringList;
-
- class ConnectDlg : public KDialog
+class SequenceItem
 {
-    Q_OBJECT
+public:
+    SequenceItem();
+    SequenceItem(QString time,
+                 QString src,
+                 QString kind,
+                 QString ch = QString::null,
+                 QString d1 = QString::null,
+                 QString d2 = QString::null):
+    m_time(time),
+    m_src(src),
+    m_kind(kind),
+    m_chan(ch),
+    m_data1(d1),
+    m_data2(d2) {}
 
- public:
-    ConnectDlg( QWidget *parent,
-                const QStringList& clients,
-                const QStringList& subs );
-
-    QStringList getSelected() const;
-
+    virtual ~SequenceItem();
+    QString getTime() { return m_time; }
+    QString getSource() { return m_src; }
+    QString getKind() { return m_kind; }
+    QString getChannel() { return m_chan; }
+    QString getData1() { return m_data1; }
+    QString getData2() { return m_data2; }
 private:
-    QGroupBox* m_group;
+    QString m_time;
+    QString m_src;
+    QString m_kind;
+    QString m_chan;
+    QString m_data1;
+    QString m_data2;
 };
 
-#endif
+#endif /* SEQUENCEITEM_H_ */

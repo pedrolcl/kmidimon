@@ -19,27 +19,37 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef CONNECTDLG_H
-#define CONNECTDLG_H
+#ifndef SEQUENCEMODEL_H_
+#define SEQUENCEMODEL_H_
 
-#include <kdialog.h>
+#include <QAbstractItemModel>
+#include "sequenceitem.h"
 
-class QGroupBox;
-class QStringList;
-
- class ConnectDlg : public KDialog
+class SequenceModel : public QAbstractItemModel
 {
-    Q_OBJECT
+public:
+    SequenceModel(QObject* parent = 0) : QAbstractItemModel(parent) {}
+    virtual ~SequenceModel() {}
 
- public:
-    ConnectDlg( QWidget *parent,
-                const QStringList& clients,
-                const QStringList& subs );
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &index) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
-    QStringList getSelected() const;
+    void setSorted(bool s) { m_sorted = s; }
+    bool isSorted() { return m_sorted; }
+    void addItem(SequenceItem& itm);
+    void clear();
+    void saveToStream(QTextStream& str);
 
 private:
-    QGroupBox* m_group;
+    bool m_sorted;
+    QList<SequenceItem> m_items;
 };
 
-#endif
+#endif /* SEQUENCEMODEL_H_ */

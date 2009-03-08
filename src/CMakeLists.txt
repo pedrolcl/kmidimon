@@ -1,5 +1,5 @@
 # KMidimon - ALSA Sequencer based MIDI Monitor
-# Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+# Copyright (C) 2005-2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,15 +29,19 @@ LINK_DIRECTORIES(
 )
 
 SET(kmidimon_SRCS 
-	configdialog.cpp
-	configdialog.h
-	connectdlg.cpp
-	connectdlg.h
-	kmidimon.cpp
-	kmidimon.h
-	main.cpp
-	sequenceradaptor.cpp
-	sequenceradaptor.h
+    configdialog.cpp
+    configdialog.h
+    connectdlg.cpp
+    connectdlg.h
+    kmidimon.cpp
+    kmidimon.h
+    main.cpp
+    sequenceradaptor.cpp
+    sequenceradaptor.h
+    sequenceitem.cpp
+    sequenceitem.h
+    sequencemodel.cpp
+    sequencemodel.h
 )
 
 SET(kmidimon_UI 

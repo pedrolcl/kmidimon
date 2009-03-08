@@ -1,5 +1,5 @@
 # KMidimon - ALSA Sequencer based MIDI Monitor
-# Copyright (C) 2005-2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+# Copyright (C) 2005-2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 
 SET (VERSION_MAJOR "0")
 SET (VERSION_MINOR "6")
-SET (VERSION_PATCH "0")
-#SET (VERSION_SUFFIX "pre")
-#SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
-SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
+SET (VERSION_PATCH "9")
+SET (VERSION_SUFFIX "cvs")
+SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
+#SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
 OPTION(WANT_PCH "Use precompiled headers" OFF)

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2008 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2009 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,43 +29,13 @@
 #include <port.h>
 #include <event.h>
 
+class SequenceItem;
+class SequenceModel;
+
 using namespace ALSA::Sequencer;
 
-const QEvent::Type MONITOR_EVENT_TYPE = QEvent::Type(QEvent::User + 1);
 const int TEMPO_BPM(120);
 const int RESOLUTION(240);
-
-class MidiEvent : public QEvent
-{
-public:
-     MidiEvent( QString time,
-     		QString src,
-     		QString kind,
-     		QString ch = QString::null,
-     		QString d1 = QString::null,
-     		QString d2 = QString::null)
-	: QEvent( MONITOR_EVENT_TYPE ),
-	m_time(time),
-	m_src(src),
-	m_kind(kind),
-	m_chan(ch),
-	m_data1(d1),
-	m_data2(d2) {}
-
-	QString getTime() { return m_time; }
-	QString getSource() { return m_src; }
-	QString getKind() { return m_kind; }
-	QString getChannel() { return m_chan; }
-	QString getData1() { return m_data1; }
-	QString getData2() { return m_data2; }
-private:
-     QString m_time;
-     QString m_src;
-     QString m_kind;
-     QString m_chan;
-     QString m_data1;
-     QString m_data2;
-};
 
 class SequencerAdaptor: public QObject
 {
@@ -100,6 +70,7 @@ public:
     void setRegAlsaMsg(bool newValue) { m_alsa = newValue; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
+    void setModel(SequenceModel* m) { m_model = m; }
 
     void connect_port(QString name);
     void disconnect_port(QString name);
@@ -113,17 +84,17 @@ public slots:
     void sequencerEvent( SequencerEvent* ev );
 
 private:
-    MidiEvent *build_midi_event(SequencerEvent *ev);
-    MidiEvent *build_translated_sysex(SysExEvent *ev);
-    MidiEvent *build_sysex_event(SysExEvent *ev);
-    MidiEvent *build_note_event(KeyEvent *ev, QString statusText);
-    MidiEvent *build_control_event(ControllerEvent *ev, QString statusText);
-    MidiEvent *build_controlv_event(SequencerEvent *ev, QString statusText);
-    MidiEvent *build_common_event(SequencerEvent *ev, QString statusText,
-    				   QString param = NULL);
-    MidiEvent *build_realtime_event(SequencerEvent *ev, QString statusText);
-    MidiEvent *build_alsa_event(SequencerEvent *ev, QString statusText,
-				 QString srcAddr = NULL, QString dstAddr = NULL);
+    SequenceItem *build_midi_event(SequencerEvent *ev);
+    SequenceItem *build_translated_sysex(SysExEvent *ev);
+    SequenceItem *build_sysex_event(SysExEvent *ev);
+    SequenceItem *build_note_event(KeyEvent *ev, QString statusText);
+    SequenceItem *build_control_event(ControllerEvent *ev, QString statusText);
+    SequenceItem *build_controlv_event(SequencerEvent *ev, QString statusText);
+    SequenceItem *build_common_event(SequencerEvent *ev, QString statusText,
+                                     QString param = NULL);
+    SequenceItem *build_realtime_event(SequencerEvent *ev, QString statusText);
+    SequenceItem *build_alsa_event(SequencerEvent *ev, QString statusText,
+                                   QString srcAddr = NULL, QString dstAddr = NULL);
 
     QString client_name(int client_number);
     QString event_source(SequencerEvent *ev);
@@ -155,6 +126,7 @@ private:
     MidiClient* m_client;
     MidiQueue* m_queue;
     MidiPort* m_port;
+    SequenceModel* m_model;
 };
 
 #endif

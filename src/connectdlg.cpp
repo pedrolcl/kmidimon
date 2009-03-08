@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2008 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2009 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,33 +27,33 @@
 
 #include "connectdlg.h"
 
-ConnectDlg::ConnectDlg( QWidget *parent,
-                        const QStringList& clients,
-		                const QStringList& subs ) : KDialog(parent)
+ConnectDlg::ConnectDlg(QWidget *parent, const QStringList& clients,
+        const QStringList& subs) :
+    KDialog(parent)
 {
-    setCaption( i18n("Connections") );
-    setModal( true );
-    setButtons( Ok | Cancel );
+    setCaption(i18n("Connections"));
+    setModal(true);
+    setButtons(Ok | Cancel);
     QWidget* w = mainWidget();
     QVBoxLayout* vbl1 = new QVBoxLayout(w);
-	m_group = new QGroupBox(i18n("Available Ports"), w);
-	vbl1->addWidget(m_group);
+    m_group = new QGroupBox(i18n("Available Ports"), w);
+    vbl1->addWidget(m_group);
     QVBoxLayout* vbl2 = new QVBoxLayout(m_group);
-	for (int i = 0; i < clients.size(); ++i) {
-		QCheckBox *chk = new QCheckBox(clients[i], m_group);
-		chk->setChecked(subs.contains(clients[i]) > 0);
-		vbl2->addWidget(chk);
-	}
+    for (int i = 0; i < clients.size(); ++i) {
+        QCheckBox *chk = new QCheckBox(clients[i], m_group);
+        chk->setChecked(subs.contains(clients[i]) > 0);
+        vbl2->addWidget(chk);
+    }
 }
 
 QStringList ConnectDlg::getSelected() const
 {
-	QStringList lst;
-	QList<QCheckBox*> checks = m_group->findChildren<QCheckBox*>();
-	foreach ( QCheckBox* chk, checks ) {
+    QStringList lst;
+    QList<QCheckBox*> checks = m_group->findChildren<QCheckBox*> ();
+    foreach ( QCheckBox* chk, checks ) {
         if (chk->isChecked()) {
             lst += chk->text().remove("&");
         }
-	}
-	return lst;
+    }
+    return lst;
 }
