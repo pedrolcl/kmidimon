@@ -25,6 +25,7 @@
 #include <QCursor>
 #include <QTreeView>
 #include <QTextStream>
+#include <QSignalMapper>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -49,6 +50,7 @@ KMidimon::KMidimon() :
 {
     m_useFixedFont = false;
     m_sortEvents = false;
+    m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
     m_model->setSorted(m_sortEvents);
     m_view = new QTreeView(this);
@@ -70,6 +72,22 @@ KMidimon::KMidimon() :
 
 void KMidimon::setupActions()
 {
+    const QString columnName[COLUMN_COUNT] = {
+            i18n("&Time"),
+            i18n("&Source"),
+            i18n("&Event Kind"),
+            i18n("&Channel"),
+            i18n("Data &1"),
+            i18n("Data &2")
+    };
+    const QString actionName[COLUMN_COUNT] = {
+            "show_time",
+            "show_source",
+            "show_kind",
+            "show_channel",
+            "show_data1",
+            "show_data2"
+    };
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
     KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
     m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
@@ -105,29 +123,13 @@ void KMidimon::setupActions()
     connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
     actionCollection()->addAction("connections_dialog", m_configConns );
 
-    m_popupAction[0] = new KToggleAction(i18n("&Time"), this);
-    connect(m_popupAction[0], SIGNAL(triggered()), SLOT(toggleColumn0()));
-    actionCollection()->addAction("show_time", m_popupAction[0]);
-
-    m_popupAction[1] = new KToggleAction(i18n("&Source"), this);
-    connect(m_popupAction[1], SIGNAL(triggered()), SLOT(toggleColumn1()));
-    actionCollection()->addAction("show_source", m_popupAction[1]);
-
-    m_popupAction[2] = new KToggleAction( i18n("&Event Kind"), this );
-    connect(m_popupAction[2], SIGNAL(triggered()), SLOT(toggleColumn2()));
-    actionCollection()->addAction("show_kind", m_popupAction[2]);
-
-    m_popupAction[3] = new KToggleAction( i18n("&Channel"), this );
-    connect(m_popupAction[3], SIGNAL(triggered()), SLOT(toggleColumn3()));
-    actionCollection()->addAction("show_channel", m_popupAction[3]);
-
-    m_popupAction[4] = new KToggleAction( i18n("Data &1"), this );
-    connect(m_popupAction[4], SIGNAL(triggered()), SLOT(toggleColumn4()));
-    actionCollection()->addAction("show_data1", m_popupAction[4]);
-
-    m_popupAction[5] = new KToggleAction( i18n("Data &2"), this );
-    connect(m_popupAction[5], SIGNAL(triggered()), SLOT(toggleColumn5()));
-    actionCollection()->addAction("show_data2", m_popupAction[5]);
+    for(int i = 0; i < COLUMN_COUNT; ++i ) {
+        m_popupAction[i] = new KToggleAction(columnName[i], this);
+        connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
+        m_mapper->setMapping(m_popupAction[i], i);
+        actionCollection()->addAction(actionName[i], m_popupAction[i]);
+    }
+    connect(m_mapper, SIGNAL(mapped(int)), SLOT(toggleColumn(int)));
 
     setStandardToolBarMenuEnabled(true);
     setupGUI();
@@ -178,7 +180,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("translate_sysex", m_adaptor->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
     config.writeEntry("sort_events", getSortEvents());
-    for (i = 0; i < 6; ++i) {
+    for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
     }
@@ -204,7 +206,7 @@ void KMidimon::readConfiguration()
     m_adaptor->change_port_settings();
     setFixedFont(config.readEntry("fixed_font", false));
     setSortEvents(config.readEntry("sort_events", false));
-    for (i = 0; i < 6; ++i) {
+    for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.readEntry(QString("show_column_%1").arg(i), true);
         setColumnStatus(i, status);
     }
@@ -232,7 +234,7 @@ void KMidimon::preferences()
     dlg.setTranslateSysex(m_adaptor->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
     dlg.setSortEvents(getSortEvents());
-    for (i = 0; i < 6; ++i) {
+    for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
     }
     if (dlg.exec()) {
@@ -252,7 +254,7 @@ void KMidimon::preferences()
         m_adaptor->change_port_settings();
         setFixedFont(dlg.useFixedFont());
         setSortEvents(dlg.sortEvents());
-        for (i = 0; i < 6; ++i) {
+        for (i = 0; i < COLUMN_COUNT; ++i) {
             setColumnStatus(i, dlg.showColumn(i));
         }
         if (was_running) record();
@@ -326,41 +328,14 @@ void KMidimon::setColumnStatus(int colNum, bool status)
 {
     m_view->setColumnHidden(colNum, !status);
     m_popupAction[colNum]->setChecked(status);
+    if (status) m_view->resizeColumnToContents(colNum);
 }
 
 void KMidimon::toggleColumn(int colNum)
 {
-    m_view->setColumnHidden(colNum, !m_popupAction[colNum]->isChecked());
-}
-
-void KMidimon::toggleColumn0()
-{
-    toggleColumn(0);
-}
-
-void KMidimon::toggleColumn1()
-{
-    toggleColumn(1);
-}
-
-void KMidimon::toggleColumn2()
-{
-    toggleColumn(2);
-}
-
-void KMidimon::toggleColumn3()
-{
-    toggleColumn(3);
-}
-
-void KMidimon::toggleColumn4()
-{
-    toggleColumn(4);
-}
-
-void KMidimon::toggleColumn5()
-{
-    toggleColumn(5);
+    bool status = !m_popupAction[colNum]->isChecked();
+    m_view->setColumnHidden(colNum, status);
+    if (!status) m_view->resizeColumnToContents(colNum);
 }
 
 void KMidimon::contextMenuEvent(QContextMenuEvent*)
@@ -389,7 +364,7 @@ void KMidimon::setSortEvents(bool newValue)
 
 void KMidimon::resizeColumns(const QModelIndex&, int, int)
 {
-    for( int i = 0; i < 6; ++i)
+    for( int i = 0; i < COLUMN_COUNT; ++i)
         m_view->resizeColumnToContents(i);
     if (m_sortEvents)
         m_view->scrollToBottom();

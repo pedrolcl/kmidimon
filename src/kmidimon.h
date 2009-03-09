@@ -32,7 +32,10 @@ class QEvent;
 class QContextMenuEvent;
 class QTreeView;
 class QModelIndex;
+class QSignalMapper;
 class SequenceModel;
+
+const int COLUMN_COUNT = 6;
 
 class KMidimon : public KXmlGuiWindow
 {
@@ -57,12 +60,6 @@ public slots:
     void contextMenuEvent( QContextMenuEvent *ev );
     void setColumnStatus(int colNum, bool status);
     void toggleColumn(int colNum);
-    void toggleColumn0();
-    void toggleColumn1();
-    void toggleColumn2();
-    void toggleColumn3();
-    void toggleColumn4();
-    void toggleColumn5();
     void resizeColumns(const QModelIndex& parent, int start, int end);
 
 protected:
@@ -83,10 +80,11 @@ private:
     KAction *m_connectAll;
     KAction *m_disconnectAll;
     KAction *m_configConns;
-    KToggleAction *m_popupAction[6];
+    KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;
     SequenceModel* m_model;
+    QSignalMapper* m_mapper;
 	bool m_useFixedFont;
 	bool m_sortEvents;
 };
