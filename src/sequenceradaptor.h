@@ -29,7 +29,6 @@
 #include <port.h>
 #include <event.h>
 
-class SequenceItem;
 class SequenceModel;
 
 using namespace ALSA::Sequencer;
@@ -51,25 +50,8 @@ public:
 
     int getTempo() { return m_tempo; }
     int getResolution() { return m_resolution; }
-    bool isTickTime() { return m_tickTime; }
-    bool isRegChannelMsg() { return m_channel; }
-    bool isRegCommonMsg() { return m_common; }
-    bool isRegRealTimeMsg() { return m_realtime; }
-    bool isRegSysexMsg() { return m_sysex; }
-    bool isRegAlsaMsg() { return m_alsa; }
-    bool showClientNames() { return m_showClientNames; }
-    bool translateSysex() { return m_translateSysex; }
-
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
-    void setTickTime(bool newValue) { m_tickTime = newValue; }
-    void setRegChannelMsg(bool newValue) { m_channel = newValue; }
-    void setRegCommonMsg(bool newValue) { m_common = newValue; }
-    void setRegRealTimeMsg(bool newValue) { m_realtime = newValue; }
-    void setRegSysexMsg(bool newValue) { m_sysex = newValue; }
-    void setRegAlsaMsg(bool newValue) { m_alsa = newValue; }
-    void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
-    void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
     void setModel(SequenceModel* m) { m_model = m; }
 
     void connect_port(QString name);
@@ -84,42 +66,11 @@ public slots:
     void sequencerEvent( SequencerEvent* ev );
 
 private:
-    SequenceItem *build_midi_event(SequencerEvent *ev);
-    SequenceItem *build_translated_sysex(SysExEvent *ev);
-    SequenceItem *build_sysex_event(SysExEvent *ev);
-    SequenceItem *build_note_event(KeyEvent *ev, QString statusText);
-    SequenceItem *build_control_event(ControllerEvent *ev, QString statusText);
-    SequenceItem *build_controlv_event(SequencerEvent *ev, QString statusText);
-    SequenceItem *build_common_event(SequencerEvent *ev, QString statusText,
-                                     QString param = NULL);
-    SequenceItem *build_realtime_event(SequencerEvent *ev, QString statusText);
-    SequenceItem *build_alsa_event(SequencerEvent *ev, QString statusText,
-                                   QString srcAddr = NULL, QString dstAddr = NULL);
-
-    QString client_name(int client_number);
-    QString event_source(SequencerEvent *ev);
-    QString event_time(SequencerEvent *ev);
-    QString event_client(SequencerEvent *ev);
-    QString event_addr(SequencerEvent *ev);
-    QString event_sender(SequencerEvent *ev);
-    QString event_dest(SequencerEvent *ev);
-    QString common_param(SequencerEvent *ev);
     QStringList list_ports(PortInfoList& refs);
-    void refreshClientList();
 
     bool m_queue_running;
     int m_resolution;
     int m_tempo;
-    bool m_tickTime;
-    bool m_channel;
-    bool m_common;
-    bool m_realtime;
-    bool m_sysex;
-    bool m_alsa;
-    bool m_showClientNames;
-    bool m_translateSysex;
-    bool m_needsRefresh;
-
     int m_inputPort;
     int m_queueId;
     int m_clientId;

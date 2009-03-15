@@ -170,14 +170,14 @@ void KMidimon::saveConfiguration()
     KConfigGroup config = KGlobal::config()->group("Settings");
     config.writeEntry("resolution", m_adaptor->getResolution());
     config.writeEntry("tempo", m_adaptor->getTempo());
-    config.writeEntry("tick_time", m_adaptor->isTickTime());
-    config.writeEntry("alsa", m_adaptor->isRegAlsaMsg());
-    config.writeEntry("channel", m_adaptor->isRegChannelMsg());
-    config.writeEntry("common", m_adaptor->isRegCommonMsg());
-    config.writeEntry("realtime", m_adaptor->isRegRealTimeMsg());
-    config.writeEntry("sysex", m_adaptor->isRegSysexMsg());
-    config.writeEntry("client_names", m_adaptor->showClientNames());
-    config.writeEntry("translate_sysex", m_adaptor->translateSysex());
+    config.writeEntry("tick_time", m_model->showTickTime());
+    config.writeEntry("alsa", m_model->showAlsaMsg());
+    config.writeEntry("channel", m_model->showChannelMsg());
+    config.writeEntry("common", m_model->showCommonMsg());
+    config.writeEntry("realtime", m_model->showRealTimeMsg());
+    config.writeEntry("sysex", m_model->showSysexMsg());
+    config.writeEntry("client_names", m_model->showClientNames());
+    config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
     config.writeEntry("sort_events", getSortEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
@@ -192,16 +192,16 @@ void KMidimon::readConfiguration()
     int i;
     bool status;
     KConfigGroup config = KGlobal::config()->group("Settings");
+    m_model->setTickTimeFilter(config.readEntry("tick_time", true));
+    m_model->setFilterAlsaMsg(config.readEntry("alsa", true));
+    m_model->setFilterChannelMsg(config.readEntry("channel", true));
+    m_model->setFilterCommonMsg(config.readEntry("common", true));
+    m_model->setFilterRealTimeMsg(config.readEntry("realtime", true));
+    m_model->setFilterSysexMsg(config.readEntry("sysex", true));
+    m_model->setShowClientNames(config.readEntry("client_names", false));
+    m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
     m_adaptor->setResolution(config.readEntry("resolution", RESOLUTION));
     m_adaptor->setTempo(config.readEntry("tempo", TEMPO_BPM));
-    m_adaptor->setTickTime(config.readEntry("tick_time", true));
-    m_adaptor->setRegAlsaMsg(config.readEntry("alsa", true));
-    m_adaptor->setRegChannelMsg(config.readEntry("channel", true));
-    m_adaptor->setRegCommonMsg(config.readEntry("common", true));
-    m_adaptor->setRegRealTimeMsg(config.readEntry("realtime", true));
-    m_adaptor->setRegSysexMsg(config.readEntry("sysex", true));
-    m_adaptor->setShowClientNames(config.readEntry("client_names", false));
-    m_adaptor->setTranslateSysex(config.readEntry("translate_sysex", false));
     m_adaptor->queue_set_tempo();
     m_adaptor->change_port_settings();
     setFixedFont(config.readEntry("fixed_font", false));
@@ -220,18 +220,18 @@ void KMidimon::preferences()
 
     dlg.setTempo(m_adaptor->getTempo());
     dlg.setResolution(m_adaptor->getResolution());
-    if (m_adaptor->isTickTime()) {
+    if (m_model->showTickTime()) {
         dlg.setMusicalTime();
     } else {
         dlg.setClockTime();
     }
-    dlg.setRegAlsaMsg(m_adaptor->isRegAlsaMsg());
-    dlg.setRegChannelMsg(m_adaptor->isRegChannelMsg());
-    dlg.setRegCommonMsg(m_adaptor->isRegCommonMsg());
-    dlg.setRegRealTimeMsg(m_adaptor->isRegRealTimeMsg());
-    dlg.setRegSysexMsg(m_adaptor->isRegSysexMsg());
-    dlg.setShowClientNames(m_adaptor->showClientNames());
-    dlg.setTranslateSysex(m_adaptor->translateSysex());
+    dlg.setRegAlsaMsg(m_model->showAlsaMsg());
+    dlg.setRegChannelMsg(m_model->showChannelMsg());
+    dlg.setRegCommonMsg(m_model->showCommonMsg());
+    dlg.setRegRealTimeMsg(m_model->showRealTimeMsg());
+    dlg.setRegSysexMsg(m_model->showSysexMsg());
+    dlg.setShowClientNames(m_model->showClientNames());
+    dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
     dlg.setSortEvents(getSortEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
@@ -240,16 +240,16 @@ void KMidimon::preferences()
     if (dlg.exec()) {
         was_running = m_adaptor->queue_running();
         if (was_running) stop();
+        m_model->setTickTimeFilter(dlg.isMusicalTime());
+        m_model->setFilterAlsaMsg(dlg.isRegAlsaMsg());
+        m_model->setFilterChannelMsg(dlg.isRegChannelMsg());
+        m_model->setFilterCommonMsg(dlg.isRegCommonMsg());
+        m_model->setFilterRealTimeMsg(dlg.isRegRealTimeMsg());
+        m_model->setFilterSysexMsg(dlg.isRegSysexMsg());
+        m_model->setShowClientNames(dlg.showClientNames());
+        m_model->setTranslateSysex(dlg.translateSysex());
         m_adaptor->setTempo(dlg.getTempo());
         m_adaptor->setResolution(dlg.getResolution());
-        m_adaptor->setTickTime(dlg.isMusicalTime());
-        m_adaptor->setRegAlsaMsg(dlg.isRegAlsaMsg());
-        m_adaptor->setRegChannelMsg(dlg.isRegChannelMsg());
-        m_adaptor->setRegCommonMsg(dlg.isRegCommonMsg());
-        m_adaptor->setRegRealTimeMsg(dlg.isRegRealTimeMsg());
-        m_adaptor->setRegSysexMsg(dlg.isRegSysexMsg());
-        m_adaptor->setShowClientNames(dlg.showClientNames());
-        m_adaptor->setTranslateSysex(dlg.translateSysex());
         m_adaptor->queue_set_tempo();
         m_adaptor->change_port_settings();
         setFixedFont(dlg.useFixedFont());
