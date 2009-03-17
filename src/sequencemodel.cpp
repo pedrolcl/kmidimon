@@ -93,7 +93,8 @@ SequenceModel::data(const QModelIndex &index, int role) const
 {
     if (index.isValid()) {
         if ( role == Qt::DisplayRole ) {
-            SequencerEvent* ev = m_items[index.row()];
+            SequenceItem itm = m_items[index.row()];
+            SequencerEvent* ev = itm.getEvent();
             if (ev != NULL) {
                 switch (index.column()) {
                 case 0:
@@ -187,9 +188,9 @@ SequenceModel::filterSequencerEvent(SequencerEvent* ev) const
 }
 
 void
-SequenceModel::addItem(SequencerEvent* itm)
+SequenceModel::addItem(SequenceItem& itm)
 {
-    if (filterSequencerEvent(itm)) {
+    if (filterSequencerEvent(itm.getEvent())) {
         int where = m_sorted ? m_items.count() : 0;
         QModelIndex idx1 = createIndex(where, 0);
         QModelIndex idx2 = createIndex(where, 5);
@@ -200,8 +201,6 @@ SequenceModel::addItem(SequencerEvent* itm)
             m_items.insert(0, itm);
         //emit dataChanged(idx1, idx2);
         endInsertRows();
-    } else {
-        delete itm;
     }
 }
 
@@ -209,10 +208,10 @@ void
 SequenceModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, m_items.count());
-    QListIterator<SequencerEvent*> it(m_items);
-    while (it.hasNext()) {
-        SequencerEvent* ev = it.next();
-        delete ev;
+    QList<SequenceItem>::Iterator it;
+    for ( it = m_items.begin(); it != m_items.end(); ++it ) {
+        SequenceItem itm = *it;
+        itm.deleteEvent();
     }
     m_items.clear();
     endRemoveRows();
@@ -222,7 +221,8 @@ void
 SequenceModel::saveToStream(QTextStream& str)
 {
     for( int i = 0; i < m_items.count(); ++i ) {
-        SequencerEvent* ev = m_items[i];
+        SequenceItem itm = m_items[i];
+        SequencerEvent* ev = itm.getEvent();
         if (ev != NULL) {
             str << event_time(ev).trimmed() << ","
                 << event_source(ev).trimmed() << ","
@@ -274,6 +274,7 @@ SequenceModel::sysex_chan(SequencerEvent *ev) const
             else
                 return i18n("device %1").arg(deviceId);
         }
+        return "-";
     }
     return QString::null;
 }
@@ -332,8 +333,8 @@ SequenceModel::sysex_data1(SequencerEvent *ev) const
                         break;
                 }
             }
-        } else
-            return QString("%1").arg(sev->getLength());
+        }
+        return QString("%1").arg(sev->getLength());
     }
     return QString::null;
 }
@@ -581,22 +582,20 @@ SequenceModel::sysex_data2(SequencerEvent *ev) const
                     case 0x06:
                         return sysex_mmc(subId2, sev->getLength(), ptr);
                     default:
-                        return NULL;
+                        return QString::null;
                 }
             }
-            return QString::null;
-        } else {
-            unsigned int i;
-            unsigned char *data = (unsigned char *) sev->getData();
-            QString text;
-            for (i = 0; i < sev->getLength(); ++i) {
-                QString h(QString("%1").arg(data[i], 0, 16));
-                if (h.length() < 2) h.prepend('0');
-                h.prepend(' ');
-                text.append(h);
-            }
-            return text;
         }
+        unsigned int i;
+        unsigned char *data = (unsigned char *) sev->getData();
+        QString text;
+        for (i = 0; i < sev->getLength(); ++i) {
+            QString h(QString("%1").arg(data[i], 0, 16));
+            if (h.length() < 2) h.prepend('0');
+            h.prepend(' ');
+            text.append(h);
+        }
+        return text;
     }
     return QString::null;
 }
@@ -604,21 +603,23 @@ SequenceModel::sysex_data2(SequencerEvent *ev) const
 QString
 SequenceModel::event_time(SequencerEvent *ev) const
 {
-    if (m_tickTimeFilter) {
+    //if (m_tickTimeFilter) {
         return QString("%1 ").arg(ev->getTick());
-    } else {
+    /*} else {
         QString d = QString::number(ev->getRealTimeNanos()/1000, 'f', 0);
         d = d.left(4).leftJustified(4, '0');
         return QString("%1.%2 ").arg(ev->getRealTimeSecs()).arg(d);
-    }
+    }*/
 }
 
 QString
 SequenceModel::client_name(int client_number) const
 {
-    /*if (m_showClientNames()) {
-        return m_client->getClientName(client_number);
-    }*/
+    if (m_showClientNames) {
+        QString name = m_clients[client_number];
+        if (name != QString::null)
+            return name;
+    }
     return QString("%1").arg(client_number);
 }
 
@@ -626,7 +627,7 @@ QString
 SequenceModel::event_source(SequencerEvent *ev) const
 {
     return QString("%1:%2").arg(client_name(ev->getSourceClient()))
-    .arg(ev->getSourcePort());
+        .arg(ev->getSourcePort());
 }
 
 QString
@@ -672,97 +673,67 @@ SequenceModel::event_kind(SequencerEvent *ev) const
     /* MIDI Channel events */
     case SND_SEQ_EVENT_NOTEON:
         return i18n("Note on");
-
     case SND_SEQ_EVENT_NOTEOFF:
         return i18n("Note off");
-
     case SND_SEQ_EVENT_KEYPRESS:
         return i18n("Polyphonic aftertouch");
-
     case SND_SEQ_EVENT_CONTROLLER:
         return i18n("Control change");
-
     case SND_SEQ_EVENT_PGMCHANGE:
         return i18n("Program change");
-
     case SND_SEQ_EVENT_CHANPRESS:
         return i18n("Channel aftertouch");
-
     case SND_SEQ_EVENT_PITCHBEND:
         return i18n("Pitch bend");
-
     case SND_SEQ_EVENT_CONTROL14:
         return i18n("Control change");
-
     case SND_SEQ_EVENT_NONREGPARAM:
         return i18n("Non-registered parameter");
-
     case SND_SEQ_EVENT_REGPARAM:
         return i18n("Registered parameter");
-
         /* MIDI Common events */
     case SND_SEQ_EVENT_SYSEX:
         return sysex_type(ev);
-
     case SND_SEQ_EVENT_SONGPOS:
         return i18n("Song Position");
-
     case SND_SEQ_EVENT_SONGSEL:
         return i18n("Song Selection");
-
     case SND_SEQ_EVENT_QFRAME:
         return i18n("MTC Quarter Frame");
-
     case SND_SEQ_EVENT_TUNE_REQUEST:
         return i18n("Tune Request");
-
         /* MIDI Realtime Events */
     case SND_SEQ_EVENT_START:
         return i18n("Start");
-
     case SND_SEQ_EVENT_CONTINUE:
         return i18n("Continue");
-
     case SND_SEQ_EVENT_STOP:
         return i18n("Stop");
-
     case SND_SEQ_EVENT_CLOCK:
         return i18n("Clock");
-
     case SND_SEQ_EVENT_TICK:
         return i18n("Tick");
-
     case SND_SEQ_EVENT_RESET:
         return i18n("Reset");
-
     case SND_SEQ_EVENT_SENSING:
         return i18n("Active Sensing");
-
         /* ALSA Client/Port events */
     case SND_SEQ_EVENT_PORT_START:
         return i18n("ALSA Port start");
-
     case SND_SEQ_EVENT_PORT_EXIT:
         return i18n("ALSA Port exit");
-
     case SND_SEQ_EVENT_PORT_CHANGE:
         return i18n("ALSA Port change");
-
     case SND_SEQ_EVENT_CLIENT_START:
         return i18n("ALSA Client start");
-
     case SND_SEQ_EVENT_CLIENT_EXIT:
         return i18n("ALSA Client exit");
-
     case SND_SEQ_EVENT_CLIENT_CHANGE:
         return i18n("ALSA Client change");
-
     case SND_SEQ_EVENT_PORT_SUBSCRIBED:
         return i18n("ALSA Port subscribed");
-
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
         return i18n("ALSA Port unsubscribed");
-
         /* Other events */
     default:
          return QString("Event type %1").arg(ev->getSequencerType());
@@ -784,40 +755,50 @@ QString
 SequenceModel::note_key(SequencerEvent* ev) const
 {
     KeyEvent* ke = dynamic_cast<KeyEvent*>(ev);
-    if (ke != NULL) {
+    if (ke != NULL)
         return QString("%1").arg(ke->getKey());
-    }
-    return QString::null;
+    else
+        return QString::null;
+}
+
+QString
+SequenceModel::program_number(SequencerEvent* ev) const
+{
+    ProgramChangeEvent* pc = dynamic_cast<ProgramChangeEvent*>(ev);
+    if (pc != NULL)
+        return QString("%1").arg(pc->getValue());
+    else
+        return QString::null;
 }
 
 QString
 SequenceModel::note_velocity(SequencerEvent* ev) const
 {
     KeyEvent* ke = dynamic_cast<KeyEvent*>(ev);
-    if (ke != NULL) {
+    if (ke != NULL)
         return QString(" %1").arg(ke->getVelocity());
-    }
-    return QString::null;
+    else
+        return QString::null;
 }
 
 QString
 SequenceModel::control_param(SequencerEvent* ev) const
 {
     ControllerEvent* ce = dynamic_cast<ControllerEvent*>(ev);
-    if (ce != NULL) {
+    if (ce != NULL)
         return QString("%1").arg(ce->getParam());
-    }
-    return QString::null;
+    else
+        return QString::null;
 }
 
 QString
 SequenceModel::control_value(SequencerEvent* ev) const
 {
     ControllerEvent* ce = dynamic_cast<ControllerEvent*>(ev);
-    if (ce != NULL) {
+    if (ce != NULL)
         return QString(" %1").arg(ce->getValue());
-    }
-    return QString::null;
+    else
+        return QString::null;
 }
 
 QString
@@ -830,8 +811,10 @@ SequenceModel::event_data1(SequencerEvent *ev) const
     case SND_SEQ_EVENT_KEYPRESS:
         return note_key(ev);
 
-    case SND_SEQ_EVENT_CONTROLLER:
     case SND_SEQ_EVENT_PGMCHANGE:
+        return program_number(ev);
+
+    case SND_SEQ_EVENT_CONTROLLER:
     case SND_SEQ_EVENT_CHANPRESS:
     case SND_SEQ_EVENT_PITCHBEND:
     case SND_SEQ_EVENT_CONTROL14:

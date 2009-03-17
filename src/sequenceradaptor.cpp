@@ -66,7 +66,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
                          SND_SEQ_PORT_TYPE_APPLICATION );
     m_port->setMidiChannels(16);
     m_port->setTimestamping(true);
-    m_port->setTimestampReal(true);
+    m_port->setTimestampReal(false);
     m_port->setTimestampQueue(m_queueId);
     m_port->attach();
     m_port->subscribeFromAnnounce();
@@ -86,14 +86,32 @@ void SequencerAdaptor::change_port_settings()
     m_port->setTimestampReal(false);
 }
 
+void SequencerAdaptor::updateModelClients()
+{
+    ClientsMap m;
+    ClientInfoList list = m_client->getAvailableClients();
+    ClientInfoList::ConstIterator it;
+    for(it = list.constBegin(); it != list.constEnd(); ++it) {
+        ClientInfo c = *it;
+        m.insert(c.getClientId(), c.getName());
+    }
+    m_model->updateClients(m);
+}
+
+
 void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 {
-    if (m_queue_running)
-        //if ev->isClient()
-        //   m_model->updateClientsList();
-        m_model->addItem(ev);
-    else
+    if (m_queue_running) {
+        QueueStatus s = m_queue->getStatus();
+        unsigned int ticks = s.getTickTime();
+        double seconds = s.getClockTime();
+        SequenceItem itm(seconds, ticks, ev);
+        if (ev->isClient())
+            updateModelClients();
+        m_model->addItem(itm);
+    } else {
         delete ev;
+    }
 }
 
 void SequencerAdaptor::queue_start()

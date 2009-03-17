@@ -23,11 +23,13 @@
 #define SEQUENCEMODEL_H_
 
 #include <QAbstractItemModel>
+#include <QMap>
 #include <event.h>
-//#include "sequenceitem.h"
+#include "sequenceitem.h"
 
 using namespace ALSA::Sequencer;
 
+typedef QMap<int,QString> ClientsMap;
 
 class SequenceModel : public QAbstractItemModel
 {
@@ -58,7 +60,7 @@ public:
 
     void setSorted(bool s) { m_sorted = s; }
     bool isSorted() { return m_sorted; }
-    void addItem(SequencerEvent* itm);
+    void addItem(SequenceItem& itm);
     void clear();
     void saveToStream(QTextStream& str);
 
@@ -78,6 +80,7 @@ public:
     void setFilterAlsaMsg(bool newValue) { m_alsaMessageFilter = newValue; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
+    void updateClients(ClientsMap& newmap) { m_clients = newmap; }
 
 private:
     bool filterSequencerEvent(SequencerEvent* ev) const;
@@ -98,6 +101,7 @@ private:
     QString note_velocity(SequencerEvent* ev) const;
     QString control_param(SequencerEvent* ev) const;
     QString control_value(SequencerEvent* ev) const;
+    QString program_number(SequencerEvent* ev) const;
     QString sysex_type(SequencerEvent *ev) const;
     QString sysex_chan(SequencerEvent *ev) const;
     QString sysex_data1(SequencerEvent *ev) const;
@@ -116,7 +120,8 @@ private:
     bool m_translateSysex;
     bool m_sorted;
 
-    QList<SequencerEvent*> m_items;
+    ClientsMap m_clients;
+    QList<SequenceItem> m_items;
 };
 
 #endif /* SEQUENCEMODEL_H_ */

@@ -60,6 +60,7 @@ public:
     void disconnect_all();
     QStringList inputConnections();
     QStringList list_subscribers();
+    void updateModelClients();
 
 public slots:
     /* handler for the sequencer events */

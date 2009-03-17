@@ -20,9 +20,3 @@
  ***************************************************************************/
 
 #include "sequenceitem.h"
-
-SequenceItem::SequenceItem()
-{}
-
-SequenceItem::~SequenceItem()
-{}

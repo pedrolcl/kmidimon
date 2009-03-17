@@ -61,6 +61,7 @@ KMidimon::KMidimon() :
     m_view->setSelectionMode(QAbstractItemView::NoSelection);
     m_adaptor = new SequencerAdaptor(this);
     m_adaptor->setModel(m_model);
+    m_adaptor->updateModelClients();
     connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                      SLOT(resizeColumns(QModelIndex,int,int)) );
     setCentralWidget(m_view);
