@@ -39,8 +39,6 @@ public:
 
     int getTempo() { return m_tempo->value(); }
     int getResolution() { return m_resolution->value(); }
-    bool isMusicalTime() { return m_musicalTime->isChecked(); }
-    bool isClockTime() { return m_clockTime->isChecked(); }
 
     bool isRegChannelMsg() { return m_channel->isChecked(); }
     bool isRegCommonMsg() { return m_common->isChecked(); }
@@ -50,8 +48,6 @@ public:
 
     void setTempo(int newValue) { m_tempo->setValue(newValue); }
     void setResolution(int newValue) { m_resolution->setValue(newValue); }
-    void setMusicalTime() { m_musicalTime->setChecked(true); }
-    void setClockTime() { m_clockTime->setChecked(true); }
 
     void setRegChannelMsg(bool newValue) { m_channel->setChecked(newValue); }
     void setRegCommonMsg(bool newValue) { m_common->setChecked(newValue); }

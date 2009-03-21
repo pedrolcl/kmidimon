@@ -25,8 +25,8 @@ MA 02110-1301, USA
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>446</height>
+    <width>304</width>
+    <height>308</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -45,9 +45,9 @@ MA 02110-1301, USA
    <item>
     <widget class="QTabWidget" name="m_tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>3</number>
      </property>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="tabSequencer" >
       <attribute name="title" >
        <string>Sequencer</string>
       </attribute>
@@ -132,48 +132,9 @@ MA 02110-1301, USA
          </layout>
         </widget>
        </item>
-       <item>
-        <widget class="QGroupBox" name="timeGroup" >
-         <property name="title" >
-          <string>Time Settings</string>
-         </property>
-         <layout class="QVBoxLayout" >
-          <item>
-           <widget class="QRadioButton" name="m_clockTime" >
-            <property name="text" >
-             <string>Clock Time</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="m_musicalTime" >
-            <property name="text" >
-             <string>Musical Time</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer" >
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0" >
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="tabFilters" >
       <attribute name="title" >
        <string>Filters</string>
       </attribute>
@@ -181,7 +142,7 @@ MA 02110-1301, USA
        <item>
         <widget class="QGroupBox" name="filterGroup" >
          <property name="title" >
-          <string>Show Message Types</string>
+          <string>Record Message Types</string>
          </property>
          <layout class="QVBoxLayout" >
           <item>
@@ -237,7 +198,7 @@ MA 02110-1301, USA
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage" >
+     <widget class="QWidget" name="tabDisplay" >
       <attribute name="title" >
        <string>Display</string>
       </attribute>
@@ -251,6 +212,13 @@ MA 02110-1301, USA
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" >
+          <item>
+           <widget class="QCheckBox" name="m_showTicksColumn" >
+            <property name="text" >
+             <string>Ticks</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QCheckBox" name="m_showTimeColumn" >
             <property name="text" >
@@ -309,12 +277,19 @@ MA 02110-1301, USA
          </layout>
         </widget>
        </item>
-       <item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabMisc" >
+      <attribute name="title" >
+       <string>Misc</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout" >
+       <item row="0" column="0" >
         <widget class="QGroupBox" name="miscGroup" >
          <property name="title" >
-          <string>Misc. Options</string>
+          <string>Miscellaneous Options</string>
          </property>
-         <layout class="QVBoxLayout" >
+         <layout class="QVBoxLayout" name="_2" >
           <item>
            <widget class="QCheckBox" name="m_showClientNames" >
             <property name="text" >

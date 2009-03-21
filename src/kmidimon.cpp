@@ -74,6 +74,7 @@ KMidimon::KMidimon() :
 void KMidimon::setupActions()
 {
     const QString columnName[COLUMN_COUNT] = {
+            i18n("T&icks"),
             i18n("&Time"),
             i18n("&Source"),
             i18n("&Event Kind"),
@@ -82,6 +83,7 @@ void KMidimon::setupActions()
             i18n("Data &2")
     };
     const QString actionName[COLUMN_COUNT] = {
+            "show_ticks",
             "show_time",
             "show_source",
             "show_kind",
@@ -171,7 +173,6 @@ void KMidimon::saveConfiguration()
     KConfigGroup config = KGlobal::config()->group("Settings");
     config.writeEntry("resolution", m_adaptor->getResolution());
     config.writeEntry("tempo", m_adaptor->getTempo());
-    config.writeEntry("tick_time", m_model->showTickTime());
     config.writeEntry("alsa", m_model->showAlsaMsg());
     config.writeEntry("channel", m_model->showChannelMsg());
     config.writeEntry("common", m_model->showCommonMsg());
@@ -193,7 +194,6 @@ void KMidimon::readConfiguration()
     int i;
     bool status;
     KConfigGroup config = KGlobal::config()->group("Settings");
-    m_model->setTickTimeFilter(config.readEntry("tick_time", true));
     m_model->setFilterAlsaMsg(config.readEntry("alsa", true));
     m_model->setFilterChannelMsg(config.readEntry("channel", true));
     m_model->setFilterCommonMsg(config.readEntry("common", true));
@@ -204,7 +204,6 @@ void KMidimon::readConfiguration()
     m_adaptor->setResolution(config.readEntry("resolution", RESOLUTION));
     m_adaptor->setTempo(config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
-    m_adaptor->change_port_settings();
     setFixedFont(config.readEntry("fixed_font", false));
     setSortEvents(config.readEntry("sort_events", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
@@ -221,11 +220,6 @@ void KMidimon::preferences()
 
     dlg.setTempo(m_adaptor->getTempo());
     dlg.setResolution(m_adaptor->getResolution());
-    if (m_model->showTickTime()) {
-        dlg.setMusicalTime();
-    } else {
-        dlg.setClockTime();
-    }
     dlg.setRegAlsaMsg(m_model->showAlsaMsg());
     dlg.setRegChannelMsg(m_model->showChannelMsg());
     dlg.setRegCommonMsg(m_model->showCommonMsg());
@@ -241,7 +235,6 @@ void KMidimon::preferences()
     if (dlg.exec()) {
         was_running = m_adaptor->queue_running();
         if (was_running) stop();
-        m_model->setTickTimeFilter(dlg.isMusicalTime());
         m_model->setFilterAlsaMsg(dlg.isRegAlsaMsg());
         m_model->setFilterChannelMsg(dlg.isRegChannelMsg());
         m_model->setFilterCommonMsg(dlg.isRegCommonMsg());
@@ -252,7 +245,7 @@ void KMidimon::preferences()
         m_adaptor->setTempo(dlg.getTempo());
         m_adaptor->setResolution(dlg.getResolution());
         m_adaptor->queue_set_tempo();
-        m_adaptor->change_port_settings();
+        //m_adaptor->change_port_settings();
         setFixedFont(dlg.useFixedFont());
         setSortEvents(dlg.sortEvents());
         for (i = 0; i < COLUMN_COUNT; ++i) {

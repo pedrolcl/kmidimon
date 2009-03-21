@@ -46,7 +46,6 @@ public:
     void queue_start();
     void queue_stop();
     void queue_set_tempo();
-    void change_port_settings();
 
     int getTempo() { return m_tempo; }
     int getResolution() { return m_resolution; }

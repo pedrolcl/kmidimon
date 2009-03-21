@@ -45,16 +45,18 @@ SequenceModel::headerData(int section, Qt::Orientation orientation,
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
         switch(section) {
         case 0:
-            return i18n("Time");
+            return i18n("Ticks");
         case 1:
-            return i18n("Source");
+            return i18n("Time");
         case 2:
-            return i18n("Event kind");
+            return i18n("Source");
         case 3:
-            return i18n("Chan");
+            return i18n("Event kind");
         case 4:
-            return i18n("Data 1");
+            return i18n("Chan");
         case 5:
+            return i18n("Data 1");
+        case 6:
             return i18n("Data 2");
         }
     }
@@ -98,16 +100,18 @@ SequenceModel::data(const QModelIndex &index, int role) const
             if (ev != NULL) {
                 switch (index.column()) {
                 case 0:
-                    return event_time(ev);
+                    return event_ticks(ev);
                 case 1:
-                    return event_source(ev);
+                    return event_time(itm);
                 case 2:
-                    return event_kind(ev);
+                    return event_source(ev);
                 case 3:
-                    return event_channel(ev);
+                    return event_kind(ev);
                 case 4:
-                    return event_data1(ev);
+                    return event_channel(ev);
                 case 5:
+                    return event_data1(ev);
+                case 6:
                     return event_data2(ev);
                 }
             }
@@ -119,12 +123,14 @@ SequenceModel::data(const QModelIndex &index, int role) const
             case 1:
                 return Qt::AlignRight;
             case 2:
-                return Qt::AlignLeft;
-            case 3:
                 return Qt::AlignRight;
+            case 3:
+                return Qt::AlignLeft;
             case 4:
                 return Qt::AlignRight;
             case 5:
+                return Qt::AlignRight;
+            case 6:
                 return Qt::AlignLeft;
             }
         }
@@ -224,7 +230,8 @@ SequenceModel::saveToStream(QTextStream& str)
         SequenceItem itm = m_items[i];
         SequencerEvent* ev = itm.getEvent();
         if (ev != NULL) {
-            str << event_time(ev).trimmed() << ","
+            str << event_ticks(ev).trimmed() << ","
+                << event_time(itm).trimmed() << ","
                 << event_source(ev).trimmed() << ","
                 << event_channel(ev).trimmed() << ","
                 << event_kind(ev).trimmed() << ","
@@ -595,21 +602,22 @@ SequenceModel::sysex_data2(SequencerEvent *ev) const
             h.prepend(' ');
             text.append(h);
         }
-        return text;
+        return text.trimmed();
     }
     return QString::null;
 }
 
 QString
-SequenceModel::event_time(SequencerEvent *ev) const
+SequenceModel::event_ticks(SequencerEvent *ev) const
 {
-    //if (m_tickTimeFilter) {
-        return QString("%1 ").arg(ev->getTick());
-    /*} else {
-        QString d = QString::number(ev->getRealTimeNanos()/1000, 'f', 0);
-        d = d.left(4).leftJustified(4, '0');
-        return QString("%1.%2 ").arg(ev->getRealTimeSecs()).arg(d);
-    }*/
+    return QString("%1").arg(ev->getTick());
+}
+
+QString
+SequenceModel::event_time(SequenceItem& itm) const
+{
+    //return QString("%1").arg(itm.getTicks());
+    return QString::number(itm.getSeconds(), 'f', 4);
 }
 
 QString
@@ -655,7 +663,7 @@ SequenceModel::event_sender(SequencerEvent *ev) const
 QString
 SequenceModel::event_dest(SequencerEvent *ev) const
 {
-    return QString(" %1:%2")
+    return QString("%1:%2")
         .arg(client_name(ev->getHandle()->data.connect.dest.client))
         .arg(ev->getHandle()->data.connect.dest.port);
 }
@@ -776,7 +784,7 @@ SequenceModel::note_velocity(SequencerEvent* ev) const
 {
     KeyEvent* ke = dynamic_cast<KeyEvent*>(ev);
     if (ke != NULL)
-        return QString(" %1").arg(ke->getVelocity());
+        return QString("%1").arg(ke->getVelocity());
     else
         return QString::null;
 }
@@ -796,7 +804,17 @@ SequenceModel::control_value(SequencerEvent* ev) const
 {
     ControllerEvent* ce = dynamic_cast<ControllerEvent*>(ev);
     if (ce != NULL)
-        return QString(" %1").arg(ce->getValue());
+        return QString("%1").arg(ce->getValue());
+    else
+        return QString::null;
+}
+
+QString
+SequenceModel::pitchbend_value(SequencerEvent* ev) const
+{
+    PitchBendEvent* pe = dynamic_cast<PitchBendEvent*>(ev);
+    if (pe != NULL)
+        return QString("%1").arg(pe->getValue());
     else
         return QString::null;
 }
@@ -814,9 +832,11 @@ SequenceModel::event_data1(SequencerEvent *ev) const
     case SND_SEQ_EVENT_PGMCHANGE:
         return program_number(ev);
 
+    case SND_SEQ_EVENT_PITCHBEND:
+        return pitchbend_value(ev);
+
     case SND_SEQ_EVENT_CONTROLLER:
     case SND_SEQ_EVENT_CHANPRESS:
-    case SND_SEQ_EVENT_PITCHBEND:
     case SND_SEQ_EVENT_CONTROL14:
     case SND_SEQ_EVENT_NONREGPARAM:
     case SND_SEQ_EVENT_REGPARAM:
@@ -864,9 +884,7 @@ SequenceModel::event_data2(SequencerEvent *ev) const
         return note_velocity(ev);
 
     case SND_SEQ_EVENT_CONTROLLER:
-    case SND_SEQ_EVENT_PGMCHANGE:
     case SND_SEQ_EVENT_CHANPRESS:
-    case SND_SEQ_EVENT_PITCHBEND:
     case SND_SEQ_EVENT_CONTROL14:
     case SND_SEQ_EVENT_NONREGPARAM:
     case SND_SEQ_EVENT_REGPARAM:

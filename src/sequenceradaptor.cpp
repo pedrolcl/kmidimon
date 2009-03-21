@@ -80,12 +80,6 @@ SequencerAdaptor::~SequencerAdaptor()
     m_client->close();
 }
 
-void SequencerAdaptor::change_port_settings()
-{
-    //m_port->setTimestampReal(!m_tickTimeFilter);
-    m_port->setTimestampReal(false);
-}
-
 void SequencerAdaptor::updateModelClients()
 {
     ClientsMap m;

@@ -14,6 +14,7 @@
 </MenuBar>
 <Menu name="popup">
   <title>List Columns</title>
+  <Action name="show_ticks"/> 
   <Action name="show_time"/> 
   <Action name="show_source"/> 
   <Action name="show_kind"/> 

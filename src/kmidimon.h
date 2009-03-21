@@ -35,7 +35,7 @@ class QModelIndex;
 class QSignalMapper;
 class SequenceModel;
 
-const int COLUMN_COUNT = 6;
+const int COLUMN_COUNT = 7;
 
 class KMidimon : public KXmlGuiWindow
 {

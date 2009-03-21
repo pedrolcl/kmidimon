@@ -36,7 +36,6 @@ class SequenceModel : public QAbstractItemModel
 public:
     SequenceModel(QObject* parent = 0) :
         QAbstractItemModel(parent),
-        m_tickTimeFilter(true),
         m_channelMessageFilter(true),
         m_commonMessageFilter(true),
         m_realtimeMessageFilter(true),
@@ -64,7 +63,6 @@ public:
     void clear();
     void saveToStream(QTextStream& str);
 
-    bool showTickTime() const { return m_tickTimeFilter; }
     bool showChannelMsg() const { return m_channelMessageFilter; }
     bool showCommonMsg() const { return m_commonMessageFilter; }
     bool showRealTimeMsg() const { return m_realtimeMessageFilter; }
@@ -72,7 +70,6 @@ public:
     bool showAlsaMsg() const { return m_alsaMessageFilter; }
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
-    void setTickTimeFilter(bool newValue) { m_tickTimeFilter = newValue; }
     void setFilterChannelMsg(bool newValue) { m_channelMessageFilter = newValue; }
     void setFilterCommonMsg(bool newValue) { m_commonMessageFilter = newValue; }
     void setFilterRealTimeMsg(bool newValue) { m_realtimeMessageFilter = newValue; }
@@ -86,8 +83,9 @@ private:
     bool filterSequencerEvent(SequencerEvent* ev) const;
 
     QString client_name(int client_number) const;
+    QString event_time(SequenceItem& itm) const;
     QString event_source(SequencerEvent *ev) const;
-    QString event_time(SequencerEvent *ev) const;
+    QString event_ticks(SequencerEvent *ev) const;
     QString event_client(SequencerEvent *ev) const;
     QString event_addr(SequencerEvent *ev) const;
     QString event_sender(SequencerEvent *ev) const;
@@ -102,6 +100,7 @@ private:
     QString control_param(SequencerEvent* ev) const;
     QString control_value(SequencerEvent* ev) const;
     QString program_number(SequencerEvent* ev) const;
+    QString pitchbend_value(SequencerEvent* ev) const;
     QString sysex_type(SequencerEvent *ev) const;
     QString sysex_chan(SequencerEvent *ev) const;
     QString sysex_data1(SequencerEvent *ev) const;
@@ -110,7 +109,6 @@ private:
     QString sysex_mtc(int id, int length, unsigned char *ptr) const;
     QString sysex_mmc(int id, int length, unsigned char *ptr) const;
 
-    bool m_tickTimeFilter;
     bool m_channelMessageFilter;
     bool m_commonMessageFilter;
     bool m_realtimeMessageFilter;
