@@ -820,6 +820,16 @@ SequenceModel::pitchbend_value(SequencerEvent* ev) const
 }
 
 QString
+SequenceModel::chanpress_value(SequencerEvent* ev) const
+{
+    ChanPressEvent* cp = dynamic_cast<ChanPressEvent*>(ev);
+    if (cp != NULL)
+        return QString("%1").arg(cp->getValue());
+    else
+        return QString::null;
+}
+
+QString
 SequenceModel::event_data1(SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
@@ -835,8 +845,10 @@ SequenceModel::event_data1(SequencerEvent *ev) const
     case SND_SEQ_EVENT_PITCHBEND:
         return pitchbend_value(ev);
 
-    case SND_SEQ_EVENT_CONTROLLER:
     case SND_SEQ_EVENT_CHANPRESS:
+        return chanpress_value(ev);
+
+    case SND_SEQ_EVENT_CONTROLLER:
     case SND_SEQ_EVENT_CONTROL14:
     case SND_SEQ_EVENT_NONREGPARAM:
     case SND_SEQ_EVENT_REGPARAM:
@@ -884,7 +896,6 @@ SequenceModel::event_data2(SequencerEvent *ev) const
         return note_velocity(ev);
 
     case SND_SEQ_EVENT_CONTROLLER:
-    case SND_SEQ_EVENT_CHANPRESS:
     case SND_SEQ_EVENT_CONTROL14:
     case SND_SEQ_EVENT_NONREGPARAM:
     case SND_SEQ_EVENT_REGPARAM:
@@ -892,17 +903,6 @@ SequenceModel::event_data2(SequencerEvent *ev) const
 
     case SND_SEQ_EVENT_SYSEX:
         return sysex_data2(ev);
-
-        /* ALSA Client/Port events */
-    case SND_SEQ_EVENT_PORT_START:
-    case SND_SEQ_EVENT_PORT_EXIT:
-    case SND_SEQ_EVENT_PORT_CHANGE:
-        return event_addr(ev);
-
-    case SND_SEQ_EVENT_CLIENT_START:
-    case SND_SEQ_EVENT_CLIENT_EXIT:
-    case SND_SEQ_EVENT_CLIENT_CHANGE:
-        return event_client(ev);
 
     case SND_SEQ_EVENT_PORT_SUBSCRIBED:
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:

@@ -101,6 +101,7 @@ private:
     QString control_value(SequencerEvent* ev) const;
     QString program_number(SequencerEvent* ev) const;
     QString pitchbend_value(SequencerEvent* ev) const;
+    QString chanpress_value(SequencerEvent* ev) const;
     QString sysex_type(SequencerEvent *ev) const;
     QString sysex_chan(SequencerEvent *ev) const;
     QString sysex_data1(SequencerEvent *ev) const;
