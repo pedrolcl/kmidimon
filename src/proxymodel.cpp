@@ -19,37 +19,30 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCEITEM_H_
-#define SEQUENCEITEM_H_
-
+#include "proxymodel.h"
+#include "sequencemodel.h"
 #include <event.h>
 
 using namespace ALSA::Sequencer;
 
-class SequenceItem
+ProxyModel::ProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+{ }
+
+void ProxyModel::setFilterTrack(int track)
 {
-public:
-    SequenceItem(double seconds,
-                 unsigned int ticks,
-                 SequencerEvent* ev):
-    m_seconds(seconds),
-    m_ticks(ticks),
-    m_event(ev)
-    {}
+    m_trackFilter = track;
+    invalidateFilter();
+}
 
-    virtual ~SequenceItem()
-    {}
-
-    double getSeconds() const { return m_seconds; }
-    unsigned int  getTicks() const { return m_ticks; }
-    const SequencerEvent* getEvent() const { return m_event; }
-    void deleteEvent() { delete m_event; }
-    int getTag() const;
-
-private:
-    double m_seconds;
-    unsigned int m_ticks;
-    SequencerEvent* m_event;
-};
-
-#endif /* SEQUENCEITEM_H_ */
+bool ProxyModel::filterAcceptsRow(int sourceRow,
+        const QModelIndex& /*sourceParent*/) const
+{
+    SequenceModel* sModel = static_cast<SequenceModel*>(sourceModel());
+    const SequencerEvent* ev = sModel->getEvent(sourceRow);
+    if (ev) {
+        qDebug() << "item tag = " << ev->getTag();
+        return (ev->getTag() == m_trackFilter);
+    }
+    return false;
+}

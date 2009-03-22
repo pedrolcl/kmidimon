@@ -20,3 +20,11 @@
  ***************************************************************************/
 
 #include "sequenceitem.h"
+
+int SequenceItem::getTag() const
+{
+    if (m_event != NULL) {
+        return m_event->getTag();
+    }
+    return -1;
+}

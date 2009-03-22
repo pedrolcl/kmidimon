@@ -26,6 +26,8 @@
 #include <QTreeView>
 #include <QTextStream>
 #include <QSignalMapper>
+#include <QTabBar>
+#include <QVariant>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -44,30 +46,43 @@
 #include "configdialog.h"
 #include "connectdlg.h"
 #include "sequencemodel.h"
+#include "proxymodel.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
 {
+    QWidget *vbox = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
-    m_sortEvents = false;
+    m_orderedEvents = false;
     m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
-    m_model->setSorted(m_sortEvents);
+    m_model->setOrdered(m_orderedEvents);
+    m_proxy = new ProxyModel(this);
+    m_proxy->setSourceModel(m_model);
     m_view = new QTreeView(this);
     m_view->setRootIsDecorated(false);
     m_view->setAlternatingRowColors(true);
-    m_view->setModel(m_model);
+    m_view->setModel(m_proxy);
     m_view->setSortingEnabled(false);
     m_view->setSelectionMode(QAbstractItemView::NoSelection);
     m_adaptor = new SequencerAdaptor(this);
     m_adaptor->setModel(m_model);
     m_adaptor->updateModelClients();
-    connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
-                     SLOT(resizeColumns(QModelIndex,int,int)) );
-    setCentralWidget(m_view);
+    connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+                      SLOT(resizeColumns(QModelIndex,int,int)) );
+    m_tabBar = new QTabBar(this);
+    m_tabBar->setShape(QTabBar::RoundedNorth);
+    connect( m_tabBar, SIGNAL(currentChanged(int)),
+                       SLOT(tabIndexChanged(int)) );
+    layout->addWidget(m_tabBar);
+    layout->addWidget(m_view);
+    vbox->setLayout(layout);
+    setCentralWidget(vbox);
     setupActions();
     setAutoSaveSettings();
     readConfiguration();
+    addNewTab(0);
     record();
 }
 
@@ -181,7 +196,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("client_names", m_model->showClientNames());
     config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
-    config.writeEntry("sort_events", getSortEvents());
+    config.writeEntry("sort_events", orderedEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
@@ -205,7 +220,7 @@ void KMidimon::readConfiguration()
     m_adaptor->setTempo(config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
     setFixedFont(config.readEntry("fixed_font", false));
-    setSortEvents(config.readEntry("sort_events", false));
+    setOrderedEvents(config.readEntry("sort_events", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.readEntry(QString("show_column_%1").arg(i), true);
         setColumnStatus(i, status);
@@ -228,7 +243,7 @@ void KMidimon::preferences()
     dlg.setShowClientNames(m_model->showClientNames());
     dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
-    dlg.setSortEvents(getSortEvents());
+    dlg.setOrderedEvents(orderedEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
     }
@@ -245,9 +260,8 @@ void KMidimon::preferences()
         m_adaptor->setTempo(dlg.getTempo());
         m_adaptor->setResolution(dlg.getResolution());
         m_adaptor->queue_set_tempo();
-        //m_adaptor->change_port_settings();
         setFixedFont(dlg.useFixedFont());
-        setSortEvents(dlg.sortEvents());
+        setOrderedEvents(dlg.orderedEvents());
         for (i = 0; i < COLUMN_COUNT; ++i) {
             setColumnStatus(i, dlg.showColumn(i));
         }
@@ -347,11 +361,11 @@ void KMidimon::setFixedFont(bool newValue)
     }
 }
 
-void KMidimon::setSortEvents(bool newValue)
+void KMidimon::setOrderedEvents(bool newValue)
 {
-    if (m_sortEvents != newValue) {
-        m_sortEvents = newValue;
-        m_model->setSorted(m_sortEvents);
+    if (m_orderedEvents != newValue) {
+        m_orderedEvents = newValue;
+        m_model->setOrdered(m_orderedEvents);
         fileNew();
     }
 }
@@ -360,8 +374,22 @@ void KMidimon::resizeColumns(const QModelIndex&, int, int)
 {
     for( int i = 0; i < COLUMN_COUNT; ++i)
         m_view->resizeColumnToContents(i);
-    if (m_sortEvents)
+    if (m_orderedEvents)
         m_view->scrollToBottom();
     else
         m_view->scrollToTop();
+}
+
+void KMidimon::addNewTab(int data)
+{
+    QString tabName = i18n("Track %1").arg(data);
+    int i = m_tabBar->addTab(tabName);
+    m_tabBar->setTabData(i, QVariant(data));
+}
+
+void KMidimon::tabIndexChanged(int index)
+{
+    QVariant data = m_tabBar->tabData(index);
+    qDebug() << "current tab data: " << data.toInt();
+    m_proxy->setFilterTrack(data.toInt());
 }

@@ -36,6 +36,8 @@ SET(kmidimon_SRCS
     kmidimon.cpp
     kmidimon.h
     main.cpp
+    proxymodel.cpp
+    proxymodel.h
     sequenceradaptor.cpp
     sequenceradaptor.h
     sequenceitem.cpp

@@ -96,7 +96,7 @@ SequenceModel::data(const QModelIndex &index, int role) const
     if (index.isValid()) {
         if ( role == Qt::DisplayRole ) {
             SequenceItem itm = m_items[index.row()];
-            SequencerEvent* ev = itm.getEvent();
+            const SequencerEvent* ev = itm.getEvent();
             if (ev != NULL) {
                 switch (index.column()) {
                 case 0:
@@ -139,7 +139,7 @@ SequenceModel::data(const QModelIndex &index, int role) const
 }
 
 bool
-SequenceModel::filterSequencerEvent(SequencerEvent* ev) const
+SequenceModel::filterSequencerEvent(const SequencerEvent* ev) const
 {
     switch (ev->getSequencerType()) {
         /* MIDI Channel events */
@@ -197,11 +197,11 @@ void
 SequenceModel::addItem(SequenceItem& itm)
 {
     if (filterSequencerEvent(itm.getEvent())) {
-        int where = m_sorted ? m_items.count() : 0;
+        int where = m_ordered ? m_items.count() : 0;
         QModelIndex idx1 = createIndex(where, 0);
         QModelIndex idx2 = createIndex(where, 5);
         beginInsertRows(QModelIndex(), where, where);
-        if (m_sorted)
+        if (m_ordered)
             m_items.append(itm);
         else
             m_items.insert(0, itm);
@@ -228,7 +228,7 @@ SequenceModel::saveToStream(QTextStream& str)
 {
     for( int i = 0; i < m_items.count(); ++i ) {
         SequenceItem itm = m_items[i];
-        SequencerEvent* ev = itm.getEvent();
+        const SequencerEvent* ev = itm.getEvent();
         if (ev != NULL) {
             str << event_ticks(ev).trimmed() << ","
                 << event_time(itm).trimmed() << ","
@@ -242,9 +242,9 @@ SequenceModel::saveToStream(QTextStream& str)
 }
 
 QString
-SequenceModel::sysex_type(SequencerEvent *ev) const
+SequenceModel::sysex_type(const SequencerEvent *ev) const
 {
-    SysExEvent *sev = dynamic_cast<SysExEvent *>(ev);
+    const SysExEvent *sev = dynamic_cast<const SysExEvent*>(ev);
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
@@ -266,9 +266,9 @@ SequenceModel::sysex_type(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::sysex_chan(SequencerEvent *ev) const
+SequenceModel::sysex_chan(const SequencerEvent *ev) const
 {
-    SysExEvent *sev = dynamic_cast<SysExEvent *>(ev);
+    const SysExEvent *sev = dynamic_cast<const SysExEvent*>(ev);
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
@@ -287,9 +287,9 @@ SequenceModel::sysex_chan(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::sysex_data1(SequencerEvent *ev) const
+SequenceModel::sysex_data1(const SequencerEvent *ev) const
 {
-    SysExEvent *sev = dynamic_cast<SysExEvent *>(ev);
+    const SysExEvent *sev = dynamic_cast<const SysExEvent*>(ev);
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
@@ -347,7 +347,7 @@ SequenceModel::sysex_data1(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::sysex_mtc_setup(int id) const
+SequenceModel::sysex_mtc_setup(const int id) const
 {
     switch (id) {
         case 0x00:
@@ -473,9 +473,9 @@ SequenceModel::sysex_mmc(int id, int length, unsigned char *ptr) const
 }
 
 QString
-SequenceModel::sysex_data2(SequencerEvent *ev) const
+SequenceModel::sysex_data2(const SequencerEvent *ev) const
 {
-    SysExEvent *sev = dynamic_cast<SysExEvent *>(ev);
+    const SysExEvent *sev = dynamic_cast<const SysExEvent*>(ev);
     if (sev != NULL) {
         if (m_translateSysex) {
             int val;
@@ -608,20 +608,20 @@ SequenceModel::sysex_data2(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::event_ticks(SequencerEvent *ev) const
+SequenceModel::event_ticks(const SequencerEvent *ev) const
 {
     return QString("%1").arg(ev->getTick());
 }
 
 QString
-SequenceModel::event_time(SequenceItem& itm) const
+SequenceModel::event_time(const SequenceItem& itm) const
 {
     //return QString("%1").arg(itm.getTicks());
     return QString::number(itm.getSeconds(), 'f', 4);
 }
 
 QString
-SequenceModel::client_name(int client_number) const
+SequenceModel::client_name(const int client_number) const
 {
     if (m_showClientNames) {
         QString name = m_clients[client_number];
@@ -632,50 +632,67 @@ SequenceModel::client_name(int client_number) const
 }
 
 QString
-SequenceModel::event_source(SequencerEvent *ev) const
+SequenceModel::event_source(const SequencerEvent *ev) const
 {
     return QString("%1:%2").arg(client_name(ev->getSourceClient()))
         .arg(ev->getSourcePort());
 }
 
 QString
-SequenceModel::event_addr(SequencerEvent *ev) const
+SequenceModel::event_addr(const SequencerEvent *ev) const
 {
-    return QString("%1:%2")
-        .arg(client_name(ev->getHandle()->data.addr.client))
-        .arg(ev->getHandle()->data.addr.port);
+    const PortEvent* pe = dynamic_cast<const PortEvent*>(ev);
+    if (pe != NULL)
+        return QString("%1:%2").arg(client_name(pe->getClient()))
+                               .arg(pe->getPort());
+    else
+        return QString::null;
 }
 
 QString
-SequenceModel::event_client(SequencerEvent *ev) const
+SequenceModel::event_client(const SequencerEvent *ev) const
 {
-    return client_name(ev->getHandle()->data.addr.client);
+    const ClientEvent* ce = dynamic_cast<const ClientEvent*>(ev);
+    if (ce != NULL)
+        return client_name(ce->getClient());
+    else
+        return QString::null;
 }
 
 QString
-SequenceModel::event_sender(SequencerEvent *ev) const
+SequenceModel::event_sender(const SequencerEvent *ev) const
 {
-    return QString("%1:%2")
-        .arg(client_name(ev->getHandle()->data.connect.sender.client))
-        .arg(ev->getHandle()->data.connect.sender.port);
+    const SubscriptionEvent* se = dynamic_cast<const SubscriptionEvent*>(ev);
+    if (se != NULL)
+        return QString("%1:%2").arg(client_name(se->getSenderClient()))
+                               .arg(se->getSenderPort());
+    else
+        return QString::null;
 }
 
 QString
-SequenceModel::event_dest(SequencerEvent *ev) const
+SequenceModel::event_dest(const SequencerEvent *ev) const
 {
-    return QString("%1:%2")
-        .arg(client_name(ev->getHandle()->data.connect.dest.client))
-        .arg(ev->getHandle()->data.connect.dest.port);
+    const SubscriptionEvent* se = dynamic_cast<const SubscriptionEvent*>(ev);
+    if (se != NULL)
+        return QString("%1:%2").arg(client_name(se->getDestClient()))
+                               .arg(se->getDestPort());
+    else
+        return QString::null;
 }
 
 QString
-SequenceModel::common_param(SequencerEvent *ev) const
+SequenceModel::common_param(const SequencerEvent *ev) const
 {
-    return QString("%1").arg(ev->getHandle()->data.control.value);
+    const ValueEvent* ve = dynamic_cast<const ValueEvent*>(ev);
+    if (ve != NULL)
+        return QString("%1").arg(ve->getValue());
+    else
+        return QString::null;
 }
 
 QString
-SequenceModel::event_kind(SequencerEvent *ev) const
+SequenceModel::event_kind(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
     /* MIDI Channel events */
@@ -750,9 +767,9 @@ SequenceModel::event_kind(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::event_channel(SequencerEvent *ev) const
+SequenceModel::event_channel(const SequencerEvent *ev) const
 {
-    ChannelEvent* che = dynamic_cast<ChannelEvent*>(ev);
+    const ChannelEvent* che = dynamic_cast<const ChannelEvent*>(ev);
     if (che != NULL)
         return QString("%1").arg(che->getChannel()+1);
     else
@@ -760,9 +777,9 @@ SequenceModel::event_channel(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::note_key(SequencerEvent* ev) const
+SequenceModel::note_key(const SequencerEvent* ev) const
 {
-    KeyEvent* ke = dynamic_cast<KeyEvent*>(ev);
+    const KeyEvent* ke = dynamic_cast<const KeyEvent*>(ev);
     if (ke != NULL)
         return QString("%1").arg(ke->getKey());
     else
@@ -770,9 +787,9 @@ SequenceModel::note_key(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::program_number(SequencerEvent* ev) const
+SequenceModel::program_number(const SequencerEvent* ev) const
 {
-    ProgramChangeEvent* pc = dynamic_cast<ProgramChangeEvent*>(ev);
+    const ProgramChangeEvent* pc = dynamic_cast<const ProgramChangeEvent*>(ev);
     if (pc != NULL)
         return QString("%1").arg(pc->getValue());
     else
@@ -780,9 +797,9 @@ SequenceModel::program_number(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::note_velocity(SequencerEvent* ev) const
+SequenceModel::note_velocity(const SequencerEvent* ev) const
 {
-    KeyEvent* ke = dynamic_cast<KeyEvent*>(ev);
+    const KeyEvent* ke = dynamic_cast<const KeyEvent*>(ev);
     if (ke != NULL)
         return QString("%1").arg(ke->getVelocity());
     else
@@ -790,9 +807,9 @@ SequenceModel::note_velocity(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::control_param(SequencerEvent* ev) const
+SequenceModel::control_param(const SequencerEvent* ev) const
 {
-    ControllerEvent* ce = dynamic_cast<ControllerEvent*>(ev);
+    const ControllerEvent* ce = dynamic_cast<const ControllerEvent*>(ev);
     if (ce != NULL)
         return QString("%1").arg(ce->getParam());
     else
@@ -800,9 +817,9 @@ SequenceModel::control_param(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::control_value(SequencerEvent* ev) const
+SequenceModel::control_value(const SequencerEvent* ev) const
 {
-    ControllerEvent* ce = dynamic_cast<ControllerEvent*>(ev);
+    const ControllerEvent* ce = dynamic_cast<const ControllerEvent*>(ev);
     if (ce != NULL)
         return QString("%1").arg(ce->getValue());
     else
@@ -810,9 +827,9 @@ SequenceModel::control_value(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::pitchbend_value(SequencerEvent* ev) const
+SequenceModel::pitchbend_value(const SequencerEvent* ev) const
 {
-    PitchBendEvent* pe = dynamic_cast<PitchBendEvent*>(ev);
+    const PitchBendEvent* pe = dynamic_cast<const PitchBendEvent*>(ev);
     if (pe != NULL)
         return QString("%1").arg(pe->getValue());
     else
@@ -820,9 +837,9 @@ SequenceModel::pitchbend_value(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::chanpress_value(SequencerEvent* ev) const
+SequenceModel::chanpress_value(const SequencerEvent* ev) const
 {
-    ChanPressEvent* cp = dynamic_cast<ChanPressEvent*>(ev);
+    const ChanPressEvent* cp = dynamic_cast<const ChanPressEvent*>(ev);
     if (cp != NULL)
         return QString("%1").arg(cp->getValue());
     else
@@ -830,7 +847,7 @@ SequenceModel::chanpress_value(SequencerEvent* ev) const
 }
 
 QString
-SequenceModel::event_data1(SequencerEvent *ev) const
+SequenceModel::event_data1(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
     /* MIDI Channel events */
@@ -886,7 +903,7 @@ SequenceModel::event_data1(SequencerEvent *ev) const
 }
 
 QString
-SequenceModel::event_data2(SequencerEvent *ev) const
+SequenceModel::event_data2(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
     /* MIDI Channel events */
@@ -914,3 +931,12 @@ SequenceModel::event_data2(SequencerEvent *ev) const
     }
     return QString::null;
 }
+
+const SequencerEvent*
+SequenceModel::getEvent(const int row) const
+{
+    if ((row >= 0) && (row < m_items.count()))
+        return m_items[row].getEvent();
+    return NULL;
+}
+

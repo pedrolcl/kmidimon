@@ -57,9 +57,10 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void setSorted(bool s) { m_sorted = s; }
-    bool isSorted() { return m_sorted; }
+    void setOrdered(bool s) { m_ordered = s; }
+    bool isOrdered() { return m_ordered; }
     void addItem(SequenceItem& itm);
+    const SequencerEvent* getEvent(const int row) const;
     void clear();
     void saveToStream(QTextStream& str);
 
@@ -80,33 +81,33 @@ public:
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
 
 private:
-    bool filterSequencerEvent(SequencerEvent* ev) const;
+    bool filterSequencerEvent(const SequencerEvent* ev) const;
 
-    QString client_name(int client_number) const;
-    QString event_time(SequenceItem& itm) const;
-    QString event_source(SequencerEvent *ev) const;
-    QString event_ticks(SequencerEvent *ev) const;
-    QString event_client(SequencerEvent *ev) const;
-    QString event_addr(SequencerEvent *ev) const;
-    QString event_sender(SequencerEvent *ev) const;
-    QString event_dest(SequencerEvent *ev) const;
-    QString common_param(SequencerEvent *ev) const;
-    QString event_kind(SequencerEvent *ev) const;
-    QString event_channel(SequencerEvent *ev) const;
-    QString event_data1(SequencerEvent *ev) const;
-    QString event_data2(SequencerEvent *ev) const;
-    QString note_key(SequencerEvent* ev) const;
-    QString note_velocity(SequencerEvent* ev) const;
-    QString control_param(SequencerEvent* ev) const;
-    QString control_value(SequencerEvent* ev) const;
-    QString program_number(SequencerEvent* ev) const;
-    QString pitchbend_value(SequencerEvent* ev) const;
-    QString chanpress_value(SequencerEvent* ev) const;
-    QString sysex_type(SequencerEvent *ev) const;
-    QString sysex_chan(SequencerEvent *ev) const;
-    QString sysex_data1(SequencerEvent *ev) const;
-    QString sysex_data2(SequencerEvent *ev) const;
-    QString sysex_mtc_setup(int id) const;
+    QString client_name(const int client_number) const;
+    QString event_time(const SequenceItem& itm) const;
+    QString event_source(const SequencerEvent *ev) const;
+    QString event_ticks(const SequencerEvent *ev) const;
+    QString event_client(const SequencerEvent *ev) const;
+    QString event_addr(const SequencerEvent *ev) const;
+    QString event_sender(const SequencerEvent *ev) const;
+    QString event_dest(const SequencerEvent *ev) const;
+    QString common_param(const SequencerEvent *ev) const;
+    QString event_kind(const SequencerEvent *ev) const;
+    QString event_channel(const SequencerEvent *ev) const;
+    QString event_data1(const SequencerEvent *ev) const;
+    QString event_data2(const SequencerEvent *ev) const;
+    QString note_key(const SequencerEvent* ev) const;
+    QString note_velocity(const SequencerEvent* ev) const;
+    QString control_param(const SequencerEvent* ev) const;
+    QString control_value(const SequencerEvent* ev) const;
+    QString program_number(const SequencerEvent* ev) const;
+    QString pitchbend_value(const SequencerEvent* ev) const;
+    QString chanpress_value(const SequencerEvent* ev) const;
+    QString sysex_type(const SequencerEvent *ev) const;
+    QString sysex_chan(const SequencerEvent *ev) const;
+    QString sysex_data1(const SequencerEvent *ev) const;
+    QString sysex_data2(const SequencerEvent *ev) const;
+    QString sysex_mtc_setup(const int id) const;
     QString sysex_mtc(int id, int length, unsigned char *ptr) const;
     QString sysex_mmc(int id, int length, unsigned char *ptr) const;
 
@@ -117,7 +118,7 @@ private:
     bool m_alsaMessageFilter;
     bool m_showClientNames;
     bool m_translateSysex;
-    bool m_sorted;
+    bool m_ordered;
 
     ClientsMap m_clients;
     QList<SequenceItem> m_items;

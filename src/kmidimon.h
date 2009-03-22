@@ -34,6 +34,8 @@ class QTreeView;
 class QModelIndex;
 class QSignalMapper;
 class SequenceModel;
+class QTabBar;
+class ProxyModel;
 
 const int COLUMN_COUNT = 7;
 
@@ -61,6 +63,7 @@ public slots:
     void setColumnStatus(int colNum, bool status);
     void toggleColumn(int colNum);
     void resizeColumns(const QModelIndex& parent, int start, int end);
+    void tabIndexChanged(int index);
 
 protected:
     void saveConfiguration();
@@ -68,8 +71,9 @@ protected:
     void setupActions();
     void setFixedFont(bool newValue);
     bool getFixedFont() const { return m_useFixedFont; }
-    void setSortEvents(bool newValue);
-    bool getSortEvents() const { return m_sortEvents; }
+    void setOrderedEvents(bool newValue);
+    bool orderedEvents() const { return m_orderedEvents; }
+    void addNewTab(int data);
 
 private:
     SequencerAdaptor *m_adaptor;
@@ -84,9 +88,11 @@ private:
     QMenu* m_popup;
     QTreeView* m_view;
     SequenceModel* m_model;
+    ProxyModel* m_proxy;
     QSignalMapper* m_mapper;
+    QTabBar* m_tabBar;
 	bool m_useFixedFont;
-	bool m_sortEvents;
+	bool m_orderedEvents;
 };
 
 #endif // _KMIDIMON_H_

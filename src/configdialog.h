@@ -67,8 +67,8 @@ public:
     bool showColumn(int colNum);
     void setShowColumn(int colNum, bool newValue);
 
-    bool sortEvents() { return m_sortEvents->isChecked(); }
-    void setSortEvents(bool newValue) { m_sortEvents->setChecked(newValue); }
+    bool orderedEvents() { return m_sortEvents->isChecked(); }
+    void setOrderedEvents(bool newValue) { m_sortEvents->setChecked(newValue); }
 };
 
 #endif
