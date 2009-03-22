@@ -36,14 +36,9 @@ class SequenceModel : public QAbstractItemModel
 public:
     SequenceModel(QObject* parent = 0) :
         QAbstractItemModel(parent),
-        m_channelMessageFilter(true),
-        m_commonMessageFilter(true),
-        m_realtimeMessageFilter(true),
-        m_sysexMessageFilter(true),
-        m_alsaMessageFilter(true),
         m_showClientNames(false),
         m_translateSysex(false)
-        { }
+        {}
 
     virtual ~SequenceModel();
 
@@ -64,25 +59,13 @@ public:
     void clear();
     void saveToStream(QTextStream& str);
 
-    bool showChannelMsg() const { return m_channelMessageFilter; }
-    bool showCommonMsg() const { return m_commonMessageFilter; }
-    bool showRealTimeMsg() const { return m_realtimeMessageFilter; }
-    bool showSysexMsg() const { return m_sysexMessageFilter; }
-    bool showAlsaMsg() const { return m_alsaMessageFilter; }
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
-    void setFilterChannelMsg(bool newValue) { m_channelMessageFilter = newValue; }
-    void setFilterCommonMsg(bool newValue) { m_commonMessageFilter = newValue; }
-    void setFilterRealTimeMsg(bool newValue) { m_realtimeMessageFilter = newValue; }
-    void setFilterSysexMsg(bool newValue) { m_sysexMessageFilter = newValue; }
-    void setFilterAlsaMsg(bool newValue) { m_alsaMessageFilter = newValue; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
 
 private:
-    bool filterSequencerEvent(const SequencerEvent* ev) const;
-
     QString client_name(const int client_number) const;
     QString event_time(const SequenceItem& itm) const;
     QString event_source(const SequencerEvent *ev) const;
@@ -111,11 +94,6 @@ private:
     QString sysex_mtc(int id, int length, unsigned char *ptr) const;
     QString sysex_mmc(int id, int length, unsigned char *ptr) const;
 
-    bool m_channelMessageFilter;
-    bool m_commonMessageFilter;
-    bool m_realtimeMessageFilter;
-    bool m_sysexMessageFilter;
-    bool m_alsaMessageFilter;
     bool m_showClientNames;
     bool m_translateSysex;
     bool m_ordered;

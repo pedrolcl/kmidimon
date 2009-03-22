@@ -138,76 +138,19 @@ SequenceModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool
-SequenceModel::filterSequencerEvent(const SequencerEvent* ev) const
-{
-    switch (ev->getSequencerType()) {
-        /* MIDI Channel events */
-    case SND_SEQ_EVENT_NOTEON:
-    case SND_SEQ_EVENT_NOTEOFF:
-    case SND_SEQ_EVENT_KEYPRESS:
-    case SND_SEQ_EVENT_CONTROLLER:
-    case SND_SEQ_EVENT_PGMCHANGE:
-    case SND_SEQ_EVENT_CHANPRESS:
-    case SND_SEQ_EVENT_PITCHBEND:
-    case SND_SEQ_EVENT_CONTROL14:
-    case SND_SEQ_EVENT_NONREGPARAM:
-    case SND_SEQ_EVENT_REGPARAM:
-        return m_channelMessageFilter;
-
-    case SND_SEQ_EVENT_SYSEX:
-        return m_sysexMessageFilter;
-
-        /* MIDI Common events */
-    case SND_SEQ_EVENT_SONGPOS:
-    case SND_SEQ_EVENT_SONGSEL:
-    case SND_SEQ_EVENT_QFRAME:
-    case SND_SEQ_EVENT_TUNE_REQUEST:
-        return m_commonMessageFilter;
-
-        /* MIDI Realtime Events */
-    case SND_SEQ_EVENT_START:
-    case SND_SEQ_EVENT_CONTINUE:
-    case SND_SEQ_EVENT_STOP:
-    case SND_SEQ_EVENT_CLOCK:
-    case SND_SEQ_EVENT_TICK:
-    case SND_SEQ_EVENT_RESET:
-    case SND_SEQ_EVENT_SENSING:
-        return m_realtimeMessageFilter;
-
-        /* ALSA Client/Port events */
-    case SND_SEQ_EVENT_PORT_START:
-    case SND_SEQ_EVENT_PORT_EXIT:
-    case SND_SEQ_EVENT_PORT_CHANGE:
-    case SND_SEQ_EVENT_CLIENT_START:
-    case SND_SEQ_EVENT_CLIENT_EXIT:
-    case SND_SEQ_EVENT_CLIENT_CHANGE:
-    case SND_SEQ_EVENT_PORT_SUBSCRIBED:
-    case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
-        return m_alsaMessageFilter;
-
-        /* Other events */
-    default:
-        return false;
-    }
-    return false;
-}
-
 void
 SequenceModel::addItem(SequenceItem& itm)
 {
-    if (filterSequencerEvent(itm.getEvent())) {
-        int where = m_ordered ? m_items.count() : 0;
-        QModelIndex idx1 = createIndex(where, 0);
-        QModelIndex idx2 = createIndex(where, 5);
-        beginInsertRows(QModelIndex(), where, where);
-        if (m_ordered)
-            m_items.append(itm);
-        else
-            m_items.insert(0, itm);
-        //emit dataChanged(idx1, idx2);
-        endInsertRows();
-    }
+    int where = m_ordered ? m_items.count() : 0;
+    QModelIndex idx1 = createIndex(where, 0);
+    QModelIndex idx2 = createIndex(where, 5);
+    beginInsertRows(QModelIndex(), where, where);
+    if (m_ordered)
+        m_items.append(itm);
+    else
+        m_items.insert(0, itm);
+    //emit dataChanged(idx1, idx2);
+    endInsertRows();
 }
 
 void
@@ -939,4 +882,3 @@ SequenceModel::getEvent(const int row) const
         return m_items[row].getEvent();
     return NULL;
 }
-

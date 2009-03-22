@@ -188,11 +188,11 @@ void KMidimon::saveConfiguration()
     KConfigGroup config = KGlobal::config()->group("Settings");
     config.writeEntry("resolution", m_adaptor->getResolution());
     config.writeEntry("tempo", m_adaptor->getTempo());
-    config.writeEntry("alsa", m_model->showAlsaMsg());
-    config.writeEntry("channel", m_model->showChannelMsg());
-    config.writeEntry("common", m_model->showCommonMsg());
-    config.writeEntry("realtime", m_model->showRealTimeMsg());
-    config.writeEntry("sysex", m_model->showSysexMsg());
+    config.writeEntry("alsa", m_proxy->showAlsaMsg());
+    config.writeEntry("channel", m_proxy->showChannelMsg());
+    config.writeEntry("common", m_proxy->showCommonMsg());
+    config.writeEntry("realtime", m_proxy->showRealTimeMsg());
+    config.writeEntry("sysex", m_proxy->showSysexMsg());
     config.writeEntry("client_names", m_model->showClientNames());
     config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
@@ -209,11 +209,11 @@ void KMidimon::readConfiguration()
     int i;
     bool status;
     KConfigGroup config = KGlobal::config()->group("Settings");
-    m_model->setFilterAlsaMsg(config.readEntry("alsa", true));
-    m_model->setFilterChannelMsg(config.readEntry("channel", true));
-    m_model->setFilterCommonMsg(config.readEntry("common", true));
-    m_model->setFilterRealTimeMsg(config.readEntry("realtime", true));
-    m_model->setFilterSysexMsg(config.readEntry("sysex", true));
+    m_proxy->setFilterAlsaMsg(config.readEntry("alsa", true));
+    m_proxy->setFilterChannelMsg(config.readEntry("channel", true));
+    m_proxy->setFilterCommonMsg(config.readEntry("common", true));
+    m_proxy->setFilterRealTimeMsg(config.readEntry("realtime", true));
+    m_proxy->setFilterSysexMsg(config.readEntry("sysex", true));
     m_model->setShowClientNames(config.readEntry("client_names", false));
     m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
     m_adaptor->setResolution(config.readEntry("resolution", RESOLUTION));
@@ -235,11 +235,11 @@ void KMidimon::preferences()
 
     dlg.setTempo(m_adaptor->getTempo());
     dlg.setResolution(m_adaptor->getResolution());
-    dlg.setRegAlsaMsg(m_model->showAlsaMsg());
-    dlg.setRegChannelMsg(m_model->showChannelMsg());
-    dlg.setRegCommonMsg(m_model->showCommonMsg());
-    dlg.setRegRealTimeMsg(m_model->showRealTimeMsg());
-    dlg.setRegSysexMsg(m_model->showSysexMsg());
+    dlg.setRegAlsaMsg(m_proxy->showAlsaMsg());
+    dlg.setRegChannelMsg(m_proxy->showChannelMsg());
+    dlg.setRegCommonMsg(m_proxy->showCommonMsg());
+    dlg.setRegRealTimeMsg(m_proxy->showRealTimeMsg());
+    dlg.setRegSysexMsg(m_proxy->showSysexMsg());
     dlg.setShowClientNames(m_model->showClientNames());
     dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
@@ -250,11 +250,11 @@ void KMidimon::preferences()
     if (dlg.exec()) {
         was_running = m_adaptor->queue_running();
         if (was_running) stop();
-        m_model->setFilterAlsaMsg(dlg.isRegAlsaMsg());
-        m_model->setFilterChannelMsg(dlg.isRegChannelMsg());
-        m_model->setFilterCommonMsg(dlg.isRegCommonMsg());
-        m_model->setFilterRealTimeMsg(dlg.isRegRealTimeMsg());
-        m_model->setFilterSysexMsg(dlg.isRegSysexMsg());
+        m_proxy->setFilterAlsaMsg(dlg.isRegAlsaMsg());
+        m_proxy->setFilterChannelMsg(dlg.isRegChannelMsg());
+        m_proxy->setFilterCommonMsg(dlg.isRegCommonMsg());
+        m_proxy->setFilterRealTimeMsg(dlg.isRegRealTimeMsg());
+        m_proxy->setFilterSysexMsg(dlg.isRegSysexMsg());
         m_model->setShowClientNames(dlg.showClientNames());
         m_model->setTranslateSysex(dlg.translateSysex());
         m_adaptor->setTempo(dlg.getTempo());
@@ -390,6 +390,6 @@ void KMidimon::addNewTab(int data)
 void KMidimon::tabIndexChanged(int index)
 {
     QVariant data = m_tabBar->tabData(index);
-    qDebug() << "current tab data: " << data.toInt();
+    //qDebug() << "current tab data: " << data.toInt();
     m_proxy->setFilterTrack(data.toInt());
 }

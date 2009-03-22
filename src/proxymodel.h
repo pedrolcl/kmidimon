@@ -23,21 +23,50 @@
 #define PROXYMODEL_H_
 
 #include <QSortFilterProxyModel>
+#include <event.h>
+
+using namespace ALSA::Sequencer;
 
 class ProxyModel : public QSortFilterProxyModel
 {
 public:
-    ProxyModel(QObject *parent = 0);
+    ProxyModel(QObject *parent = 0)
+        : QSortFilterProxyModel(parent),
+        m_trackFilter(-1),
+        m_channelMessageFilter(true),
+        m_commonMessageFilter(true),
+        m_realtimeMessageFilter(true),
+        m_sysexMessageFilter(true),
+        m_alsaMessageFilter(true) {}
+
     virtual ~ProxyModel() {}
 
     int filterTrack() const { return m_trackFilter; }
     void setFilterTrack(const int track);
 
+    bool showChannelMsg() const { return m_channelMessageFilter; }
+    bool showCommonMsg() const { return m_commonMessageFilter; }
+    bool showRealTimeMsg() const { return m_realtimeMessageFilter; }
+    bool showSysexMsg() const { return m_sysexMessageFilter; }
+    bool showAlsaMsg() const { return m_alsaMessageFilter; }
+    void setFilterChannelMsg(bool newValue);
+    void setFilterCommonMsg(bool newValue);
+    void setFilterRealTimeMsg(bool newValue);
+    void setFilterSysexMsg(bool newValue);
+    void setFilterAlsaMsg(bool newValue);
+
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 private:
+    bool filterSequencerEvent(const SequencerEvent* ev) const;
+
     int m_trackFilter;
+    bool m_channelMessageFilter;
+    bool m_commonMessageFilter;
+    bool m_realtimeMessageFilter;
+    bool m_sysexMessageFilter;
+    bool m_alsaMessageFilter;
 };
 
 #endif /* PROXYMODEL_H_ */
