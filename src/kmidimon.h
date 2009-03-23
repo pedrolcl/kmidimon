@@ -54,6 +54,8 @@ public slots:
     void record();
     void stop();
     void connectAll();
+    void addTrack();
+    void deleteTrack();
 
     void disconnectAll();
     void configConnections();
@@ -84,6 +86,8 @@ private:
     KAction *m_connectAll;
     KAction *m_disconnectAll;
     KAction *m_configConns;
+    KAction *m_createTrack;
+    KAction *m_deleteTrack;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;
@@ -93,6 +97,7 @@ private:
     QTabBar* m_tabBar;
 	bool m_useFixedFont;
 	bool m_orderedEvents;
+	int m_last_track;
 };
 
 #endif // _KMIDIMON_H_

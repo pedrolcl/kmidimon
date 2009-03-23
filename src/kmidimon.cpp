@@ -82,7 +82,6 @@ KMidimon::KMidimon() :
     setupActions();
     setAutoSaveSettings();
     readConfiguration();
-    addNewTab(0);
     record();
 }
 
@@ -141,6 +140,16 @@ void KMidimon::setupActions()
     connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
     actionCollection()->addAction("connections_dialog", m_configConns );
 
+    m_createTrack = new KAction(this);
+    m_createTrack->setText(i18n("&Add Track"));
+    connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
+    actionCollection()->addAction("add_track", m_createTrack );
+
+    m_deleteTrack = new KAction(this);
+    m_deleteTrack->setText(i18n("&Delete Track"));
+    connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteTrack()));
+    actionCollection()->addAction("delete_track", m_deleteTrack );
+
     for(int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i] = new KToggleAction(columnName[i], this);
         connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
@@ -159,6 +168,10 @@ void KMidimon::setupActions()
 void KMidimon::fileNew()
 {
     m_model->clear();
+    for (int i = 0; i < m_tabBar->count(); ++i) {
+        m_tabBar->removeTab(i);
+    }
+    addNewTab(0);
 }
 
 void KMidimon::fileSave()
@@ -385,6 +398,7 @@ void KMidimon::addNewTab(int data)
     QString tabName = i18n("Track %1").arg(data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
+    m_last_track = data;
 }
 
 void KMidimon::tabIndexChanged(int index)
@@ -392,4 +406,17 @@ void KMidimon::tabIndexChanged(int index)
     QVariant data = m_tabBar->tabData(index);
     //qDebug() << "current tab data: " << data.toInt();
     m_proxy->setFilterTrack(data.toInt());
+    m_model->setCurrentTrack(data.toInt());
+}
+
+void KMidimon::addTrack()
+{
+    addNewTab(m_last_track + 1);
+}
+
+void KMidimon::deleteTrack()
+{
+    if (m_tabBar->count() > 1) {
+        m_tabBar->removeTab(m_tabBar->currentIndex());
+    }
 }

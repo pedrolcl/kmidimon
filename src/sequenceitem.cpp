@@ -28,3 +28,10 @@ int SequenceItem::getTag() const
     }
     return -1;
 }
+
+void SequenceItem::setTag(int tag)
+{
+    if (m_event != NULL) {
+        m_event->setTag(tag);
+    }
+}

@@ -13,14 +13,21 @@
     </Menu>
 </MenuBar>
 <Menu name="popup">
-  <title>List Columns</title>
-  <Action name="show_ticks"/> 
-  <Action name="show_time"/> 
-  <Action name="show_source"/> 
-  <Action name="show_kind"/> 
-  <Action name="show_channel"/> 
-  <Action name="show_data1"/> 
-  <Action name="show_data2"/>
+  <Menu name="tracks">
+    <text>Tracks</text>
+    <Action name="add_track"/> 
+    <Action name="delete_track"/> 
+  </Menu>
+  <Menu name="columns">
+    <text>Show Columns</text>
+    <Action name="show_ticks"/> 
+    <Action name="show_time"/> 
+    <Action name="show_source"/> 
+    <Action name="show_kind"/> 
+    <Action name="show_channel"/> 
+    <Action name="show_data1"/> 
+    <Action name="show_data2"/>
+  </Menu>
 </Menu>
 <ToolBar name="mainToolBar">
     <text>Main Toolbar</text>

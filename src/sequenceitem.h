@@ -45,6 +45,7 @@ public:
     const SequencerEvent* getEvent() const { return m_event; }
     void deleteEvent() { delete m_event; }
     int getTag() const;
+    void setTag(int tag);
 
 private:
     double m_seconds;

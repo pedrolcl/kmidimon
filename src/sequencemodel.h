@@ -65,6 +65,9 @@ public:
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
 
+    int currentTrack() const { return m_currentTrack; }
+    void setCurrentTrack(int t) { m_currentTrack = t; }
+
 private:
     QString client_name(const int client_number) const;
     QString event_time(const SequenceItem& itm) const;
@@ -97,6 +100,7 @@ private:
     bool m_showClientNames;
     bool m_translateSysex;
     bool m_ordered;
+    int m_currentTrack;
 
     ClientsMap m_clients;
     QList<SequenceItem> m_items;

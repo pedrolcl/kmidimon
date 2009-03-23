@@ -144,6 +144,7 @@ SequenceModel::addItem(SequenceItem& itm)
     int where = m_ordered ? m_items.count() : 0;
     QModelIndex idx1 = createIndex(where, 0);
     QModelIndex idx2 = createIndex(where, 5);
+    itm.setTag(m_currentTrack);
     beginInsertRows(QModelIndex(), where, where);
     if (m_ordered)
         m_items.append(itm);
