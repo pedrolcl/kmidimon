@@ -28,6 +28,7 @@
 #include <QSignalMapper>
 #include <QTabBar>
 #include <QVariant>
+#include <QInputDialog>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -145,6 +146,11 @@ void KMidimon::setupActions()
     connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
     actionCollection()->addAction("add_track", m_createTrack );
 
+    m_changeTrack = new KAction(this);
+    m_changeTrack->setText(i18n("&Change Track"));
+    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeTrack()));
+    actionCollection()->addAction("change_track", m_changeTrack );
+
     m_deleteTrack = new KAction(this);
     m_deleteTrack->setText(i18n("&Delete Track"));
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteTrack()));
@@ -168,7 +174,7 @@ void KMidimon::setupActions()
 void KMidimon::fileNew()
 {
     m_model->clear();
-    for (int i = 0; i < m_tabBar->count(); ++i) {
+    for (int i = m_tabBar->count() - 1; i >= 0; i--) {
         m_tabBar->removeTab(i);
     }
     addNewTab(0);
@@ -418,5 +424,19 @@ void KMidimon::deleteTrack()
 {
     if (m_tabBar->count() > 1) {
         m_tabBar->removeTab(m_tabBar->currentIndex());
+    }
+}
+
+void KMidimon::changeTrack()
+{
+    int i = m_tabBar->currentIndex();
+    QVariant data = m_tabBar->tabData(i);
+    bool ok;
+    int track = QInputDialog::getInteger( this, tr("Change track"),
+                    tr("Change the track filter:"), data.toInt(), 0, 255, 1, &ok);
+    if (ok) {
+        QString tabName = i18n("Track %1").arg(track);
+        m_tabBar->setTabData(i, track);
+        m_tabBar->setTabText(i, tabName);
     }
 }

@@ -16,7 +16,8 @@
   <Menu name="tracks">
     <text>Tracks</text>
     <Action name="add_track"/> 
-    <Action name="delete_track"/> 
+    <Action name="delete_track"/>
+    <Action name="change_track"/>
   </Menu>
   <Menu name="columns">
     <text>Show Columns</text>

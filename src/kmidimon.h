@@ -56,6 +56,7 @@ public slots:
     void connectAll();
     void addTrack();
     void deleteTrack();
+    void changeTrack();
 
     void disconnectAll();
     void configConnections();
@@ -88,6 +89,7 @@ private:
     KAction *m_configConns;
     KAction *m_createTrack;
     KAction *m_deleteTrack;
+    KAction *m_changeTrack;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;

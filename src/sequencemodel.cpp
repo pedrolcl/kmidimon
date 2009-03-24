@@ -34,8 +34,7 @@ SequenceModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
         return 0;
-    return Qt::ItemIsEnabled;
-    //return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 QVariant

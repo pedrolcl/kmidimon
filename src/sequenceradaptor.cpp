@@ -171,6 +171,7 @@ QStringList SequencerAdaptor::list_subscribers()
 void SequencerAdaptor::disconnect_all()
 {
     m_port->unsubscribeAll();
+    m_port->subscribeFromAnnounce();
 }
 
 void SequencerAdaptor::connect_all()
