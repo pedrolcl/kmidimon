@@ -26,7 +26,6 @@
 #include <QTreeView>
 #include <QTextStream>
 #include <QSignalMapper>
-#include <QTabBar>
 #include <QVariant>
 #include <QInputDialog>
 
@@ -42,12 +41,15 @@
 #include <kactioncollection.h>
 #include <kxmlguifactory.h>
 #include <kurl.h>
+#include <ktabbar.h>
+#include <kicon.h>
 
 #include "kmidimon.h"
 #include "configdialog.h"
 #include "connectdlg.h"
 #include "sequencemodel.h"
 #include "proxymodel.h"
+//#include "tabbar.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -72,8 +74,26 @@ KMidimon::KMidimon() :
     m_adaptor->updateModelClients();
     connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                       SLOT(resizeColumns(QModelIndex,int,int)) );
-    m_tabBar = new QTabBar(this);
+    m_tabBar = new KTabBar(this);
     m_tabBar->setShape(QTabBar::RoundedNorth);
+#if QT_VERSION < 0x040500
+    m_tabBar->setTabReorderingEnabled(true);
+    m_tabBar->setHoverCloseButton(true);
+    connect( m_tabBar, SIGNAL(moveTab(int,int)),
+                       SLOT(reorderTabs(int,int)) );
+    connect( m_tabBar, SIGNAL(closeRequest(int)),
+                       SLOT(deleteTrack(int)) );
+#else
+    m_tabBar->setExpanding(false);
+    m_tabBar->setMovable(true);
+    m_tabBar->setTabsClosable(true);
+    connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
+                       SLOT(deleteTrack(int)) );
+#endif
+    connect( m_tabBar, SIGNAL(newTabRequest()),
+                       SLOT(addTrack()) );
+    connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
+                       SLOT(changeTrack(int)) );
     connect( m_tabBar, SIGNAL(currentChanged(int)),
                        SLOT(tabIndexChanged(int)) );
     layout->addWidget(m_tabBar);
@@ -148,12 +168,12 @@ void KMidimon::setupActions()
 
     m_changeTrack = new KAction(this);
     m_changeTrack->setText(i18n("&Change Track"));
-    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeTrack()));
+    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
     actionCollection()->addAction("change_track", m_changeTrack );
 
     m_deleteTrack = new KAction(this);
     m_deleteTrack->setText(i18n("&Delete Track"));
-    connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteTrack()));
+    connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
     actionCollection()->addAction("delete_track", m_deleteTrack );
 
     for(int i = 0; i < COLUMN_COUNT; ++i ) {
@@ -177,7 +197,9 @@ void KMidimon::fileNew()
     for (int i = m_tabBar->count() - 1; i >= 0; i--) {
         m_tabBar->removeTab(i);
     }
-    addNewTab(0);
+    addNewTab(1);
+    m_proxy->setFilterTrack(0);
+    m_model->setCurrentTrack(0);
 }
 
 void KMidimon::fileSave()
@@ -404,39 +426,66 @@ void KMidimon::addNewTab(int data)
     QString tabName = i18n("Track %1").arg(data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
-    m_last_track = data;
+    m_tabBar->setTabIcon(i, KIcon("audio-x-generic"));
+    //qDebug() << "new tab data: " << data;
 }
 
 void KMidimon::tabIndexChanged(int index)
 {
     QVariant data = m_tabBar->tabData(index);
     //qDebug() << "current tab data: " << data.toInt();
-    m_proxy->setFilterTrack(data.toInt());
-    m_model->setCurrentTrack(data.toInt());
+    m_proxy->setFilterTrack(data.toInt()-1);
+    m_model->setCurrentTrack(data.toInt()-1);
 }
 
 void KMidimon::addTrack()
 {
-    addNewTab(m_last_track + 1);
-}
-
-void KMidimon::deleteTrack()
-{
-    if (m_tabBar->count() > 1) {
-        m_tabBar->removeTab(m_tabBar->currentIndex());
-    }
-}
-
-void KMidimon::changeTrack()
-{
-    int i = m_tabBar->currentIndex();
-    QVariant data = m_tabBar->tabData(i);
     bool ok;
     int track = QInputDialog::getInteger( this, tr("Change track"),
-                    tr("Change the track filter:"), data.toInt(), 0, 255, 1, &ok);
+                    tr("Change the track filter:"), 1, 1, 255, 1, &ok);
+    if (ok) {
+        addNewTab(track);
+    }
+}
+
+void KMidimon::deleteTrack(int tabIndex)
+{
+    if (m_tabBar->count() > 1) {
+        m_tabBar->removeTab(tabIndex);
+    }
+}
+
+void KMidimon::changeTrack(int tabIndex)
+{
+    bool ok;
+    QVariant data = m_tabBar->tabData(tabIndex);
+    int track = QInputDialog::getInteger( this, tr("Change track"),
+                    tr("Change the track filter:"), data.toInt(), 1, 255, 1, &ok);
     if (ok) {
         QString tabName = i18n("Track %1").arg(track);
-        m_tabBar->setTabData(i, track);
-        m_tabBar->setTabText(i, tabName);
+        m_tabBar->setTabData(tabIndex, track);
+        m_tabBar->setTabText(tabIndex, tabName);
     }
+}
+
+void KMidimon::deleteCurrentTrack()
+{
+    deleteTrack(m_tabBar->currentIndex());
+}
+
+void KMidimon::changeCurrentTrack()
+{
+    changeTrack(m_tabBar->currentIndex());
+}
+
+void KMidimon::reorderTabs(int fromIndex, int toIndex)
+{
+    //qDebug() << "reorderTabs(" << fromIndex << "," << toIndex << ")";
+    QIcon icon = m_tabBar->tabIcon(fromIndex);
+    QString text = m_tabBar->tabText(fromIndex);
+    QVariant data = m_tabBar->tabData(fromIndex);
+    m_tabBar->removeTab(fromIndex);
+    m_tabBar->insertTab(toIndex, icon, text);
+    m_tabBar->setTabData(toIndex, data);
+    m_tabBar->setCurrentIndex(toIndex);
 }

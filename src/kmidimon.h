@@ -34,8 +34,8 @@ class QTreeView;
 class QModelIndex;
 class QSignalMapper;
 class SequenceModel;
-class QTabBar;
 class ProxyModel;
+class KTabBar;
 
 const int COLUMN_COUNT = 7;
 
@@ -55,8 +55,10 @@ public slots:
     void stop();
     void connectAll();
     void addTrack();
-    void deleteTrack();
-    void changeTrack();
+    void deleteCurrentTrack();
+    void changeCurrentTrack();
+    void deleteTrack(int tabIndex);
+    void changeTrack(int tabIndex);
 
     void disconnectAll();
     void configConnections();
@@ -67,6 +69,7 @@ public slots:
     void toggleColumn(int colNum);
     void resizeColumns(const QModelIndex& parent, int start, int end);
     void tabIndexChanged(int index);
+    void reorderTabs(int fromIndex, int toIndex);
 
 protected:
     void saveConfiguration();
@@ -96,10 +99,9 @@ private:
     SequenceModel* m_model;
     ProxyModel* m_proxy;
     QSignalMapper* m_mapper;
-    QTabBar* m_tabBar;
+    KTabBar* m_tabBar;
 	bool m_useFixedFont;
 	bool m_orderedEvents;
-	int m_last_track;
 };
 
 #endif // _KMIDIMON_H_
