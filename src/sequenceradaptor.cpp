@@ -50,12 +50,10 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_client->setBlockMode(false);
     m_client->open();
     m_client->setClientName("KMidimon");
-    m_clientId = m_client->getClientId();
     connect(m_client, SIGNAL(eventReceived(SequencerEvent*)),
             SLOT(sequencerEvent(SequencerEvent*)));
 
     m_queue = m_client->createQueue("KMidimon");
-    m_queueId = m_queue->getId();
 
     m_port = new MidiPort(this);
     m_port->setMidiClient(m_client);
@@ -67,7 +65,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->setMidiChannels(16);
     m_port->setTimestamping(true);
     m_port->setTimestampReal(false);
-    m_port->setTimestampQueue(m_queueId);
+    m_port->setTimestampQueue(m_queue->getId());
     m_port->attach();
     m_port->subscribeFromAnnounce();
     m_client->startSequencerInput();
@@ -78,6 +76,13 @@ SequencerAdaptor::~SequencerAdaptor()
     m_client->stopSequencerInput();
     m_port->detach();
     m_client->close();
+}
+
+void SequencerAdaptor::setModel(SequenceModel* m)
+{
+    m_model = m;
+    m_model->updateQueue(m_queue->getId());
+    m_model->updatePort(m_port->getPortId());
 }
 
 void SequencerAdaptor::updateModelClients()

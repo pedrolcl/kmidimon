@@ -51,7 +51,7 @@ public:
     int getResolution() { return m_resolution; }
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
-    void setModel(SequenceModel* m) { m_model = m; }
+    void setModel(SequenceModel* m);
 
     void connect_port(QString name);
     void disconnect_port(QString name);
@@ -71,9 +71,6 @@ private:
     bool m_queue_running;
     int m_resolution;
     int m_tempo;
-    int m_inputPort;
-    int m_queueId;
-    int m_clientId;
     MidiClient* m_client;
     MidiQueue* m_queue;
     MidiPort* m_port;

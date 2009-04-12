@@ -19,10 +19,62 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
+#include <cmath>
+
+#include <QFile>
+#include <QDataStream>
+#include <QListIterator>
+
 #include <klocale.h>
-#include <event.h>
+#include <kapplication.h>
+
 #include "sequencemodel.h"
 #include "kmidimon.h"
+
+static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
+{
+    return s1.getTicks() < s2.getTicks();
+}
+
+void Song::sort()
+{
+    qStableSort(begin(), end(), eventLessThan);
+}
+
+SequenceModel::SequenceModel(QObject* parent) :
+        QAbstractItemModel(parent),
+        m_showClientNames(false),
+        m_translateSysex(false),
+        m_ordered(true),
+        m_currentTrack(0),
+        m_portId(0),
+        m_queueId(0)
+{
+    m_smf = new QSmf(this);
+    connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)), SLOT(headerEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFTrackStart()), SLOT(trackStartEvent()));
+    connect(m_smf, SIGNAL(signalSMFTrackEnd()), SLOT(trackEndEvent()));
+    connect(m_smf, SIGNAL(signalSMFNoteOn(int,int,int)), SLOT(noteOnEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFNoteOff(int,int,int)), SLOT(noteOffEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFKeyPress(int,int,int)), SLOT(keyPressEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFCtlChange(int,int,int)), SLOT(ctlChangeEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFPitchBend(int,int)), SLOT(pitchBendEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFProgram(int,int)), SLOT(programEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFChanPress(int,int)), SLOT(chanPressEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)), SLOT(sysexEvent(const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFMetaMisc(int, const QByteArray&)), SLOT(metaMiscEvent(int, const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFVariable(const QByteArray&)), SLOT(variableEvent(const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFSequenceNum(int)), SLOT(seqNum(int)));
+    connect(m_smf, SIGNAL(signalSMFforcedChannel(int)), SLOT(forcedChannel(int)));
+    connect(m_smf, SIGNAL(signalSMFforcedPort(int)), SLOT(forcedPort(int)));
+    connect(m_smf, SIGNAL(signalSMFText(int,const QString&)), SLOT(textEvent(int,const QString&)));
+    connect(m_smf, SIGNAL(signalSMFendOfTrack()), SLOT(endOfTrackEvent()));
+    connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)), SLOT(timeSigEvent(int,int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)), SLOT(smpteEvent(int,int,int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFKeySig(int,int)), SLOT(keySigEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFTempo(int)), SLOT(tempoEvent(int)));
+    connect(m_smf, SIGNAL(signalSMFError(const QString&)), SLOT(errorHandler(const QString&)));
+}
 
 SequenceModel::~SequenceModel()
 {
@@ -702,6 +754,11 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("ALSA Port subscribed");
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
         return i18n("ALSA Port unsubscribed");
+        /* SMF events */
+    case SND_SEQ_EVENT_TEMPO:
+        return i18n("Tempo");
+    case SND_SEQ_EVENT_USR_VAR0:
+        return i18n("SMF Text");
         /* Other events */
     default:
          return QString("Event type %1").arg(ev->getSequencerType());
@@ -790,6 +847,64 @@ SequenceModel::chanpress_value(const SequencerEvent* ev) const
 }
 
 QString
+SequenceModel::tempo_bpm(const SequencerEvent *ev) const
+{
+    const TempoEvent* te = dynamic_cast<const TempoEvent*>(ev);
+    if (te != NULL)
+        return QString("%1 bpm").arg(6e7 / te->getValue());
+    else
+        return QString::null;
+}
+
+QString
+SequenceModel::tempo_npt(const SequencerEvent *ev) const
+{
+    const TempoEvent* te = dynamic_cast<const TempoEvent*>(ev);
+    if (te != NULL)
+        return QString("%1").arg(te->getValue());
+    else
+        return QString::null;
+}
+
+QString
+SequenceModel::text_type(const SequencerEvent *ev) const
+{
+    const TextEvent* te = dynamic_cast<const TextEvent*>(ev);
+    if (te != NULL) {
+        switch ( te->getTextType() ) {
+        case 1:
+            return "1:Text";
+        case 2:
+            return "2:Copyright";
+        case 3:
+            return "3:Name";
+        case 4:
+            return "4:Instr.";
+        case 5:
+            return "5:Lyric";
+        case 6:
+            return "6:Marker";
+        case 7:
+            return "7:Cue";
+        default:
+            return QString("%1").arg( te->getTextType() );
+        }
+    } else {
+        return QString::null;
+    }
+}
+
+QString
+SequenceModel::text_data(const SequencerEvent *ev) const
+{
+    const TextEvent* te = dynamic_cast<const TextEvent*>(ev);
+    if (te != NULL)
+        return te->getText();
+    else
+        return QString::null;
+}
+
+QString
 SequenceModel::event_data1(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
@@ -838,6 +953,12 @@ SequenceModel::event_data1(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
        return event_sender(ev);
 
+    case SND_SEQ_EVENT_TEMPO:
+        return tempo_npt(ev);
+
+    case SND_SEQ_EVENT_USR_VAR0:
+        return text_type(ev);
+
        /* Other events */
     default:
         return QString::null;
@@ -868,6 +989,12 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
        return event_dest(ev);
 
+    case SND_SEQ_EVENT_TEMPO:
+        return tempo_bpm(ev);
+
+    case SND_SEQ_EVENT_USR_VAR0:
+        return text_data(ev);
+
        /* Other events */
     default:
         return QString::null;
@@ -881,4 +1008,208 @@ SequenceModel::getEvent(const int row) const
     if ((row >= 0) && (row < m_items.count()))
         return m_items[row].getEvent();
     return NULL;
+}
+
+void
+SequenceModel::loadFromFile(const QString& path)
+{
+    clear();
+    m_song.clear();
+    //qDebug() << "loading from file: " << path;
+    m_currentTrack = -1;
+    m_initialTempo = -1;
+    m_smf->readFromFile(path);
+    m_song.sort();
+    QListIterator<SequenceItem> it(m_song);
+    beginInsertRows(QModelIndex(), 0, m_song.count() - 1);
+    while(it.hasNext()) {
+        if (m_ordered)
+            m_items.append(it.next());
+        else
+            m_items.insert(0, it.next());
+        //QCoreApplication::sendPostedEvents ();
+        KApplication::processEvents();
+    }
+    endInsertRows();
+}
+
+void
+SequenceModel::appendEvent(SequencerEvent* ev)
+{
+    long ticks = m_smf->getCurrentTime();
+    double seconds = m_smf->getRealTime() / 1600.0;
+    ev->setSource(m_portId);
+    ev->scheduleTick(m_queueId, ticks, false);
+    SequenceItem itm(seconds, ticks, ev);
+    itm.setTag(m_currentTrack);
+    m_song.append(itm);
+    emit loadProgress(m_smf->getFilePos());
+    //QCoreApplication::sendPostedEvents ();
+    KApplication::processEvents();
+}
+
+void
+SequenceModel::headerEvent(int format, int ntrks, int division)
+{
+    qDebug() << "SMF Header:" << format << ntrks << division;
+    m_format = format;
+    m_ntrks = ntrks;
+    m_division = division;
+}
+
+void
+SequenceModel::trackStartEvent()
+{
+    m_currentTrack++;
+    qDebug() << "Track start:" << m_currentTrack;
+    emit loadProgress(m_smf->getFilePos());
+}
+
+void
+SequenceModel::trackEndEvent()
+{
+    qDebug() << "Track end:" << m_currentTrack;
+}
+
+void
+SequenceModel::endOfTrackEvent()
+{
+    qDebug() << "Meta Event: End Of Track";
+}
+
+void
+SequenceModel::noteOnEvent(int chan, int pitch, int vol)
+{
+    SequencerEvent* ev = new NoteOnEvent(chan, pitch, vol);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::noteOffEvent(int chan, int pitch, int vol)
+{
+    SequencerEvent* ev = new NoteOffEvent(chan, pitch, vol);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::keyPressEvent(int chan, int pitch, int press)
+{
+    SequencerEvent* ev = new KeyPressEvent(chan, pitch, press);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
+{
+    SequencerEvent* ev = new ControllerEvent(chan, ctl, value);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::pitchBendEvent(int chan, int value)
+{
+    SequencerEvent* ev = new PitchBendEvent(chan, value);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::programEvent(int chan, int patch)
+{
+    SequencerEvent* ev = new ProgramChangeEvent(chan, patch);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::chanPressEvent(int chan, int press)
+{
+    SequencerEvent* ev = new ChanPressEvent(chan, press);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::sysexEvent(const QByteArray& data)
+{
+    SequencerEvent* ev = new SysExEvent(data);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::variableEvent(const QByteArray& data)
+{
+    int j;
+    QString s;
+    for (j = 0; j < data.count(); ++j)
+        s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
+    qDebug() << "Variable event" << s;
+}
+
+void
+SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
+{
+    int j;
+    QString s = QString("type=%1 ").arg(typ);
+    for (j = 0; j < data.count(); ++j)
+        s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
+    qDebug() << "Meta" << s;
+}
+
+void
+SequenceModel::seqNum(int seq)
+{
+    qDebug() << "Sequence num:" << seq;
+}
+
+void
+SequenceModel::forcedChannel(int channel)
+{
+    qDebug() << "Forced channel:" << channel;
+}
+
+void
+SequenceModel::forcedPort(int port)
+{
+    qDebug() << "Forced port:" << port;
+}
+
+void
+SequenceModel::textEvent(int type, const QString& data)
+{
+    SequencerEvent* ev = new TextEvent(data, type);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
+{
+    qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
+}
+
+void
+SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
+{
+    qDebug() << "Time Signature:" << b0 << b1 << b2 << b3;
+}
+
+void
+SequenceModel::keySigEvent(int b0, int b1)
+{
+    qDebug() << "Key Signature:" << b0 << b1;
+}
+
+void
+SequenceModel::tempoEvent(int tempo)
+{
+    if ( m_initialTempo < 0 )
+    {
+        m_initialTempo = round( 6e7 / tempo );
+    }
+    SequencerEvent* ev = new TempoEvent(m_queueId, tempo);
+    appendEvent(ev);
+}
+
+void
+SequenceModel::errorHandler(const QString& errorStr)
+{
+    qDebug() << "*** Warning! " << errorStr
+             << " at file offset " << m_smf->getFilePos();
 }

@@ -119,7 +119,7 @@ bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 
         /* Other events */
     default:
-        return false;
+        return true; // provisional setting. Add more filters!!! (tempo...)
     }
     return false;
 }

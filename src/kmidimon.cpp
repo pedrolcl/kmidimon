@@ -27,7 +27,6 @@
 #include <QTextStream>
 #include <QSignalMapper>
 #include <QVariant>
-#include <QInputDialog>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -43,13 +42,14 @@
 #include <kurl.h>
 #include <ktabbar.h>
 #include <kicon.h>
+#include <kinputdialog.h>
+#include <kprogressdialog.h>
 
 #include "kmidimon.h"
 #include "configdialog.h"
 #include "connectdlg.h"
 #include "sequencemodel.h"
 #include "proxymodel.h"
-//#include "tabbar.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -78,7 +78,7 @@ KMidimon::KMidimon() :
     m_tabBar->setShape(QTabBar::RoundedNorth);
 #if QT_VERSION < 0x040500
     m_tabBar->setTabReorderingEnabled(true);
-    m_tabBar->setHoverCloseButton(true);
+    m_tabBar->setCloseButtonEnabled(true);
     connect( m_tabBar, SIGNAL(moveTab(int,int)),
                        SLOT(reorderTabs(int,int)) );
     connect( m_tabBar, SIGNAL(closeRequest(int)),
@@ -127,6 +127,7 @@ void KMidimon::setupActions()
             "show_data2"
     };
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
+    KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
     KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
     m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
     m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
@@ -162,17 +163,17 @@ void KMidimon::setupActions()
     actionCollection()->addAction("connections_dialog", m_configConns );
 
     m_createTrack = new KAction(this);
-    m_createTrack->setText(i18n("&Add Track"));
+    m_createTrack->setText(i18n("&Add Track View"));
     connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
     actionCollection()->addAction("add_track", m_createTrack );
 
     m_changeTrack = new KAction(this);
-    m_changeTrack->setText(i18n("&Change Track"));
+    m_changeTrack->setText(i18n("&Change Track View"));
     connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
     actionCollection()->addAction("change_track", m_changeTrack );
 
     m_deleteTrack = new KAction(this);
-    m_deleteTrack->setText(i18n("&Delete Track"));
+    m_deleteTrack->setText(i18n("&Delete Track View"));
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
     actionCollection()->addAction("delete_track", m_deleteTrack );
 
@@ -200,6 +201,52 @@ void KMidimon::fileNew()
     addNewTab(1);
     m_proxy->setFilterTrack(0);
     m_model->setCurrentTrack(0);
+}
+
+void KMidimon::fileOpen()
+{
+    QString path = KFileDialog::getOpenFileName(KUrl(
+            "kfiledialog:///MIDIMONITOR"),
+            i18n("*.mid|MIDI files (*.mid)"), this,
+            i18n("Open MIDI file"));
+    if (!path.isNull()) {
+        QFileInfo finfo(path);
+        if (finfo.exists()) {
+            try {
+                stop();
+                m_model->clear();
+                for (int i = m_tabBar->count() - 1; i >= 0; i--) {
+                    m_tabBar->removeTab(i);
+                }
+                m_pd = new KProgressDialog(this, i18n("Load MIDI file"),
+                                i18n("Loading..."));
+                m_pd->setAllowCancel(false);
+                m_pd->setMinimumDuration(500);
+                m_pd->progressBar()->setRange(0, finfo.size());
+                m_pd->progressBar()->setValue(0);
+                connect( m_model, SIGNAL(loadProgress(int)),
+                         m_pd->progressBar(), SLOT(setValue(int)) );
+                m_model->loadFromFile(path);
+                m_pd->progressBar()->setValue(finfo.size());
+                m_adaptor->setResolution(m_model->getSMFDivision());
+                if (m_model->getInitialTempo() > 0)
+                    m_adaptor->setTempo(m_model->getInitialTempo());
+                int ntrks = m_model->getSMFTracks();
+                if (ntrks < 1) ntrks = 1;
+                if (ntrks > 8) ntrks = 8;
+                for (int i = 0; i < ntrks; i++)
+                    addNewTab(i+1);
+                m_tabBar->setCurrentIndex(0);
+                m_proxy->setFilterTrack(0);
+                m_model->setCurrentTrack(0);
+                for (int i = 0; i < COLUMN_COUNT; ++i)
+                    m_view->resizeColumnToContents(i);
+            } catch (...) {
+                m_model->clear();
+            }
+            delete m_pd;
+        }
+    }
 }
 
 void KMidimon::fileSave()
@@ -426,7 +473,6 @@ void KMidimon::addNewTab(int data)
     QString tabName = i18n("Track %1").arg(data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
-    m_tabBar->setTabIcon(i, KIcon("audio-x-generic"));
     //qDebug() << "new tab data: " << data;
 }
 
@@ -438,12 +484,19 @@ void KMidimon::tabIndexChanged(int index)
     m_model->setCurrentTrack(data.toInt()-1);
 }
 
+bool KMidimon::askTrackFilter(int& track)
+{
+    bool result;
+    track = KInputDialog::getInteger( i18n("Change track"),
+                i18n("Change the track filter:"),
+                track, 1, 255, 1, 10, &result, this );
+    return result;
+}
+
 void KMidimon::addTrack()
 {
-    bool ok;
-    int track = QInputDialog::getInteger( this, tr("Change track"),
-                    tr("Change the track filter:"), 1, 1, 255, 1, &ok);
-    if (ok) {
+    int track = 1;
+    if (askTrackFilter(track)) {
         addNewTab(track);
     }
 }
@@ -457,11 +510,8 @@ void KMidimon::deleteTrack(int tabIndex)
 
 void KMidimon::changeTrack(int tabIndex)
 {
-    bool ok;
-    QVariant data = m_tabBar->tabData(tabIndex);
-    int track = QInputDialog::getInteger( this, tr("Change track"),
-                    tr("Change the track filter:"), data.toInt(), 1, 255, 1, &ok);
-    if (ok) {
+    int track = m_tabBar->tabData(tabIndex).toInt();
+    if (askTrackFilter(track)) {
         QString tabName = i18n("Track %1").arg(track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);

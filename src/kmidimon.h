@@ -22,20 +22,24 @@
 #ifndef _KMIDIMON_H_
 #define _KMIDIMON_H_
 
+#include <QPointer>
 #include <kxmlguiwindow.h>
 #include "sequenceradaptor.h"
 
 class KAction;
 class KToggleAction;
-class QMenu;
+class KTabBar;
+class KProgressDialog;
+
 class QEvent;
 class QContextMenuEvent;
 class QTreeView;
 class QModelIndex;
 class QSignalMapper;
+class QMenu;
+
 class SequenceModel;
 class ProxyModel;
-class KTabBar;
 
 const int COLUMN_COUNT = 7;
 
@@ -49,6 +53,7 @@ public:
 
 public slots:
     void fileNew();
+    void fileOpen();
     void fileSave();
     void preferences();
     void record();
@@ -80,6 +85,7 @@ protected:
     void setOrderedEvents(bool newValue);
     bool orderedEvents() const { return m_orderedEvents; }
     void addNewTab(int data);
+    bool askTrackFilter(int& track);
 
 private:
     SequencerAdaptor *m_adaptor;
@@ -102,6 +108,7 @@ private:
     KTabBar* m_tabBar;
 	bool m_useFixedFont;
 	bool m_orderedEvents;
+    QPointer<KProgressDialog> m_pd;
 };
 
 #endif // _KMIDIMON_H_

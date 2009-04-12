@@ -24,22 +24,29 @@
 
 #include <QAbstractItemModel>
 #include <QMap>
+
 #include <event.h>
+#include <qsmf.h>
+
 #include "sequenceitem.h"
 
 using namespace ALSA::Sequencer;
+using namespace MIDI::Utils;
 
 typedef QMap<int,QString> ClientsMap;
 
-class SequenceModel : public QAbstractItemModel
+class Song : public QList<SequenceItem>
 {
 public:
-    SequenceModel(QObject* parent = 0) :
-        QAbstractItemModel(parent),
-        m_showClientNames(false),
-        m_translateSysex(false)
-        {}
+    virtual ~Song() {}
+    void sort();
+};
 
+class SequenceModel : public QAbstractItemModel
+{
+    Q_OBJECT
+public:
+    SequenceModel(QObject* parent = 0);
     virtual ~SequenceModel();
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -58,15 +65,52 @@ public:
     const SequencerEvent* getEvent(const int row) const;
     void clear();
     void saveToStream(QTextStream& str);
+    void loadFromFile(const QString& path);
+    void appendEvent(SequencerEvent* ev);
 
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
+    void updateQueue(const int q) { m_queueId = q; }
+    void updatePort(const int p) { m_portId = p; }
 
     int currentTrack() const { return m_currentTrack; }
     void setCurrentTrack(int t) { m_currentTrack = t; }
+
+    int getSMFFormat() const { return m_format; }
+    int getSMFTracks() const { return m_ntrks; }
+    int getSMFDivision() const { return m_division; }
+    int getInitialTempo() const { return m_initialTempo; }
+
+public slots:
+    void headerEvent(int format, int ntrks, int division);
+    void trackStartEvent();
+    void trackEndEvent();
+    void endOfTrackEvent();
+    void noteOnEvent(int chan, int pitch, int vol);
+    void noteOffEvent(int chan, int pitch, int vol);
+    void keyPressEvent(int chan, int pitch, int press);
+    void ctlChangeEvent(int chan, int ctl, int value);
+    void pitchBendEvent(int chan, int value);
+    void programEvent(int chan, int patch);
+    void chanPressEvent(int chan, int press);
+    void sysexEvent(const QByteArray& data);
+    void variableEvent(const QByteArray& data);
+    void metaMiscEvent(int typ, const QByteArray& data);
+    void seqNum(int seq);
+    void forcedChannel(int channel);
+    void forcedPort(int port);
+    void textEvent(int type, const QString& data);
+    void smpteEvent(int b0, int b1, int b2, int b3, int b4);
+    void timeSigEvent(int b0, int b1, int b2, int b3);
+    void keySigEvent(int b0, int b1);
+    void tempoEvent(int tempo);
+    void errorHandler(const QString& errorStr);
+
+signals:
+    void loadProgress(int);
 
 private:
     QString client_name(const int client_number) const;
@@ -96,14 +140,27 @@ private:
     QString sysex_mtc_setup(const int id) const;
     QString sysex_mtc(int id, int length, unsigned char *ptr) const;
     QString sysex_mmc(int id, int length, unsigned char *ptr) const;
+    QString tempo_bpm(const SequencerEvent *ev) const;
+    QString tempo_npt(const SequencerEvent *ev) const;
+    QString text_type(const SequencerEvent *ev) const;
+    QString text_data(const SequencerEvent *ev) const;
 
     bool m_showClientNames;
     bool m_translateSysex;
     bool m_ordered;
     int m_currentTrack;
+    int m_portId;
+    int m_queueId;
+
+    int m_format;
+    int m_ntrks;
+    int m_division;
+    int m_initialTempo;
 
     ClientsMap m_clients;
     QList<SequenceItem> m_items;
+    Song m_song;
+    QSmf* m_smf;
 };
 
 #endif /* SEQUENCEMODEL_H_ */
