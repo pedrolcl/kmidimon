@@ -2,14 +2,18 @@
 <kpartgui name="kmidimon" version="2">
 <MenuBar>
     <Menu name="Control"><text>C&amp;ontrol</text>
-	<Action name="record" />
-	<Action name="stop" />
+        <Action name="rewind" />
+        <Action name="play" />
+        <Action name="pause" />
+        <Action name="forward" />
+        <Action name="record" />
+        <Action name="stop" />
     </Menu>
     <Menu name="Connections"><text>Connec&amp;tions</text>
-	<Action name="connect_all" />
-	<Action name="disconnect_all" />
-	<Separator />
-	<Action name="connections_dialog" />
+        <Action name="connect_all" />
+        <Action name="disconnect_all" />
+        <Separator />
+        <Action name="connections_dialog" />
     </Menu>
 </MenuBar>
 <Menu name="popup">
@@ -36,6 +40,10 @@
     <Action name="file_save_as" />
     <Action name="file_quit" />
     <Separator />
+    <Action name="rewind" />
+    <Action name="play" />
+    <Action name="pause" />
+    <Action name="forward" />
     <Action name="record" />
     <Action name="stop" />
     <Separator />
@@ -43,18 +51,38 @@
 </ToolBar>
 <State name="recording_state">
     <enable>
-	<Action name="stop" />
+        <Action name="stop" />
+        <Action name="pause" />
     </enable>
     <disable>
-	<Action name="record" />
+        <Action name="record" />
+        <Action name="rewind" />
+        <Action name="play" />
+        <Action name="forward" />
     </disable>
 </State>
 <State name="stopped_state">
     <enable>
-	<Action name="record" />
+       <Action name="record" />
+        <Action name="rewind" />
+        <Action name="play" />
+        <Action name="forward" />
     </enable>
     <disable>
-	<Action name="stop" />
+        <Action name="stop" />
+        <Action name="pause" />
+    </disable>
+</State>
+<State name="playing_state">
+    <enable>
+        <Action name="stop" />
+        <Action name="pause" />
+    </enable>
+    <disable>
+        <Action name="record" />
+        <Action name="rewind" />
+        <Action name="play" />
+        <Action name="forward" />
     </disable>
 </State>
 </kpartgui>

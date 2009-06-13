@@ -58,6 +58,10 @@ public slots:
     void preferences();
     void record();
     void stop();
+    void play();
+    void pause();
+    void rewind();
+    void forward();
     void connectAll();
     void addTrack();
     void deleteCurrentTrack();
@@ -67,7 +71,7 @@ public slots:
 
     void disconnectAll();
     void configConnections();
-    void updateState(const QString newState);
+    void updateState(const QString newState, const QString stateName);
     void editToolbars();
     void contextMenuEvent( QContextMenuEvent *ev );
     void setColumnStatus(int colNum, bool status);
@@ -89,6 +93,10 @@ protected:
 
 private:
     SequencerAdaptor *m_adaptor;
+    KAction *m_play;
+    KAction *m_pause;
+    KAction *m_forward;
+    KAction *m_rewind;
     KAction *m_stop;
     KAction *m_record;
     KAction *m_prefs;

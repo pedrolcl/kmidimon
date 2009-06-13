@@ -133,6 +133,43 @@ void KMidimon::setupActions()
     m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
     KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
 
+    /*
+     * media-playback-pause  The icon for the pause action of a media player.
+     * media-playback-start    The icon for the start playback action of a media player.
+     * media-playback-stop The icon for the stop action of a media player.
+     * media-playlist-shuffle  The icon for the shuffle action of a media player.
+     * media-record    The icon for the record action of a media application.
+     * media-seek-backward The icon for the seek backward action of a media player.
+     * media-seek-forward  The icon for the seek forward action of a media player.
+     * media-skip-backward The icon for the skip backward action of a media player.
+     * media-skip-forward  The icon for the skip forward action of a media player.
+     */
+
+    m_play = new KAction(this);
+    m_play->setText(i18n("&Play"));
+    m_play->setIcon(KIcon("media-playback-start"));
+    m_play->setShortcut( Qt::Key_P );
+    connect(m_play, SIGNAL(triggered()), SLOT(play()));
+    actionCollection()->addAction("play", m_play);
+
+    m_pause = new KToggleAction(this);
+    m_pause->setText(i18n("Pause"));
+    m_pause->setIcon(KIcon("media-playback-pause"));
+    connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
+    actionCollection()->addAction("pause", m_pause);
+
+    m_forward = new KAction(this);
+    m_forward->setText(i18n("Forward"));
+    m_forward->setIcon(KIcon("media-skip-forward"));
+    connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
+    actionCollection()->addAction("forward", m_forward);
+
+    m_rewind = new KAction(this);
+    m_rewind->setText(i18n("Backward"));
+    m_rewind->setIcon(KIcon("media-skip-backward"));
+    connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
+    actionCollection()->addAction("rewind", m_rewind);
+
     m_record = new KAction(this);
     m_record->setText(i18n("&Record"));
     m_record->setIcon(KIcon("media-record"));
@@ -362,7 +399,7 @@ void KMidimon::record()
     if (!m_adaptor->queue_running()) {
         m_adaptor->queue_start();
     }
-    updateState("recording_state");
+    updateState("recording_state", i18n("recording"));
 }
 
 void KMidimon::stop()
@@ -370,13 +407,32 @@ void KMidimon::stop()
     if (m_adaptor->queue_running()) {
         m_adaptor->queue_stop();
     }
-    updateState("stopped_state");
+    updateState("stopped_state", i18n("stopped"));
 }
 
-void KMidimon::updateState(const QString newState)
+void KMidimon::play()
 {
-    QString s(m_adaptor->queue_running() ? i18n("recording") : i18n("stopped"));
-    setCaption(i18n("ALSA MIDI Monitor [%1]").arg(s));
+    updateState("playing_state", i18n("playing"));
+}
+
+void KMidimon::pause()
+{
+    return;
+}
+
+void KMidimon::rewind()
+{
+    return;
+}
+
+void KMidimon::forward()
+{
+    return;
+}
+
+void KMidimon::updateState(const QString newState, const QString stateName)
+{
+    setCaption(i18n("ALSA MIDI Monitor [%1]").arg(stateName));
     slotStateChanged(newState);
 }
 
