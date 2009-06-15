@@ -1014,14 +1014,14 @@ void
 SequenceModel::loadFromFile(const QString& path)
 {
     clear();
-    m_song.clear();
+    m_loadedSong.clear();
     //qDebug() << "loading from file: " << path;
     m_currentTrack = -1;
     m_initialTempo = -1;
     m_smf->readFromFile(path);
-    m_song.sort();
-    QListIterator<SequenceItem> it(m_song);
-    beginInsertRows(QModelIndex(), 0, m_song.count() - 1);
+    m_loadedSong.sort();
+    SongIterator it(m_loadedSong);
+    beginInsertRows(QModelIndex(), 0, m_loadedSong.count() - 1);
     while(it.hasNext()) {
         if (m_ordered)
             m_items.append(it.next());
@@ -1040,9 +1040,12 @@ SequenceModel::appendEvent(SequencerEvent* ev)
     double seconds = m_smf->getRealTime() / 1600.0;
     ev->setSource(m_portId);
     ev->scheduleTick(m_queueId, ticks, false);
+    if (ev->getSequencerType() != SND_SEQ_EVENT_TEMPO) {
+        ev->setSubscribers();
+    }
     SequenceItem itm(seconds, ticks, ev);
     itm.setTag(m_currentTrack);
-    m_song.append(itm);
+    m_loadedSong.append(itm);
     emit loadProgress(m_smf->getFilePos());
     //QCoreApplication::sendPostedEvents ();
     KApplication::processEvents();

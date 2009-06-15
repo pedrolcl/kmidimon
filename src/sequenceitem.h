@@ -42,7 +42,7 @@ public:
 
     double getSeconds() const { return m_seconds; }
     unsigned int  getTicks() const { return m_ticks; }
-    const SequencerEvent* getEvent() const { return m_event; }
+    SequencerEvent* getEvent() const { return m_event; }
     void deleteEvent() { delete m_event; }
     int getTag() const;
     void setTag(int tag);

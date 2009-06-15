@@ -36,6 +36,7 @@
 #include "sequenceradaptor.h"
 #include "sequenceitem.h"
 #include "sequencemodel.h"
+#include "player.h"
 
 using namespace std;
 
@@ -57,8 +58,10 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 
     m_port = new MidiPort(this);
     m_port->setMidiClient(m_client);
-    m_port->setPortName("KMidimon Input");
-    m_port->setCapability( SND_SEQ_PORT_CAP_WRITE |
+    m_port->setPortName("KMidimon");
+    m_port->setCapability( SND_SEQ_PORT_CAP_READ |
+                           SND_SEQ_PORT_CAP_WRITE |
+                           SND_SEQ_PORT_CAP_SUBS_READ |
                            SND_SEQ_PORT_CAP_SUBS_WRITE );
     m_port->setPortType( SND_SEQ_PORT_TYPE_MIDI_GENERIC |
                          SND_SEQ_PORT_TYPE_APPLICATION );
@@ -68,6 +71,14 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->setTimestampQueue(m_queue->getId());
     m_port->attach();
     m_port->subscribeFromAnnounce();
+
+    // testing!
+    m_port->subscribeTo(20,0);
+
+    m_player = new Player(m_client, m_port->getPortId());
+    connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
+    connect(m_player, SIGNAL(finished()), parent, SLOT(songFinished()));
+
     m_client->startSequencerInput();
 }
 
@@ -83,6 +94,11 @@ void SequencerAdaptor::setModel(SequenceModel* m)
     m_model = m;
     m_model->updateQueue(m_queue->getId());
     m_model->updatePort(m_port->getPortId());
+}
+
+void SequencerAdaptor::updatePlayer()
+{
+    m_player->setSong(m_model->getSong());
 }
 
 void SequencerAdaptor::updateModelClients()
@@ -104,6 +120,9 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
         double seconds = s.getClockTime();
+        ev->setSource(m_port->getPortId());
+        ev->setSubscribers();
+        ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
         SequenceItem itm(seconds, ticks, ev);
         if (ev->isClient())
             updateModelClients();
@@ -111,6 +130,53 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
     } else {
         delete ev;
     }
+}
+
+void SequencerAdaptor::play()
+{
+    if (!m_model->isEmpty()) {
+        if (m_player->getInitialPosition() == 0) {
+            int initialTempo = m_model->getInitialTempo();
+            if (initialTempo == 0) {
+                return;
+            }
+            updatePlayer();
+            QueueTempo firstTempo = m_queue->getTempo();
+            firstTempo.setPPQ(m_model->getSMFDivision());
+            firstTempo.setTempo(initialTempo);
+            //firstTempo.setTempoFactor(m_tempoFactor);
+            m_queue->setTempo(firstTempo);
+            m_client->drainOutput();
+        }
+        qDebug() << "starting playback...";
+        m_player->start();
+    }
+}
+
+void SequencerAdaptor::pause()
+{
+    if (m_player->isRunning()) {
+        m_player->stop();
+        m_player->setPosition(m_queue->getStatus().getTickTime());
+    }
+}
+
+void SequencerAdaptor::stop()
+{
+    if (m_player->isRunning() && (m_model->getInitialTempo() != 0)) {
+        m_player->stop();
+        songFinished();
+    }
+}
+
+void SequencerAdaptor::rewind()
+{
+    m_player->resetPosition();
+}
+
+void SequencerAdaptor::forward()
+{
+    m_player->setPosition(999999);
 }
 
 void SequencerAdaptor::queue_start()
@@ -188,4 +254,10 @@ void SequencerAdaptor::connect_all()
         if (subs.contains(*it) == 0)
             connect_port(*it);
     }
+}
+
+void SequencerAdaptor::songFinished()
+{
+    m_player->resetPosition();
+    //ui.btnStop->setChecked(true);
 }

@@ -238,6 +238,7 @@ void KMidimon::fileNew()
     addNewTab(1);
     m_proxy->setFilterTrack(0);
     m_model->setCurrentTrack(0);
+    m_model->setInitialTempo(m_adaptor->getTempo());
 }
 
 void KMidimon::fileOpen()
@@ -266,6 +267,7 @@ void KMidimon::fileOpen()
                 m_model->loadFromFile(path);
                 m_pd->progressBar()->setValue(finfo.size());
                 m_adaptor->setResolution(m_model->getSMFDivision());
+                m_adaptor->updatePlayer();
                 if (m_model->getInitialTempo() > 0)
                     m_adaptor->setTempo(m_model->getInitialTempo());
                 int ntrks = m_model->getSMFTracks();
@@ -407,27 +409,35 @@ void KMidimon::stop()
     if (m_adaptor->queue_running()) {
         m_adaptor->queue_stop();
     }
+    m_adaptor->stop();
+    updateState("stopped_state", i18n("stopped"));
+}
+
+void KMidimon::songFinished()
+{
     updateState("stopped_state", i18n("stopped"));
 }
 
 void KMidimon::play()
 {
+    m_adaptor->play();
     updateState("playing_state", i18n("playing"));
 }
 
 void KMidimon::pause()
 {
+    m_adaptor->pause();
     return;
 }
 
 void KMidimon::rewind()
 {
-    return;
+    m_adaptor->rewind();
 }
 
 void KMidimon::forward()
 {
-    return;
+    m_adaptor->forward();
 }
 
 void KMidimon::updateState(const QString newState, const QString stateName)

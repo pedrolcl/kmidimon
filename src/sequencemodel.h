@@ -42,6 +42,8 @@ public:
     void sort();
 };
 
+typedef QListIterator<SequenceItem> SongIterator;
+
 class SequenceModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -59,6 +61,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    bool isEmpty() { return m_items.isEmpty(); }
     void setOrdered(bool s) { m_ordered = s; }
     bool isOrdered() { return m_ordered; }
     void addItem(SequenceItem& itm);
@@ -83,6 +86,9 @@ public:
     int getSMFTracks() const { return m_ntrks; }
     int getSMFDivision() const { return m_division; }
     int getInitialTempo() const { return m_initialTempo; }
+    void setInitialTempo(int tempo) { m_initialTempo = tempo; }
+
+    Song* getSong() { return &m_items; }
 
 public slots:
     void headerEvent(int format, int ntrks, int division);
@@ -158,8 +164,8 @@ private:
     int m_initialTempo;
 
     ClientsMap m_clients;
-    QList<SequenceItem> m_items;
-    Song m_song;
+    Song m_items;
+    Song m_loadedSong;
     QSmf* m_smf;
 };
 

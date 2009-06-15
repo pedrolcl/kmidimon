@@ -68,6 +68,7 @@ public slots:
     void changeCurrentTrack();
     void deleteTrack(int tabIndex);
     void changeTrack(int tabIndex);
+    void songFinished();
 
     void disconnectAll();
     void configConnections();

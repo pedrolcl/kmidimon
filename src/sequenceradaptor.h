@@ -30,6 +30,7 @@
 #include <event.h>
 
 class SequenceModel;
+class Player;
 
 using namespace ALSA::Sequencer;
 
@@ -46,12 +47,18 @@ public:
     void queue_start();
     void queue_stop();
     void queue_set_tempo();
+    void play();
+    void pause();
+    void stop();
+    void rewind();
+    void forward();
 
     int getTempo() { return m_tempo; }
     int getResolution() { return m_resolution; }
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
     void setModel(SequenceModel* m);
+    void updatePlayer();
 
     void connect_port(QString name);
     void disconnect_port(QString name);
@@ -64,6 +71,7 @@ public:
 public slots:
     /* handler for the sequencer events */
     void sequencerEvent( SequencerEvent* ev );
+    void songFinished();
 
 private:
     QStringList list_ports(PortInfoList& refs);
@@ -71,10 +79,12 @@ private:
     bool m_queue_running;
     int m_resolution;
     int m_tempo;
+
     MidiClient* m_client;
     MidiQueue* m_queue;
     MidiPort* m_port;
     SequenceModel* m_model;
+    Player* m_player;
 };
 
 #endif
