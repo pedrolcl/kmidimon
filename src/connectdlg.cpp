@@ -23,30 +23,48 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QStringList>
+#include <QLabel>
 #include <klocale.h>
+#include <kcombobox.h>
 
 #include "connectdlg.h"
 
-ConnectDlg::ConnectDlg(QWidget *parent, const QStringList& clients,
-        const QStringList& subs) :
+ConnectDlg::ConnectDlg( QWidget *parent,
+                        const QStringList& inputs,
+                        const QStringList& subs,
+                        const QStringList& outputs,
+                        const QString& out ) :
     KDialog(parent)
 {
     setCaption(i18n("Connections"));
     setModal(true);
     setButtons(Ok | Cancel);
     QWidget* w = mainWidget();
+    w->setMinimumWidth(320);
     QVBoxLayout* vbl1 = new QVBoxLayout(w);
-    m_group = new QGroupBox(i18n("Available Ports"), w);
+    m_group = new QGroupBox(i18n("Available Input Connections:"), w);
     vbl1->addWidget(m_group);
     QVBoxLayout* vbl2 = new QVBoxLayout(m_group);
-    for (int i = 0; i < clients.size(); ++i) {
-        QCheckBox *chk = new QCheckBox(clients[i], m_group);
-        chk->setChecked(subs.contains(clients[i]) > 0);
+    for (int i = 0; i < inputs.size(); ++i) {
+        QCheckBox *chk = new QCheckBox(inputs[i], m_group);
+        chk->setChecked(subs.contains(inputs[i]) > 0);
         vbl2->addWidget(chk);
     }
+    QLabel* lbl = new QLabel(i18n("<b>Output Connection:</b>"), w);
+    vbl1->addWidget(lbl);
+    m_output = new KComboBox(w);
+    m_output->addItems(outputs);
+    m_output->setCurrentIndex(-1);
+    for (int i = 0; i < m_output->count(); ++i) {
+        if (m_output->itemText(i) == out) {
+            m_output->setCurrentIndex(i);
+            break;
+        }
+    }
+    vbl1->addWidget(m_output);
 }
 
-QStringList ConnectDlg::getSelected() const
+QStringList ConnectDlg::getSelectedInputs() const
 {
     QStringList lst;
     QList<QCheckBox*> checks = m_group->findChildren<QCheckBox*> ();
@@ -56,4 +74,9 @@ QStringList ConnectDlg::getSelected() const
         }
     }
     return lst;
+}
+
+QString ConnectDlg::getSelectedOutput() const
+{
+    return m_output->currentText();
 }

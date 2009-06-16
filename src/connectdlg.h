@@ -26,6 +26,7 @@
 
 class QGroupBox;
 class QStringList;
+class KComboBox;
 
  class ConnectDlg : public KDialog
 {
@@ -33,13 +34,17 @@ class QStringList;
 
  public:
     ConnectDlg( QWidget *parent,
-                const QStringList& clients,
-                const QStringList& subs );
+                const QStringList& inputs,
+                const QStringList& subs,
+                const QStringList& outputs,
+                const QString& out);
 
-    QStringList getSelected() const;
+    QStringList getSelectedInputs() const;
+    QString getSelectedOutput() const;
 
 private:
     QGroupBox* m_group;
+    KComboBox* m_output;
 };
 
 #endif

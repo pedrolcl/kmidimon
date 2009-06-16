@@ -72,9 +72,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->attach();
     m_port->subscribeFromAnnounce();
 
-    // testing!
-    m_port->subscribeTo(20,0);
-
     m_player = new Player(m_client, m_port->getPortId());
     connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
     connect(m_player, SIGNAL(finished()), parent, SLOT(songFinished()));
@@ -205,6 +202,12 @@ QStringList SequencerAdaptor::inputConnections()
     return list_ports(inputs);
 }
 
+QStringList SequencerAdaptor::outputConnections()
+{
+    PortInfoList outputs(m_client->getAvailableOutputs());
+    return list_ports(outputs);
+}
+
 QStringList SequencerAdaptor::list_ports(PortInfoList& refs)
 {
     QStringList lst;
@@ -214,16 +217,28 @@ QStringList SequencerAdaptor::list_ports(PortInfoList& refs)
     return lst;
 }
 
-void SequencerAdaptor::connect_port(QString name)
+void SequencerAdaptor::connect_input(QString name)
 {
-    //qDebug() << "connecting: " << name;
-    m_port->subscribeFrom(name);
+    if (!name.isEmpty())
+        m_port->subscribeFrom(name);
 }
 
-void SequencerAdaptor::disconnect_port(QString name)
+void SequencerAdaptor::disconnect_input(QString name)
 {
-    //qDebug() << "disconnecting: " << name;
-    m_port->unsubscribeFrom(name);
+    if (!name.isEmpty())
+        m_port->unsubscribeFrom(name);
+}
+
+void SequencerAdaptor::connect_output(QString name)
+{
+    if (!name.isEmpty())
+        m_port->subscribeTo(name);
+}
+
+void SequencerAdaptor::disconnect_output(QString name)
+{
+    if (!name.isEmpty())
+        m_port->unsubscribeTo(name);
 }
 
 QStringList SequencerAdaptor::list_subscribers()
@@ -239,20 +254,37 @@ QStringList SequencerAdaptor::list_subscribers()
     return list;
 }
 
-void SequencerAdaptor::disconnect_all()
+QString SequencerAdaptor::output_subscriber()
 {
-    m_port->unsubscribeAll();
-    m_port->subscribeFromAnnounce();
+    m_port->updateSubscribers();
+    PortInfoList subs(m_port->getReadSubscribers());
+    PortInfoList::ConstIterator it;
+    for(it = subs.constBegin(); it != subs.constEnd(); ++it) {
+        PortInfo p = *it;
+        return QString("%1:%2").arg(p.getClientName()).arg(p.getPort());
+    }
+    return QString::null;
 }
 
-void SequencerAdaptor::connect_all()
+void SequencerAdaptor::disconnect_all_inputs()
+{
+    m_port->updateSubscribers();
+    PortInfoList subs(m_port->getWriteSubscribers());
+    PortInfoList::ConstIterator it;
+    for(it = subs.constBegin(); it != subs.constEnd(); ++it) {
+        PortInfo p = *it;
+        m_port->unsubscribeFrom(&p);
+    }
+}
+
+void SequencerAdaptor::connect_all_inputs()
 {
     QStringList subs = list_subscribers();
     QStringList ports = inputConnections();
     QStringList::ConstIterator it;
     for ( it = ports.constBegin(); it != ports.constEnd(); ++it ) {
         if (subs.contains(*it) == 0)
-            connect_port(*it);
+            connect_input(*it);
     }
 }
 

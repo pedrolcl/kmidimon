@@ -60,12 +60,16 @@ public:
     void setModel(SequenceModel* m);
     void updatePlayer();
 
-    void connect_port(QString name);
-    void disconnect_port(QString name);
-    void connect_all();
-    void disconnect_all();
+    void connect_input(QString name);
+    void disconnect_input(QString name);
+    void connect_output(QString name);
+    void disconnect_output(QString name);
+    void connect_all_inputs();
+    void disconnect_all_inputs();
     QStringList inputConnections();
     QStringList list_subscribers();
+    QStringList outputConnections();
+    QString output_subscriber();
     void updateModelClients();
 
 public slots:

@@ -185,12 +185,12 @@ void KMidimon::setupActions()
     actionCollection()->addAction("stop", m_stop);
 
     m_connectAll = new KAction(this);
-    m_connectAll->setText(i18n("&Connect All"));
+    m_connectAll->setText(i18n("&Connect All Inputs"));
     connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
     actionCollection()->addAction("connect_all", m_connectAll);
 
     m_disconnectAll = new KAction(this);
-    m_disconnectAll->setText(i18n("&Disconnect All")); //, KShortcut::null(),
+    m_disconnectAll->setText(i18n("&Disconnect All Inputs")); //, KShortcut::null(),
     connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
     actionCollection()->addAction( "disconnect_all", m_disconnectAll );
 
@@ -456,32 +456,39 @@ void KMidimon::editToolbars()
 
 void KMidimon::connectAll()
 {
-    m_adaptor->connect_all();
+    m_adaptor->connect_all_inputs();
 }
 
 void KMidimon::disconnectAll()
 {
-    m_adaptor->disconnect_all();
+    m_adaptor->disconnect_all_inputs();
 }
 
 void KMidimon::configConnections()
 {
     QStringList inputs = m_adaptor->inputConnections();
     QStringList subs = m_adaptor->list_subscribers();
-    ConnectDlg dlg(this, inputs, subs);
+    QStringList outputs = m_adaptor->outputConnections();
+    QString out = m_adaptor->output_subscriber();
+    ConnectDlg dlg(this, inputs, subs, outputs, out);
     if (dlg.exec()) {
-        QStringList desired = dlg.getSelected();
+        QStringList desired = dlg.getSelectedInputs();
         subs = m_adaptor->list_subscribers();
         QStringList::ConstIterator i;
         for (i = subs.constBegin(); i != subs.constEnd(); ++i) {
             if (desired.contains(*i) == 0) {
-                m_adaptor->disconnect_port(*i);
+                m_adaptor->disconnect_input(*i);
             }
         }
         for (i = desired.constBegin(); i != desired.constEnd(); ++i) {
             if (subs.contains(*i) == 0) {
-                m_adaptor->connect_port(*i);
+                m_adaptor->connect_input(*i);
             }
+        }
+        QString newOut = dlg.getSelectedOutput();
+        if (newOut != out) {
+            m_adaptor->disconnect_output(out);
+            m_adaptor->connect_output(newOut);
         }
     }
 }
