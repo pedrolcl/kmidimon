@@ -23,8 +23,8 @@ Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),
     m_song(0),
     m_songIterator(0),
-    m_songPosition(0) //,
-    //m_echoResolution(0)
+    m_songPosition(0),
+    m_echoResolution(0)
 { }
 
 Player::~Player()
@@ -37,24 +37,21 @@ Player::~Player()
     }
 }
 
-void Player::setSong(Song* s)
+void Player::setSong(Song* s, int division)
 {
-    qDebug() << "Player::setSong()";
     m_song = s;
     if (m_song != NULL) {
-        qDebug() << "Song count = " << s->count();
         if (m_songIterator != NULL) {
             delete m_songIterator;
         }
         m_songIterator = new SongIterator(*m_song);
-        //m_echoResolution = m_song->getDivision() / 12;
+        m_echoResolution = division / 12;
         resetPosition();
     }
 }
 
 void Player::resetPosition()
 {
-    qDebug() << "Player::resetPosition()";
     if ((m_song != NULL) && (m_songIterator != NULL)) {
         m_songIterator->toFront();
         m_songPosition = 0;
@@ -63,7 +60,6 @@ void Player::resetPosition()
 
 void Player::setPosition(unsigned int pos)
 {
-    qDebug() << "Player::setPosition(" << pos << ")";
     m_songPosition = pos;
     m_songIterator->toFront();
     while (m_songIterator->hasNext() &&
@@ -81,7 +77,7 @@ bool Player::hasNext()
 
 SequencerEvent* Player::nextEvent()
 {
-    SequencerEvent* e = m_songIterator->next().getEvent();
-    //qDebug() << "Player::nextEvent() = " << e->getTick();
-    return e;
+    if (m_songIterator == NULL)
+        return NULL;
+    return m_songIterator->next().getEvent();
 }

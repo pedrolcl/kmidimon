@@ -95,7 +95,7 @@ protected:
 private:
     SequencerAdaptor *m_adaptor;
     KAction *m_play;
-    KAction *m_pause;
+    KToggleAction *m_pause;
     KAction *m_forward;
     KAction *m_rewind;
     KAction *m_stop;

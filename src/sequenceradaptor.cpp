@@ -42,7 +42,7 @@ using namespace std;
 
 SequencerAdaptor::SequencerAdaptor(QObject *parent):
     QObject(parent),
-    m_queue_running(false),
+    m_recording(false),
     m_resolution(RESOLUTION),
     m_tempo(TEMPO_BPM)
 {
@@ -93,11 +93,6 @@ void SequencerAdaptor::setModel(SequenceModel* m)
     m_model->updatePort(m_port->getPortId());
 }
 
-void SequencerAdaptor::updatePlayer()
-{
-    m_player->setSong(m_model->getSong());
-}
-
 void SequencerAdaptor::updateModelClients()
 {
     ClientsMap m;
@@ -110,10 +105,9 @@ void SequencerAdaptor::updateModelClients()
     m_model->updateClients(m);
 }
 
-
 void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 {
-    if (m_queue_running) {
+    if (m_recording) {
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
         double seconds = s.getClockTime();
@@ -121,8 +115,7 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         ev->setSubscribers();
         ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
         SequenceItem itm(seconds, ticks, ev);
-        if (ev->isClient())
-            updateModelClients();
+        if (ev->isClient()) updateModelClients();
         m_model->addItem(itm);
     } else {
         delete ev;
@@ -131,37 +124,35 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 
 void SequencerAdaptor::play()
 {
-    if (!m_model->isEmpty()) {
+    if (!m_model->isEmpty() & !m_player->isRunning()) {
         if (m_player->getInitialPosition() == 0) {
-            int initialTempo = m_model->getInitialTempo();
-            if (initialTempo == 0) {
-                return;
-            }
-            updatePlayer();
-            QueueTempo firstTempo = m_queue->getTempo();
-            firstTempo.setPPQ(m_model->getSMFDivision());
-            firstTempo.setTempo(initialTempo);
-            //firstTempo.setTempoFactor(m_tempoFactor);
-            m_queue->setTempo(firstTempo);
+            if (m_tempo == 0) return;
+            m_player->setSong(m_model->getSong(), m_resolution);
+            queue_set_tempo();
             m_client->drainOutput();
         }
-        qDebug() << "starting playback...";
         m_player->start();
     }
 }
 
-void SequencerAdaptor::pause()
+void SequencerAdaptor::pause(bool checked)
 {
-    if (m_player->isRunning()) {
-        m_player->stop();
-        m_player->setPosition(m_queue->getStatus().getTickTime());
+    if (checked) {
+        if (m_player->isRunning()) {
+            m_player->stop();
+            m_player->setPosition(m_queue->getStatus().getTickTime());
+        }
+    } else {
+        m_player->start();
     }
 }
 
 void SequencerAdaptor::stop()
 {
-    if (m_player->isRunning() && (m_model->getInitialTempo() != 0)) {
+    if (m_recording | m_player->isRunning()) {
         m_player->stop();
+        m_queue->stop();
+        m_recording = false;
         songFinished();
     }
 }
@@ -176,16 +167,12 @@ void SequencerAdaptor::forward()
     m_player->setPosition(999999);
 }
 
-void SequencerAdaptor::queue_start()
+void SequencerAdaptor::record()
 {
-    m_queue->start();
-    m_queue_running = m_queue->getStatus().isRunning();
-}
-
-void SequencerAdaptor::queue_stop()
-{
-    m_queue->stop();
-    m_queue_running = m_queue->getStatus().isRunning();
+    if (!m_recording) {
+        m_queue->start();
+        m_recording = m_queue->getStatus().isRunning();
+    }
 }
 
 void SequencerAdaptor::queue_set_tempo()

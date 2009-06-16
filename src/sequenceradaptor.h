@@ -43,12 +43,13 @@ class SequencerAdaptor: public QObject
 public:
     SequencerAdaptor(QObject *parent);
     ~SequencerAdaptor();
-    bool queue_running() { return m_queue_running; }
-    void queue_start();
-    void queue_stop();
+
+    bool isRecording() { return m_recording; }
     void queue_set_tempo();
+
+    void record();
     void play();
-    void pause();
+    void pause(bool checked);
     void stop();
     void rewind();
     void forward();
@@ -58,7 +59,6 @@ public:
     void setTempo(int newValue) { m_tempo = newValue; }
     void setResolution(int newValue) { m_resolution = newValue; }
     void setModel(SequenceModel* m);
-    void updatePlayer();
 
     void connect_input(QString name);
     void disconnect_input(QString name);
@@ -80,7 +80,7 @@ public slots:
 private:
     QStringList list_ports(PortInfoList& refs);
 
-    bool m_queue_running;
+    bool m_recording;
     int m_resolution;
     int m_tempo;
 

@@ -52,13 +52,13 @@
 <State name="recording_state">
     <enable>
         <Action name="stop" />
-        <Action name="pause" />
     </enable>
     <disable>
         <Action name="record" />
         <Action name="rewind" />
         <Action name="play" />
         <Action name="forward" />
+        <Action name="pause" />
     </disable>
 </State>
 <State name="stopped_state">

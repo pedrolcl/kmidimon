@@ -35,8 +35,8 @@ public:
     virtual bool hasNext();
     virtual SequencerEvent* nextEvent();
     virtual unsigned int getInitialPosition() { return m_songPosition; }
-    //virtual unsigned int getEchoResolution() { return m_echoResolution; }
-    void setSong(Song* s);
+    virtual unsigned int getEchoResolution() { return m_echoResolution; }
+    void setSong(Song* s, int division);
     void resetPosition();
     void setPosition(unsigned int pos);
 
@@ -44,7 +44,7 @@ private:
     Song* m_song;
     SongIterator* m_songIterator;
     unsigned int m_songPosition;
-    //unsigned int m_echoResolution;
+    unsigned int m_echoResolution;
 };
 
 #endif /*INCLUDED_PLAYER_H*/

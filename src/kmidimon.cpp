@@ -267,7 +267,6 @@ void KMidimon::fileOpen()
                 m_model->loadFromFile(path);
                 m_pd->progressBar()->setValue(finfo.size());
                 m_adaptor->setResolution(m_model->getSMFDivision());
-                m_adaptor->updatePlayer();
                 if (m_model->getInitialTempo() > 0)
                     m_adaptor->setTempo(m_model->getInitialTempo());
                 int ntrks = m_model->getSMFTracks();
@@ -375,7 +374,7 @@ void KMidimon::preferences()
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
     }
     if (dlg.exec()) {
-        was_running = m_adaptor->queue_running();
+        was_running = m_adaptor->isRecording();
         if (was_running) stop();
         m_proxy->setFilterAlsaMsg(dlg.isRegAlsaMsg());
         m_proxy->setFilterChannelMsg(dlg.isRegChannelMsg());
@@ -398,19 +397,14 @@ void KMidimon::preferences()
 
 void KMidimon::record()
 {
-    if (!m_adaptor->queue_running()) {
-        m_adaptor->queue_start();
-    }
+    m_adaptor->record();
     updateState("recording_state", i18n("recording"));
 }
 
 void KMidimon::stop()
 {
-    if (m_adaptor->queue_running()) {
-        m_adaptor->queue_stop();
-    }
     m_adaptor->stop();
-    updateState("stopped_state", i18n("stopped"));
+    songFinished();
 }
 
 void KMidimon::songFinished()
@@ -426,8 +420,7 @@ void KMidimon::play()
 
 void KMidimon::pause()
 {
-    m_adaptor->pause();
-    return;
+    m_adaptor->pause(m_pause->isChecked());
 }
 
 void KMidimon::rewind()
