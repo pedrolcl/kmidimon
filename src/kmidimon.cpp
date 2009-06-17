@@ -68,7 +68,8 @@ KMidimon::KMidimon() :
     m_view->setAlternatingRowColors(true);
     m_view->setModel(m_proxy);
     m_view->setSortingEnabled(false);
-    m_view->setSelectionMode(QAbstractItemView::NoSelection);
+    //m_view->setSelectionMode(QAbstractItemView::NoSelection);
+    m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     m_adaptor = new SequencerAdaptor(this);
     m_adaptor->setModel(m_model);
     m_adaptor->updateModelClients();
@@ -133,16 +134,18 @@ void KMidimon::setupActions()
     m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
     KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
 
-    /*
-     * media-playback-pause  The icon for the pause action of a media player.
-     * media-playback-start    The icon for the start playback action of a media player.
-     * media-playback-stop The icon for the stop action of a media player.
-     * media-playlist-shuffle  The icon for the shuffle action of a media player.
-     * media-record    The icon for the record action of a media application.
-     * media-seek-backward The icon for the seek backward action of a media player.
-     * media-seek-forward  The icon for the seek forward action of a media player.
-     * media-skip-backward The icon for the skip backward action of a media player.
-     * media-skip-forward  The icon for the skip forward action of a media player.
+    /* Icon naming specification
+     * http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+     *
+     * media-playback-pause     The icon for the pause action of a media player.
+     * media-playback-start     The icon for the start playback action of a media player.
+     * media-playback-stop      The icon for the stop action of a media player.
+     * media-playlist-shuffle   The icon for the shuffle action of a media player.
+     * media-record             The icon for the record action of a media application.
+     * media-seek-backward      The icon for the seek backward action of a media player.
+     * media-seek-forward       The icon for the seek forward action of a media player.
+     * media-skip-backward      The icon for the skip backward action of a media player.
+     * media-skip-forward       The icon for the skip forward action of a media player.
      */
 
     m_play = new KAction(this);
@@ -238,7 +241,10 @@ void KMidimon::fileNew()
     addNewTab(1);
     m_proxy->setFilterTrack(0);
     m_model->setCurrentTrack(0);
-    m_model->setInitialTempo(m_adaptor->getTempo());
+    m_model->setInitialTempo(m_defaultTempo);
+    m_adaptor->setTempo(m_defaultTempo);
+    m_adaptor->setResolution(m_defaultResolution);
+    m_adaptor->queue_set_tempo();
 }
 
 void KMidimon::fileOpen()
@@ -342,8 +348,8 @@ void KMidimon::readConfiguration()
     m_proxy->setFilterSysexMsg(config.readEntry("sysex", true));
     m_model->setShowClientNames(config.readEntry("client_names", false));
     m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
-    m_adaptor->setResolution(config.readEntry("resolution", RESOLUTION));
-    m_adaptor->setTempo(config.readEntry("tempo", TEMPO_BPM));
+    m_adaptor->setResolution(m_defaultResolution = config.readEntry("resolution", RESOLUTION));
+    m_adaptor->setTempo(m_defaultTempo = config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
     setFixedFont(config.readEntry("fixed_font", false));
     setOrderedEvents(config.readEntry("sort_events", false));
@@ -383,8 +389,8 @@ void KMidimon::preferences()
         m_proxy->setFilterSysexMsg(dlg.isRegSysexMsg());
         m_model->setShowClientNames(dlg.showClientNames());
         m_model->setTranslateSysex(dlg.translateSysex());
-        m_adaptor->setTempo(dlg.getTempo());
-        m_adaptor->setResolution(dlg.getResolution());
+        m_adaptor->setTempo(m_defaultTempo = dlg.getTempo());
+        m_adaptor->setResolution(m_defaultResolution = dlg.getResolution());
         m_adaptor->queue_set_tempo();
         setFixedFont(dlg.useFixedFont());
         setOrderedEvents(dlg.orderedEvents());

@@ -851,7 +851,7 @@ SequenceModel::tempo_bpm(const SequencerEvent *ev) const
 {
     const TempoEvent* te = dynamic_cast<const TempoEvent*>(ev);
     if (te != NULL)
-        return QString("%1 bpm").arg(6e7 / te->getValue());
+        return QString("%1 bpm").arg(6e7 / te->getValue(), 0, 'f', 1);
     else
         return QString::null;
 }

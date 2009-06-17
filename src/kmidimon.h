@@ -118,6 +118,8 @@ private:
 	bool m_useFixedFont;
 	bool m_orderedEvents;
     QPointer<KProgressDialog> m_pd;
+    int m_defaultTempo;
+    int m_defaultResolution;
 };
 
 #endif // _KMIDIMON_H_
