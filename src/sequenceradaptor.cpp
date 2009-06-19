@@ -114,10 +114,14 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         ev->setSource(m_port->getPortId());
         ev->setSubscribers();
         ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
-        SequenceItem itm(seconds, ticks, ev);
+        SequenceItem itm(seconds, ticks, m_model->currentTrack(), ev);
         if (ev->isClient()) updateModelClients();
         m_model->addItem(itm);
     } else {
+        if (ev->getSequencerType() == SND_SEQ_EVENT_USR0) {
+            SystemEvent* sev = static_cast<SystemEvent*>(ev);
+            emit signalTicks(sev->getRaw32(0));
+        }
         delete ev;
     }
 }
@@ -160,11 +164,18 @@ void SequencerAdaptor::stop()
 void SequencerAdaptor::rewind()
 {
     m_player->resetPosition();
+    m_model->setCurrentRow(0);
 }
 
 void SequencerAdaptor::forward()
 {
-    m_player->setPosition(999999);
+    QModelIndex idx;
+    int r = m_model->rowCount(idx) - 1;
+    if (r >= 0) {
+        int t = m_model->getEvent(r)->getTick();
+        m_player->setPosition(t);
+        m_model->setCurrentRow(r);
+    }
 }
 
 void SequencerAdaptor::record()
@@ -173,6 +184,14 @@ void SequencerAdaptor::record()
         m_queue->start();
         m_recording = m_queue->getStatus().isRunning();
     }
+}
+
+void SequencerAdaptor::setPosition(const int pos)
+{
+    const SequencerEvent* ev = m_model->getEvent(pos);
+    //qDebug() << "SequencerAdaptor::setPosition(" << pos << ")";
+    if ((ev != NULL) && (m_player != NULL))
+        m_player->setPosition(ev->getTick());
 }
 
 void SequencerAdaptor::queue_set_tempo()
@@ -278,5 +297,12 @@ void SequencerAdaptor::connect_all_inputs()
 void SequencerAdaptor::songFinished()
 {
     m_player->resetPosition();
-    //ui.btnStop->setChecked(true);
+    m_model->setCurrentRow(0);
+}
+
+bool SequencerAdaptor::isPlaying()
+{
+    if (m_player != NULL)
+        return m_player->isPlaying();
+    return false;
 }

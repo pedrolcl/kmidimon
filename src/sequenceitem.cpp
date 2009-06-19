@@ -21,17 +21,10 @@
 
 #include "sequenceitem.h"
 
-int SequenceItem::getTag() const
+bool SequenceItem::operator ==(const SequenceItem& other) const
 {
-    if (m_event != NULL) {
-        return m_event->getTag();
-    }
-    return -1;
-}
-
-void SequenceItem::setTag(int tag)
-{
-    if (m_event != NULL) {
-        m_event->setTag(tag);
-    }
+    return (m_event == other.m_event) &&
+           (m_ticks == other.m_ticks) &&
+           (m_seconds == other.m_seconds) &&
+           (m_track == other.m_track);
 }

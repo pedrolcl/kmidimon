@@ -61,10 +61,15 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    void setCurrentRow(const int row);
+    QModelIndex getCurrentRow();
+    QModelIndex getRowIndex(int row) { return createIndex(row, 0); }
+
     bool isEmpty() { return m_items.isEmpty(); }
     void setOrdered(bool s) { m_ordered = s; }
     bool isOrdered() { return m_ordered; }
     void addItem(SequenceItem& itm);
+    const SequenceItem* getItem(const int row) const;
     const SequencerEvent* getEvent(const int row) const;
     void clear();
     void saveToStream(QTextStream& str);
@@ -87,7 +92,7 @@ public:
     int getSMFDivision() const { return m_division; }
     int getInitialTempo() const { return m_initialTempo; }
     void setInitialTempo(int tempo) { m_initialTempo = tempo; }
-
+    void sortSong() { m_items.sort(); }
     Song* getSong() { return &m_items; }
 
 public slots:
@@ -105,15 +110,15 @@ public slots:
     void sysexEvent(const QByteArray& data);
     void variableEvent(const QByteArray& data);
     void metaMiscEvent(int typ, const QByteArray& data);
-    void seqNum(int seq);
-    void forcedChannel(int channel);
-    void forcedPort(int port);
     void textEvent(int type, const QString& data);
-    void smpteEvent(int b0, int b1, int b2, int b3, int b4);
-    void timeSigEvent(int b0, int b1, int b2, int b3);
-    void keySigEvent(int b0, int b1);
     void tempoEvent(int tempo);
     void errorHandler(const QString& errorStr);
+    //void seqNum(int seq);
+    //void forcedChannel(int channel);
+    //void forcedPort(int port);
+    //void smpteEvent(int b0, int b1, int b2, int b3, int b4);
+    //void timeSigEvent(int b0, int b1, int b2, int b3);
+    //void keySigEvent(int b0, int b1);
 
 signals:
     void loadProgress(int);
@@ -155,6 +160,7 @@ private:
     bool m_translateSysex;
     bool m_ordered;
     int m_currentTrack;
+    int m_currentRow;
     int m_portId;
     int m_queueId;
 

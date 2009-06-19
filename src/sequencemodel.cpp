@@ -47,6 +47,7 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_translateSysex(false),
         m_ordered(true),
         m_currentTrack(0),
+        m_currentRow(0),
         m_portId(0),
         m_queueId(0)
 {
@@ -64,16 +65,16 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)), SLOT(sysexEvent(const QByteArray&)));
     connect(m_smf, SIGNAL(signalSMFMetaMisc(int, const QByteArray&)), SLOT(metaMiscEvent(int, const QByteArray&)));
     connect(m_smf, SIGNAL(signalSMFVariable(const QByteArray&)), SLOT(variableEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFSequenceNum(int)), SLOT(seqNum(int)));
-    connect(m_smf, SIGNAL(signalSMFforcedChannel(int)), SLOT(forcedChannel(int)));
-    connect(m_smf, SIGNAL(signalSMFforcedPort(int)), SLOT(forcedPort(int)));
     connect(m_smf, SIGNAL(signalSMFText(int,const QString&)), SLOT(textEvent(int,const QString&)));
     connect(m_smf, SIGNAL(signalSMFendOfTrack()), SLOT(endOfTrackEvent()));
-    connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)), SLOT(timeSigEvent(int,int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)), SLOT(smpteEvent(int,int,int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFKeySig(int,int)), SLOT(keySigEvent(int,int)));
     connect(m_smf, SIGNAL(signalSMFTempo(int)), SLOT(tempoEvent(int)));
     connect(m_smf, SIGNAL(signalSMFError(const QString&)), SLOT(errorHandler(const QString&)));
+    //connect(m_smf, SIGNAL(signalSMFSequenceNum(int)), SLOT(seqNum(int)));
+    //connect(m_smf, SIGNAL(signalSMFforcedChannel(int)), SLOT(forcedChannel(int)));
+    //connect(m_smf, SIGNAL(signalSMFforcedPort(int)), SLOT(forcedPort(int)));
+    //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)), SLOT(smpteEvent(int,int,int,int,int)));
+    //connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)), SLOT(timeSigEvent(int,int,int,int)));
+    //connect(m_smf, SIGNAL(signalSMFKeySig(int,int)), SLOT(keySigEvent(int,int)));
 }
 
 SequenceModel::~SequenceModel()
@@ -127,6 +128,18 @@ QModelIndex
 SequenceModel::parent(const QModelIndex& /*index*/) const
 {
     return QModelIndex();
+}
+
+void
+SequenceModel::setCurrentRow(const int row)
+{
+    m_currentRow = row;
+}
+
+QModelIndex
+SequenceModel::getCurrentRow()
+{
+    return createIndex(m_currentRow , 0);
 }
 
 int
@@ -193,9 +206,9 @@ void
 SequenceModel::addItem(SequenceItem& itm)
 {
     int where = m_ordered ? m_items.count() : 0;
-    QModelIndex idx1 = createIndex(where, 0);
-    QModelIndex idx2 = createIndex(where, 5);
-    itm.setTag(m_currentTrack);
+    //QModelIndex idx1 = createIndex(where, 0);
+    //QModelIndex idx2 = createIndex(where, 5);
+    itm.setTrack(m_currentTrack);
     beginInsertRows(QModelIndex(), where, where);
     if (m_ordered)
         m_items.append(itm);
@@ -1002,10 +1015,18 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
     return QString::null;
 }
 
+const SequenceItem*
+SequenceModel::getItem(const int row) const
+{
+    if (!m_items.empty() && (row >= 0) && (row < m_items.size()))
+        return &m_items[row];
+    return NULL;
+}
+
 const SequencerEvent*
 SequenceModel::getEvent(const int row) const
 {
-    if ((row >= 0) && (row < m_items.count()))
+    if (!m_items.empty() && (row >= 0) && (row < m_items.size()))
         return m_items[row].getEvent();
     return NULL;
 }
@@ -1031,6 +1052,7 @@ SequenceModel::loadFromFile(const QString& path)
         KApplication::processEvents();
     }
     endInsertRows();
+    m_loadedSong.clear();
 }
 
 void
@@ -1043,8 +1065,7 @@ SequenceModel::appendEvent(SequencerEvent* ev)
     if (ev->getSequencerType() != SND_SEQ_EVENT_TEMPO) {
         ev->setSubscribers();
     }
-    SequenceItem itm(seconds, ticks, ev);
-    itm.setTag(m_currentTrack);
+    SequenceItem itm(seconds, ticks, m_currentTrack, ev);
     m_loadedSong.append(itm);
     emit loadProgress(m_smf->getFilePos());
     //QCoreApplication::sendPostedEvents ();
@@ -1054,7 +1075,7 @@ SequenceModel::appendEvent(SequencerEvent* ev)
 void
 SequenceModel::headerEvent(int format, int ntrks, int division)
 {
-    qDebug() << "SMF Header:" << format << ntrks << division;
+    //qDebug() << "SMF Header:" << format << ntrks << division;
     m_format = format;
     m_ntrks = ntrks;
     m_division = division;
@@ -1064,20 +1085,20 @@ void
 SequenceModel::trackStartEvent()
 {
     m_currentTrack++;
-    qDebug() << "Track start:" << m_currentTrack;
+    //qDebug() << "Track start:" << m_currentTrack;
     emit loadProgress(m_smf->getFilePos());
 }
 
 void
 SequenceModel::trackEndEvent()
 {
-    qDebug() << "Track end:" << m_currentTrack;
+    //qDebug() << "Track end:" << m_currentTrack;
 }
 
 void
 SequenceModel::endOfTrackEvent()
 {
-    qDebug() << "Meta Event: End Of Track";
+    //qDebug() << "Meta Event: End Of Track";
 }
 
 void
@@ -1143,7 +1164,7 @@ SequenceModel::variableEvent(const QByteArray& data)
     QString s;
     for (j = 0; j < data.count(); ++j)
         s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
-    qDebug() << "Variable event" << s;
+    //qDebug() << "Variable event" << s;
 }
 
 void
@@ -1153,26 +1174,26 @@ SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
     QString s = QString("type=%1 ").arg(typ);
     for (j = 0; j < data.count(); ++j)
         s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
-    qDebug() << "Meta" << s;
+    //qDebug() << "Meta" << s;
 }
 
-void
+/*void
 SequenceModel::seqNum(int seq)
 {
-    qDebug() << "Sequence num:" << seq;
-}
+    //qDebug() << "Sequence num:" << seq;
+}*/
 
-void
+/*void
 SequenceModel::forcedChannel(int channel)
 {
-    qDebug() << "Forced channel:" << channel;
-}
+    //qDebug() << "Forced channel:" << channel;
+}*/
 
-void
+/*void
 SequenceModel::forcedPort(int port)
 {
-    qDebug() << "Forced port:" << port;
-}
+    //qDebug() << "Forced port:" << port;
+}*/
 
 void
 SequenceModel::textEvent(int type, const QString& data)
@@ -1181,23 +1202,23 @@ SequenceModel::textEvent(int type, const QString& data)
     appendEvent(ev);
 }
 
-void
+/*void
 SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
 {
-    qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
-}
+    //qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
+}*/
 
-void
+/*void
 SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
 {
-    qDebug() << "Time Signature:" << b0 << b1 << b2 << b3;
-}
+    //qDebug() << "Time Signature:" << b0 << b1 << b2 << b3;
+}*/
 
-void
+/*void
 SequenceModel::keySigEvent(int b0, int b1)
 {
-    qDebug() << "Key Signature:" << b0 << b1;
-}
+    //qDebug() << "Key Signature:" << b0 << b1;
+}*/
 
 void
 SequenceModel::tempoEvent(int tempo)
@@ -1213,6 +1234,6 @@ SequenceModel::tempoEvent(int tempo)
 void
 SequenceModel::errorHandler(const QString& errorStr)
 {
-    qDebug() << "*** Warning! " << errorStr
-             << " at file offset " << m_smf->getFilePos();
+    qWarning() << "*** Warning! " << errorStr
+               << " at file offset " << m_smf->getFilePos();
 }

@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "proxymodel.h"
+#include "sequenceitem.h"
 #include "sequencemodel.h"
 
 void ProxyModel::setFilterTrack(int track)
@@ -119,7 +120,7 @@ bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 
         /* Other events */
     default:
-        return true; // provisional setting. Add more filters!!! (tempo...)
+        return true; //TODO: provisional setting. Add more filters!!! (tempo...)
     }
     return false;
 }
@@ -128,8 +129,11 @@ bool ProxyModel::filterAcceptsRow(int sourceRow,
         const QModelIndex& /*sourceParent*/) const
 {
     SequenceModel* sModel = static_cast<SequenceModel*>(sourceModel());
-    const SequencerEvent* ev = sModel->getEvent(sourceRow);
-    if (ev)
-        return (ev->getTag() == m_trackFilter) && filterSequencerEvent(ev);
+    const SequenceItem* itm = sModel->getItem(sourceRow);
+    if (itm) {
+        const SequencerEvent* ev = itm->getEvent();
+        if (ev)
+            return (itm->getTrack() == m_trackFilter) && filterSequencerEvent(ev);
+    }
     return false;
 }

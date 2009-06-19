@@ -80,6 +80,9 @@ public slots:
     void resizeColumns(const QModelIndex& parent, int start, int end);
     void tabIndexChanged(int index);
     void reorderTabs(int fromIndex, int toIndex);
+    void slotTicks(int row);
+    void slotCurrentChanged(const QModelIndex& curr, const QModelIndex& prev);
+    void updateView();
 
 protected:
     void saveConfiguration();

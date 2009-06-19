@@ -31,25 +31,30 @@ class SequenceItem
 public:
     SequenceItem(double seconds,
                  unsigned int ticks,
+                 unsigned int track,
                  SequencerEvent* ev):
     m_seconds(seconds),
     m_ticks(ticks),
+    m_track(track),
     m_event(ev)
     {}
 
     virtual ~SequenceItem()
     {}
 
+    bool operator==(const SequenceItem& other) const;
+
     double getSeconds() const { return m_seconds; }
     unsigned int  getTicks() const { return m_ticks; }
     SequencerEvent* getEvent() const { return m_event; }
     void deleteEvent() { delete m_event; }
-    int getTag() const;
-    void setTag(int tag);
+    int getTrack() const { return m_track; }
+    void setTrack(int track) { m_track = track; }
 
 private:
     double m_seconds;
     unsigned int m_ticks;
+    unsigned int m_track;
     SequencerEvent* m_event;
 };
 

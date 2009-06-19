@@ -68,13 +68,17 @@ KMidimon::KMidimon() :
     m_view->setAlternatingRowColors(true);
     m_view->setModel(m_proxy);
     m_view->setSortingEnabled(false);
-    //m_view->setSelectionMode(QAbstractItemView::NoSelection);
+    //QAbstractItemView::NoSelection
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
+    connect( m_view->selectionModel(),
+             SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
+             SLOT(slotCurrentChanged(const QModelIndex&, const QModelIndex&)) );
     m_adaptor = new SequencerAdaptor(this);
     m_adaptor->setModel(m_model);
     m_adaptor->updateModelClients();
     connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                       SLOT(resizeColumns(QModelIndex,int,int)) );
+    connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
     m_tabBar = new KTabBar(this);
     m_tabBar->setShape(QTabBar::RoundedNorth);
 #if QT_VERSION < 0x040500
@@ -257,6 +261,7 @@ void KMidimon::fileOpen()
         QFileInfo finfo(path);
         if (finfo.exists()) {
             try {
+                m_view->blockSignals(true);
                 stop();
                 m_model->clear();
                 for (int i = m_tabBar->count() - 1; i >= 0; i--) {
@@ -277,7 +282,7 @@ void KMidimon::fileOpen()
                     m_adaptor->setTempo(m_model->getInitialTempo());
                 int ntrks = m_model->getSMFTracks();
                 if (ntrks < 1) ntrks = 1;
-                if (ntrks > 8) ntrks = 8;
+                //if (ntrks > 8) ntrks = 8;
                 for (int i = 0; i < ntrks; i++)
                     addNewTab(i+1);
                 m_tabBar->setCurrentIndex(0);
@@ -288,6 +293,7 @@ void KMidimon::fileOpen()
             } catch (...) {
                 m_model->clear();
             }
+            m_view->blockSignals(false);
             delete m_pd;
         }
     }
@@ -409,13 +415,18 @@ void KMidimon::record()
 
 void KMidimon::stop()
 {
-    m_adaptor->stop();
-    songFinished();
+    bool wasRecording = m_adaptor->isRecording();
+    if (wasRecording | m_adaptor->isPlaying()) {
+        m_adaptor->stop();
+        if (wasRecording) m_model->sortSong();
+        songFinished();
+    }
 }
 
 void KMidimon::songFinished()
 {
     updateState("stopped_state", i18n("stopped"));
+    updateView();
 }
 
 void KMidimon::play()
@@ -432,11 +443,13 @@ void KMidimon::pause()
 void KMidimon::rewind()
 {
     m_adaptor->rewind();
+    updateView();
 }
 
 void KMidimon::forward()
 {
     m_adaptor->forward();
+    updateView();
 }
 
 void KMidimon::updateState(const QString newState, const QString stateName)
@@ -610,4 +623,32 @@ void KMidimon::reorderTabs(int fromIndex, int toIndex)
     m_tabBar->insertTab(toIndex, icon, text);
     m_tabBar->setTabData(toIndex, data);
     m_tabBar->setCurrentIndex(toIndex);
+}
+
+void KMidimon::slotTicks(int row)
+{
+    QModelIndex index = m_model->getRowIndex(row);
+    if (index.isValid()) {
+        QModelIndex vidx = m_proxy->mapFromSource(index);
+        if (vidx.isValid())
+            m_view->setCurrentIndex(vidx);
+    }
+}
+
+void
+KMidimon::slotCurrentChanged( const QModelIndex& curr,
+                              const QModelIndex& /*prev*/ )
+{
+    if (m_adaptor->isPlaying() | m_adaptor->isRecording())
+        return;
+    QModelIndex idx = m_proxy->mapToSource(curr);
+    m_adaptor->setPosition(idx.row());
+}
+
+void
+KMidimon::updateView()
+{
+    QModelIndex index = m_model->getCurrentRow();
+    if (index.isValid())
+        m_view->setCurrentIndex(m_proxy->mapFromSource(index));
 }

@@ -21,6 +21,7 @@
 #define INCLUDED_PLAYER_H
 
 #include "playthread.h"
+#include "client.h"
 #include "sequencemodel.h"
 
 using namespace ALSA::Sequencer;
@@ -36,14 +37,21 @@ public:
     virtual SequencerEvent* nextEvent();
     virtual unsigned int getInitialPosition() { return m_songPosition; }
     virtual unsigned int getEchoResolution() { return m_echoResolution; }
-    void setSong(Song* s, int division);
+    void setSong(Song* s, unsigned int division);
     void resetPosition();
     void setPosition(unsigned int pos);
+    bool isPlaying();
+    void setLastIndex(const unsigned int index) { m_lastIndex = index; }
+    unsigned int getLastIndex() const { return m_lastIndex; }
+
+protected:
+    virtual void sendEchoEvent(int tick);
 
 private:
     Song* m_song;
     SongIterator* m_songIterator;
     unsigned int m_songPosition;
+    unsigned int m_lastIndex;
     unsigned int m_echoResolution;
 };
 

@@ -45,6 +45,8 @@ public:
     ~SequencerAdaptor();
 
     bool isRecording() { return m_recording; }
+    bool isPlaying();
+
     void queue_set_tempo();
 
     void record();
@@ -71,11 +73,15 @@ public:
     QStringList outputConnections();
     QString output_subscriber();
     void updateModelClients();
+    void setPosition(const int pos);
 
 public slots:
     /* handler for the sequencer events */
     void sequencerEvent( SequencerEvent* ev );
     void songFinished();
+
+signals:
+    void signalTicks(int tick);
 
 private:
     QStringList list_ports(PortInfoList& refs);
