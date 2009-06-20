@@ -28,8 +28,10 @@
 
 class KAction;
 class KToggleAction;
+class KRecentFilesAction;
 class KTabBar;
 class KProgressDialog;
+class KUrl;
 
 class QEvent;
 class QContextMenuEvent;
@@ -69,6 +71,7 @@ public slots:
     void deleteTrack(int tabIndex);
     void changeTrack(int tabIndex);
     void songFinished();
+    void slotURLSelected(const KUrl& url);
 
     void disconnectAll();
     void configConnections();
@@ -109,6 +112,7 @@ private:
     KAction *m_createTrack;
     KAction *m_deleteTrack;
     KAction *m_changeTrack;
+    KRecentFilesAction *m_recentFiles;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;

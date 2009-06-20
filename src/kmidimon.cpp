@@ -44,6 +44,7 @@
 #include <kicon.h>
 #include <kinputdialog.h>
 #include <kprogressdialog.h>
+#include <krecentfilesaction.h>
 
 #include "kmidimon.h"
 #include "configdialog.h"
@@ -132,6 +133,7 @@ void KMidimon::setupActions()
     };
     KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
     KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(slotURLSelected(const KUrl&)), actionCollection());
     KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
     m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
     m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
@@ -250,13 +252,11 @@ void KMidimon::fileNew()
     m_adaptor->queue_set_tempo();
 }
 
-void KMidimon::fileOpen()
+void KMidimon::slotURLSelected(const KUrl& url)
 {
-    QString path = KFileDialog::getOpenFileName(KUrl(
-            "kfiledialog:///MIDIMONITOR"),
-            i18n("*.mid|MIDI files (*.mid)"), this,
-            i18n("Open MIDI file"));
+    QString path = url.toLocalFile();
     if (!path.isNull()) {
+        m_recentFiles->addUrl(url);
         QFileInfo finfo(path);
         if (finfo.exists()) {
             try {
@@ -298,18 +298,30 @@ void KMidimon::fileOpen()
     }
 }
 
+void KMidimon::fileOpen()
+{
+    KUrl u = KFileDialog::getOpenUrl(
+            KUrl("kfiledialog:///MIDIMONITOR"),
+            i18n("*.mid *.midi *.MID|MIDI files (*.mid)"),
+            this,
+            i18n("Open MIDI file"));
+    if (!u.isEmpty()) slotURLSelected(u);
+}
+
 void KMidimon::fileSave()
 {
-    QString path = KFileDialog::getSaveFileName(KUrl(
-            "kfiledialog:///MIDIMONITOR"), i18n(
-            "*.txt|Plain text files (*.txt)"), this, i18n(
-            "Save MIDI monitor data"));
-    if (!path.isNull()) {
-        QFile file(path);
-        file.open(QIODevice::WriteOnly);
-        QTextStream stream(&file);
-        m_model->saveToStream(stream);
-        file.close();
+    KUrl u = KFileDialog::getSaveUrl(
+            KUrl("kfiledialog:///MIDIMONITOR"),
+            i18n("*.txt|Plain text files (*.txt)\n"
+                 "*.mid *.midi|MIDI files (*.mid)"),
+            this,
+            i18n("Save MIDI monitor data"));
+    if (!u.isEmpty()) {
+        QString path = u.toLocalFile();
+        if (!path.isNull()) {
+            m_recentFiles->addUrl(u);
+            m_model->saveToFile(path);
+        }
     }
 }
 
@@ -339,6 +351,10 @@ void KMidimon::saveConfiguration()
     }
     config.writeEntry("output_connection", m_outputConn);
     config.sync();
+
+    config = KGlobal::config()->group("RecentFiles");
+    m_recentFiles->saveEntries(config);
+    config.sync();
 }
 
 void KMidimon::readConfiguration()
@@ -363,6 +379,9 @@ void KMidimon::readConfiguration()
     }
     m_outputConn = config.readEntry("output_connection", QString());
     m_adaptor->connect_output(m_outputConn);
+
+    config = KGlobal::config()->group("RecentFiles");
+    m_recentFiles->loadEntries(config);
 }
 
 void KMidimon::preferences()

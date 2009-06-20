@@ -70,7 +70,8 @@ public:
     const SequenceItem* getItem(const int row) const;
     const SequencerEvent* getEvent(const int row) const;
     void clear();
-    void saveToStream(QTextStream& str);
+    void saveToTextStream(QTextStream& str);
+    void saveToFile(const QString& path);
     void loadFromFile(const QString& path);
     void appendEvent(SequencerEvent* ev);
 
@@ -111,13 +112,14 @@ public slots:
     void metaMiscEvent(int typ, const QByteArray& data);
     void textEvent(int type, const QString& data);
     void tempoEvent(int tempo);
+    void timeSigEvent(int b0, int b1, int b2, int b3);
+    void keySigEvent(int b0, int b1);
     void errorHandler(const QString& errorStr);
+    void trackHandler(int track);
     //void seqNum(int seq);
     //void forcedChannel(int channel);
     //void forcedPort(int port);
     //void smpteEvent(int b0, int b1, int b2, int b3, int b4);
-    //void timeSigEvent(int b0, int b1, int b2, int b3);
-    //void keySigEvent(int b0, int b1);
 
 signals:
     void loadProgress(int);
@@ -154,6 +156,8 @@ private:
     QString tempo_npt(const SequencerEvent *ev) const;
     QString text_type(const SequencerEvent *ev) const;
     QString text_data(const SequencerEvent *ev) const;
+    QString time_sig(const SequencerEvent *ev) const;
+    QString key_sig(const SequencerEvent *ev) const;
 
     bool m_showClientNames;
     bool m_translateSysex;

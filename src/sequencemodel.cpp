@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QDataStream>
 #include <QListIterator>
+#include <QFileInfo>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -51,29 +52,54 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_queueId(0)
 {
     m_smf = new QSmf(this);
-    connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)), SLOT(headerEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFTrackStart()), SLOT(trackStartEvent()));
-    connect(m_smf, SIGNAL(signalSMFTrackEnd()), SLOT(trackEndEvent()));
-    connect(m_smf, SIGNAL(signalSMFNoteOn(int,int,int)), SLOT(noteOnEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFNoteOff(int,int,int)), SLOT(noteOffEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFKeyPress(int,int,int)), SLOT(keyPressEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFCtlChange(int,int,int)), SLOT(ctlChangeEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFPitchBend(int,int)), SLOT(pitchBendEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFProgram(int,int)), SLOT(programEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFChanPress(int,int)), SLOT(chanPressEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)), SLOT(sysexEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFMetaMisc(int, const QByteArray&)), SLOT(metaMiscEvent(int, const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFVariable(const QByteArray&)), SLOT(variableEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFText(int,const QString&)), SLOT(textEvent(int,const QString&)));
-    connect(m_smf, SIGNAL(signalSMFendOfTrack()), SLOT(endOfTrackEvent()));
-    connect(m_smf, SIGNAL(signalSMFTempo(int)), SLOT(tempoEvent(int)));
-    connect(m_smf, SIGNAL(signalSMFError(const QString&)), SLOT(errorHandler(const QString&)));
-    //connect(m_smf, SIGNAL(signalSMFSequenceNum(int)), SLOT(seqNum(int)));
-    //connect(m_smf, SIGNAL(signalSMFforcedChannel(int)), SLOT(forcedChannel(int)));
-    //connect(m_smf, SIGNAL(signalSMFforcedPort(int)), SLOT(forcedPort(int)));
-    //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)), SLOT(smpteEvent(int,int,int,int,int)));
-    //connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)), SLOT(timeSigEvent(int,int,int,int)));
-    //connect(m_smf, SIGNAL(signalSMFKeySig(int,int)), SLOT(keySigEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
+                   SLOT(headerEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFTrackStart()),
+                   SLOT(trackStartEvent()));
+    connect(m_smf, SIGNAL(signalSMFTrackEnd()),
+                   SLOT(trackEndEvent()));
+    connect(m_smf, SIGNAL(signalSMFNoteOn(int,int,int)),
+                   SLOT(noteOnEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFNoteOff(int,int,int)),
+                   SLOT(noteOffEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFKeyPress(int,int,int)),
+                   SLOT(keyPressEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFCtlChange(int,int,int)),
+                   SLOT(ctlChangeEvent(int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFPitchBend(int,int)),
+                   SLOT(pitchBendEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFProgram(int,int)),
+                   SLOT(programEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFChanPress(int,int)),
+                   SLOT(chanPressEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)),
+                   SLOT(sysexEvent(const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFMetaMisc(int, const QByteArray&)),
+                   SLOT(metaMiscEvent(int, const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFVariable(const QByteArray&)),
+                   SLOT(variableEvent(const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFText(int,const QString&)),
+                   SLOT(textEvent(int,const QString&)));
+    connect(m_smf, SIGNAL(signalSMFendOfTrack()),
+                   SLOT(endOfTrackEvent()));
+    connect(m_smf, SIGNAL(signalSMFTempo(int)),
+                   SLOT(tempoEvent(int)));
+    connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)),
+                   SLOT(timeSigEvent(int,int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFKeySig(int,int)),
+                   SLOT(keySigEvent(int,int)));
+    connect(m_smf, SIGNAL(signalSMFError(const QString&)),
+                   SLOT(errorHandler(const QString&)));
+    connect(m_smf, SIGNAL(signalSMFWriteTrack(int)),
+                   SLOT(trackHandler(int)));
+    //connect(m_smf, SIGNAL(signalSMFSequenceNum(int)),
+    //               SLOT(seqNum(int)));
+    //connect(m_smf, SIGNAL(signalSMFforcedChannel(int)),
+    //               SLOT(forcedChannel(int)));
+    //connect(m_smf, SIGNAL(signalSMFforcedPort(int)),
+    //               SLOT(forcedPort(int)));
+    //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
+    //               SLOT(smpteEvent(int,int,int,int,int)));
 }
 
 SequenceModel::~SequenceModel()
@@ -225,7 +251,7 @@ SequenceModel::clear()
 }
 
 void
-SequenceModel::saveToStream(QTextStream& str)
+SequenceModel::saveToTextStream(QTextStream& str)
 {
     for( int i = 0; i < m_items.count(); ++i ) {
         SequenceItem itm = m_items[i];
@@ -765,6 +791,10 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("Tempo");
     case SND_SEQ_EVENT_USR_VAR0:
         return i18n("SMF Text");
+    case SND_SEQ_EVENT_TIMESIGN:
+        return i18n("Time Signature");
+    case SND_SEQ_EVENT_KEYSIGN:
+        return i18n("Key Signature");
         /* Other events */
     default:
          return QString("Event type %1").arg(ev->getSequencerType());
@@ -911,6 +941,22 @@ SequenceModel::text_data(const SequencerEvent *ev) const
 }
 
 QString
+SequenceModel::time_sig(const SequencerEvent *ev) const
+{
+    return QString("%1/%2, %3, %4").arg(ev->getRaw8(0))
+            .arg(pow(2, ev->getRaw8(1)))
+            .arg(ev->getRaw8(2))
+            .arg(ev->getRaw8(3));
+}
+
+QString
+SequenceModel::key_sig(const SequencerEvent *ev) const
+{
+    return QString("%1 %2").arg((signed char)ev->getRaw8(0))
+            .arg(ev->getRaw8(1));
+}
+
+QString
 SequenceModel::event_data1(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
@@ -1001,7 +1047,13 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_USR_VAR0:
         return text_data(ev);
 
-       /* Other events */
+    case SND_SEQ_EVENT_TIMESIGN:
+        return time_sig(ev);
+
+    case SND_SEQ_EVENT_KEYSIGN:
+        return key_sig(ev);
+
+        /* Other events */
     default:
         return QString::null;
     }
@@ -1036,14 +1088,27 @@ SequenceModel::loadFromFile(const QString& path)
     m_loadedSong.sort();
     SongIterator it(m_loadedSong);
     beginInsertRows(QModelIndex(), 0, m_loadedSong.count() - 1);
-    /*while(it.hasNext()) {
-        m_items.append(it.next());
-        //QCoreApplication::sendPostedEvents ();
-        KApplication::processEvents();
-    }*/
     m_items += m_loadedSong;
     endInsertRows();
     m_loadedSong.clear();
+}
+
+void
+SequenceModel::saveToFile(const QString& path)
+{
+    QFileInfo info(path);
+    if (info.suffix().toLower() == "txt") {
+        QFile file(path);
+        file.open(QIODevice::WriteOnly);
+        QTextStream stream(&file);
+        saveToTextStream(stream);
+        file.close();
+    } else { // MIDI
+        m_smf->setDivision(m_division);
+        m_smf->setFileFormat(1);
+        m_smf->setTracks(m_ntrks);
+        m_smf->writeToFile(path);
+    }
 }
 
 void
@@ -1084,12 +1149,14 @@ void
 SequenceModel::trackEndEvent()
 {
     //qDebug() << "Track end:" << m_currentTrack;
+    emit loadProgress(m_smf->getFilePos());
 }
 
 void
 SequenceModel::endOfTrackEvent()
 {
     //qDebug() << "Meta Event: End Of Track";
+    emit loadProgress(m_smf->getFilePos());
 }
 
 void
@@ -1192,17 +1259,29 @@ SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
     //qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
 }*/
 
-/*void
+void
 SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
 {
     //qDebug() << "Time Signature:" << b0 << b1 << b2 << b3;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_TIMESIGN);
+    ev->setRaw8(0, b0);
+    ev->setRaw8(1, b1);
+    ev->setRaw8(2, b2);
+    ev->setRaw8(3, b3);
+    appendEvent(ev);
+}
 
-/*void
+void
 SequenceModel::keySigEvent(int b0, int b1)
 {
     //qDebug() << "Key Signature:" << b0 << b1;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_KEYSIGN);
+    ev->setRaw8(0, b0);
+    ev->setRaw8(1, b1);
+    appendEvent(ev);
+}
 
 void
 SequenceModel::textEvent(int type, const QString& data)
@@ -1227,4 +1306,119 @@ SequenceModel::errorHandler(const QString& errorStr)
 {
     qWarning() << "*** Warning! " << errorStr
                << " at file offset " << m_smf->getFilePos();
+}
+
+void
+SequenceModel::trackHandler(int track)
+{
+    unsigned int delta, last_tick = 0;
+    for( int i = 0; i < m_items.count(); ++i ) {
+        SequenceItem itm = m_items[i];
+        if (itm.getTrack() == track) {
+            const SequencerEvent* ev = itm.getEvent();
+            if (ev != NULL) {
+                delta = ev->getTick() - last_tick;
+                last_tick = ev->getTick();
+                switch(ev->getSequencerType()) {
+                    case SND_SEQ_EVENT_TEMPO: {
+                        const TempoEvent* e = dynamic_cast<const TempoEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeTempo(delta, e->getValue());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_USR_VAR0: {
+                        const TextEvent* e = dynamic_cast<const TextEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMetaEvent(delta, e->getTextType(),
+                                                  e->getText());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_SYSEX: {
+                        const SysExEvent* e = dynamic_cast<const SysExEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, system_exclusive,
+                                    (long) e->getLength(),
+                                    (char *) e->getData());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_NOTEON: {
+                        const KeyEvent* e = dynamic_cast<const KeyEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, note_on,
+                                    e->getChannel(),
+                                    e->getKey(),
+                                    e->getVelocity());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_NOTEOFF: {
+                        const KeyEvent* e = dynamic_cast<const KeyEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, note_off,
+                                    e->getChannel(),
+                                    e->getKey(),
+                                    e->getVelocity());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_KEYPRESS: {
+                        const KeyEvent* e = dynamic_cast<const KeyEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, poly_aftertouch,
+                                    e->getChannel(),
+                                    e->getKey(),
+                                    e->getVelocity());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_CONTROLLER:
+                    case SND_SEQ_EVENT_CONTROL14:
+                    case SND_SEQ_EVENT_NONREGPARAM:
+                    case SND_SEQ_EVENT_REGPARAM: {
+                        const ControllerEvent* e = dynamic_cast<const ControllerEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, control_change,
+                                    e->getChannel(),
+                                    e->getParam(),
+                                    e->getValue());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_PGMCHANGE: {
+                        const ProgramChangeEvent* e = dynamic_cast<const ProgramChangeEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, program_chng,
+                                    e->getChannel(), e->getValue());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_CHANPRESS: {
+                        const ChanPressEvent* e = dynamic_cast<const ChanPressEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, channel_aftertouch,
+                                    e->getChannel(), e->getValue());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_PITCHBEND: {
+                        const PitchBendEvent* e = dynamic_cast<const PitchBendEvent*>(ev);
+                        if (e != NULL)
+                            m_smf->writeMidiEvent(delta, pitch_wheel,
+                                    e->getChannel(), e->getValue());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_TIMESIGN: {
+                        m_smf->writeTimeSignature(delta, ev->getRaw8(0),
+                                ev->getRaw8(1),
+                                ev->getRaw8(2),
+                                ev->getRaw8(3));
+                        // writeTimeSignature(0, 3, 2, 36, 8); 3/4
+                    }
+                    break;
+                    case SND_SEQ_EVENT_KEYSIGN: {
+                        m_smf->writeKeySignature(delta, ev->getRaw8(0),
+                                ev->getRaw8(1));
+                        // writeKeySignature(0, 2, major_mode); D major (2#)
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    // final event
+    m_smf->writeMetaEvent(0, end_of_track);
 }
