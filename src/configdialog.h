@@ -66,9 +66,6 @@ public:
 
     bool showColumn(int colNum);
     void setShowColumn(int colNum, bool newValue);
-
-    bool orderedEvents() { return m_sortEvents->isChecked(); }
-    void setOrderedEvents(bool newValue) { m_sortEvents->setChecked(newValue); }
 };
 
 #endif

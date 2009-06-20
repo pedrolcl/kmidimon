@@ -163,35 +163,39 @@ void SequencerAdaptor::stop()
 
 void SequencerAdaptor::rewind()
 {
-    m_player->resetPosition();
+    if (m_player != NULL) m_player->resetPosition();
     m_model->setCurrentRow(0);
+    m_queue->setTickPosition(0);
 }
 
 void SequencerAdaptor::forward()
 {
-    QModelIndex idx;
-    int r = m_model->rowCount(idx) - 1;
-    if (r >= 0) {
-        int t = m_model->getEvent(r)->getTick();
-        m_player->setPosition(t);
-        m_model->setCurrentRow(r);
-    }
+    int r = m_model->rowCount(QModelIndex()) - 1;
+    setPosition(r);
 }
 
 void SequencerAdaptor::record()
 {
     if (!m_recording) {
-        m_queue->start();
-        m_recording = m_queue->getStatus().isRunning();
+        QueueStatus s = m_queue->getStatus();
+        if (s.getTickTime() == 0) m_queue->start();
+        else m_queue->continueRunning();
+        s = m_queue->getStatus();
+        m_recording = s.isRunning();
+        //qDebug() << "recording at: " << s.getTickTime();
     }
 }
 
 void SequencerAdaptor::setPosition(const int pos)
 {
     const SequencerEvent* ev = m_model->getEvent(pos);
-    //qDebug() << "SequencerAdaptor::setPosition(" << pos << ")";
-    if ((ev != NULL) && (m_player != NULL))
-        m_player->setPosition(ev->getTick());
+    if (ev != NULL) {
+        //qDebug() << "SequencerAdaptor::setPosition(" << pos << ")";
+        int t = ev->getTick();
+        if (m_player != NULL) m_player->setPosition(t);
+        m_model->setCurrentRow(pos);
+        m_queue->setTickPosition(t);
+    }
 }
 
 void SequencerAdaptor::queue_set_tempo()
@@ -200,6 +204,9 @@ void SequencerAdaptor::queue_set_tempo()
     tempo.setPPQ(m_resolution);
     tempo.setNominalBPM(m_tempo);
     m_queue->setTempo(tempo);
+    /*qDebug() << "SequencerAdaptor::queue_set_tempo()"
+             << "resolution: " << m_resolution
+             << "tempo: " << m_tempo;*/
 }
 
 QStringList SequencerAdaptor::inputConnections()

@@ -45,7 +45,6 @@ SequenceModel::SequenceModel(QObject* parent) :
         QAbstractItemModel(parent),
         m_showClientNames(false),
         m_translateSysex(false),
-        m_ordered(true),
         m_currentTrack(0),
         m_currentRow(0),
         m_portId(0),
@@ -205,16 +204,10 @@ SequenceModel::data(const QModelIndex &index, int role) const
 void
 SequenceModel::addItem(SequenceItem& itm)
 {
-    int where = m_ordered ? m_items.count() : 0;
-    //QModelIndex idx1 = createIndex(where, 0);
-    //QModelIndex idx2 = createIndex(where, 5);
+    int where = m_items.count();
     itm.setTrack(m_currentTrack);
     beginInsertRows(QModelIndex(), where, where);
-    if (m_ordered)
-        m_items.append(itm);
-    else
-        m_items.insert(0, itm);
-    //emit dataChanged(idx1, idx2);
+    m_items.append(itm);
     endInsertRows();
 }
 
@@ -1043,14 +1036,12 @@ SequenceModel::loadFromFile(const QString& path)
     m_loadedSong.sort();
     SongIterator it(m_loadedSong);
     beginInsertRows(QModelIndex(), 0, m_loadedSong.count() - 1);
-    while(it.hasNext()) {
-        if (m_ordered)
-            m_items.append(it.next());
-        else
-            m_items.insert(0, it.next());
+    /*while(it.hasNext()) {
+        m_items.append(it.next());
         //QCoreApplication::sendPostedEvents ();
         KApplication::processEvents();
-    }
+    }*/
+    m_items += m_loadedSong;
     endInsertRows();
     m_loadedSong.clear();
 }
@@ -1195,13 +1186,6 @@ SequenceModel::forcedPort(int port)
     //qDebug() << "Forced port:" << port;
 }*/
 
-void
-SequenceModel::textEvent(int type, const QString& data)
-{
-    SequencerEvent* ev = new TextEvent(data, type);
-    appendEvent(ev);
-}
-
 /*void
 SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
 {
@@ -1219,6 +1203,13 @@ SequenceModel::keySigEvent(int b0, int b1)
 {
     //qDebug() << "Key Signature:" << b0 << b1;
 }*/
+
+void
+SequenceModel::textEvent(int type, const QString& data)
+{
+    SequencerEvent* ev = new TextEvent(data, type);
+    appendEvent(ev);
+}
 
 void
 SequenceModel::tempoEvent(int tempo)

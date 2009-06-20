@@ -57,10 +57,8 @@ KMidimon::KMidimon() :
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
-    m_orderedEvents = false;
     m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
-    m_model->setOrdered(m_orderedEvents);
     m_proxy = new ProxyModel(this);
     m_proxy->setSourceModel(m_model);
     m_view = new QTreeView(this);
@@ -108,6 +106,7 @@ KMidimon::KMidimon() :
     setupActions();
     setAutoSaveSettings();
     readConfiguration();
+    fileNew();
     record();
 }
 
@@ -197,7 +196,7 @@ void KMidimon::setupActions()
     actionCollection()->addAction("connect_all", m_connectAll);
 
     m_disconnectAll = new KAction(this);
-    m_disconnectAll->setText(i18n("&Disconnect All Inputs")); //, KShortcut::null(),
+    m_disconnectAll->setText(i18n("&Disconnect All Inputs"));
     connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
     actionCollection()->addAction( "disconnect_all", m_disconnectAll );
 
@@ -334,11 +333,11 @@ void KMidimon::saveConfiguration()
     config.writeEntry("client_names", m_model->showClientNames());
     config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
-    config.writeEntry("sort_events", orderedEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
     }
+    config.writeEntry("output_connection", m_outputConn);
     config.sync();
 }
 
@@ -358,11 +357,12 @@ void KMidimon::readConfiguration()
     m_adaptor->setTempo(m_defaultTempo = config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
     setFixedFont(config.readEntry("fixed_font", false));
-    setOrderedEvents(config.readEntry("sort_events", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.readEntry(QString("show_column_%1").arg(i), true);
         setColumnStatus(i, status);
     }
+    m_outputConn = config.readEntry("output_connection", QString());
+    m_adaptor->connect_output(m_outputConn);
 }
 
 void KMidimon::preferences()
@@ -381,7 +381,6 @@ void KMidimon::preferences()
     dlg.setShowClientNames(m_model->showClientNames());
     dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
-    dlg.setOrderedEvents(orderedEvents());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
     }
@@ -399,7 +398,6 @@ void KMidimon::preferences()
         m_adaptor->setResolution(m_defaultResolution = dlg.getResolution());
         m_adaptor->queue_set_tempo();
         setFixedFont(dlg.useFixedFont());
-        setOrderedEvents(dlg.orderedEvents());
         for (i = 0; i < COLUMN_COUNT; ++i) {
             setColumnStatus(i, dlg.showColumn(i));
         }
@@ -409,6 +407,7 @@ void KMidimon::preferences()
 
 void KMidimon::record()
 {
+    m_adaptor->forward();
     m_adaptor->record();
     updateState("recording_state", i18n("recording"));
 }
@@ -418,7 +417,7 @@ void KMidimon::stop()
     bool wasRecording = m_adaptor->isRecording();
     if (wasRecording | m_adaptor->isPlaying()) {
         m_adaptor->stop();
-        if (wasRecording) m_model->sortSong();
+        //if (wasRecording) m_model->sortSong();
         songFinished();
     }
 }
@@ -481,8 +480,8 @@ void KMidimon::configConnections()
     QStringList inputs = m_adaptor->inputConnections();
     QStringList subs = m_adaptor->list_subscribers();
     QStringList outputs = m_adaptor->outputConnections();
-    QString out = m_adaptor->output_subscriber();
-    ConnectDlg dlg(this, inputs, subs, outputs, out);
+    m_outputConn = m_adaptor->output_subscriber();
+    ConnectDlg dlg(this, inputs, subs, outputs, m_outputConn);
     if (dlg.exec()) {
         QStringList desired = dlg.getSelectedInputs();
         subs = m_adaptor->list_subscribers();
@@ -498,9 +497,9 @@ void KMidimon::configConnections()
             }
         }
         QString newOut = dlg.getSelectedOutput();
-        if (newOut != out) {
-            m_adaptor->disconnect_output(out);
-            m_adaptor->connect_output(newOut);
+        if (newOut != m_outputConn) {
+            m_adaptor->disconnect_output(m_outputConn);
+            m_adaptor->connect_output(m_outputConn = newOut);
         }
     }
 }
@@ -534,23 +533,11 @@ void KMidimon::setFixedFont(bool newValue)
     }
 }
 
-void KMidimon::setOrderedEvents(bool newValue)
-{
-    if (m_orderedEvents != newValue) {
-        m_orderedEvents = newValue;
-        m_model->setOrdered(m_orderedEvents);
-        fileNew();
-    }
-}
-
 void KMidimon::resizeColumns(const QModelIndex&, int, int)
 {
     for( int i = 0; i < COLUMN_COUNT; ++i)
         m_view->resizeColumnToContents(i);
-    if (m_orderedEvents)
-        m_view->scrollToBottom();
-    else
-        m_view->scrollToTop();
+    m_view->scrollToBottom();
 }
 
 void KMidimon::addNewTab(int data)

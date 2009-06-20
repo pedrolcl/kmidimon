@@ -25,8 +25,8 @@ MA 02110-1301, USA
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>308</height>
+    <width>296</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -45,7 +45,7 @@ MA 02110-1301, USA
    <item>
     <widget class="QTabWidget" name="m_tabWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabSequencer" >
       <attribute name="title" >
@@ -142,7 +142,7 @@ MA 02110-1301, USA
        <item>
         <widget class="QGroupBox" name="filterGroup" >
          <property name="title" >
-          <string>Record Message Types</string>
+          <string>Filter Message Types</string>
          </property>
          <layout class="QVBoxLayout" >
           <item>
@@ -308,13 +308,6 @@ MA 02110-1301, USA
            <widget class="QCheckBox" name="m_useFixedFont" >
             <property name="text" >
              <string>Use Fixed Font</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="m_sortEvents" >
-            <property name="text" >
-             <string>Sort events by time (newer at bottom)</string>
             </property>
            </widget>
           </item>

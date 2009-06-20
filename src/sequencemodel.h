@@ -66,8 +66,6 @@ public:
     QModelIndex getRowIndex(int row) { return createIndex(row, 0); }
 
     bool isEmpty() { return m_items.isEmpty(); }
-    void setOrdered(bool s) { m_ordered = s; }
-    bool isOrdered() { return m_ordered; }
     void addItem(SequenceItem& itm);
     const SequenceItem* getItem(const int row) const;
     const SequencerEvent* getEvent(const int row) const;
@@ -94,6 +92,7 @@ public:
     void setInitialTempo(int tempo) { m_initialTempo = tempo; }
     void sortSong() { m_items.sort(); }
     Song* getSong() { return &m_items; }
+    const SequenceItem& lastItem() const { return m_items.last(); }
 
 public slots:
     void headerEvent(int format, int ntrks, int division);
@@ -158,7 +157,6 @@ private:
 
     bool m_showClientNames;
     bool m_translateSysex;
-    bool m_ordered;
     int m_currentTrack;
     int m_currentRow;
     int m_portId;

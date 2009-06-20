@@ -132,8 +132,8 @@ bool ProxyModel::filterAcceptsRow(int sourceRow,
     const SequenceItem* itm = sModel->getItem(sourceRow);
     if (itm) {
         const SequencerEvent* ev = itm->getEvent();
-        if (ev)
-            return (itm->getTrack() == m_trackFilter) && filterSequencerEvent(ev);
+        if (ev) return (itm->getTrack() == m_trackFilter) &&
+                       filterSequencerEvent(ev);
     }
     return false;
 }

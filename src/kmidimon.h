@@ -90,8 +90,6 @@ protected:
     void setupActions();
     void setFixedFont(bool newValue);
     bool getFixedFont() const { return m_useFixedFont; }
-    void setOrderedEvents(bool newValue);
-    bool orderedEvents() const { return m_orderedEvents; }
     void addNewTab(int data);
     bool askTrackFilter(int& track);
 
@@ -118,9 +116,9 @@ private:
     ProxyModel* m_proxy;
     QSignalMapper* m_mapper;
     KTabBar* m_tabBar;
-	bool m_useFixedFont;
-	bool m_orderedEvents;
     QPointer<KProgressDialog> m_pd;
+    QString m_outputConn;
+	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;
 };
