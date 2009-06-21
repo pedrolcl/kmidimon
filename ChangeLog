@@ -1,3 +1,10 @@
+2009-06-21 00:00 plcl
+
+    * Read and dump events from SMF (Standard MIDI Files)
+    * Save the session also in SMF format
+    * MIDI Playback
+    * Tabbed views for track filters
+
 2008-12-29 00:00 plcl
 
 	* Converted to KDE4/Qt4
@@ -6,6 +13,7 @@
 2008-03-24 00:00 plcl
 
 	* Fix the crash at startup when ALSA is not loaded
+	* Fixed position of the context menu to the mouse pointer
 	* Version 0.5.1
 	
 2006-12-28 01:57  plcl
@@ -26,8 +34,9 @@
 	  0.4.1
 
 2005-09-24 00:00  plcl
-        * Version 0.4 released
-        * RPM spec files included
+
+    * Version 0.4 released
+    * RPM spec files included
 
 2005-09-03 01:59  plcl
 
@@ -36,7 +45,7 @@
 2005-08-29 00:23  plcl
 
 	* Internationalization updates 
-        * Spanish translation updated
+    * Spanish translation updated
 
 2005-08-28 22:44  plcl
 
@@ -57,13 +66,14 @@
 
 2005-08-25 18:00  plcl
 
-        * Option for using fixed font 
-        * Format sysex with 2 hex digits per byte 
-        * Show/hide columns 
-        * Option for translating universal sysex messages 
-        * Configure dialog available even when recording.
+    * Option for using fixed font 
+    * Format sysex with 2 hex digits per byte 
+    * Show/hide columns 
+    * Option for translating universal sysex messages 
+    * Configure dialog available even when recording.
 
 2005-08-05 00:10  plcl
+
 	* Version 0.3 released
 	
 	* New Connections menu, with three items: connect-all, 

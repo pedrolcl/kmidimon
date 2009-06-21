@@ -37,7 +37,9 @@ public:
         m_commonMessageFilter(true),
         m_realtimeMessageFilter(true),
         m_sysexMessageFilter(true),
-        m_alsaMessageFilter(true) {}
+        m_alsaMessageFilter(true),
+        m_smfMessageFilter(true)
+    {}
 
     virtual ~ProxyModel() {}
 
@@ -49,11 +51,13 @@ public:
     bool showRealTimeMsg() const { return m_realtimeMessageFilter; }
     bool showSysexMsg() const { return m_sysexMessageFilter; }
     bool showAlsaMsg() const { return m_alsaMessageFilter; }
+    bool showSmfMsg() const  { return m_smfMessageFilter; }
     void setFilterChannelMsg(bool newValue);
     void setFilterCommonMsg(bool newValue);
     void setFilterRealTimeMsg(bool newValue);
     void setFilterSysexMsg(bool newValue);
     void setFilterAlsaMsg(bool newValue);
+    void setFilterSmfMsg(bool newValue);
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
@@ -67,6 +71,7 @@ private:
     bool m_realtimeMessageFilter;
     bool m_sysexMessageFilter;
     bool m_alsaMessageFilter;
+    bool m_smfMessageFilter;
 };
 
 #endif /* PROXYMODEL_H_ */

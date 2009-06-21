@@ -943,7 +943,8 @@ SequenceModel::text_data(const SequencerEvent *ev) const
 QString
 SequenceModel::time_sig(const SequencerEvent *ev) const
 {
-    return QString("%1/%2, %3, %4").arg(ev->getRaw8(0))
+    return i18n("%1/%2, %3 clocks per click, %4 32nd per quarter")
+            .arg(ev->getRaw8(0))
             .arg(pow(2, ev->getRaw8(1)))
             .arg(ev->getRaw8(2))
             .arg(ev->getRaw8(3));
@@ -952,8 +953,22 @@ SequenceModel::time_sig(const SequencerEvent *ev) const
 QString
 SequenceModel::key_sig(const SequencerEvent *ev) const
 {
-    return QString("%1 %2").arg((signed char)ev->getRaw8(0))
-            .arg(ev->getRaw8(1));
+    static QString tmaj[] = {i18n("C flat"), i18n("G flat"), i18n("D flat"),
+            i18n("A flat"), i18n("E flat"), i18n("B flat"),i18n("F"),
+            i18n("C"), i18n("G"), i18n("D"), i18n("A"),
+            i18n("E"), i18n("B"), i18n("F sharp"),i18n("C sharp")};
+    static QString tmin[] = {i18n("A flat"), i18n("E flat"), i18n("B flat"),
+            i18n("F"), i18n("C"), i18n("G"), i18n("D"),
+            i18n("A"), i18n("E"), i18n("B"), i18n("F sharp"), i18n("C sharp"),
+            i18n("G sharp"), i18n("D sharp"), i18n("A sharp")};
+    signed char s = (signed char) ev->getRaw8(0);
+    QString tone;
+    if (abs(s) < 8)
+        tone = ( ev->getRaw8(1) == 0 ? tmaj[s + 7] : tmin[s + 7] );
+    return i18n("%1%2, %3 %4").arg(abs(s))
+            .arg(s < 0 ? QChar(0x266D) : QChar(0x266F)) //s < 0 ? "♭" : "♯"
+            .arg(tone)
+            .arg(ev->getRaw8(1) == 0 ? i18n("major") : i18n("minor"));
 }
 
 QString

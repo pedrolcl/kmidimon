@@ -342,6 +342,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("common", m_proxy->showCommonMsg());
     config.writeEntry("realtime", m_proxy->showRealTimeMsg());
     config.writeEntry("sysex", m_proxy->showSysexMsg());
+    config.writeEntry("smf", m_proxy->showSmfMsg());
     config.writeEntry("client_names", m_model->showClientNames());
     config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("fixed_font", getFixedFont());
@@ -367,6 +368,7 @@ void KMidimon::readConfiguration()
     m_proxy->setFilterCommonMsg(config.readEntry("common", true));
     m_proxy->setFilterRealTimeMsg(config.readEntry("realtime", true));
     m_proxy->setFilterSysexMsg(config.readEntry("sysex", true));
+    m_proxy->setFilterSmfMsg(config.readEntry("smf", true));
     m_model->setShowClientNames(config.readEntry("client_names", false));
     m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
     m_adaptor->setResolution(m_defaultResolution = config.readEntry("resolution", RESOLUTION));
@@ -397,6 +399,7 @@ void KMidimon::preferences()
     dlg.setRegCommonMsg(m_proxy->showCommonMsg());
     dlg.setRegRealTimeMsg(m_proxy->showRealTimeMsg());
     dlg.setRegSysexMsg(m_proxy->showSysexMsg());
+    dlg.setRegSmfMsg(m_proxy->showSmfMsg());
     dlg.setShowClientNames(m_model->showClientNames());
     dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setUseFixedFont(getFixedFont());
@@ -411,6 +414,7 @@ void KMidimon::preferences()
         m_proxy->setFilterCommonMsg(dlg.isRegCommonMsg());
         m_proxy->setFilterRealTimeMsg(dlg.isRegRealTimeMsg());
         m_proxy->setFilterSysexMsg(dlg.isRegSysexMsg());
+        m_proxy->setFilterSmfMsg(dlg.isRegSmfMsg());
         m_model->setShowClientNames(dlg.showClientNames());
         m_model->setTranslateSysex(dlg.translateSysex());
         m_adaptor->setTempo(m_defaultTempo = dlg.getTempo());

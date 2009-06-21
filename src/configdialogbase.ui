@@ -54,8 +54,11 @@ MA 02110-1301, USA
       <layout class="QVBoxLayout" >
        <item>
         <widget class="QGroupBox" name="queueGroup" >
+         <property name="whatsThis" >
+          <string>Default MIDI queue settings. MIDI files (SMF) may change these values.</string>
+         </property>
          <property name="title" >
-          <string>Queue Settings</string>
+          <string>Queue Default Settings</string>
          </property>
          <layout class="QGridLayout" >
           <item row="1" column="0" >
@@ -73,6 +76,9 @@ MA 02110-1301, USA
           </item>
           <item row="1" column="1" >
            <widget class="KIntSpinBox" name="m_resolution" >
+            <property name="whatsThis" >
+             <string>The number of MIDI ticks per quarter note. This is a default value; a MIDI file (SMF) may change this value.</string>
+            </property>
             <property name="minimum" >
              <number>48</number>
             </property>
@@ -89,6 +95,9 @@ MA 02110-1301, USA
           </item>
           <item row="0" column="1" >
            <widget class="KIntSpinBox" name="m_tempo" >
+            <property name="whatsThis" >
+             <string>The number of beats per minute, or music speed. This is a default value; MIDI files may change this value.</string>
+            </property>
             <property name="minimum" >
              <number>24</number>
             </property>
@@ -116,7 +125,7 @@ MA 02110-1301, USA
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
+          <item row="2" column="0" colspan="2" >
            <spacer name="verticalSpacer_2" >
             <property name="orientation" >
              <enum>Qt::Vertical</enum>
@@ -141,12 +150,18 @@ MA 02110-1301, USA
       <layout class="QVBoxLayout" >
        <item>
         <widget class="QGroupBox" name="filterGroup" >
+         <property name="whatsThis" >
+          <string>All messages are recorded and stored. You can display or hide them according to the message type.</string>
+         </property>
          <property name="title" >
           <string>Filter Message Types</string>
          </property>
          <layout class="QVBoxLayout" >
           <item>
            <widget class="QCheckBox" name="m_channel" >
+            <property name="whatsThis" >
+             <string>MIDI Channel messages include: Note On/Off, Control Change, Program Change, Pitch Wheel, Key and Channel Pressure.</string>
+            </property>
             <property name="text" >
              <string>MIDI Channel Messages</string>
             </property>
@@ -154,6 +169,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_common" >
+            <property name="whatsThis" >
+             <string>System common messages are: quarter frame, song position and tune request.</string>
+            </property>
             <property name="text" >
              <string>MIDI System Common Messages</string>
             </property>
@@ -161,6 +179,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_realtime" >
+            <property name="whatsThis" >
+             <string>System realtime messages are: clock, start, continue, stop, active sensing and reset.</string>
+            </property>
             <property name="text" >
              <string>MIDI System Real-Time Messages</string>
             </property>
@@ -168,6 +189,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_sysex" >
+            <property name="whatsThis" >
+             <string>System exclusive messages can be: universal and manufacturer defined.</string>
+            </property>
             <property name="text" >
              <string>MIDI System Exclusive Messages</string>
             </property>
@@ -175,8 +199,21 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_alsa" >
+            <property name="whatsThis" >
+             <string>ALSA Messages are: client and port start/exit, and connection changes.</string>
+            </property>
             <property name="text" >
              <string>ALSA Messages</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="m_smfmsg" >
+            <property name="whatsThis" >
+             <string>Standard MIDI file (SMF) messages include: key/time signature and text messages</string>
+            </property>
+            <property name="text" >
+             <string>SMF Messages</string>
             </property>
            </widget>
           </item>
@@ -214,6 +251,9 @@ MA 02110-1301, USA
          <layout class="QVBoxLayout" >
           <item>
            <widget class="QCheckBox" name="m_showTicksColumn" >
+            <property name="whatsThis" >
+             <string>Ticks are the musical time units. It is relative to tempo and resolution.</string>
+            </property>
             <property name="text" >
              <string>Ticks</string>
             </property>
@@ -221,13 +261,19 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_showTimeColumn" >
+            <property name="whatsThis" >
+             <string>Seconds are absolute time units</string>
+            </property>
             <property name="text" >
-             <string>Time</string>
+             <string>Time (in seconds)</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="m_showSourceColumn" >
+            <property name="whatsThis" >
+             <string>MIDI port originating the messages</string>
+            </property>
             <property name="text" >
              <string>Source</string>
             </property>
@@ -235,6 +281,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_showEventTypeColumn" >
+            <property name="whatsThis" >
+             <string>Message type displayed as a text string</string>
+            </property>
             <property name="text" >
              <string>Message Type</string>
             </property>
@@ -242,6 +291,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_showChannelColumn" >
+            <property name="whatsThis" >
+             <string>MIDI Channel (1 to 16)</string>
+            </property>
             <property name="text" >
              <string>Channel</string>
             </property>
@@ -249,6 +301,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_showData1Column" >
+            <property name="whatsThis" >
+             <string>Parameter data depending on the message type</string>
+            </property>
             <property name="text" >
              <string>Data 1</string>
             </property>
@@ -256,6 +311,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_showData2Column" >
+            <property name="whatsThis" >
+             <string>Parameter data depending on the message type</string>
+            </property>
             <property name="text" >
              <string>Data 2</string>
             </property>
@@ -292,6 +350,9 @@ MA 02110-1301, USA
          <layout class="QVBoxLayout" name="_2" >
           <item>
            <widget class="QCheckBox" name="m_showClientNames" >
+            <property name="whatsThis" >
+             <string>Display ALSA client numbers or Names</string>
+            </property>
             <property name="text" >
              <string>Translate ALSA Client IDs Into Names</string>
             </property>
@@ -299,6 +360,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_translateSysex" >
+            <property name="whatsThis" >
+             <string>Display some Universal Sysex messages as text, or hexadecimal numbers</string>
+            </property>
             <property name="text" >
              <string>Translate Universal SysEx Messages</string>
             </property>
@@ -306,6 +370,9 @@ MA 02110-1301, USA
           </item>
           <item>
            <widget class="QCheckBox" name="m_useFixedFont" >
+            <property name="whatsThis" >
+             <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
+            </property>
             <property name="text" >
              <string>Use Fixed Font</string>
             </property>

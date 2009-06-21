@@ -71,6 +71,14 @@ void ProxyModel::setFilterAlsaMsg(bool newValue)
     }
 }
 
+void ProxyModel::setFilterSmfMsg(bool newValue)
+{
+    if (m_smfMessageFilter != newValue) {
+        m_smfMessageFilter = newValue;
+        invalidateFilter();
+    }
+}
+
 bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 {
     switch (ev->getSequencerType()) {
@@ -118,9 +126,30 @@ bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
         return m_alsaMessageFilter;
 
+        /* SMF Meta events */
+    case SND_SEQ_EVENT_USR_VAR0:
+    case SND_SEQ_EVENT_USR_VAR1:
+    case SND_SEQ_EVENT_USR_VAR2:
+    case SND_SEQ_EVENT_USR_VAR3:
+    case SND_SEQ_EVENT_USR_VAR4:
+    case SND_SEQ_EVENT_USR0:
+    case SND_SEQ_EVENT_USR1:
+    case SND_SEQ_EVENT_USR2:
+    case SND_SEQ_EVENT_USR3:
+    case SND_SEQ_EVENT_USR4:
+    case SND_SEQ_EVENT_USR5:
+    case SND_SEQ_EVENT_USR6:
+    case SND_SEQ_EVENT_USR7:
+    case SND_SEQ_EVENT_USR8:
+    case SND_SEQ_EVENT_USR9:
+    case SND_SEQ_EVENT_KEYSIGN:
+    case SND_SEQ_EVENT_TIMESIGN:
+    case SND_SEQ_EVENT_TEMPO:
+        return m_smfMessageFilter;
+
         /* Other events */
     default:
-        return true; //TODO: provisional setting. Add more filters!!! (tempo...)
+        return true; //TODO: provisional setting. Add more filters!!!
     }
     return false;
 }

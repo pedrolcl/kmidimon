@@ -51,7 +51,7 @@ void Player::setSong(Song* s, unsigned int division)
     }
     if (m_song != NULL) {
         m_songIterator = new SongIterator(*m_song);
-        m_echoResolution = division / 12;
+        m_echoResolution = division / 24;
         resetPosition();
     }
 }
