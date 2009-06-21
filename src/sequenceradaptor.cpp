@@ -118,10 +118,8 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         if (ev->isClient()) updateModelClients();
         m_model->addItem(itm);
     } else {
-        if (ev->getSequencerType() == SND_SEQ_EVENT_USR0) {
-            SystemEvent* sev = static_cast<SystemEvent*>(ev);
-            emit signalTicks(sev->getRaw32(0));
-        }
+        if (ev->getSequencerType() == SND_SEQ_EVENT_USR0)
+            emit signalTicks(ev->getRaw32(0));
         delete ev;
     }
 }

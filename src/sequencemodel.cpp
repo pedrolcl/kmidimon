@@ -1406,13 +1406,13 @@ SequenceModel::trackHandler(int track)
                                 ev->getRaw8(1),
                                 ev->getRaw8(2),
                                 ev->getRaw8(3));
-                        // writeTimeSignature(0, 3, 2, 36, 8); 3/4
+                        // writeTimeSignature(0, 3, 2, 36, 8) = 3/4
                     }
                     break;
                     case SND_SEQ_EVENT_KEYSIGN: {
                         m_smf->writeKeySignature(delta, ev->getRaw8(0),
                                 ev->getRaw8(1));
-                        // writeKeySignature(0, 2, major_mode); D major (2#)
+                        // writeKeySignature(0, 2, major_mode) = D major (2#)
                     }
                     break;
                 }

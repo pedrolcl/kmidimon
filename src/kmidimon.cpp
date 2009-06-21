@@ -603,9 +603,11 @@ void KMidimon::changeTrack(int tabIndex)
 {
     int track = m_tabBar->tabData(tabIndex).toInt();
     if (askTrackFilter(track)) {
+        //qDebug() << "changeTrack: " << tabIndex;
         QString tabName = i18n("Track %1").arg(track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
+        tabIndexChanged(tabIndex);
     }
 }
 
