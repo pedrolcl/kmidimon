@@ -63,6 +63,7 @@ KMidimon::KMidimon() :
     m_proxy = new ProxyModel(this);
     m_proxy->setSourceModel(m_model);
     m_view = new QTreeView(this);
+    m_view->setWhatsThis(i18n("The events list"));
     m_view->setRootIsDecorated(false);
     m_view->setAlternatingRowColors(true);
     m_view->setModel(m_proxy);
@@ -79,6 +80,7 @@ KMidimon::KMidimon() :
                       SLOT(resizeColumns(QModelIndex,int,int)) );
     connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
     m_tabBar = new KTabBar(this);
+    m_tabBar->setWhatsThis(i18n("Track view selectors"));
     m_tabBar->setShape(QTabBar::RoundedNorth);
 #if QT_VERSION < 0x040500
     m_tabBar->setTabReorderingEnabled(true);
@@ -114,13 +116,13 @@ KMidimon::KMidimon() :
 void KMidimon::setupActions()
 {
     const QString columnName[COLUMN_COUNT] = {
-            i18n("T&icks"),
-            i18n("&Time"),
-            i18n("&Source"),
-            i18n("&Event Kind"),
-            i18n("&Channel"),
-            i18n("Data &1"),
-            i18n("Data &2")
+            i18n("Ticks"),
+            i18n("Time"),
+            i18n("Source"),
+            i18n("Event Kind"),
+            i18n("Channel"),
+            i18n("Data 1"),
+            i18n("Data 2")
     };
     const QString actionName[COLUMN_COUNT] = {
             "show_ticks",
@@ -131,13 +133,21 @@ void KMidimon::setupActions()
             "show_data1",
             "show_data2"
     };
-    KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
-    KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
+    KAction* a;
+
+    a = KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
+    a->setWhatsThis(i18n("Exit the application"));
+    a = KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
+    a->setWhatsThis(i18n("Open a disk file"));
     m_recentFiles = KStandardAction::openRecent(this, SLOT(slotURLSelected(const KUrl&)), actionCollection());
-    KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
+    a = KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
+    a->setWhatsThis(i18n("Clear the current data and start a new empty session"));
     m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
+    m_save->setWhatsThis(i18n("Store the session data on a disk file"));
     m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
-    KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+    m_prefs->setWhatsThis(i18n("Configure the program setting several preferences"));
+    a = KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+    a->setWhatsThis(i18n("Organize the toolbar icons"));
 
     /* Icon naming specification
      * http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
@@ -157,24 +167,28 @@ void KMidimon::setupActions()
     m_play->setText(i18n("&Play"));
     m_play->setIcon(KIcon("media-playback-start"));
     m_play->setShortcut( Qt::Key_P );
+    m_play->setWhatsThis(i18n("Start playback of the current session"));
     connect(m_play, SIGNAL(triggered()), SLOT(play()));
     actionCollection()->addAction("play", m_play);
 
     m_pause = new KToggleAction(this);
     m_pause->setText(i18n("Pause"));
     m_pause->setIcon(KIcon("media-playback-pause"));
+    m_pause->setWhatsThis(i18n("Pause the playback"));
     connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
     actionCollection()->addAction("pause", m_pause);
 
     m_forward = new KAction(this);
     m_forward->setText(i18n("Forward"));
     m_forward->setIcon(KIcon("media-skip-forward"));
+    m_forward->setWhatsThis(i18n("Move the playback position to the last event"));
     connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
     actionCollection()->addAction("forward", m_forward);
 
     m_rewind = new KAction(this);
     m_rewind->setText(i18n("Backward"));
     m_rewind->setIcon(KIcon("media-skip-backward"));
+    m_rewind->setWhatsThis(i18n("Move the playback position to the first event"));
     connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
     actionCollection()->addAction("rewind", m_rewind);
 
@@ -182,6 +196,7 @@ void KMidimon::setupActions()
     m_record->setText(i18n("&Record"));
     m_record->setIcon(KIcon("media-record"));
     m_record->setShortcut( Qt::Key_R );
+    m_record->setWhatsThis(i18n("Append new recorded events to the current session"));
     connect(m_record, SIGNAL(triggered()), SLOT(record()));
     actionCollection()->addAction("record", m_record);
 
@@ -189,41 +204,49 @@ void KMidimon::setupActions()
     m_stop->setText( i18n("&Stop") );
     m_stop->setIcon(KIcon("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_S );
+    m_stop->setWhatsThis(i18n("Stop playback or recording"));
     connect(m_stop, SIGNAL(triggered()), SLOT(stop()));
     actionCollection()->addAction("stop", m_stop);
 
     m_connectAll = new KAction(this);
     m_connectAll->setText(i18n("&Connect All Inputs"));
+    m_connectAll->setWhatsThis(i18n("Connect all readable MIDI ports"));
     connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
     actionCollection()->addAction("connect_all", m_connectAll);
 
     m_disconnectAll = new KAction(this);
     m_disconnectAll->setText(i18n("&Disconnect All Inputs"));
+    m_disconnectAll->setWhatsThis(i18n("Disconnect all input MIDI ports"));
     connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
     actionCollection()->addAction( "disconnect_all", m_disconnectAll );
 
     m_configConns = new KAction(this);
     m_configConns->setText(i18n("Con&figure Connections"));
+    m_configConns->setWhatsThis(i18n("Open the Connections dialog"));
     connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
     actionCollection()->addAction("connections_dialog", m_configConns );
 
     m_createTrack = new KAction(this);
     m_createTrack->setText(i18n("&Add Track View"));
+    m_createTrack->setWhatsThis(i18n("Create a new tab/track view"));
     connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
     actionCollection()->addAction("add_track", m_createTrack );
 
     m_changeTrack = new KAction(this);
     m_changeTrack->setText(i18n("&Change Track View"));
+    m_changeTrack->setWhatsThis(i18n("Change the track number of the view"));
     connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
     actionCollection()->addAction("change_track", m_changeTrack );
 
     m_deleteTrack = new KAction(this);
     m_deleteTrack->setText(i18n("&Delete Track View"));
+    m_deleteTrack->setWhatsThis(i18n("Delete the tab/track view"));
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
     actionCollection()->addAction("delete_track", m_deleteTrack );
 
     for(int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i] = new KToggleAction(columnName[i], this);
+        m_popupAction[i]->setWhatsThis(i18n("Toggle the %1 column").arg(columnName[i]));
         connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
         m_mapper->setMapping(m_popupAction[i], i);
         actionCollection()->addAction(actionName[i], m_popupAction[i]);
@@ -247,16 +270,18 @@ void KMidimon::fileNew()
     m_proxy->setFilterTrack(0);
     m_model->setCurrentTrack(0);
     m_model->setInitialTempo(m_defaultTempo);
+    m_model->setDivision(m_defaultResolution);
     m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->setResolution(m_defaultResolution);
     m_adaptor->queue_set_tempo();
+    m_adaptor->rewind();
+    updateView();
 }
 
 void KMidimon::slotURLSelected(const KUrl& url)
 {
     QString path = url.toLocalFile();
     if (!path.isNull()) {
-        m_recentFiles->addUrl(url);
         QFileInfo finfo(path);
         if (finfo.exists()) {
             try {
@@ -277,11 +302,13 @@ void KMidimon::slotURLSelected(const KUrl& url)
                 m_model->loadFromFile(path);
                 m_pd->progressBar()->setValue(finfo.size());
                 m_adaptor->setResolution(m_model->getSMFDivision());
-                if (m_model->getInitialTempo() > 0)
+                if (m_model->getInitialTempo() > 0) {
                     m_adaptor->setTempo(m_model->getInitialTempo());
+                    m_adaptor->queue_set_tempo();
+                }
+                m_adaptor->rewind();
                 int ntrks = m_model->getSMFTracks();
                 if (ntrks < 1) ntrks = 1;
-                //if (ntrks > 8) ntrks = 8;
                 for (int i = 0; i < ntrks; i++)
                     addNewTab(i+1);
                 m_tabBar->setCurrentIndex(0);
@@ -293,6 +320,7 @@ void KMidimon::slotURLSelected(const KUrl& url)
                 m_model->clear();
             }
             m_view->blockSignals(false);
+            m_recentFiles->addUrl(url);
             delete m_pd;
         }
     }
@@ -302,7 +330,7 @@ void KMidimon::fileOpen()
 {
     KUrl u = KFileDialog::getOpenUrl(
             KUrl("kfiledialog:///MIDIMONITOR"),
-            i18n("*.mid *.midi *.MID|MIDI files (*.mid)"),
+            i18n("*.mid *.midi *.kar|MIDI files (*.mid)"),
             this,
             i18n("Open MIDI file"));
     if (!u.isEmpty()) slotURLSelected(u);
@@ -313,14 +341,14 @@ void KMidimon::fileSave()
     KUrl u = KFileDialog::getSaveUrl(
             KUrl("kfiledialog:///MIDIMONITOR"),
             i18n("*.txt|Plain text files (*.txt)\n"
-                 "*.mid *.midi|MIDI files (*.mid)"),
+                 "*.mid|MIDI files (*.mid)"),
             this,
             i18n("Save MIDI monitor data"));
     if (!u.isEmpty()) {
         QString path = u.toLocalFile();
         if (!path.isNull()) {
-            m_recentFiles->addUrl(u);
             m_model->saveToFile(path);
+            m_recentFiles->addUrl(u);
         }
     }
 }
@@ -335,8 +363,8 @@ void KMidimon::saveConfiguration()
 {
     int i;
     KConfigGroup config = KGlobal::config()->group("Settings");
-    config.writeEntry("resolution", m_adaptor->getResolution());
-    config.writeEntry("tempo", m_adaptor->getTempo());
+    config.writeEntry("resolution", m_defaultResolution);
+    config.writeEntry("tempo", m_defaultTempo);
     config.writeEntry("alsa", m_proxy->showAlsaMsg());
     config.writeEntry("channel", m_proxy->showChannelMsg());
     config.writeEntry("common", m_proxy->showCommonMsg());
@@ -392,8 +420,8 @@ void KMidimon::preferences()
     bool was_running;
     ConfigDialog dlg;
 
-    dlg.setTempo(m_adaptor->getTempo());
-    dlg.setResolution(m_adaptor->getResolution());
+    dlg.setTempo(m_defaultTempo);
+    dlg.setResolution(m_defaultResolution);
     dlg.setRegAlsaMsg(m_proxy->showAlsaMsg());
     dlg.setRegChannelMsg(m_proxy->showChannelMsg());
     dlg.setRegCommonMsg(m_proxy->showCommonMsg());
@@ -437,10 +465,8 @@ void KMidimon::record()
 
 void KMidimon::stop()
 {
-    bool wasRecording = m_adaptor->isRecording();
-    if (wasRecording | m_adaptor->isPlaying()) {
+    if (m_adaptor->isRecording() | m_adaptor->isPlaying()) {
         m_adaptor->stop();
-        //if (wasRecording) m_model->sortSong();
         songFinished();
     }
 }
@@ -568,6 +594,7 @@ void KMidimon::addNewTab(int data)
     QString tabName = i18n("Track %1").arg(data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
+    m_tabBar->setTabWhatsThis(i, i18n("Track %1 View Selector").arg(data));
     //qDebug() << "new tab data: " << data;
 }
 
@@ -611,6 +638,7 @@ void KMidimon::changeTrack(int tabIndex)
         QString tabName = i18n("Track %1").arg(track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
+        m_tabBar->setTabWhatsThis(tabIndex, i18n("Track %1 View Selector").arg(track));
         tabIndexChanged(tabIndex);
     }
 }

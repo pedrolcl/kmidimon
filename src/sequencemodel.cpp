@@ -49,7 +49,11 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_currentTrack(0),
         m_currentRow(0),
         m_portId(0),
-        m_queueId(0)
+        m_queueId(0),
+        m_format(0),
+        m_ntrks(1),
+        m_division(RESOLUTION),
+        m_initialTempo(TEMPO_BPM)
 {
     m_smf = new QSmf(this);
     connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
@@ -248,6 +252,12 @@ SequenceModel::clear()
     }
     m_items.clear();
     endRemoveRows();
+    m_format = 0;
+    m_ntrks = 1;
+    m_division = RESOLUTION;
+    m_initialTempo = TEMPO_BPM;
+    m_currentTrack = 0;
+    m_currentRow = 0;
 }
 
 void

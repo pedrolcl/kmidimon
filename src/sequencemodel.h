@@ -91,6 +91,7 @@ public:
     int getSMFDivision() const { return m_division; }
     int getInitialTempo() const { return m_initialTempo; }
     void setInitialTempo(int tempo) { m_initialTempo = tempo; }
+    void setDivision(int division) { m_division = division; }
     void sortSong() { m_items.sort(); }
     Song* getSong() { return &m_items; }
     const SequenceItem& lastItem() const { return m_items.last(); }
