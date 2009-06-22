@@ -18,3 +18,5 @@
 
 kde4_create_handbook( index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en 
                                     SUBDIR kmidimon )
+
+kde4_create_manpage( man.docbook 1 INSTALL_DESTINATION ${MAN_INSTALL_DIR})
