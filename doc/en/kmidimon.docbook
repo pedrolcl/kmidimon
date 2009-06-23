@@ -26,7 +26,7 @@
 <refnamediv>
 <refname>kmidimon</refname>
 <refpurpose>
-MIDI monitor using ALSA sequencer and KDE user interface
+MIDI monitor using ALSA sequencer and &kde; user interface
 </refpurpose>
 </refnamediv>
 
@@ -54,11 +54,11 @@ MIDI monitor using ALSA sequencer and KDE user interface
 </varlistentry>
 <varlistentry>
 <term><option>--help-qt</option></term>
-<listitem><para>Show Qt specific options</para></listitem>
+<listitem><para>Show &Qt; specific options</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-kde</option></term>
-<listitem><para>Show KDE specific options</para></listitem>
+<listitem><para>Show &kde; specific options</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-all</option></term>
@@ -104,7 +104,7 @@ titlebar.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--style</option> <parameter>style</parameter></term>
-<listitem><para>Sets the appliction &GUI; style.</para></listitem>
+<listitem><para>Sets the application &GUI; style.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--geometry</option> <parameter>geometry</parameter></term>
@@ -301,7 +301,7 @@ visual on an 8-bit display.</para>
 <option>--stylesheet</option> <replaceable>file.qss</replaceable>
 </term>
 <listitem>
-<para>applies the Qt stylesheet to the application widgets</para>
+<para>applies the &Qt; stylesheet to the application widgets</para>
 </listitem>
 </varlistentry>
 </variablelist>

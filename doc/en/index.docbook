@@ -2,36 +2,12 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kmidimon "<application>KMidimon</application>">
   <!ENTITY kappname "&kmidimon;"><!-- Do *not* replace kappname-->
-  <!ENTITY package "kde-module"><!-- kdebase, kdeadmin, etc -->
+  <!ENTITY package "kmidimon">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
-  <!-- Do not define any other entities; instead, use the entities
-       from kde-genent.entities and $LANG/user.entities. -->
 ]>
-<!-- kdoctemplate v0.8 October 1 1999 
-     Minor update to "Credits and Licenses" section on August 24, 2000
-     Removed "Revision history" section on 22 January 2001
-     Changed to Installation/Help menu entities 18 October 2001
-     Other minor cleanup and changes 18 October 2001 -->
-<!--
-This template was designed by: David Rugge davidrugge@mindspring.com
-with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
-and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
-of the KDE DocBook team.
-
-You may freely use this template for writing any sort of KDE documentation.
-If you have any changes or improvements, please let us know.
-
-Remember:
-- in XML, the case of the <tags> and attributes is relevant ;
-- also, quote all attributes.
-
-Please don't forget to remove all these comments in your final documentation,
-thanks ;-).
--->
 
 <!-- The language must NOT be changed here. -->
-
 <book lang="&language;">
 
 <!-- This header contains all of the meta-information for the document such
@@ -55,7 +31,7 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <copyright>
 <year>2005</year>
-<year>2008</year>
+<year>2009</year>
 <holder>Pedro Lopez&#45;Cabanillas</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
@@ -70,20 +46,14 @@ Please respect the format of the date (YYYY-MM-DD) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>2008-12-29</date>
-<releaseinfo>0&#46;6&#46;0</releaseinfo>
-
-<!-- Abstract about this handbook -->
+<date>2009-06-24</date>
+<releaseinfo>0&#46;7&#46;0</releaseinfo>
 
 <abstract>
 <para>
 &kmidimon; is a MIDI monitor for Linux using ALSA sequencer and KDE user interface.
 </para>
 </abstract>
-
-<!-- This is a set of Keywords for indexing by search engines.
-Please at least include KDE, the KDE package it is in, the name
- of your application, and a few relevant keywords. -->
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -94,31 +64,15 @@ Please at least include KDE, the KDE package it is in, the name
 
 </bookinfo>
 
-<!-- The contents of the documentation begin here.  Label
-each chapter so with the id attribute. This is necessary for two reasons: it
-allows you to easily reference the chapter from other chapters of your
-document, and if there is no ID, the name of the generated HTML files will vary
-from time to time making it hard to manage for maintainers and for the CVS
-system. Any chapter labelled (OPTIONAL) may be left out at the author's
-discretion. Other chapters should not be left out in order to maintain a
-consistent documentation style across all KDE apps. -->
-
 <chapter id="introduction">
 <title>Introduction</title>
-
-<!-- The introduction chapter contains a brief introduction for the
-application that explains what it does and where to report
-problems. Basically a long version of the abstract.  Don't include a
-revision history. (see installation appendix comment) -->
-
 
 <para>
 There's no exhaustive documentation yet. The provisional homepage can currently be found on <ulink url="http://kmetronome.sourceforge.net/kmidimon/">http://kmetronome.sourceforge.net/kmidimon/</ulink>.
 </para>
 
 <para>
-&kmidimon; monitors events coming from a MIDI external port or application via the ALSA sequencer. It is especially useful if you want to debug MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file.
-</para>
+&kmidimon; monitors events coming from a MIDI external port or application via the ALSA sequencer, or stored as Standard MIDI Files. It is especially useful if you want to debug MIDI software or your MIDI setup. It features a nice graphical  user interface,  customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file or SMF.</para>
 </chapter>
 
 <chapter id="getting-started">
@@ -127,31 +81,29 @@ There's no exhaustive documentation yet. The provisional homepage can currently 
 <sect1 id="kmidimon-mainwin">
 <title>Main Window</title>
 
-<para>
-You can control the ALSA sequencer connections to programs and devices from inside &kmidimon;. To do so, use the options under the menu "Connections" in the main menu. There are options to connect and disconnect every available port to &kmidimon;, and also a dialog box where you can choose the ports to be monitored one by one.
+<para>The program starts in recording state, registering all incoming MIDI events until you press the stop button. There are also buttons to play, pause, rewind and forward, with the usual behavior of any other media player.</para>
 
-You can also use a MIDI connection tool like <ulink url="http://qjackctl.sourceforge.net/">QJackCtl</ulink> to connect the application or MIDI port to monitor with &kmidimon;
-</para>
+<para>Above the events list grid you can find a set of tabs, one for each track defined in a SMF. You can add new tabs or close tabs without losing the recorded events, because they are only views or event filters.</para>
+
+<para>You can control the ALSA sequencer MIDI connections to programs and devices from inside &kmidimon;. To do so, use the options under the menu "Connections" in the main menu. There are options to connect and disconnect every available input port to &kmidimon;, and also a dialog box where you can choose the ports to be monitored and the output one.</para>
+
+<para>You can also use a MIDI connection tool like <ulink url="http://qjackctl.sourceforge.net/">QJackCtl</ulink> to connect the application or MIDI port to monitor with &kmidimon;</para>
 <para>
-<!-- Note that all graphics should be in .png format. Use no gifs because of
-patent issues. -->
 
 <screenshot>
 <screeninfo>Here's a screenshot of the MIDI Connections window in <command>qjackctl</command></screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="qjackctl.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>MIDI Connections in qjackctl</phrase>
-	  </textobject>
-	</mediaobject>
+<mediaobject>
+	<imageobject>
+	<imagedata fileref="qjackctl.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+	<phrase>MIDI Connections in qjackctl</phrase>
+	</textobject>
+</mediaobject>
 </screenshot>
 </para>
 
-<para>
-When a MIDI OUT port has been connected to the input port of &kmidimon;, it will show incoming MIDI events if everything is correct. 
-</para>
+<para>When a MIDI OUT port has been connected to the input port of &kmidimon; in recording state, it will show incoming MIDI events if everything is correct.</para>
 
 <para>
 <screenshot>
@@ -173,7 +125,10 @@ Each received MIDI event is shown in a single row. The columns have the followin
 
 <itemizedlist>
 <listitem>
-<para>Time: The musical (ticks) or real time (seconds) of the event arrival</para>
+<para>Ticks: The musical time of the event arrival</para>
+</listitem>
+<listitem>
+<para>Time: The real time in seconds of the event arrival</para>
 </listitem>
 <listitem>
 <para>Source: the ALSA identifier of the MIDI device originating the event. You will be able to recognize what event belongs to which device if you have several connected simultaneously. There is a configuration option to show the ALSA client name instead of a number</para>
@@ -196,9 +151,9 @@ Each received MIDI event is shown in a single row. The columns have the followin
 You can hide or show any column using the contextual menu. To open this menu, press the secondary mouse button over the event list. You can also use the Configuration dialog to choose the visible columnns.
 </para>
 
-<para>The event list can be ordered by time if you want. By default, newer events are show at the top, but there is also a configuration setting to show the events in ascending time order, with the newer ones at the bottom.</para>
+<para>The event list always shows newer recorded events at the bottom of the grid.</para>
 
-<para>&kmidimon; can also save the events seen in its main window as a text file (in CSV format). </para>
+<para>&kmidimon; can save the recorded events as a text file (in CSV format) or a Standard MIDI File (SMF). </para>
 
 </sect1>
 
@@ -206,17 +161,31 @@ You can hide or show any column using the contextual menu. To open this menu, pr
 <title>Configuration Options</title>
 
 <para>
+
 <screenshot>
 <screeninfo>Here's a screenshot of the Configuration dialog of &kmidimon;</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="kmidimon2.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Display settings tab</phrase>
-	  </textobject>
-	</mediaobject>
+<mediaobject>
+	<imageobject>
+	<imagedata fileref="kmidimon2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+	<phrase>Display settings tab</phrase>
+	</textobject>
+</mediaobject>
 </screenshot>
+
+<screenshot>
+<screeninfo>Here's another screenshot of the Configuration dialog of &kmidimon;</screeninfo>
+<mediaobject>
+    <imageobject>
+    <imagedata fileref="kmidimon3.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+    <phrase>Filter settings tab</phrase>
+    </textobject>
+</mediaobject>
+</screenshot>
+
 </para>
 
 <para>To open the Configuration dialog go to Settings -> Configure &kmidimon; or click on the corresponding icon on the toolbar.
@@ -227,9 +196,7 @@ This is a list of the configuration options.
 <itemizedlist>
   <listitem>
     <para>
-	Sequencer tab. Group of options related to ALSA sequencer. 
-	The Queue settings affect to the event's time precision. 
-	The time settings allow to choose between musical time (ticks) or clock time (seconds) to be displayed in the first column (time) of the main window events list.
+	Sequencer tab. The Queue Default Settings affect to the event's time precision.
     </para>
   </listitem>
   <listitem>
@@ -240,7 +207,12 @@ This is a list of the configuration options.
   <listitem>
     <para>
 	Display tab. The first group of checkboxes allows to show/hide the corresponding columns of the events list. 
-	The second group of miscellaneous options include:
+    </para>
+  </listitem>
+
+  <listitem>
+    <para>
+	Misc. tab. Miscellaneous options include:
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -257,14 +229,10 @@ This is a list of the configuration options.
 		Use fixed font. By default &kmidimon; uses the system font in the event list. If this option is checked, a fixed font is used instead.
 	    </para>
 	  </listitem>
-	  <listitem>
-	    <para>
-		Sort events by time (newer at bottom). By default, new events are inserted at the top of the list. If this option is checked, the time column is used to sort the events list in ascending order. This normally means that newer events are displayed at the bottom, but if you stop and restart recording without cleaning the list the time is reset to zero, so the newly received  events will be mixed with the older ones.
-	    </para>
-	  </listitem>
-       </itemizedlist>
+    </itemizedlist>
     </para>
   </listitem>
+
 </itemizedlist>
 </para>
 
@@ -280,9 +248,9 @@ distribution. -->
 
 <title>Credits and License</title>
 
-<para>Program copyright 2005-2008 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
+<para>Program copyright 2005-2009 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
 <para>Documentation copyright 2005 Christoph Eckert <email>christeck&#64;users&#46;sourceforge&#46;net</email></para>
-<para>Documentation copyright 2008 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
+<para>Documentation copyright 2008-2009 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
