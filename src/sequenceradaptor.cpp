@@ -154,6 +154,7 @@ void SequencerAdaptor::stop()
     if (m_recording | m_player->isRunning()) {
         m_player->stop();
         m_queue->stop();
+        m_queue->clear();
         m_recording = false;
         songFinished();
     }
