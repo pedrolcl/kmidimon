@@ -33,6 +33,7 @@ class Player : public SequencerOutputThread
 public:
 	Player(MidiClient *seq, int portId);
 	virtual ~Player();
+    virtual void run();
     virtual bool hasNext();
     virtual SequencerEvent* nextEvent();
     virtual unsigned int getInitialPosition() { return m_songPosition; }

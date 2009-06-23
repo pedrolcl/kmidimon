@@ -17,6 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include "queue.h"
 #include "player.h"
 
 Player::Player(MidiClient *seq, int portId)
@@ -43,7 +44,7 @@ bool Player::isPlaying()
     return isRunning() && !stopped();
 }
 
-void Player::setSong(Song* s, unsigned int division)
+void Player::setSong(Song* s, unsigned int /*division*/)
 {
     m_song = s;
     if (m_songIterator != NULL) {
@@ -51,7 +52,7 @@ void Player::setSong(Song* s, unsigned int division)
     }
     if (m_song != NULL) {
         m_songIterator = new SongIterator(*m_song);
-        m_echoResolution = division / 24;
+        //m_echoResolution = division / 24;
         resetPosition();
     }
 }
@@ -103,5 +104,57 @@ Player::sendEchoEvent(int tick)
         ev.setDestination(m_MidiClient->getClientId(), m_PortId);
         ev.scheduleTick(m_QueueId, tick, false);
         sendSongEvent(&ev);
+    }
+}
+
+void Player::run()
+{
+    unsigned int last_tick;
+    if (m_MidiClient != NULL) {
+        try  {
+            m_npfds = snd_seq_poll_descriptors_count(m_MidiClient->getHandle(), POLLOUT);
+            m_pfds = (pollfd*) alloca(m_npfds * sizeof(pollfd));
+            snd_seq_poll_descriptors(m_MidiClient->getHandle(), m_pfds, m_npfds, POLLOUT);
+            last_tick = getInitialPosition();
+            if (last_tick == 0) {
+                m_Queue->start();
+            } else {
+                m_Queue->setTickPosition(last_tick);
+                m_Queue->continueRunning();
+            }
+            m_Stopped = false;
+            while (!stopped() && hasNext()) {
+                SequencerEvent* ev = nextEvent();
+                /*if (getEchoResolution() > 0) {
+                    while (last_tick < ev->getTick()) {
+                        last_tick += getEchoResolution();
+                        sendEchoEvent(last_tick);
+                    }
+                }*/
+                if (!ev->isConnectionChange()) {
+                    if(last_tick != ev->getTick()) {
+                        last_tick = ev->getTick();
+                        sendEchoEvent(last_tick);
+                    }
+                    sendSongEvent(ev);
+                }
+            }
+            if (stopped()) {
+                m_Queue->clear();
+                shutupSound();
+            } else {
+                drainOutput();
+                syncOutput();
+                if (stopped())
+                    shutupSound();
+                else
+                    emit finished();
+            }
+            m_Queue->stop();
+        } catch (...) {
+            qWarning("exception in output thread");
+        }
+        m_npfds = 0;
+        m_pfds = 0;
     }
 }
