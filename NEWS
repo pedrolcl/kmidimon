@@ -1,1 +1,3 @@
- 
+Latest release: 0.7.0, includes:
+    * support for read and write SMF (standard MIDI files)
+    * playback

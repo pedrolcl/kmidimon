@@ -44,7 +44,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %name.lang
 %defattr(-, root, root)
-%doc INSTALL README ChangeLog AUTHORS TODO
+%doc NEWS INSTALL README ChangeLog AUTHORS TODO
+%doc %{_mandir}/*
 %dir %{_datadir}/kde4/apps/%name
 %{_bindir}/%name
 %{_datadir}/applications/*/*

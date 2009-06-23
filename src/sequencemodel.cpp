@@ -316,7 +316,7 @@ SequenceModel::sysex_chan(const SequencerEvent *ev) const
             if ( deviceId == 0x7f )
                 return i18n("broadcast");
             else
-                return i18n("device %1").arg(deviceId);
+                return i18n("device %1", deviceId);
         }
         return "-";
     }
@@ -429,15 +429,15 @@ SequenceModel::sysex_mtc(int id, int length, unsigned char *ptr) const
     switch (id) {
         case 0x01:
             if (length >= 10)
-                return i18n("Full Frame: %1 %2 %3 %4")
-                        .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3]);
+                return i18n("Full Frame: %1 %2 %3 %4",
+                        ptr[0], ptr[1], ptr[2], ptr[3]);
             break;
         case 0x02:
             if (length >= 15)
-                return i18n("User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9")
-                        .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
-                        .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
-                        .arg(ptr[8]);
+                return i18n("User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9",
+                        ptr[0], ptr[1], ptr[2], ptr[3],
+                        ptr[4], ptr[5], ptr[6], ptr[7],
+                        ptr[8]);
             break;
         default:
             break;
@@ -498,9 +498,9 @@ SequenceModel::sysex_mmc(int id, int length, unsigned char *ptr) const
     case 0x44:
         if (length >= 13) {
             *ptr++; *ptr++;
-            return i18n("Locate: %1 %2 %3 %4 %5")
-                    .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
-                    .arg(ptr[4]);
+            return i18n("Locate: %1 %2 %3 %4 %5",
+                    ptr[0], ptr[1], ptr[2], ptr[3],
+                    ptr[4] );
         }
         break;
     default:
@@ -550,10 +550,10 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                                 return i18n("Identity Request");
                             case 0x02:
                                 if (sev->getLength() >= 15)
-                                return i18n("Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9")
-                                        .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]).arg(ptr[3])
-                                        .arg(ptr[4]).arg(ptr[5]).arg(ptr[6]).arg(ptr[7])
-                                        .arg(ptr[8]);
+                                return i18n("Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9",
+                                        ptr[0], ptr[1], ptr[2], ptr[3],
+                                        ptr[4], ptr[5], ptr[6], ptr[7],
+                                        ptr[8]);
                                 break;
                             default:
                                 break;
@@ -563,11 +563,11 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                         if (sev->getLength() >= 7)
                         switch (subId2) {
                             case 0x00:
-                                return i18n("Dump Request: %1").arg(*ptr++);
+                                return i18n("Dump Request: %1", *ptr++);
                             case 0x01:
-                                return i18n("Bulk Dump: %1").arg(*ptr++);
+                                return i18n("Bulk Dump: %1", *ptr++);
                             case 0x02:
-                                return i18n("Note Change: %1").arg(*ptr++);
+                                return i18n("Note Change: %1", *ptr++);
                             default:
                                 break;
                         }
@@ -596,14 +596,14 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                                 if (sev->getLength() >= 8) {
                                     val = *ptr++;
                                     val += (*ptr++ * 128);
-                                    return i18n("Bar Marker: %1").arg(val - 8192);
+                                    return i18n("Bar Marker: %1", val - 8192);
                                 }
                                 break;
                             case 0x02:
                             case 0x42:
                                 if (sev->getLength() >= 9)
-                                return i18n("Time Signature: %1 (%2/%3)")
-                                        .arg(ptr[0]).arg(ptr[1]).arg(ptr[2]);
+                                return i18n("Time Signature: %1 (%2/%3)",
+                                        ptr[0], ptr[1], ptr[2]);
                                 break;
                             default:
                                 break;
@@ -615,9 +615,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                             val += (*ptr++ * 128);
                             switch (subId2) {
                                 case 0x01:
-                                    return i18n("Volume: %1").arg(val);
+                                    return i18n("Volume: %1", val);
                                 case 0x02:
-                                    return i18n("Balance: %1").arg(val - 8192);
+                                    return i18n("Balance: %1", val - 8192);
                                 default:
                                     break;
                             }
@@ -953,11 +953,11 @@ SequenceModel::text_data(const SequencerEvent *ev) const
 QString
 SequenceModel::time_sig(const SequencerEvent *ev) const
 {
-    return i18n("%1/%2, %3 clocks per click, %4 32nd per quarter")
-            .arg(ev->getRaw8(0))
-            .arg(pow(2, ev->getRaw8(1)))
-            .arg(ev->getRaw8(2))
-            .arg(ev->getRaw8(3));
+    return i18n("%1/%2, %3 clocks per click, %4 32nd per quarter",
+            ev->getRaw8(0),
+            pow(2, ev->getRaw8(1)),
+            ev->getRaw8(2),
+            ev->getRaw8(3) );
 }
 
 QString
@@ -975,10 +975,10 @@ SequenceModel::key_sig(const SequencerEvent *ev) const
     QString tone;
     if (abs(s) < 8)
         tone = ( ev->getRaw8(1) == 0 ? tmaj[s + 7] : tmin[s + 7] );
-    return i18n("%1%2, %3 %4").arg(abs(s))
-            .arg(s < 0 ? QChar(0x266D) : QChar(0x266F)) //s < 0 ? "♭" : "♯"
-            .arg(tone)
-            .arg(ev->getRaw8(1) == 0 ? i18n("major") : i18n("minor"));
+    return i18n("%1%2, %3 %4", abs(s),
+            s < 0 ? QChar(0x266D) : QChar(0x266F), //s < 0 ? "♭" : "♯"
+            tone,
+            ev->getRaw8(1) == 0 ? i18n("major") : i18n("minor"));
 }
 
 QString

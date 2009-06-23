@@ -246,7 +246,7 @@ void KMidimon::setupActions()
 
     for(int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i] = new KToggleAction(columnName[i], this);
-        m_popupAction[i]->setWhatsThis(i18n("Toggle the %1 column").arg(columnName[i]));
+        m_popupAction[i]->setWhatsThis(i18n("Toggle the %1 column",columnName[i]));
         connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
         m_mapper->setMapping(m_popupAction[i], i);
         actionCollection()->addAction(actionName[i], m_popupAction[i]);
@@ -502,7 +502,7 @@ void KMidimon::forward()
 
 void KMidimon::updateState(const QString newState, const QString stateName)
 {
-    setCaption(i18n("ALSA MIDI Monitor [%1]").arg(stateName));
+    setCaption(i18n("ALSA MIDI Monitor [%1]", stateName));
     slotStateChanged(newState);
 }
 
@@ -591,10 +591,10 @@ void KMidimon::resizeColumns(const QModelIndex&, int, int)
 
 void KMidimon::addNewTab(int data)
 {
-    QString tabName = i18n("Track %1").arg(data);
+    QString tabName = i18n("Track %1", data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
-    m_tabBar->setTabWhatsThis(i, i18n("Track %1 View Selector").arg(data));
+    m_tabBar->setTabWhatsThis(i, i18n("Track %1 View Selector", data));
     //qDebug() << "new tab data: " << data;
 }
 
@@ -635,10 +635,10 @@ void KMidimon::changeTrack(int tabIndex)
     int track = m_tabBar->tabData(tabIndex).toInt();
     if (askTrackFilter(track)) {
         //qDebug() << "changeTrack: " << tabIndex;
-        QString tabName = i18n("Track %1").arg(track);
+        QString tabName = i18n("Track %1", track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
-        m_tabBar->setTabWhatsThis(tabIndex, i18n("Track %1 View Selector").arg(track));
+        m_tabBar->setTabWhatsThis(tabIndex, i18n("Track %1 View Selector", track));
         tabIndexChanged(tabIndex);
     }
 }

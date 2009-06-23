@@ -22,11 +22,10 @@ SET(CMAKE_USE_RELATIVE_PATHS OFF)
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 
 SET (VERSION_MAJOR "0")
-SET (VERSION_MINOR "6")
-SET (VERSION_PATCH "9")
-SET (VERSION_SUFFIX "cvs")
+SET (VERSION_MINOR "7")
+SET (VERSION_PATCH "0")
+SET (VERSION_SUFFIX "rc1")
 SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
-#SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
 OPTION(WANT_PCH "Use precompiled headers" OFF)
@@ -156,8 +155,8 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r src kmidimon-${VERSION}
     COMMAND cp -rH aseqmm kmidimon-${VERSION}
     COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec* *.desktop *.lsm kmidimon-${VERSION}
-    COMMAND tar -cj --exclude CVS --exclude .cvsignore -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
-    COMMAND tar -cz --exclude CVS --exclude .cvsignore -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
+    COMMAND tar -cj --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
+    COMMAND tar -cz --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
     COMMAND rm -rf kmidimon-${VERSION}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )

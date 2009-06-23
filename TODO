@@ -1,7 +1,10 @@
+DONE:
 * Dump the events from SMF (Standard MIDI Files)
 * Save the session also in SMF format
 * Play the recorded session. Also MIDI files
+* Migration to KDE4
+* ALSA sequencer class library: aseqmm
+
+PENDING:
 * Translate note numbers into names. Base octave?
 * Translate controller and program numbers into names, allowing to choose between GM, GS or XG standards
-* DONE. Migration to KDE4
-* DONE. ALSA sequencer class library: aseqmm

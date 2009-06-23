@@ -1,7 +1,7 @@
 Begin4
 Title:          KMidimon
-Version:        0.6.0
-Entered-date:   2008-12-29
+Version:        0.7.0
+Entered-date:   2009-06-24
 Description:    ALSA Sequencer MIDI monitor
 Keywords:       MIDI Qt ALSA KDE monitor
 Author:         plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
