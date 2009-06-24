@@ -153,7 +153,7 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r doc kmidimon-${VERSION}
     COMMAND cp -r po kmidimon-${VERSION}
     COMMAND cp -r src kmidimon-${VERSION}
-    COMMAND cp -rH aseqmm kmidimon-${VERSION}
+    COMMAND cp -rHL aseqmm kmidimon-${VERSION}
     COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec* *.desktop *.lsm kmidimon-${VERSION}
     COMMAND tar -cj --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
     COMMAND tar -cz --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
