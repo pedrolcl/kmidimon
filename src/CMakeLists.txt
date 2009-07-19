@@ -74,9 +74,3 @@ TARGET_LINK_LIBRARIES( kmidimon
 
 INSTALL(TARGETS kmidimon RUNTIME DESTINATION ${BIN_INSTALL_DIR})
 INSTALL(FILES kmidimonui.rc DESTINATION ${DATA_INSTALL_DIR}/kmidimon)
-INSTALL(FILES icons/hi16-app-kmidimon.png
-        DESTINATION ${ICON_INSTALL_DIR}/hicolor/16x16/apps   
-        RENAME kmidimon.png)
-INSTALL(FILES icons/hi32-app-kmidimon.png
-        DESTINATION ${ICON_INSTALL_DIR}/hicolor/32x32/apps   
-        RENAME kmidimon.png)

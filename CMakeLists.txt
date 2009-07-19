@@ -23,8 +23,8 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 
 SET (VERSION_MAJOR "0")
 SET (VERSION_MINOR "7")
-SET (VERSION_PATCH "0")
-SET (VERSION_SUFFIX "")
+SET (VERSION_PATCH "1")
+SET (VERSION_SUFFIX "cvs")
 SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_SUFFIX})
 ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
 
@@ -113,6 +113,7 @@ MESSAGE(STATUS "kmidimon ${VERSION} install prefix: ${CMAKE_INSTALL_PREFIX}")
 
 ADD_SUBDIRECTORY(aseqmm build/aseqmm)
 ADD_SUBDIRECTORY(src build)
+ADD_SUBDIRECTORY(icons build/icons)
 ADD_SUBDIRECTORY(po build/po)
 ADD_SUBDIRECTORY(doc build/doc)
 
@@ -152,6 +153,7 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r cmake_admin kmidimon-${VERSION}
     COMMAND cp -r doc kmidimon-${VERSION}
     COMMAND cp -r po kmidimon-${VERSION}
+    COMMAND cp -r icons kmidimon-${VERSION}
     COMMAND cp -r src kmidimon-${VERSION}
     COMMAND cp -rHL aseqmm kmidimon-${VERSION}
     COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.spec* *.desktop *.lsm kmidimon-${VERSION}
