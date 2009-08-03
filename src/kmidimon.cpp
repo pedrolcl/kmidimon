@@ -373,6 +373,8 @@ void KMidimon::saveConfiguration()
     config.writeEntry("smf", m_proxy->showSmfMsg());
     config.writeEntry("client_names", m_model->showClientNames());
     config.writeEntry("translate_sysex", m_model->translateSysex());
+    config.writeEntry("translate_notes", m_model->translateNotes());
+    config.writeEntry("translate_ctrls", m_model->translateCtrls());
     config.writeEntry("fixed_font", getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
@@ -399,6 +401,8 @@ void KMidimon::readConfiguration()
     m_proxy->setFilterSmfMsg(config.readEntry("smf", true));
     m_model->setShowClientNames(config.readEntry("client_names", false));
     m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
+    m_model->setTranslateNotes(config.readEntry("translate_notes", false));
+    m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
     m_adaptor->setResolution(m_defaultResolution = config.readEntry("resolution", RESOLUTION));
     m_adaptor->setTempo(m_defaultTempo = config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
@@ -430,6 +434,8 @@ void KMidimon::preferences()
     dlg.setRegSmfMsg(m_proxy->showSmfMsg());
     dlg.setShowClientNames(m_model->showClientNames());
     dlg.setTranslateSysex(m_model->translateSysex());
+    dlg.setTranslateNotes(m_model->translateNotes());
+    dlg.setTranslateCtrls(m_model->translateCtrls());
     dlg.setUseFixedFont(getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
@@ -445,6 +451,8 @@ void KMidimon::preferences()
         m_proxy->setFilterSmfMsg(dlg.isRegSmfMsg());
         m_model->setShowClientNames(dlg.showClientNames());
         m_model->setTranslateSysex(dlg.translateSysex());
+        m_model->setTranslateNotes(dlg.translateNotes());
+        m_model->setTranslateCtrls(dlg.translateCtrls());
         m_adaptor->setTempo(m_defaultTempo = dlg.getTempo());
         m_adaptor->setResolution(m_defaultResolution = dlg.getResolution());
         m_adaptor->queue_set_tempo();

@@ -68,6 +68,15 @@ public:
 
     bool showColumn(int colNum);
     void setShowColumn(int colNum, bool newValue);
+
+    bool translateNotes() { return m_translateNotes->isChecked(); }
+    void setTranslateNotes(bool newValue) { m_translateNotes->setChecked(newValue); }
+
+    bool translateCtrls() { return m_translateCtrls->isChecked(); }
+    void setTranslateCtrls(bool newValue) { m_translateCtrls->setChecked(newValue); }
+
+    QString getStandard() { return m_standard->currentText(); }
+    void setStandards(const QStringList& items) { m_standard->addItems(items); }
 };
 
 #endif

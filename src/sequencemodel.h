@@ -77,8 +77,15 @@ public:
 
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
+    bool translateNotes() const { return m_translateNotes; }
+    bool translateCtrls() const { return m_translateCtrls; }
+    bool useFlats() const { return m_useFlats; }
     void setShowClientNames(bool newValue) { m_showClientNames = newValue; }
     void setTranslateSysex(bool newValue) { m_translateSysex = newValue; }
+    void setTranslateNotes(bool newValue) { m_translateNotes = newValue; }
+    void setTranslateCtrls(bool newValue) { m_translateCtrls = newValue; }
+    void setUseFlats(bool newValue) { m_useFlats = newValue; }
+
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
     void updateQueue(const int q) { m_queueId = q; }
     void updatePort(const int p) { m_portId = p; }
@@ -139,6 +146,7 @@ private:
     QString event_channel(const SequencerEvent *ev) const;
     QString event_data1(const SequencerEvent *ev) const;
     QString event_data2(const SequencerEvent *ev) const;
+    QString note_name(const int note) const;
     QString note_key(const SequencerEvent* ev) const;
     QString note_velocity(const SequencerEvent* ev) const;
     QString control_param(const SequencerEvent* ev) const;
@@ -162,6 +170,9 @@ private:
 
     bool m_showClientNames;
     bool m_translateSysex;
+    bool m_translateNotes;
+    bool m_translateCtrls;
+    bool m_useFlats;
     int m_currentTrack;
     int m_currentRow;
     int m_portId;

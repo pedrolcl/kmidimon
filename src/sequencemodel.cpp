@@ -46,6 +46,9 @@ SequenceModel::SequenceModel(QObject* parent) :
         QAbstractItemModel(parent),
         m_showClientNames(false),
         m_translateSysex(false),
+        m_translateNotes(false),
+        m_translateCtrls(false),
+        m_useFlats(false),
         m_currentTrack(0),
         m_currentRow(0),
         m_portId(0),
@@ -823,11 +826,27 @@ SequenceModel::event_channel(const SequencerEvent *ev) const
 }
 
 QString
+SequenceModel::note_name(const int note) const
+{
+    const QString m_names_s[] = {i18n("C"), i18n("C♯"), i18n("D"), i18n("D♯"), i18n("E"),
+    		i18n("F"), i18n("F♯"), i18n("G"), i18n("G♯"), i18n("A"), i18n("A♯"), i18n("B")};
+    const QString m_names_f[] = {i18n("C"), i18n("D♭"), i18n("D"), i18n("E♭"), i18n("E"),
+    		i18n("F"), i18n("G♭"), i18n("G"), i18n("A♭"), i18n("A"), i18n("B♭"), i18n("B")};
+    int num = note % 12;
+    int oct = (note / 12) - 1;
+    QString name = m_useFlats ? m_names_f[num] : m_names_s[num];
+    return QString("%1%2").arg(name).arg(oct);
+}
+
+QString
 SequenceModel::note_key(const SequencerEvent* ev) const
 {
     const KeyEvent* ke = dynamic_cast<const KeyEvent*>(ev);
     if (ke != NULL)
-        return QString("%1").arg(ke->getKey());
+    	if (m_translateNotes)
+    		return note_name(ke->getKey());
+    	else
+    		return QString("%1").arg(ke->getKey());
     else
         return QString::null;
 }
@@ -1306,6 +1325,7 @@ SequenceModel::keySigEvent(int b0, int b1)
     ev->setRaw8(0, b0);
     ev->setRaw8(1, b1);
     appendEvent(ev);
+    m_useFlats = (b0 < 0);
 }
 
 void
