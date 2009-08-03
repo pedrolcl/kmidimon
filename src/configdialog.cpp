@@ -68,3 +68,9 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
         break;
     }
 }
+
+void ConfigDialog::setStandard( const QString name )
+{
+    int index = m_standard->findText( name );
+    m_standard->setCurrentIndex( index );
+}

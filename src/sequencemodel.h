@@ -29,6 +29,7 @@
 #include <qsmf.h>
 
 #include "sequenceitem.h"
+#include "instrument.h"
 
 using namespace ALSA::Sequencer;
 using namespace MIDI::Utils;
@@ -86,6 +87,9 @@ public:
     void setTranslateCtrls(bool newValue) { m_translateCtrls = newValue; }
     void setUseFlats(bool newValue) { m_useFlats = newValue; }
 
+    QString getStandard() const { return m_standard; }
+    void setStandard(const QString newStd) { m_standard = newStd; }
+
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
     void updateQueue(const int q) { m_queueId = q; }
     void updatePort(const int p) { m_portId = p; }
@@ -102,6 +106,7 @@ public:
     void sortSong() { m_items.sort(); }
     Song* getSong() { return &m_items; }
     const SequenceItem& lastItem() const { return m_items.last(); }
+    QStringList getInstruments() const;
 
 public slots:
     void headerEvent(int format, int ntrks, int division);
@@ -184,6 +189,8 @@ private:
     int m_initialTempo;
 
     ClientsMap m_clients;
+    InstrumentList m_insList;
+    QString m_standard;
     Song m_items;
     Song m_loadedSong;
     QSmf* m_smf;

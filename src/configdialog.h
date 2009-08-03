@@ -76,6 +76,7 @@ public:
     void setTranslateCtrls(bool newValue) { m_translateCtrls->setChecked(newValue); }
 
     QString getStandard() { return m_standard->currentText(); }
+    void setStandard(const QString name);
     void setStandards(const QStringList& items) { m_standard->addItems(items); }
 };
 

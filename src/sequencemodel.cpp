@@ -28,6 +28,7 @@
 
 #include <klocale.h>
 #include <kapplication.h>
+#include <kstandarddirs.h>
 
 #include "sequencemodel.h"
 #include "kmidimon.h"
@@ -107,6 +108,10 @@ SequenceModel::SequenceModel(QObject* parent) :
     //               SLOT(forcedPort(int)));
     //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
     //               SLOT(smpteEvent(int,int,int,int,int)));
+
+    QString stdins =  KStandardDirs::locate("appdata", "standards.ins");
+    if (!stdins.isEmpty())
+    	m_insList.load(stdins);
 }
 
 SequenceModel::~SequenceModel()
@@ -1467,3 +1472,15 @@ SequenceModel::trackHandler(int track)
     // final event
     m_smf->writeMetaEvent(0, end_of_track);
 }
+
+QStringList
+SequenceModel::getInstruments() const
+{
+	QStringList lst;
+    InstrumentList::ConstIterator it;
+    for(it = m_insList.begin(); it != m_insList.end(); ++it) {
+        lst += it.key();
+    }
+    return lst;
+}
+

@@ -46,7 +46,7 @@ MA 02110-1301, USA
    <item>
     <widget class="QTabWidget" name="m_tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabSequencer">
       <attribute name="title">
@@ -386,7 +386,7 @@ MA 02110-1301, USA
           <item row="4" column="0">
            <widget class="QLabel" name="label">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>MIDI Standard</string>
@@ -399,7 +399,7 @@ MA 02110-1301, USA
           <item row="4" column="1">
            <widget class="KComboBox" name="m_standard">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -542,38 +542,6 @@ MA 02110-1301, USA
     <hint type="destinationlabel">
      <x>20</x>
      <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_translateCtrls</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>label</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>94</x>
-     <y>152</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>96</x>
-     <y>182</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_translateCtrls</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>m_standard</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>229</x>
-     <y>151</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>229</x>
-     <y>177</y>
     </hint>
    </hints>
   </connection>
