@@ -81,6 +81,7 @@ public slots:
     void setColumnStatus(int colNum, bool status);
     void toggleColumn(int colNum);
     void resizeColumns(const QModelIndex& parent, int start, int end);
+    void resizeAllColumns();
     void tabIndexChanged(int index);
     void reorderTabs(int fromIndex, int toIndex);
     void slotTicks(int row);
@@ -112,6 +113,7 @@ private:
     KAction *m_createTrack;
     KAction *m_deleteTrack;
     KAction *m_changeTrack;
+    KAction *m_resizeColumns;
     KRecentFilesAction *m_recentFiles;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;

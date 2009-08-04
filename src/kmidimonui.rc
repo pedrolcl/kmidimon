@@ -17,6 +17,8 @@
     </Menu>
 </MenuBar>
 <Menu name="popup">
+  <text>Display settings</text>
+  <Action name="resize_columns" />
   <Menu name="tracks">
     <text>Tracks</text>
     <Action name="add_track"/> 

@@ -253,6 +253,12 @@ void KMidimon::setupActions()
     }
     connect(m_mapper, SIGNAL(mapped(int)), SLOT(toggleColumn(int)));
 
+    m_resizeColumns = new KAction(this);
+    m_resizeColumns->setText(i18n("&Resize columns"));
+    m_resizeColumns->setWhatsThis(i18n("Resize the columns width to fit it's contents"));
+    connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
+    actionCollection()->addAction("resize_columns", m_resizeColumns);
+
     setStandardToolBarMenuEnabled(true);
     setupGUI();
 
@@ -597,9 +603,14 @@ void KMidimon::setFixedFont(bool newValue)
 
 void KMidimon::resizeColumns(const QModelIndex&, int, int)
 {
+	resizeAllColumns();
+    m_view->scrollToBottom();
+}
+
+void KMidimon::resizeAllColumns()
+{
     for( int i = 0; i < COLUMN_COUNT; ++i)
         m_view->resizeColumnToContents(i);
-    m_view->scrollToBottom();
 }
 
 void KMidimon::addNewTab(int data)
