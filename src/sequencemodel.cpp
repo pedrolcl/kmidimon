@@ -57,7 +57,9 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_format(0),
         m_ntrks(1),
         m_division(RESOLUTION),
-        m_initialTempo(TEMPO_BPM)
+        m_initialTempo(TEMPO_BPM),
+        m_ins(NULL),
+        m_ins2(NULL)
 {
     m_smf = new QSmf(this);
     connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
@@ -108,6 +110,11 @@ SequenceModel::SequenceModel(QObject* parent) :
     //               SLOT(forcedPort(int)));
     //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
     //               SLOT(smpteEvent(int,int,int,int,int)));
+
+    for(int i=0; i<16; ++i) {
+        m_lastBank[i] = 0;
+        m_lastPatch[i] = 0;
+    }
 
     QString stdins =  KStandardDirs::locate("appdata", "standards.ins");
     if (!stdins.isEmpty())
@@ -840,7 +847,7 @@ SequenceModel::note_name(const int note) const
     int num = note % 12;
     int oct = (note / 12) - 1;
     QString name = m_useFlats ? m_names_f[num] : m_names_s[num];
-    return QString("%1%2").arg(name).arg(oct);
+    return QString("%1%2:%3").arg(name).arg(oct).arg(note);
 }
 
 QString
@@ -849,9 +856,18 @@ SequenceModel::note_key(const SequencerEvent* ev) const
     const KeyEvent* ke = dynamic_cast<const KeyEvent*>(ev);
     if (ke != NULL)
     	if (m_translateNotes)
-    		return note_name(ke->getKey());
+            if ((ke->getChannel() == 9) && (m_ins2 != NULL)) {
+                int b = m_lastBank[ke->getChannel()];
+                int p = m_lastPatch[ke->getChannel()];
+                const InstrumentData& notes = m_ins2->notes(b, p);
+                if (notes.contains(ke->getKey()))
+                    return QString("%1:%2").arg(notes[ke->getKey()]).arg(ke->getKey());
+                else
+                    return note_name(ke->getKey());
+            } else
+                return note_name(ke->getKey());
     	else
-    		return QString("%1").arg(ke->getKey());
+            return QString("%1").arg(ke->getKey());
     else
         return QString::null;
 }
@@ -860,10 +876,22 @@ QString
 SequenceModel::program_number(const SequencerEvent* ev) const
 {
     const ProgramChangeEvent* pc = dynamic_cast<const ProgramChangeEvent*>(ev);
-    if (pc != NULL)
+    if (pc != NULL) {
+        if (m_translateCtrls) {
+            if (pc->getChannel() == 9 && m_ins2 != NULL) {
+                const InstrumentData& patch = m_ins2->patch(m_lastBank[pc->getChannel()]);
+                if (patch.contains(pc->getValue()))
+                    return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
+            }
+            if (pc->getChannel() != 9 && m_ins != NULL) {
+                const InstrumentData& patch = m_ins->patch(m_lastBank[pc->getChannel()]);
+                if (patch.contains(pc->getValue()))
+                    return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
+            }
+        }
         return QString("%1").arg(pc->getValue());
-    else
-        return QString::null;
+    }
+    return QString::null;
 }
 
 QString
@@ -880,10 +908,22 @@ QString
 SequenceModel::control_param(const SequencerEvent* ev) const
 {
     const ControllerEvent* ce = dynamic_cast<const ControllerEvent*>(ev);
-    if (ce != NULL)
+    if (ce != NULL) {
+        if (m_translateCtrls) {
+            Instrument* ins = NULL;
+            if (ce->getChannel() == 9 && m_ins2 != NULL)
+                ins = m_ins2;
+            if (m_ins != NULL)
+                ins = m_ins;
+            if (ins != NULL) {
+                const InstrumentData& ctls = ins->control();
+                if (ctls.contains(ce->getParam()))
+                    return QString("%1:%2").arg(ctls[ce->getParam()]).arg(ce->getParam());
+            }
+        }
         return QString("%1").arg(ce->getParam());
-    else
-        return QString::null;
+    }
+    return QString::null;
 }
 
 QString
@@ -943,19 +983,19 @@ SequenceModel::text_type(const SequencerEvent *ev) const
     if (te != NULL) {
         switch ( te->getTextType() ) {
         case 1:
-            return "1:Text";
+            return i18n("Text:1");
         case 2:
-            return "2:Copyright";
+            return i18n("Copyright:2");
         case 3:
-            return "3:Name";
+            return i18n("Name:3");
         case 4:
-            return "4:Instr.";
+            return i18n("Instrument:4");
         case 5:
-            return "5:Lyric";
+            return i18n("Lyric:5");
         case 6:
-            return "6:Marker";
+            return i18n("Marker:6");
         case 7:
-            return "7:Cue";
+            return i18n("Cue:7");
         default:
             return QString("%1").arg( te->getTextType() );
         }
@@ -1232,6 +1272,33 @@ SequenceModel::keyPressEvent(int chan, int pitch, int press)
 void
 SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
 {
+    if (ctl == MIDI_CTL_MSB_BANK ||
+        ctl == MIDI_CTL_LSB_BANK ) {
+
+        int bsm = 0;
+        if (chan == 9 && m_ins2 != NULL)
+            bsm = m_ins2->bankSelMethod();
+        else if (m_ins != NULL)
+            bsm = m_ins->bankSelMethod();
+
+        if (ctl == MIDI_CTL_MSB_BANK)
+            m_lastCtlMSB = value;
+        if (ctl == MIDI_CTL_LSB_BANK)
+            m_lastCtlLSB = value;
+
+        switch(bsm) {
+            case 0:
+                m_lastBank[chan] = m_lastCtlMSB << 7 | m_lastCtlLSB;
+                break;
+            case 1:
+                m_lastBank[chan] = value;
+                break;
+            case 2:
+                m_lastBank[chan] = value;
+                break;
+        }
+    }
+
     SequencerEvent* ev = new ControllerEvent(chan, ctl, value);
     appendEvent(ev);
 }
@@ -1246,6 +1313,7 @@ SequenceModel::pitchBendEvent(int chan, int value)
 void
 SequenceModel::programEvent(int chan, int patch)
 {
+    m_lastPatch[chan] = patch;
     SequencerEvent* ev = new ProgramChangeEvent(chan, patch);
     appendEvent(ev);
 }
@@ -1476,11 +1544,29 @@ SequenceModel::trackHandler(int track)
 QStringList
 SequenceModel::getInstruments() const
 {
-	QStringList lst;
+    QStringList lst;
     InstrumentList::ConstIterator it;
     for(it = m_insList.begin(); it != m_insList.end(); ++it) {
-        lst += it.key();
+        if(!it.key().endsWith("Drums", Qt::CaseInsensitive))
+            lst += it.key();
     }
     return lst;
 }
 
+void
+SequenceModel::setInstrumentName(const QString name)
+{
+    m_instrumentName = name;
+    QString drmName = name;
+    drmName.append(" Drums");
+
+    if (m_insList.contains(name))
+        m_ins = &m_insList[name];
+    else
+        m_ins = NULL;
+
+    if (m_insList.contains(drmName))
+        m_ins2 = &m_insList[drmName];
+    else
+        m_ins2 = NULL;
+}

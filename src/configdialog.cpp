@@ -69,8 +69,14 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
     }
 }
 
-void ConfigDialog::setStandard( const QString name )
+void ConfigDialog::setInstrumentName( const QString name )
 {
-    int index = m_standard->findText( name );
-    m_standard->setCurrentIndex( index );
+    int index = m_instruments->findText( name );
+    m_instruments->setCurrentIndex( index );
+}
+
+void ConfigDialog::setInstruments( const QStringList& items )
+{
+    m_instruments->clear();
+    m_instruments->addItems(items);
 }

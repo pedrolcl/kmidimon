@@ -75,9 +75,9 @@ public:
     bool translateCtrls() { return m_translateCtrls->isChecked(); }
     void setTranslateCtrls(bool newValue) { m_translateCtrls->setChecked(newValue); }
 
-    QString getStandard() { return m_standard->currentText(); }
-    void setStandard(const QString name);
-    void setStandards(const QStringList& items) { m_standard->addItems(items); }
+    QString getInstrumentName() { return m_instruments->currentText(); }
+    void setInstrumentName(const QString name);
+    void setInstruments(const QStringList& items);
 };
 
 #endif

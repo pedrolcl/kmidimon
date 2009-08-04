@@ -375,7 +375,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("translate_sysex", m_model->translateSysex());
     config.writeEntry("translate_notes", m_model->translateNotes());
     config.writeEntry("translate_ctrls", m_model->translateCtrls());
-    config.writeEntry("instrument", m_model->getStandard());
+    config.writeEntry("instrument", m_model->getInstrumentName());
     config.writeEntry("fixed_font", getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
@@ -404,7 +404,7 @@ void KMidimon::readConfiguration()
     m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
     m_model->setTranslateNotes(config.readEntry("translate_notes", false));
     m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
-    m_model->setStandard(config.readEntry("instrument", QString()));
+    m_model->setInstrumentName(config.readEntry("instrument", QString()));
     m_adaptor->setResolution(m_defaultResolution = config.readEntry("resolution", RESOLUTION));
     m_adaptor->setTempo(m_defaultTempo = config.readEntry("tempo", TEMPO_BPM));
     m_adaptor->queue_set_tempo();
@@ -438,8 +438,8 @@ void KMidimon::preferences()
     dlg.setTranslateSysex(m_model->translateSysex());
     dlg.setTranslateNotes(m_model->translateNotes());
     dlg.setTranslateCtrls(m_model->translateCtrls());
-    dlg.setStandards(m_model->getInstruments());
-    dlg.setStandard(m_model->getStandard());
+    dlg.setInstruments(m_model->getInstruments());
+    dlg.setInstrumentName(m_model->getInstrumentName());
     dlg.setUseFixedFont(getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg.setShowColumn(i, m_popupAction[i]->isChecked());
@@ -457,7 +457,7 @@ void KMidimon::preferences()
         m_model->setTranslateSysex(dlg.translateSysex());
         m_model->setTranslateNotes(dlg.translateNotes());
         m_model->setTranslateCtrls(dlg.translateCtrls());
-        m_model->setStandard(dlg.getStandard());
+        m_model->setInstrumentName(dlg.getInstrumentName());
         m_adaptor->setTempo(m_defaultTempo = dlg.getTempo());
         m_adaptor->setResolution(m_defaultResolution = dlg.getResolution());
         m_adaptor->queue_set_tempo();

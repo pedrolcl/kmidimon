@@ -349,7 +349,7 @@ MA 02110-1301, USA
           <string>Miscellaneous Options</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0" colspan="2">
+          <item row="1" column="0" colspan="2">
            <widget class="QCheckBox" name="m_showClientNames">
             <property name="whatsThis">
              <string>Display ALSA client numbers or Names</string>
@@ -359,7 +359,7 @@ MA 02110-1301, USA
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
+          <item row="2" column="0" colspan="2">
            <widget class="QCheckBox" name="m_translateSysex">
             <property name="whatsThis">
              <string>Display some Universal Sysex messages as text, or hexadecimal numbers</string>
@@ -369,51 +369,41 @@ MA 02110-1301, USA
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
+          <item row="3" column="0" colspan="2">
            <widget class="QCheckBox" name="m_translateNotes">
             <property name="text">
              <string>Translate Note Numbers into Names</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
+          <item row="4" column="0" colspan="2">
            <widget class="QCheckBox" name="m_translateCtrls">
             <property name="text">
              <string>Translate MIDI Programs and Controllers</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label">
+          <item row="5" column="0">
+           <widget class="QLabel" name="lblInstrument">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>MIDI Standard</string>
+             <string>MIDI Instrument</string>
             </property>
             <property name="buddy">
-             <cstring>m_standard</cstring>
+             <cstring>m_instruments</cstring>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="KComboBox" name="m_standard">
+          <item row="5" column="1">
+           <widget class="KComboBox" name="m_instruments">
             <property name="enabled">
              <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
-           <widget class="QCheckBox" name="m_useFixedFont">
-            <property name="whatsThis">
-             <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
-            </property>
-            <property name="text">
-             <string>Use Fixed Font</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
+          <item row="7" column="0" colspan="2">
            <spacer name="verticalSpacer_5">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -425,6 +415,16 @@ MA 02110-1301, USA
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="m_useFixedFont">
+            <property name="whatsThis">
+             <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
+            </property>
+            <property name="text">
+             <string>Use Fixed Font</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

@@ -87,8 +87,8 @@ public:
     void setTranslateCtrls(bool newValue) { m_translateCtrls = newValue; }
     void setUseFlats(bool newValue) { m_useFlats = newValue; }
 
-    QString getStandard() const { return m_standard; }
-    void setStandard(const QString newStd) { m_standard = newStd; }
+    QString getInstrumentName() const { return m_instrumentName; }
+    void setInstrumentName(const QString name);
 
     void updateClients(ClientsMap& newmap) { m_clients = newmap; }
     void updateQueue(const int q) { m_queueId = q; }
@@ -187,13 +187,19 @@ private:
     int m_ntrks;
     int m_division;
     int m_initialTempo;
+    int m_lastBank[16];
+    int m_lastPatch[16];
+    int m_lastCtlMSB;
+    int m_lastCtlLSB;
 
     ClientsMap m_clients;
     InstrumentList m_insList;
-    QString m_standard;
+    QString m_instrumentName;
     Song m_items;
     Song m_loadedSong;
     QSmf* m_smf;
+    Instrument* m_ins;
+    Instrument* m_ins2;
 };
 
 #endif /* SEQUENCEMODEL_H_ */
