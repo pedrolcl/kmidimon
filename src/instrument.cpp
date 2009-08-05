@@ -3,6 +3,10 @@
  *   Copyright (C) 2005-2009 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
+ * For this file, the following copyright notice is also applicable:       *
+ * Copyright (C) 2005-2009, rncbc aka Rui Nuno Capela. All rights reserved.*
+ * See http://qtractor.sourceforge.net                                     *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
