@@ -748,90 +748,12 @@ SequenceModel::common_param(const SequencerEvent *ev) const
 QString
 SequenceModel::event_kind(const SequencerEvent *ev) const
 {
-/*
-    switch (ev->getSequencerType()) {
-    // MIDI Channel events
-    case SND_SEQ_EVENT_NOTEON:
-        return i18n("Note on");
-    case SND_SEQ_EVENT_NOTEOFF:
-        return i18n("Note off");
-    case SND_SEQ_EVENT_KEYPRESS:
-        return i18n("Polyphonic aftertouch");
-    case SND_SEQ_EVENT_CONTROLLER:
-        return i18n("Control change");
-    case SND_SEQ_EVENT_PGMCHANGE:
-        return i18n("Program change");
-    case SND_SEQ_EVENT_CHANPRESS:
-        return i18n("Channel aftertouch");
-    case SND_SEQ_EVENT_PITCHBEND:
-        return i18n("Pitch bend");
-    case SND_SEQ_EVENT_CONTROL14:
-        return i18n("Control change");
-    case SND_SEQ_EVENT_NONREGPARAM:
-        return i18n("Non-registered parameter");
-    case SND_SEQ_EVENT_REGPARAM:
-        return i18n("Registered parameter");
-    // MIDI Common events
-    case SND_SEQ_EVENT_SYSEX:
-        return sysex_type(ev);
-    case SND_SEQ_EVENT_SONGPOS:
-        return i18n("Song Position");
-    case SND_SEQ_EVENT_SONGSEL:
-        return i18n("Song Selection");
-    case SND_SEQ_EVENT_QFRAME:
-        return i18n("MTC Quarter Frame");
-    case SND_SEQ_EVENT_TUNE_REQUEST:
-        return i18n("Tune Request");
-    // MIDI Realtime Events
-    case SND_SEQ_EVENT_START:
-        return i18n("Start");
-    case SND_SEQ_EVENT_CONTINUE:
-        return i18n("Continue");
-    case SND_SEQ_EVENT_STOP:
-        return i18n("Stop");
-    case SND_SEQ_EVENT_CLOCK:
-        return i18n("Clock");
-    case SND_SEQ_EVENT_TICK:
-        return i18n("Tick");
-    case SND_SEQ_EVENT_RESET:
-        return i18n("Reset");
-    case SND_SEQ_EVENT_SENSING:
-        return i18n("Active Sensing");
-    // ALSA Client/Port events
-    case SND_SEQ_EVENT_PORT_START:
-        return i18n("ALSA Port start");
-    case SND_SEQ_EVENT_PORT_EXIT:
-        return i18n("ALSA Port exit");
-    case SND_SEQ_EVENT_PORT_CHANGE:
-        return i18n("ALSA Port change");
-    case SND_SEQ_EVENT_CLIENT_START:
-        return i18n("ALSA Client start");
-    case SND_SEQ_EVENT_CLIENT_EXIT:
-        return i18n("ALSA Client exit");
-    case SND_SEQ_EVENT_CLIENT_CHANGE:
-        return i18n("ALSA Client change");
-    case SND_SEQ_EVENT_PORT_SUBSCRIBED:
-        return i18n("ALSA Port subscribed");
-    case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
-        return i18n("ALSA Port unsubscribed");
-    // SMF events
-    case SND_SEQ_EVENT_TEMPO:
-        return i18n("Tempo");
-    case SND_SEQ_EVENT_USR_VAR0:
-        return i18n("SMF Text");
-    case SND_SEQ_EVENT_TIMESIGN:
-        return i18n("Time Signature");
-    case SND_SEQ_EVENT_KEYSIGN:
-        return i18n("Key Signature");
-    // Other events
-    default:
-         return QString("Event type %1").arg(ev->getSequencerType());
-    }
-*/
+    QString res;
     if (m_filter != NULL)
-        return m_filter->getName(ev->getSequencerType());
-
-    return QString("Event type %1").arg(ev->getSequencerType());
+        res = m_filter->getName(ev->getSequencerType());
+    if (res.isEmpty())
+        res = QString("Event type %1").arg(ev->getSequencerType());
+    return res;
 }
 
 QString

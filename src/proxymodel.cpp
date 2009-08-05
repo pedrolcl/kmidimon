@@ -34,8 +34,8 @@ void ProxyModel::setFilterTrack(int track)
 
 void ProxyModel::setFilterChannelMsg(bool newValue)
 {
-    bool channelMessageFilter = m_filter->getFilter(ChannelCategory);
-    if (channelMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(ChannelCategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(ChannelCategory, newValue);
         invalidateFilter();
     }
@@ -43,8 +43,8 @@ void ProxyModel::setFilterChannelMsg(bool newValue)
 
 void ProxyModel::setFilterCommonMsg(bool newValue)
 {
-    bool commonMessageFilter = m_filter->getFilter(SysCommonCategory);
-    if (commonMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(SysCommonCategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(SysCommonCategory, newValue);
         invalidateFilter();
     }
@@ -52,8 +52,8 @@ void ProxyModel::setFilterCommonMsg(bool newValue)
 
 void ProxyModel::setFilterRealTimeMsg(bool newValue)
 {
-    bool realtimeMessageFilter = m_filter->getFilter(SysRTCategory);
-    if (realtimeMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(SysRTCategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(SysRTCategory, newValue);
         invalidateFilter();
     }
@@ -61,8 +61,8 @@ void ProxyModel::setFilterRealTimeMsg(bool newValue)
 
 void ProxyModel::setFilterSysexMsg(bool newValue)
 {
-    bool sysexMessageFilter = m_filter->getFilter(SysExCategory);
-    if (sysexMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(SysExCategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(SysExCategory, newValue);
         invalidateFilter();
     }
@@ -70,8 +70,8 @@ void ProxyModel::setFilterSysexMsg(bool newValue)
 
 void ProxyModel::setFilterAlsaMsg(bool newValue)
 {
-    bool alsaMessageFilter = m_filter->getFilter(ALSACategory);
-    if (alsaMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(ALSACategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(ALSACategory, newValue);
         invalidateFilter();
     }
@@ -79,8 +79,8 @@ void ProxyModel::setFilterAlsaMsg(bool newValue)
 
 void ProxyModel::setFilterSmfMsg(bool newValue)
 {
-    bool smfMessageFilter = m_filter->getFilter(SMFCategory);
-    if (smfMessageFilter != newValue) {
+    bool oldValue = m_filter->getFilter(SMFCategory);
+    if (oldValue != newValue) {
         m_filter->setFilter(SMFCategory, newValue);
         invalidateFilter();
     }
@@ -88,78 +88,7 @@ void ProxyModel::setFilterSmfMsg(bool newValue)
 
 bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 {
-/*
-    switch (ev->getSequencerType()) {
-    // MIDI Channel events
-    case SND_SEQ_EVENT_NOTEON:
-    case SND_SEQ_EVENT_NOTEOFF:
-    case SND_SEQ_EVENT_KEYPRESS:
-    case SND_SEQ_EVENT_CONTROLLER:
-    case SND_SEQ_EVENT_PGMCHANGE:
-    case SND_SEQ_EVENT_CHANPRESS:
-    case SND_SEQ_EVENT_PITCHBEND:
-    case SND_SEQ_EVENT_CONTROL14:
-    case SND_SEQ_EVENT_NONREGPARAM:
-    case SND_SEQ_EVENT_REGPARAM:
-        return m_channelMessageFilter;
-
-    case SND_SEQ_EVENT_SYSEX:
-        return m_sysexMessageFilter;
-
-    // MIDI Common events
-    case SND_SEQ_EVENT_SONGPOS:
-    case SND_SEQ_EVENT_SONGSEL:
-    case SND_SEQ_EVENT_QFRAME:
-    case SND_SEQ_EVENT_TUNE_REQUEST:
-        return m_commonMessageFilter;
-
-    // MIDI Realtime Events
-    case SND_SEQ_EVENT_START:
-    case SND_SEQ_EVENT_CONTINUE:
-    case SND_SEQ_EVENT_STOP:
-    case SND_SEQ_EVENT_CLOCK:
-    case SND_SEQ_EVENT_TICK:
-    case SND_SEQ_EVENT_RESET:
-    case SND_SEQ_EVENT_SENSING:
-        return m_realtimeMessageFilter;
-
-    // ALSA Client/Port events
-    case SND_SEQ_EVENT_PORT_START:
-    case SND_SEQ_EVENT_PORT_EXIT:
-    case SND_SEQ_EVENT_PORT_CHANGE:
-    case SND_SEQ_EVENT_CLIENT_START:
-    case SND_SEQ_EVENT_CLIENT_EXIT:
-    case SND_SEQ_EVENT_CLIENT_CHANGE:
-    case SND_SEQ_EVENT_PORT_SUBSCRIBED:
-    case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
-        return m_alsaMessageFilter;
-
-    // SMF Meta events
-    case SND_SEQ_EVENT_USR_VAR0:
-    case SND_SEQ_EVENT_USR_VAR1:
-    case SND_SEQ_EVENT_USR_VAR2:
-    case SND_SEQ_EVENT_USR_VAR3:
-    case SND_SEQ_EVENT_USR_VAR4:
-    case SND_SEQ_EVENT_USR0:
-    case SND_SEQ_EVENT_USR1:
-    case SND_SEQ_EVENT_USR2:
-    case SND_SEQ_EVENT_USR3:
-    case SND_SEQ_EVENT_USR4:
-    case SND_SEQ_EVENT_USR5:
-    case SND_SEQ_EVENT_USR6:
-    case SND_SEQ_EVENT_USR7:
-    case SND_SEQ_EVENT_USR8:
-    case SND_SEQ_EVENT_USR9:
-    case SND_SEQ_EVENT_KEYSIGN:
-    case SND_SEQ_EVENT_TIMESIGN:
-    case SND_SEQ_EVENT_TEMPO:
-        return m_smfMessageFilter;
-    // Other events
-    default:
-        return true;
-    }
-*/
-    if (m_filter != NULL && m_filter->contains(ev->getSequencerType()))
+    if (m_filter != NULL)
         return m_filter->getFilter(ev->getSequencerType());
     return true;
 }
@@ -169,10 +98,10 @@ bool ProxyModel::filterAcceptsRow(int sourceRow,
 {
     SequenceModel* sModel = static_cast<SequenceModel*>(sourceModel());
     const SequenceItem* itm = sModel->getItem(sourceRow);
-    if (itm) {
+    if (itm != NULL) {
         const SequencerEvent* ev = itm->getEvent();
-        if (ev) return (itm->getTrack() == m_trackFilter) &&
-                       filterSequencerEvent(ev);
+        if (ev != NULL) return (itm->getTrack() == m_trackFilter) &&
+                                filterSequencerEvent(ev);
     }
     return false;
 }

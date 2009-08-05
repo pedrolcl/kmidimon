@@ -1,3 +1,11 @@
+2009-08-05 00:00 plcl
+
+    * Translate note numbers into names.
+    * Translate controller and program numbers into names.
+    * Instrument definitions: GM, GS and XG standards.
+    * Context menu: Adjust column sizes. 
+    * Fine grained event filters
+
 2009-06-24 00:00 plcl
 
     * Version 0.7.0
@@ -17,31 +25,31 @@
 
 2008-12-29 00:00 plcl
 
-	* Converted to KDE4/Qt4
-	* Version 0.6.0
+    * Converted to KDE4/Qt4
+    * Version 0.6.0
 
 2008-03-24 00:00 plcl
 
-	* Fix the crash at startup when ALSA is not loaded
-	* Fixed position of the context menu to the mouse pointer
-	* Version 0.5.1
-	
+    * Fix the crash at startup when ALSA is not loaded
+    * Fixed position of the context menu to the mouse pointer
+    * Version 0.5.1
+    
 2006-12-28 01:57  plcl
 
-	* updated install instructions
-	* updated documentation
-	* Version 0.5.0 released
+    * updated install instructions
+    * updated documentation
+    * Version 0.5.0 released
 
 2006-12-27 16:18  plcl
 
-	* CMake build system support
-	* Remove the old autotools buildsystem
-	* Warning fixes
+    * CMake build system support
+    * Remove the old autotools buildsystem
+    * Warning fixes
 
 2005-09-25 01:50  plcl
 
-	* Fix a nasty bug with the connections dialog, and bump version to
-	  0.4.1
+    * Fix a nasty bug with the connections dialog, and bump version to
+      0.4.1
 
 2005-09-24 00:00  plcl
 
@@ -50,28 +58,28 @@
 
 2005-09-03 01:59  plcl
 
-	* UI files cleanup
+    * UI files cleanup
 
 2005-08-29 00:23  plcl
 
-	* Internationalization updates 
+    * Internationalization updates 
     * Spanish translation updated
 
 2005-08-28 22:44  plcl
 
-	* Context menu to hide/show list columns
+    * Context menu to hide/show list columns
 
 2005-08-27 12:27  plcl
 
-	* Reorganized preferences dialog
+    * Reorganized preferences dialog
 
 2005-08-27 11:55  plcl
 
-	* antialiased icons
+    * antialiased icons
 
 2005-08-26 02:00  plcl
 
-	* Configuration dialog redesign, using tabs to take less 
+    * Configuration dialog redesign, using tabs to take less 
           screen real estate.
 
 2005-08-25 18:00  plcl
@@ -84,60 +92,60 @@
 
 2005-08-05 00:10  plcl
 
-	* Version 0.3 released
-	
-	* New Connections menu, with three items: connect-all, 
-	  disconnect-all and a dialog allowing the user to configure
-	  ALSA sequencer connections from inside the program.
-	  
-	* New column showing the source ALSA client/port for
-	  each event.
-	  
-	* New configurable option to show the ALSA client name 
-	  or number, applied to the new column and elsewhere.
-	  
+    * Version 0.3 released
+    
+    * New Connections menu, with three items: connect-all, 
+      disconnect-all and a dialog allowing the user to configure
+      ALSA sequencer connections from inside the program.
+      
+    * New column showing the source ALSA client/port for
+      each event.
+      
+    * New configurable option to show the ALSA client name 
+      or number, applied to the new column and elsewhere.
+      
 2005-05-13 00:02  plcl
 
-	* Version 0.2 released
+    * Version 0.2 released
 
 2005-05-12 23:23  plcl
 
-	* Use <State> in xml.rc, instead of setEnabled() in code.
+    * Use <State> in xml.rc, instead of setEnabled() in code.
 
 2005-05-01 14:39  plcl
 
-	* Changelog created
+    * Changelog created
 
 2005-05-01 14:35  plcl
 
-	* More code restructuration. Hopefully it works this time.
+    * More code restructuration. Hopefully it works this time.
 
 2005-05-01 14:34  plcl
 
-	* Translations enabled. First Spanish translation.
+    * Translations enabled. First Spanish translation.
 
 2005-04-30 00:37  plcl
 
-	* Fixed some problems with latest code restructuration
+    * Fixed some problems with latest code restructuration
 
 2005-04-28 00:14  plcl
 
-	* Added Christoph Eckert to credits - about dialog
+    * Added Christoph Eckert to credits - about dialog
 
 2005-04-28 00:03  plcl
 
-	* Channel numbers from 1 to 16. Code restructured. Thanks to
-	  Christoph Eckert for his suggestions.
+    * Channel numbers from 1 to 16. Code restructured. Thanks to
+      Christoph Eckert for his suggestions.
 
 2005-04-27 07:55  plcl
 
-	* Documentation updated. Thanks to Christoph Eckert
+    * Documentation updated. Thanks to Christoph Eckert
 
 2005-04-26 22:06  plcl
 
-	* Preferences and Save must be disabled while recording
+    * Preferences and Save must be disabled while recording
 
 2005-04-25 00:58  plcl
 
-	* initial import
+    * initial import
 
