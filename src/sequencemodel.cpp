@@ -32,6 +32,7 @@
 
 #include "sequencemodel.h"
 #include "kmidimon.h"
+#include "eventfilters.h"
 
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
@@ -746,8 +747,9 @@ SequenceModel::common_param(const SequencerEvent *ev) const
 QString
 SequenceModel::event_kind(const SequencerEvent *ev) const
 {
+/*
     switch (ev->getSequencerType()) {
-    /* MIDI Channel events */
+    // MIDI Channel events
     case SND_SEQ_EVENT_NOTEON:
         return i18n("Note on");
     case SND_SEQ_EVENT_NOTEOFF:
@@ -768,7 +770,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("Non-registered parameter");
     case SND_SEQ_EVENT_REGPARAM:
         return i18n("Registered parameter");
-        /* MIDI Common events */
+    // MIDI Common events
     case SND_SEQ_EVENT_SYSEX:
         return sysex_type(ev);
     case SND_SEQ_EVENT_SONGPOS:
@@ -779,7 +781,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("MTC Quarter Frame");
     case SND_SEQ_EVENT_TUNE_REQUEST:
         return i18n("Tune Request");
-        /* MIDI Realtime Events */
+    // MIDI Realtime Events
     case SND_SEQ_EVENT_START:
         return i18n("Start");
     case SND_SEQ_EVENT_CONTINUE:
@@ -794,7 +796,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("Reset");
     case SND_SEQ_EVENT_SENSING:
         return i18n("Active Sensing");
-        /* ALSA Client/Port events */
+    // ALSA Client/Port events
     case SND_SEQ_EVENT_PORT_START:
         return i18n("ALSA Port start");
     case SND_SEQ_EVENT_PORT_EXIT:
@@ -811,7 +813,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("ALSA Port subscribed");
     case SND_SEQ_EVENT_PORT_UNSUBSCRIBED:
         return i18n("ALSA Port unsubscribed");
-        /* SMF events */
+    // SMF events
     case SND_SEQ_EVENT_TEMPO:
         return i18n("Tempo");
     case SND_SEQ_EVENT_USR_VAR0:
@@ -820,10 +822,14 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
         return i18n("Time Signature");
     case SND_SEQ_EVENT_KEYSIGN:
         return i18n("Key Signature");
-        /* Other events */
+    // Other events
     default:
          return QString("Event type %1").arg(ev->getSequencerType());
     }
+*/
+    if (g_filters.contains(ev->getSequencerType()))
+        return g_filters.getName(ev->getSequencerType());
+
     return QString::null;
 }
 

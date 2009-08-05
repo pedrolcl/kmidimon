@@ -32,26 +32,19 @@ class ProxyModel : public QSortFilterProxyModel
 public:
     ProxyModel(QObject *parent = 0)
         : QSortFilterProxyModel(parent),
-        m_trackFilter(-1),
-        m_channelMessageFilter(true),
-        m_commonMessageFilter(true),
-        m_realtimeMessageFilter(true),
-        m_sysexMessageFilter(true),
-        m_alsaMessageFilter(true),
-        m_smfMessageFilter(true)
+        m_trackFilter(-1)
     {}
-
     virtual ~ProxyModel() {}
 
     int filterTrack() const { return m_trackFilter; }
     void setFilterTrack(const int track);
 
-    bool showChannelMsg() const { return m_channelMessageFilter; }
-    bool showCommonMsg() const { return m_commonMessageFilter; }
-    bool showRealTimeMsg() const { return m_realtimeMessageFilter; }
-    bool showSysexMsg() const { return m_sysexMessageFilter; }
-    bool showAlsaMsg() const { return m_alsaMessageFilter; }
-    bool showSmfMsg() const  { return m_smfMessageFilter; }
+    bool showChannelMsg() const;
+    bool showCommonMsg() const;
+    bool showRealTimeMsg() const;
+    bool showSysexMsg() const;
+    bool showAlsaMsg() const;
+    bool showSmfMsg() const;
     void setFilterChannelMsg(bool newValue);
     void setFilterCommonMsg(bool newValue);
     void setFilterRealTimeMsg(bool newValue);
@@ -66,12 +59,6 @@ private:
     bool filterSequencerEvent(const SequencerEvent* ev) const;
 
     int m_trackFilter;
-    bool m_channelMessageFilter;
-    bool m_commonMessageFilter;
-    bool m_realtimeMessageFilter;
-    bool m_sysexMessageFilter;
-    bool m_alsaMessageFilter;
-    bool m_smfMessageFilter;
 };
 
 #endif /* PROXYMODEL_H_ */

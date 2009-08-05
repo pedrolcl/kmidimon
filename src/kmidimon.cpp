@@ -51,6 +51,7 @@
 #include "connectdlg.h"
 #include "sequencemodel.h"
 #include "proxymodel.h"
+#include "eventfilters.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -264,6 +265,7 @@ void KMidimon::setupActions()
 
     m_popup = static_cast <QMenu*>(guiFactory()->container("popup", this));
     Q_CHECK_PTR( m_popup );
+    m_popup->addMenu( g_filters.buildMenu(this) );
 }
 
 void KMidimon::fileNew()
