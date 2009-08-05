@@ -273,8 +273,7 @@ void KMidimon::setupActions()
     m_model->setFilter(m_filter);
     m_proxy->setFilter(m_filter);
     connect(m_filter, SIGNAL(filterChanged()), m_proxy, SLOT(invalidate()));
-
-    //menuBar()->addMenu( filtersMenu );
+    menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
 }
 
 void KMidimon::fileNew()
