@@ -32,6 +32,7 @@ class KRecentFilesAction;
 class KTabBar;
 class KProgressDialog;
 class KUrl;
+class EventFilter;
 
 class QEvent;
 class QContextMenuEvent;
@@ -124,6 +125,7 @@ private:
     KTabBar* m_tabBar;
     QPointer<KProgressDialog> m_pd;
     QString m_outputConn;
+    EventFilter* m_filter;
 	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;

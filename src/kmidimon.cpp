@@ -45,13 +45,14 @@
 #include <kinputdialog.h>
 #include <kprogressdialog.h>
 #include <krecentfilesaction.h>
+#include <kmenubar.h>
 
 #include "kmidimon.h"
 #include "configdialog.h"
 #include "connectdlg.h"
 #include "sequencemodel.h"
 #include "proxymodel.h"
-#include "eventfilters.h"
+#include "eventfilter.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -265,7 +266,15 @@ void KMidimon::setupActions()
 
     m_popup = static_cast <QMenu*>(guiFactory()->container("popup", this));
     Q_CHECK_PTR( m_popup );
-    m_popup->addMenu( g_filters.buildMenu(this) );
+
+    m_filter = new EventFilter(this);
+    QMenu* filtersMenu = m_filter->buildMenu(this);
+    m_popup->addMenu( filtersMenu );
+    m_model->setFilter(m_filter);
+    m_proxy->setFilter(m_filter);
+    connect(m_filter, SIGNAL(filterChanged()), m_proxy, SLOT(invalidate()));
+
+    //menuBar()->addMenu( filtersMenu );
 }
 
 void KMidimon::fileNew()

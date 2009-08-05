@@ -34,6 +34,8 @@
 using namespace ALSA::Sequencer;
 using namespace MIDI::Utils;
 
+class EventFilter;
+
 typedef QMap<int,QString> ClientsMap;
 
 class Song : public QList<SequenceItem>
@@ -107,6 +109,7 @@ public:
     Song* getSong() { return &m_items; }
     const SequenceItem& lastItem() const { return m_items.last(); }
     QStringList getInstruments() const;
+    void setFilter(EventFilter* value) { m_filter = value; }
 
 public slots:
     void headerEvent(int format, int ntrks, int division);
@@ -200,6 +203,7 @@ private:
     QSmf* m_smf;
     Instrument* m_ins;
     Instrument* m_ins2;
+    EventFilter* m_filter;
 };
 
 #endif /* SEQUENCEMODEL_H_ */

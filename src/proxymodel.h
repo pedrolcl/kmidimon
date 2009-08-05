@@ -25,6 +25,8 @@
 #include <QSortFilterProxyModel>
 #include <event.h>
 
+class EventFilter;
+
 using namespace ALSA::Sequencer;
 
 class ProxyModel : public QSortFilterProxyModel
@@ -32,7 +34,8 @@ class ProxyModel : public QSortFilterProxyModel
 public:
     ProxyModel(QObject *parent = 0)
         : QSortFilterProxyModel(parent),
-        m_trackFilter(-1)
+        m_trackFilter(-1),
+        m_filter(NULL)
     {}
     virtual ~ProxyModel() {}
 
@@ -51,6 +54,7 @@ public:
     void setFilterSysexMsg(bool newValue);
     void setFilterAlsaMsg(bool newValue);
     void setFilterSmfMsg(bool newValue);
+    void setFilter(EventFilter* value) { m_filter = value; }
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
@@ -59,6 +63,7 @@ private:
     bool filterSequencerEvent(const SequencerEvent* ev) const;
 
     int m_trackFilter;
+    EventFilter* m_filter;
 };
 
 #endif /* PROXYMODEL_H_ */

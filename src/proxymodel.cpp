@@ -19,7 +19,7 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "eventfilters.h"
+#include "eventfilter.h"
 #include "proxymodel.h"
 #include "sequenceitem.h"
 #include "sequencemodel.h"
@@ -34,54 +34,54 @@ void ProxyModel::setFilterTrack(int track)
 
 void ProxyModel::setFilterChannelMsg(bool newValue)
 {
-    bool channelMessageFilter = g_filters.getFilter(ChannelCategory);
+    bool channelMessageFilter = m_filter->getFilter(ChannelCategory);
     if (channelMessageFilter != newValue) {
-        g_filters.setFilter(ChannelCategory, newValue);
+        m_filter->setFilter(ChannelCategory, newValue);
         invalidateFilter();
     }
 }
 
 void ProxyModel::setFilterCommonMsg(bool newValue)
 {
-    bool commonMessageFilter = g_filters.getFilter(SysCommonCategory);
+    bool commonMessageFilter = m_filter->getFilter(SysCommonCategory);
     if (commonMessageFilter != newValue) {
-        g_filters.setFilter(SysCommonCategory, newValue);
+        m_filter->setFilter(SysCommonCategory, newValue);
         invalidateFilter();
     }
 }
 
 void ProxyModel::setFilterRealTimeMsg(bool newValue)
 {
-    bool realtimeMessageFilter = g_filters.getFilter(SysRTCategory);
+    bool realtimeMessageFilter = m_filter->getFilter(SysRTCategory);
     if (realtimeMessageFilter != newValue) {
-        g_filters.setFilter(SysRTCategory, newValue);
+        m_filter->setFilter(SysRTCategory, newValue);
         invalidateFilter();
     }
 }
 
 void ProxyModel::setFilterSysexMsg(bool newValue)
 {
-    bool sysexMessageFilter = g_filters.getFilter(SysExCategory);
+    bool sysexMessageFilter = m_filter->getFilter(SysExCategory);
     if (sysexMessageFilter != newValue) {
-        g_filters.setFilter(SysExCategory, newValue);
+        m_filter->setFilter(SysExCategory, newValue);
         invalidateFilter();
     }
 }
 
 void ProxyModel::setFilterAlsaMsg(bool newValue)
 {
-    bool alsaMessageFilter = g_filters.getFilter(ALSACategory);
+    bool alsaMessageFilter = m_filter->getFilter(ALSACategory);
     if (alsaMessageFilter != newValue) {
-        g_filters.setFilter(ALSACategory, newValue);
+        m_filter->setFilter(ALSACategory, newValue);
         invalidateFilter();
     }
 }
 
 void ProxyModel::setFilterSmfMsg(bool newValue)
 {
-    bool smfMessageFilter = g_filters.getFilter(SMFCategory);
+    bool smfMessageFilter = m_filter->getFilter(SMFCategory);
     if (smfMessageFilter != newValue) {
-        g_filters.setFilter(SMFCategory, newValue);
+        m_filter->setFilter(SMFCategory, newValue);
         invalidateFilter();
     }
 }
@@ -159,8 +159,8 @@ bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
         return true;
     }
 */
-    if (g_filters.contains(ev->getSequencerType()))
-        return g_filters.getFilter(ev->getSequencerType());
+    if (m_filter != NULL && m_filter->contains(ev->getSequencerType()))
+        return m_filter->getFilter(ev->getSequencerType());
     return true;
 }
 
@@ -179,30 +179,30 @@ bool ProxyModel::filterAcceptsRow(int sourceRow,
 
 bool ProxyModel::showChannelMsg() const
 {
-    return g_filters.getFilter(ChannelCategory);
+    return m_filter->getFilter(ChannelCategory);
 }
 
 bool ProxyModel::showCommonMsg() const
 {
-    return g_filters.getFilter(SysCommonCategory);
+    return m_filter->getFilter(SysCommonCategory);
 }
 
 bool ProxyModel::showRealTimeMsg() const
 {
-    return g_filters.getFilter(SysRTCategory);
+    return m_filter->getFilter(SysRTCategory);
 }
 
 bool ProxyModel::showSysexMsg() const
 {
-    return g_filters.getFilter(SysExCategory);
+    return m_filter->getFilter(SysExCategory);
 }
 
 bool ProxyModel::showAlsaMsg() const
 {
-    return g_filters.getFilter(ALSACategory);
+    return m_filter->getFilter(ALSACategory);
 }
 
 bool ProxyModel::showSmfMsg() const
 {
-    return g_filters.getFilter(SMFCategory);
+    return m_filter->getFilter(SMFCategory);
 }

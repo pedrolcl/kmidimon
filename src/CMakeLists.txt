@@ -39,6 +39,8 @@ SET(kmidimon_SRCS
     configdialog.h
     connectdlg.cpp
     connectdlg.h
+    eventfilter.cpp
+    eventfilter.h
     instrument.cpp
     instrument.h
     kmidimon.cpp

@@ -32,7 +32,7 @@
 
 #include "sequencemodel.h"
 #include "kmidimon.h"
-#include "eventfilters.h"
+#include "eventfilter.h"
 
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
@@ -60,7 +60,8 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_division(RESOLUTION),
         m_initialTempo(TEMPO_BPM),
         m_ins(NULL),
-        m_ins2(NULL)
+        m_ins2(NULL),
+        m_filter(NULL)
 {
     m_smf = new QSmf(this);
     connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
@@ -827,10 +828,10 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
          return QString("Event type %1").arg(ev->getSequencerType());
     }
 */
-    if (g_filters.contains(ev->getSequencerType()))
-        return g_filters.getName(ev->getSequencerType());
+    if (m_filter != NULL)
+        return m_filter->getName(ev->getSequencerType());
 
-    return QString::null;
+    return QString("Event type %1").arg(ev->getSequencerType());
 }
 
 QString
