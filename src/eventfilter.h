@@ -77,6 +77,9 @@ public:
     bool contains(snd_seq_event_type_t t) const;
     QMenu* buildMenu(QWidget* parent);
 
+    void loadConfiguration();
+    void saveConfiguration();
+
 protected:
     void insert(EvCategory category, snd_seq_event_type_t t, QString name);
 

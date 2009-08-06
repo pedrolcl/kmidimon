@@ -403,6 +403,8 @@ void KMidimon::saveConfiguration()
     config = KGlobal::config()->group("RecentFiles");
     m_recentFiles->saveEntries(config);
     config.sync();
+
+    m_filter->saveConfiguration();
 }
 
 void KMidimon::readConfiguration()
@@ -434,6 +436,8 @@ void KMidimon::readConfiguration()
 
     config = KGlobal::config()->group("RecentFiles");
     m_recentFiles->loadEntries(config);
+
+    m_filter->loadConfiguration();
 }
 
 void KMidimon::preferences()

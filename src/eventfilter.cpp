@@ -19,6 +19,7 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
+#include <kconfiggroup.h>
 #include "eventfilter.h"
 
 QString CategoryFilter::getName(int t)
@@ -177,4 +178,33 @@ void EventFilter::insert(EvCategory category, snd_seq_event_type_t t, QString na
 {
     m_cats[category].insert(this, t, name);
     m_aux.insert(t, category);
+}
+
+void EventFilter::loadConfiguration()
+{
+    KConfigGroup config = KGlobal::config()->group("Filters");
+    foreach( CategoryFilter cf, m_cats ) {
+        QHashIterator<int, KToggleAction*> it = cf.getIterator();
+        while( it.hasNext() ) {
+            it.next();
+            KToggleAction *item = it.value();
+            QString fkey = QString("filter_%1").arg(it.key());
+            item->setChecked( config.readEntry(fkey, true) );
+        }
+    }
+}
+
+void EventFilter::saveConfiguration()
+{
+    KConfigGroup config = KGlobal::config()->group("Filters");
+    foreach( CategoryFilter cf, m_cats ) {
+        QHashIterator<int, KToggleAction*> it = cf.getIterator();
+        while( it.hasNext() ) {
+            it.next();
+            KToggleAction *item = it.value();
+            QString fkey = QString("filter_%1").arg(it.key());
+            config.writeEntry( fkey, item->isChecked() );
+        }
+    }
+    config.sync();
 }
