@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
 "atid=731542&group_id=134956\n"
-"POT-Creation-Date: 2009-06-22 13:11+0200\n"
+"POT-Creation-Date: 2009-08-07 18:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/connectdlg.cpp:39
@@ -29,231 +29,401 @@ msgstr ""
 msgid "<b>Output Connection:</b>"
 msgstr ""
 
-#: src/kmidimon.cpp:66
+#: src/eventfilter.cpp:56
+msgid "MIDI Channel"
+msgstr ""
+
+#: src/eventfilter.cpp:57
+msgid "MIDI System Common"
+msgstr ""
+
+#: src/eventfilter.cpp:58
+msgid "MIDI System Real-Time"
+msgstr ""
+
+#: src/eventfilter.cpp:59
+msgid "MIDI System Exclusive"
+msgstr ""
+
+#: src/eventfilter.cpp:60
+msgid "ALSA"
+msgstr ""
+
+#: src/eventfilter.cpp:61
+msgid "SMF"
+msgstr ""
+
+#: src/eventfilter.cpp:63
+msgid "Note on"
+msgstr ""
+
+#: src/eventfilter.cpp:64
+msgid "Note off"
+msgstr ""
+
+#: src/eventfilter.cpp:65
+msgid "Polyphonic aftertouch"
+msgstr ""
+
+#: src/eventfilter.cpp:66 src/eventfilter.cpp:70
+msgid "Control change"
+msgstr ""
+
+#: src/eventfilter.cpp:67
+msgid "Program change"
+msgstr ""
+
+#: src/eventfilter.cpp:68
+msgid "Channel aftertouch"
+msgstr ""
+
+#: src/eventfilter.cpp:69
+msgid "Pitch bend"
+msgstr ""
+
+#: src/eventfilter.cpp:71
+msgid "Non-registered parameter"
+msgstr ""
+
+#: src/eventfilter.cpp:72
+msgid "Registered parameter"
+msgstr ""
+
+#: src/eventfilter.cpp:74 src/sequencemodel.cpp:317
+msgid "System exclusive"
+msgstr ""
+
+#: src/eventfilter.cpp:76
+msgid "Song Position"
+msgstr ""
+
+#: src/eventfilter.cpp:77
+msgid "Song Selection"
+msgstr ""
+
+#: src/eventfilter.cpp:78
+msgid "MTC Quarter Frame"
+msgstr ""
+
+#: src/eventfilter.cpp:79
+msgid "Tune Request"
+msgstr ""
+
+#: src/eventfilter.cpp:81
+msgid "Start"
+msgstr ""
+
+#: src/eventfilter.cpp:82
+msgid "Continue"
+msgstr ""
+
+#: src/eventfilter.cpp:83 src/sequencemodel.cpp:472
+msgid "Stop"
+msgstr ""
+
+#: src/eventfilter.cpp:84
+msgid "Clock"
+msgstr ""
+
+#: src/eventfilter.cpp:85
+msgid "Tick"
+msgstr ""
+
+#: src/eventfilter.cpp:86
+msgid "Reset"
+msgstr ""
+
+#: src/eventfilter.cpp:87
+msgid "Active Sensing"
+msgstr ""
+
+#: src/eventfilter.cpp:89
+msgid "ALSA Port start"
+msgstr ""
+
+#: src/eventfilter.cpp:90
+msgid "ALSA Port exit"
+msgstr ""
+
+#: src/eventfilter.cpp:91
+msgid "ALSA Port change"
+msgstr ""
+
+#: src/eventfilter.cpp:92
+msgid "ALSA Client start"
+msgstr ""
+
+#: src/eventfilter.cpp:93
+msgid "ALSA Client exit"
+msgstr ""
+
+#: src/eventfilter.cpp:94
+msgid "ALSA Client change"
+msgstr ""
+
+#: src/eventfilter.cpp:95
+msgid "ALSA Port subscribed"
+msgstr ""
+
+#: src/eventfilter.cpp:96
+msgid "ALSA Port unsubscribed"
+msgstr ""
+
+#: src/eventfilter.cpp:98
+msgid "Tempo"
+msgstr ""
+
+#: src/eventfilter.cpp:99
+msgid "SMF Text"
+msgstr ""
+
+#: src/eventfilter.cpp:100
+msgid "Time Signature"
+msgstr ""
+
+#: src/eventfilter.cpp:101
+msgid "Key Signature"
+msgstr ""
+
+#. i18n: file: src/configdialogbase.ui:149
+#. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
+#: src/eventfilter.cpp:156 po/rc.cpp:27
+msgid "Filters"
+msgstr ""
+
+#: src/kmidimon.cpp:68
 msgid "The events list"
 msgstr ""
 
-#: src/kmidimon.cpp:83
+#: src/kmidimon.cpp:85
 msgid "Track view selectors"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:258
+#. i18n: file: src/configdialogbase.ui:259
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTicksColumn)
-#: src/kmidimon.cpp:119 src/sequencemodel.cpp:129 po/rc.cpp:81
+#: src/kmidimon.cpp:121 src/sequencemodel.cpp:146 po/rc.cpp:81
 msgid "Ticks"
 msgstr ""
 
-#: src/kmidimon.cpp:120 src/sequencemodel.cpp:131
+#: src/kmidimon.cpp:122 src/sequencemodel.cpp:148
 msgid "Time"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:278
+#. i18n: file: src/configdialogbase.ui:279
 #. i18n: ectx: property (text), widget (QCheckBox, m_showSourceColumn)
-#: src/kmidimon.cpp:121 src/sequencemodel.cpp:133 po/rc.cpp:93
+#: src/kmidimon.cpp:123 src/sequencemodel.cpp:150 po/rc.cpp:93
 msgid "Source"
 msgstr ""
 
-#: src/kmidimon.cpp:122
+#: src/kmidimon.cpp:124
 msgid "Event Kind"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:298
+#. i18n: file: src/configdialogbase.ui:299
 #. i18n: ectx: property (text), widget (QCheckBox, m_showChannelColumn)
-#: src/kmidimon.cpp:123 po/rc.cpp:105
+#: src/kmidimon.cpp:125 po/rc.cpp:105
 msgid "Channel"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:308
+#. i18n: file: src/configdialogbase.ui:309
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData1Column)
-#: src/kmidimon.cpp:124 src/sequencemodel.cpp:139 po/rc.cpp:111
+#: src/kmidimon.cpp:126 src/sequencemodel.cpp:156 po/rc.cpp:111
 msgid "Data 1"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:318
+#. i18n: file: src/configdialogbase.ui:319
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData2Column)
-#: src/kmidimon.cpp:125 src/sequencemodel.cpp:141 po/rc.cpp:117
+#: src/kmidimon.cpp:127 src/sequencemodel.cpp:158 po/rc.cpp:117
 msgid "Data 2"
 msgstr ""
 
-#: src/kmidimon.cpp:139
+#: src/kmidimon.cpp:141
 msgid "Exit the application"
 msgstr ""
 
-#: src/kmidimon.cpp:141
+#: src/kmidimon.cpp:143
 msgid "Open a disk file"
 msgstr ""
 
-#: src/kmidimon.cpp:144
+#: src/kmidimon.cpp:146
 msgid "Clear the current data and start a new empty session"
 msgstr ""
 
-#: src/kmidimon.cpp:146
+#: src/kmidimon.cpp:148
 msgid "Store the session data on a disk file"
 msgstr ""
 
-#: src/kmidimon.cpp:148
+#: src/kmidimon.cpp:150
 msgid "Configure the program setting several preferences"
 msgstr ""
 
-#: src/kmidimon.cpp:150
+#: src/kmidimon.cpp:152
 msgid "Organize the toolbar icons"
 msgstr ""
 
-#: src/kmidimon.cpp:167
+#: src/kmidimon.cpp:169
 msgid "&Play"
 msgstr ""
 
-#: src/kmidimon.cpp:170
+#: src/kmidimon.cpp:172
 msgid "Start playback of the current session"
 msgstr ""
 
-#: src/kmidimon.cpp:175 src/sequencemodel.cpp:469
+#: src/kmidimon.cpp:177 src/sequencemodel.cpp:486
 msgid "Pause"
 msgstr ""
 
-#: src/kmidimon.cpp:177
+#: src/kmidimon.cpp:179
 msgid "Pause the playback"
 msgstr ""
 
-#: src/kmidimon.cpp:182
+#: src/kmidimon.cpp:184
 msgid "Forward"
 msgstr ""
 
-#: src/kmidimon.cpp:184
+#: src/kmidimon.cpp:186
 msgid "Move the playback position to the last event"
 msgstr ""
 
-#: src/kmidimon.cpp:189
+#: src/kmidimon.cpp:191
 msgid "Backward"
 msgstr ""
 
-#: src/kmidimon.cpp:191
+#: src/kmidimon.cpp:193
 msgid "Move the playback position to the first event"
 msgstr ""
 
-#: src/kmidimon.cpp:196
+#: src/kmidimon.cpp:198
 msgid "&Record"
 msgstr ""
 
-#: src/kmidimon.cpp:199
+#: src/kmidimon.cpp:201
 msgid "Append new recorded events to the current session"
 msgstr ""
 
-#: src/kmidimon.cpp:204
+#: src/kmidimon.cpp:206
 msgid "&Stop"
 msgstr ""
 
-#: src/kmidimon.cpp:207
+#: src/kmidimon.cpp:209
 msgid "Stop playback or recording"
 msgstr ""
 
-#: src/kmidimon.cpp:212
+#: src/kmidimon.cpp:214
 msgid "&Connect All Inputs"
 msgstr ""
 
-#: src/kmidimon.cpp:213
+#: src/kmidimon.cpp:215
 msgid "Connect all readable MIDI ports"
 msgstr ""
 
-#: src/kmidimon.cpp:218
+#: src/kmidimon.cpp:220
 msgid "&Disconnect All Inputs"
 msgstr ""
 
-#: src/kmidimon.cpp:219
+#: src/kmidimon.cpp:221
 msgid "Disconnect all input MIDI ports"
 msgstr ""
 
-#: src/kmidimon.cpp:224
+#: src/kmidimon.cpp:226
 msgid "Con&figure Connections"
 msgstr ""
 
-#: src/kmidimon.cpp:225
+#: src/kmidimon.cpp:227
 msgid "Open the Connections dialog"
 msgstr ""
 
-#: src/kmidimon.cpp:230
+#: src/kmidimon.cpp:232
 msgid "&Add Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:231
+#: src/kmidimon.cpp:233
 msgid "Create a new tab/track view"
 msgstr ""
 
-#: src/kmidimon.cpp:236
+#: src/kmidimon.cpp:238
 msgid "&Change Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:237
+#: src/kmidimon.cpp:239
 msgid "Change the track number of the view"
 msgstr ""
 
-#: src/kmidimon.cpp:242
+#: src/kmidimon.cpp:244
 msgid "&Delete Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:243
+#: src/kmidimon.cpp:245
 msgid "Delete the tab/track view"
 msgstr ""
 
-#: src/kmidimon.cpp:249
+#: src/kmidimon.cpp:251
 msgid "Toggle the %1 column"
 msgstr ""
 
-#: src/kmidimon.cpp:294
+#: src/kmidimon.cpp:259
+msgid "&Resize columns"
+msgstr ""
+
+#: src/kmidimon.cpp:260
+msgid "Resize the columns width to fit it's contents"
+msgstr ""
+
+#: src/kmidimon.cpp:310
 msgid "Load MIDI file"
 msgstr ""
 
-#: src/kmidimon.cpp:295
+#: src/kmidimon.cpp:311
 msgid "Loading..."
 msgstr ""
 
-#: src/kmidimon.cpp:333
+#: src/kmidimon.cpp:349
 msgid "*.mid *.midi *.kar|MIDI files (*.mid)"
 msgstr ""
 
-#: src/kmidimon.cpp:335
+#: src/kmidimon.cpp:351
 msgid "Open MIDI file"
 msgstr ""
 
-#: src/kmidimon.cpp:343
+#: src/kmidimon.cpp:359
 msgid ""
 "*.txt|Plain text files (*.txt)\n"
 "*.mid|MIDI files (*.mid)"
 msgstr ""
 
-#: src/kmidimon.cpp:346
+#: src/kmidimon.cpp:362
 msgid "Save MIDI monitor data"
 msgstr ""
 
-#: src/kmidimon.cpp:463
+#: src/kmidimon.cpp:496
 msgid "recording"
 msgstr ""
 
-#: src/kmidimon.cpp:476
+#: src/kmidimon.cpp:509
 msgid "stopped"
 msgstr ""
 
-#: src/kmidimon.cpp:483
+#: src/kmidimon.cpp:516
 msgid "playing"
 msgstr ""
 
-#: src/kmidimon.cpp:505
+#: src/kmidimon.cpp:538
 msgid "ALSA MIDI Monitor [%1]"
 msgstr ""
 
-#: src/kmidimon.cpp:594 src/kmidimon.cpp:638
+#: src/kmidimon.cpp:632 src/kmidimon.cpp:676
 msgid "Track %1"
 msgstr ""
 
-#: src/kmidimon.cpp:597 src/kmidimon.cpp:641
+#: src/kmidimon.cpp:635 src/kmidimon.cpp:679
 msgid "Track %1 View Selector"
 msgstr ""
 
-#: src/kmidimon.cpp:612
+#: src/kmidimon.cpp:650
 msgid "Change track"
 msgstr ""
 
-#: src/kmidimon.cpp:613
+#: src/kmidimon.cpp:651
 msgid "Change the track filter:"
 msgstr ""
 
@@ -293,513 +463,456 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: src/sequencemodel.cpp:135
+#: src/sequencemodel.cpp:152
 msgid "Event kind"
 msgstr ""
 
-#: src/sequencemodel.cpp:137
+#: src/sequencemodel.cpp:154
 msgid "Chan"
 msgstr ""
 
-#: src/sequencemodel.cpp:293
+#: src/sequencemodel.cpp:310
 msgid "Universal Non Real Time SysEx"
 msgstr ""
 
-#: src/sequencemodel.cpp:295
+#: src/sequencemodel.cpp:312
 msgid "Universal Real Time SysEx"
 msgstr ""
 
-#: src/sequencemodel.cpp:300
-msgid "System exclusive"
-msgstr ""
-
-#: src/sequencemodel.cpp:317
+#: src/sequencemodel.cpp:334
 msgid "broadcast"
 msgstr ""
 
-#: src/sequencemodel.cpp:319
+#: src/sequencemodel.cpp:336
 msgid "device %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:343 src/sequencemodel.cpp:347
+#: src/sequencemodel.cpp:360 src/sequencemodel.cpp:364
 msgid "Sample Dump"
 msgstr ""
 
-#: src/sequencemodel.cpp:345
+#: src/sequencemodel.cpp:362
 msgid "MTC Setup"
 msgstr ""
 
-#: src/sequencemodel.cpp:349
+#: src/sequencemodel.cpp:366
 msgid "Gen.Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:351
+#: src/sequencemodel.cpp:368
 msgid "Tuning"
 msgstr ""
 
-#: src/sequencemodel.cpp:353
+#: src/sequencemodel.cpp:370
 msgid "GM Mode"
 msgstr ""
 
-#: src/sequencemodel.cpp:355
+#: src/sequencemodel.cpp:372
 msgid "Wait"
 msgstr ""
 
-#: src/sequencemodel.cpp:357
+#: src/sequencemodel.cpp:374
 msgid "Cancel"
 msgstr ""
 
-#: src/sequencemodel.cpp:359
+#: src/sequencemodel.cpp:376
 msgid "NAK"
 msgstr ""
 
-#: src/sequencemodel.cpp:361
+#: src/sequencemodel.cpp:378
 msgid "ACK"
 msgstr ""
 
-#: src/sequencemodel.cpp:369
+#: src/sequencemodel.cpp:386
 msgid "MTC"
 msgstr ""
 
-#: src/sequencemodel.cpp:371
+#: src/sequencemodel.cpp:388
 msgid "Notation"
 msgstr ""
 
-#: src/sequencemodel.cpp:373
+#: src/sequencemodel.cpp:390
 msgid "GM Master"
 msgstr ""
 
-#: src/sequencemodel.cpp:375
+#: src/sequencemodel.cpp:392
 msgid "MMC"
 msgstr ""
 
-#: src/sequencemodel.cpp:391
+#: src/sequencemodel.cpp:408
 msgid "Special"
 msgstr ""
 
-#: src/sequencemodel.cpp:393
+#: src/sequencemodel.cpp:410
 msgid "Punch In Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:395
+#: src/sequencemodel.cpp:412
 msgid "Punch Out Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:397
+#: src/sequencemodel.cpp:414
 msgid "Delete Punch In Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:399
+#: src/sequencemodel.cpp:416
 msgid "Delete Punch Out Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:401
+#: src/sequencemodel.cpp:418
 msgid "Event Start Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:403
+#: src/sequencemodel.cpp:420
 msgid "Event Stop Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:405
+#: src/sequencemodel.cpp:422
 msgid "Event Start Point With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:407
+#: src/sequencemodel.cpp:424
 msgid "Event Stop Point With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:409
+#: src/sequencemodel.cpp:426
 msgid "Delete Event Start Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:411
+#: src/sequencemodel.cpp:428
 msgid "Delete Event Stop Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:413
+#: src/sequencemodel.cpp:430
 msgid "Cue Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:415
+#: src/sequencemodel.cpp:432
 msgid "Cue Points With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:417
+#: src/sequencemodel.cpp:434
 msgid "Delete Cue Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:419
+#: src/sequencemodel.cpp:436
 msgid "Event Name"
 msgstr ""
 
-#: src/sequencemodel.cpp:432
+#: src/sequencemodel.cpp:449
 msgid "Full Frame: %1 %2 %3 %4"
 msgstr ""
 
-#: src/sequencemodel.cpp:437
+#: src/sequencemodel.cpp:454
 msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr ""
 
-#: src/sequencemodel.cpp:455 src/sequencemodel.cpp:773
-msgid "Stop"
-msgstr ""
-
-#: src/sequencemodel.cpp:457
+#: src/sequencemodel.cpp:474
 msgid "Play"
 msgstr ""
 
-#: src/sequencemodel.cpp:459
+#: src/sequencemodel.cpp:476
 msgid "Deferred Play"
 msgstr ""
 
-#: src/sequencemodel.cpp:461
+#: src/sequencemodel.cpp:478
 msgid "Fast Forward"
 msgstr ""
 
-#: src/sequencemodel.cpp:463
+#: src/sequencemodel.cpp:480
 msgid "Rewind"
 msgstr ""
 
-#: src/sequencemodel.cpp:465
+#: src/sequencemodel.cpp:482
 msgid "Punch In"
 msgstr ""
 
-#: src/sequencemodel.cpp:467
+#: src/sequencemodel.cpp:484
 msgid "Punch out"
 msgstr ""
 
-#: src/sequencemodel.cpp:471
+#: src/sequencemodel.cpp:488
 msgid "Eject"
 msgstr ""
 
-#: src/sequencemodel.cpp:478
+#: src/sequencemodel.cpp:495
 msgid "Track Record Ready:"
 msgstr ""
 
-#: src/sequencemodel.cpp:481
+#: src/sequencemodel.cpp:498
 msgid "Track Sync Monitor:"
 msgstr ""
 
-#: src/sequencemodel.cpp:484
+#: src/sequencemodel.cpp:501
 msgid "Track Input Monitor:"
 msgstr ""
 
-#: src/sequencemodel.cpp:487
+#: src/sequencemodel.cpp:504
 msgid "Track Mute:"
 msgstr ""
 
-#: src/sequencemodel.cpp:501
+#: src/sequencemodel.cpp:518
 msgid "Locate: %1 %2 %3 %4 %5"
 msgstr ""
 
-#: src/sequencemodel.cpp:529
+#: src/sequencemodel.cpp:546
 msgid "Header"
 msgstr ""
 
-#: src/sequencemodel.cpp:531
+#: src/sequencemodel.cpp:548
 msgid "Data Packet"
 msgstr ""
 
-#: src/sequencemodel.cpp:533
+#: src/sequencemodel.cpp:550
 msgid "Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:540
+#: src/sequencemodel.cpp:557
 msgid "Multiple Loop Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:542
+#: src/sequencemodel.cpp:559
 msgid "Loop Points Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:550
+#: src/sequencemodel.cpp:567
 msgid "Identity Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:553
+#: src/sequencemodel.cpp:570
 msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr ""
 
-#: src/sequencemodel.cpp:566
+#: src/sequencemodel.cpp:583
 msgid "Dump Request: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:568
+#: src/sequencemodel.cpp:585
 msgid "Bulk Dump: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:570
+#: src/sequencemodel.cpp:587
 msgid "Note Change: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:578
+#: src/sequencemodel.cpp:595
 msgid "GM On"
 msgstr ""
 
-#: src/sequencemodel.cpp:580
+#: src/sequencemodel.cpp:597
 msgid "GM Off"
 msgstr ""
 
-#: src/sequencemodel.cpp:599
+#: src/sequencemodel.cpp:616
 msgid "Bar Marker: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:605
+#: src/sequencemodel.cpp:622
 msgid "Time Signature: %1 (%2/%3)"
 msgstr ""
 
-#: src/sequencemodel.cpp:618
+#: src/sequencemodel.cpp:635
 msgid "Volume: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:620
+#: src/sequencemodel.cpp:637
 msgid "Balance: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:737
-msgid "Note on"
-msgstr ""
-
-#: src/sequencemodel.cpp:739
-msgid "Note off"
-msgstr ""
-
-#: src/sequencemodel.cpp:741
-msgid "Polyphonic aftertouch"
-msgstr ""
-
-#: src/sequencemodel.cpp:743 src/sequencemodel.cpp:751
-msgid "Control change"
-msgstr ""
-
-#: src/sequencemodel.cpp:745
-msgid "Program change"
-msgstr ""
-
-#: src/sequencemodel.cpp:747
-msgid "Channel aftertouch"
-msgstr ""
-
-#: src/sequencemodel.cpp:749
-msgid "Pitch bend"
-msgstr ""
-
-#: src/sequencemodel.cpp:753
-msgid "Non-registered parameter"
-msgstr ""
-
-#: src/sequencemodel.cpp:755
-msgid "Registered parameter"
-msgstr ""
-
-#: src/sequencemodel.cpp:760
-msgid "Song Position"
-msgstr ""
-
-#: src/sequencemodel.cpp:762
-msgid "Song Selection"
-msgstr ""
-
-#: src/sequencemodel.cpp:764
-msgid "MTC Quarter Frame"
-msgstr ""
-
-#: src/sequencemodel.cpp:766
-msgid "Tune Request"
-msgstr ""
-
-#: src/sequencemodel.cpp:769
-msgid "Start"
-msgstr ""
-
-#: src/sequencemodel.cpp:771
-msgid "Continue"
-msgstr ""
-
-#: src/sequencemodel.cpp:775
-msgid "Clock"
-msgstr ""
-
-#: src/sequencemodel.cpp:777
-msgid "Tick"
-msgstr ""
-
-#: src/sequencemodel.cpp:779
-msgid "Reset"
-msgstr ""
-
-#: src/sequencemodel.cpp:781
-msgid "Active Sensing"
-msgstr ""
-
-#: src/sequencemodel.cpp:784
-msgid "ALSA Port start"
-msgstr ""
-
-#: src/sequencemodel.cpp:786
-msgid "ALSA Port exit"
-msgstr ""
-
-#: src/sequencemodel.cpp:788
-msgid "ALSA Port change"
-msgstr ""
-
-#: src/sequencemodel.cpp:790
-msgid "ALSA Client start"
-msgstr ""
-
-#: src/sequencemodel.cpp:792
-msgid "ALSA Client exit"
-msgstr ""
-
-#: src/sequencemodel.cpp:794
-msgid "ALSA Client change"
-msgstr ""
-
-#: src/sequencemodel.cpp:796
-msgid "ALSA Port subscribed"
-msgstr ""
-
-#: src/sequencemodel.cpp:798
-msgid "ALSA Port unsubscribed"
-msgstr ""
-
-#: src/sequencemodel.cpp:801
-msgid "Tempo"
-msgstr ""
-
-#: src/sequencemodel.cpp:803
-msgid "SMF Text"
-msgstr ""
-
-#: src/sequencemodel.cpp:805
-msgid "Time Signature"
-msgstr ""
-
-#: src/sequencemodel.cpp:807
-msgid "Key Signature"
-msgstr ""
-
-#: src/sequencemodel.cpp:956
-msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
-msgstr ""
-
-#: src/sequencemodel.cpp:966
-msgid "C flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:966
-msgid "G flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:966
-msgid "D flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:967 src/sequencemodel.cpp:970
-msgid "A flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:967 src/sequencemodel.cpp:970
-msgid "E flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:967 src/sequencemodel.cpp:970
-msgid "B flat"
-msgstr ""
-
-#: src/sequencemodel.cpp:967 src/sequencemodel.cpp:971
-msgid "F"
-msgstr ""
-
-#: src/sequencemodel.cpp:968 src/sequencemodel.cpp:971
+#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
+#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
 msgid "C"
 msgstr ""
 
-#: src/sequencemodel.cpp:968 src/sequencemodel.cpp:971
-msgid "G"
+#: src/sequencemodel.cpp:772
+msgid "C♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:968 src/sequencemodel.cpp:971
+#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
+#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
 msgid "D"
 msgstr ""
 
-#: src/sequencemodel.cpp:968 src/sequencemodel.cpp:972
-msgid "A"
+#: src/sequencemodel.cpp:772
+msgid "D♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:969 src/sequencemodel.cpp:972
+#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
+#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
 msgid "E"
 msgstr ""
 
-#: src/sequencemodel.cpp:969 src/sequencemodel.cpp:972
+#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:964
+msgid "F"
+msgstr ""
+
+#: src/sequencemodel.cpp:773
+msgid "F♯"
+msgstr ""
+
+#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
+msgid "G"
+msgstr ""
+
+#: src/sequencemodel.cpp:773
+msgid "G♯"
+msgstr ""
+
+#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:965
+msgid "A"
+msgstr ""
+
+#: src/sequencemodel.cpp:773
+msgid "A♯"
+msgstr ""
+
+#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
 msgid "B"
 msgstr ""
 
-#: src/sequencemodel.cpp:969 src/sequencemodel.cpp:972
+#: src/sequencemodel.cpp:774
+msgid "D♭"
+msgstr ""
+
+#: src/sequencemodel.cpp:774
+msgid "E♭"
+msgstr ""
+
+#: src/sequencemodel.cpp:775
+msgid "G♭"
+msgstr ""
+
+#: src/sequencemodel.cpp:775
+msgid "A♭"
+msgstr ""
+
+#: src/sequencemodel.cpp:775
+msgid "B♭"
+msgstr ""
+
+#: src/sequencemodel.cpp:915
+msgid "Text:1"
+msgstr ""
+
+#: src/sequencemodel.cpp:917
+msgid "Copyright:2"
+msgstr ""
+
+#: src/sequencemodel.cpp:919
+msgid "Name:3"
+msgstr ""
+
+#: src/sequencemodel.cpp:921
+msgid "Instrument:4"
+msgstr ""
+
+#: src/sequencemodel.cpp:923
+msgid "Lyric:5"
+msgstr ""
+
+#: src/sequencemodel.cpp:925
+msgid "Marker:6"
+msgstr ""
+
+#: src/sequencemodel.cpp:927
+msgid "Cue:7"
+msgstr ""
+
+#: src/sequencemodel.cpp:949
+msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
+msgstr ""
+
+#: src/sequencemodel.cpp:959
+msgid "C flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:959
+msgid "G flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:959
+msgid "D flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+msgid "A flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+msgid "E flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+msgid "B flat"
+msgstr ""
+
+#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
 msgid "F sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:969 src/sequencemodel.cpp:972
+#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
 msgid "C sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:973
+#: src/sequencemodel.cpp:966
 msgid "G sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:973
+#: src/sequencemodel.cpp:966
 msgid "D sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:973
+#: src/sequencemodel.cpp:966
 msgid "A sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:978
-msgid "%1%2, %3 %4"
-msgstr ""
-
-#: src/sequencemodel.cpp:981
+#: src/sequencemodel.cpp:974
 msgid "major"
 msgstr ""
 
-#: src/sequencemodel.cpp:981
+#: src/sequencemodel.cpp:974
 msgid "minor"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:33
+#: src/sequencemodel.cpp:971
+msgid "%1%2, %3 %4"
+msgstr ""
+
+#. i18n: file: src/configdialogbase.ui:34
 #. i18n: ectx: property (windowTitle), widget (QDialog, ConfigDialogBase)
 #: po/rc.cpp:3
 msgid "Preferences"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:52
+#. i18n: file: src/configdialogbase.ui:53
 #. i18n: ectx: attribute (title), widget (QWidget, tabSequencer)
 #: po/rc.cpp:6
 msgid "Sequencer"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:58
+#. i18n: file: src/configdialogbase.ui:59
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, queueGroup)
 #: po/rc.cpp:9
 msgid "Default MIDI queue settings. MIDI files (SMF) may change these values."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:61
+#. i18n: file: src/configdialogbase.ui:62
 #. i18n: ectx: property (title), widget (QGroupBox, queueGroup)
 #: po/rc.cpp:12
 msgid "Queue Default Settings"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:67
+#. i18n: file: src/configdialogbase.ui:68
 #. i18n: ectx: property (text), widget (QLabel, lblResolution)
 #: po/rc.cpp:15
 msgid "Resolution"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:80
+#. i18n: file: src/configdialogbase.ui:81
 #. i18n: ectx: property (whatsThis), widget (KIntSpinBox, m_resolution)
 #: po/rc.cpp:18
 msgid ""
@@ -807,7 +920,7 @@ msgid ""
 "file (SMF) may change this value."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:99
+#. i18n: file: src/configdialogbase.ui:100
 #. i18n: ectx: property (whatsThis), widget (KIntSpinBox, m_tempo)
 #: po/rc.cpp:21
 msgid ""
@@ -815,19 +928,13 @@ msgid ""
 "MIDI files may change this value."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:118
+#. i18n: file: src/configdialogbase.ui:119
 #. i18n: ectx: property (text), widget (QLabel, lblTempo)
 #: po/rc.cpp:24
 msgid "Tempo (BPM)"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:148
-#. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
-#: po/rc.cpp:27
-msgid "Filters"
-msgstr ""
-
-#. i18n: file: src/configdialogbase.ui:154
+#. i18n: file: src/configdialogbase.ui:155
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, filterGroup)
 #: po/rc.cpp:30
 msgid ""
@@ -835,13 +942,13 @@ msgid ""
 "to the message type."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:157
+#. i18n: file: src/configdialogbase.ui:158
 #. i18n: ectx: property (title), widget (QGroupBox, filterGroup)
 #: po/rc.cpp:33
 msgid "Filter Message Types"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:163
+#. i18n: file: src/configdialogbase.ui:164
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_channel)
 #: po/rc.cpp:36
 msgid ""
@@ -849,26 +956,26 @@ msgid ""
 "Pitch Wheel, Key and Channel Pressure."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:166
+#. i18n: file: src/configdialogbase.ui:167
 #. i18n: ectx: property (text), widget (QCheckBox, m_channel)
 #: po/rc.cpp:39
 msgid "MIDI Channel Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:173
+#. i18n: file: src/configdialogbase.ui:174
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_common)
 #: po/rc.cpp:42
 msgid ""
 "System common messages are: quarter frame, song position and tune request."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:176
+#. i18n: file: src/configdialogbase.ui:177
 #. i18n: ectx: property (text), widget (QCheckBox, m_common)
 #: po/rc.cpp:45
 msgid "MIDI System Common Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:183
+#. i18n: file: src/configdialogbase.ui:184
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_realtime)
 #: po/rc.cpp:48
 msgid ""
@@ -876,37 +983,37 @@ msgid ""
 "and reset."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:186
+#. i18n: file: src/configdialogbase.ui:187
 #. i18n: ectx: property (text), widget (QCheckBox, m_realtime)
 #: po/rc.cpp:51
 msgid "MIDI System Real-Time Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:193
+#. i18n: file: src/configdialogbase.ui:194
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_sysex)
 #: po/rc.cpp:54
 msgid "System exclusive messages can be: universal and manufacturer defined."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:196
+#. i18n: file: src/configdialogbase.ui:197
 #. i18n: ectx: property (text), widget (QCheckBox, m_sysex)
 #: po/rc.cpp:57
 msgid "MIDI System Exclusive Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:203
+#. i18n: file: src/configdialogbase.ui:204
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_alsa)
 #: po/rc.cpp:60
 msgid "ALSA Messages are: client and port start/exit, and connection changes."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:206
+#. i18n: file: src/configdialogbase.ui:207
 #. i18n: ectx: property (text), widget (QCheckBox, m_alsa)
 #: po/rc.cpp:63
 msgid "ALSA Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:213
+#. i18n: file: src/configdialogbase.ui:214
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_smfmsg)
 #: po/rc.cpp:66
 msgid ""
@@ -914,169 +1021,193 @@ msgid ""
 "messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:216
+#. i18n: file: src/configdialogbase.ui:217
 #. i18n: ectx: property (text), widget (QCheckBox, m_smfmsg)
 #: po/rc.cpp:69
 msgid "SMF Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:240
+#. i18n: file: src/configdialogbase.ui:241
 #. i18n: ectx: attribute (title), widget (QWidget, tabDisplay)
 #: po/rc.cpp:72
 msgid "Display"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:246
+#. i18n: file: src/configdialogbase.ui:247
 #. i18n: ectx: property (title), widget (QGroupBox, columnsGroup)
-#. i18n: file: src/kmidimonui.rc:27
+#. i18n: file: src/kmidimonui.rc:29
 #. i18n: ectx: Menu (columns)
-#: po/rc.cpp:75 po/rc.cpp:159
+#: po/rc.cpp:75 po/rc.cpp:171
 msgid "Show Columns"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:255
+#. i18n: file: src/configdialogbase.ui:256
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showTicksColumn)
 #: po/rc.cpp:78
 msgid ""
 "Ticks are the musical time units. It is relative to tempo and resolution."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:265
+#. i18n: file: src/configdialogbase.ui:266
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showTimeColumn)
 #: po/rc.cpp:84
 msgid "Seconds are absolute time units"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:268
+#. i18n: file: src/configdialogbase.ui:269
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTimeColumn)
 #: po/rc.cpp:87
 msgid "Time (in seconds)"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:275
+#. i18n: file: src/configdialogbase.ui:276
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showSourceColumn)
 #: po/rc.cpp:90
 msgid "MIDI port originating the messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:285
+#. i18n: file: src/configdialogbase.ui:286
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showEventTypeColumn)
 #: po/rc.cpp:96
 msgid "Message type displayed as a text string"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:288
+#. i18n: file: src/configdialogbase.ui:289
 #. i18n: ectx: property (text), widget (QCheckBox, m_showEventTypeColumn)
 #: po/rc.cpp:99
 msgid "Message Type"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:295
+#. i18n: file: src/configdialogbase.ui:296
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showChannelColumn)
 #: po/rc.cpp:102
 msgid "MIDI Channel (1 to 16)"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:305
+#. i18n: file: src/configdialogbase.ui:306
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showData1Column)
-#. i18n: file: src/configdialogbase.ui:315
+#. i18n: file: src/configdialogbase.ui:316
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showData2Column)
 #: po/rc.cpp:108 po/rc.cpp:114
 msgid "Parameter data depending on the message type"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:342
+#. i18n: file: src/configdialogbase.ui:343
 #. i18n: ectx: attribute (title), widget (QWidget, tabMisc)
 #: po/rc.cpp:120
 msgid "Misc"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:348
+#. i18n: file: src/configdialogbase.ui:349
 #. i18n: ectx: property (title), widget (QGroupBox, miscGroup)
 #: po/rc.cpp:123
 msgid "Miscellaneous Options"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:354
+#. i18n: file: src/configdialogbase.ui:355
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showClientNames)
 #: po/rc.cpp:126
 msgid "Display ALSA client numbers or Names"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:357
+#. i18n: file: src/configdialogbase.ui:358
 #. i18n: ectx: property (text), widget (QCheckBox, m_showClientNames)
 #: po/rc.cpp:129
 msgid "Translate ALSA Client IDs Into Names"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:364
+#. i18n: file: src/configdialogbase.ui:365
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_translateSysex)
 #: po/rc.cpp:132
 msgid "Display some Universal Sysex messages as text, or hexadecimal numbers"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:367
+#. i18n: file: src/configdialogbase.ui:368
 #. i18n: ectx: property (text), widget (QCheckBox, m_translateSysex)
 #: po/rc.cpp:135
 msgid "Translate Universal SysEx Messages"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:374
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFixedFont)
+#. i18n: file: src/configdialogbase.ui:375
+#. i18n: ectx: property (text), widget (QCheckBox, m_translateNotes)
 #: po/rc.cpp:138
+msgid "Translate Note Numbers into Names"
+msgstr ""
+
+#. i18n: file: src/configdialogbase.ui:382
+#. i18n: ectx: property (text), widget (QCheckBox, m_translateCtrls)
+#: po/rc.cpp:141
+msgid "Translate MIDI Programs and Controllers"
+msgstr ""
+
+#. i18n: file: src/configdialogbase.ui:392
+#. i18n: ectx: property (text), widget (QLabel, lblInstrument)
+#: po/rc.cpp:144
+msgid "MIDI Instrument"
+msgstr ""
+
+#. i18n: file: src/configdialogbase.ui:422
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFixedFont)
+#: po/rc.cpp:147
 msgid ""
 "The font used in the event grid can be fixed or variable, taken from the KDE "
 "fonts configuration (kcmshell4 fonts)."
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:377
+#. i18n: file: src/configdialogbase.ui:425
 #. i18n: ectx: property (text), widget (QCheckBox, m_useFixedFont)
-#: po/rc.cpp:141
+#: po/rc.cpp:150
 msgid "Use Fixed Font"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:428
+#. i18n: file: src/configdialogbase.ui:463
 #. i18n: ectx: property (text), widget (QPushButton, buttonOk)
-#: po/rc.cpp:144
+#: po/rc.cpp:153
 msgid "&OK"
 msgstr ""
 
-#. i18n: file: src/configdialogbase.ui:444
+#. i18n: file: src/configdialogbase.ui:479
 #. i18n: ectx: property (text), widget (QPushButton, buttonCancel)
-#: po/rc.cpp:147
+#: po/rc.cpp:156
 msgid "&Cancel"
 msgstr ""
 
 #. i18n: file: src/kmidimonui.rc:4
 #. i18n: ectx: Menu (Control)
-#: po/rc.cpp:150
+#: po/rc.cpp:159
 msgid "C&ontrol"
 msgstr ""
 
 #. i18n: file: src/kmidimonui.rc:12
 #. i18n: ectx: Menu (Connections)
-#: po/rc.cpp:153
+#: po/rc.cpp:162
 msgid "Connec&tions"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:21
+#. i18n: file: src/kmidimonui.rc:20
+#. i18n: ectx: Menu (popup)
+#: po/rc.cpp:165
+msgid "Display settings"
+msgstr ""
+
+#. i18n: file: src/kmidimonui.rc:23
 #. i18n: ectx: Menu (tracks)
-#: po/rc.cpp:156
+#: po/rc.cpp:168
 msgid "Tracks"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:38
+#. i18n: file: src/kmidimonui.rc:40
 #. i18n: ectx: ToolBar (mainToolBar)
-#: po/rc.cpp:162
+#: po/rc.cpp:174
 msgid "Main Toolbar"
 msgstr ""
 
-#: po/rc.cpp:163
+#: po/rc.cpp:175
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: po/rc.cpp:164
+#: po/rc.cpp:176
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
