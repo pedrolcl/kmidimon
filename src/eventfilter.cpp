@@ -51,14 +51,14 @@ void CategoryFilter::insert(QObject* parent, snd_seq_event_type_t t, QString s)
 }
 
 EventFilter::EventFilter(QObject* parent)
-    : QObject(parent)
+    : QObject(parent), m_menu(NULL)
 {
-    m_cats.insert(ChannelCategory, CategoryFilter(i18n("MIDI Channel")));
-    m_cats.insert(SysCommonCategory, CategoryFilter(i18n("MIDI System Common")));
-    m_cats.insert(SysRTCategory, CategoryFilter(i18n("MIDI System Real-Time")));
-    m_cats.insert(SysExCategory, CategoryFilter(i18n("MIDI System Exclusive")));
-    m_cats.insert(ALSACategory, CategoryFilter(i18n("ALSA")));
-    m_cats.insert(SMFCategory, CategoryFilter(i18n("SMF")));
+    m_cats.insert(ChannelCategory, new CategoryFilter(i18n("MIDI Channel")));
+    m_cats.insert(SysCommonCategory, new CategoryFilter(i18n("MIDI System Common")));
+    m_cats.insert(SysRTCategory, new CategoryFilter(i18n("MIDI System Real-Time")));
+    m_cats.insert(SysExCategory, new CategoryFilter(i18n("MIDI System Exclusive")));
+    m_cats.insert(ALSACategory, new CategoryFilter(i18n("ALSA")));
+    m_cats.insert(SMFCategory, new CategoryFilter(i18n("SMF")));
     /* MIDI Channel events */
     insert(ChannelCategory, SND_SEQ_EVENT_NOTEON, i18n("Note on"));
     insert(ChannelCategory, SND_SEQ_EVENT_NOTEOFF, i18n("Note off"));
@@ -104,7 +104,7 @@ EventFilter::EventFilter(QObject* parent)
 QString EventFilter::getName(EvCategory c)
 {
     if (m_cats.contains(c)) {
-        return m_cats[c].getName();
+        return m_cats[c]->getName();
     }
     return QString();
 }
@@ -112,7 +112,7 @@ QString EventFilter::getName(EvCategory c)
 bool EventFilter::getFilter(EvCategory c) const
 {
     if (m_cats.contains(c)) {
-        return m_cats[c].getFilter();
+        return m_cats[c]->getFilter();
     }
     return true;
 }
@@ -120,7 +120,9 @@ bool EventFilter::getFilter(EvCategory c) const
 void EventFilter::setFilter(EvCategory c, bool value)
 {
     if (m_cats.contains(c)) {
-        m_cats[c].setFilter(value);
+        m_cats[c]->setFilter(value);
+        if (m_cats[c]->getMenu() != NULL)
+            m_cats[c]->getMenu()->setEnabled(value);
     }
 }
 
@@ -128,7 +130,7 @@ QString EventFilter::getName(snd_seq_event_type_t t)
 {
     if (m_aux.contains(t)) {
         EvCategory c = m_aux[t];
-        return m_cats[c].getName(t);
+        return m_cats[c]->getName(t);
     }
     return QString();
 }
@@ -137,7 +139,7 @@ bool EventFilter::getFilter(snd_seq_event_type_t t) const
 {
     if (m_aux.contains(t)) {
         EvCategory c = m_aux[t];
-        return m_cats[c].getFilter(t);
+        return m_cats[c]->getFilter(t);
     }
     return true;
 }
@@ -149,42 +151,45 @@ bool EventFilter::contains(snd_seq_event_type_t t) const
 
 QMenu* EventFilter::buildMenu(QWidget* parent)
 {
-    QMenu *menu = new QMenu(parent);
-    menu->setTitle(i18n("Filters"));
-    foreach( CategoryFilter cf, m_cats ) {
-        QMenu* submenu = new QMenu(parent);
-        submenu->setTitle(cf.getName());
-        menu->addMenu(submenu);
-        QHashIterator<int, KToggleAction*> it = cf.getIterator();
-        while( it.hasNext() ) {
-            it.next();
-            KToggleAction *item = it.value();
-            connect(item, SIGNAL(triggered()), SIGNAL(filterChanged()));
-            submenu->addAction( item );
+    if (m_menu == NULL) {
+        m_menu = new QMenu(parent);
+        m_menu->setTitle(i18n("Filters"));
+        foreach( CategoryFilter *cf, m_cats ) {
+            QMenu* submenu = new QMenu(parent);
+            submenu->setTitle(cf->getName());
+            m_menu->addMenu(submenu);
+            cf->setMenu(submenu);
+            QHashIterator<int, KToggleAction*> it = cf->getIterator();
+            while( it.hasNext() ) {
+                it.next();
+                KToggleAction *item = it.value();
+                connect(item, SIGNAL(triggered()), SIGNAL(filterChanged()));
+                submenu->addAction( item );
+            }
         }
     }
-    return menu;
+    return m_menu;
 }
 
 void EventFilter::setFilter(snd_seq_event_type_t t, bool value)
 {
     if (m_aux.contains(t)) {
         EvCategory c = m_aux[t];
-        m_cats[c].setFilter(t, value);
+        m_cats[c]->setFilter(t, value);
     }
 }
 
 void EventFilter::insert(EvCategory category, snd_seq_event_type_t t, QString name)
 {
-    m_cats[category].insert(this, t, name);
+    m_cats[category]->insert(this, t, name);
     m_aux.insert(t, category);
 }
 
 void EventFilter::loadConfiguration()
 {
     KConfigGroup config = KGlobal::config()->group("Filters");
-    foreach( CategoryFilter cf, m_cats ) {
-        QHashIterator<int, KToggleAction*> it = cf.getIterator();
+    foreach( CategoryFilter *cf, m_cats ) {
+        QHashIterator<int, KToggleAction*> it = cf->getIterator();
         while( it.hasNext() ) {
             it.next();
             KToggleAction *item = it.value();
@@ -197,8 +202,8 @@ void EventFilter::loadConfiguration()
 void EventFilter::saveConfiguration()
 {
     KConfigGroup config = KGlobal::config()->group("Filters");
-    foreach( CategoryFilter cf, m_cats ) {
-        QHashIterator<int, KToggleAction*> it = cf.getIterator();
+    foreach( CategoryFilter *cf, m_cats ) {
+        QHashIterator<int, KToggleAction*> it = cf->getIterator();
         while( it.hasNext() ) {
             it.next();
             KToggleAction *item = it.value();

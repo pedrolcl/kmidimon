@@ -65,6 +65,12 @@
 
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 
+<storageModule moduleId="org.eclipse.cdt.core.pathentry">
+<pathentry kind="src" path="aseqmm"/>
+<pathentry kind="src" path="src"/>
+<pathentry kind="out" path="build"/>
+<pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
+</storageModule>
 <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
 <target name="distclean" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
@@ -78,7 +84,7 @@
 <target name="cmake" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>cmake</buildCommand>
 <buildArguments/>
-<buildTarget>. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr</buildTarget>
+<buildTarget>. -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=/usr</buildTarget>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 <runAllBuilders>true</runAllBuilders>
@@ -92,12 +98,6 @@
 <runAllBuilders>true</runAllBuilders>
 </target>
 </buildTargets>
-</storageModule>
-<storageModule moduleId="org.eclipse.cdt.core.pathentry">
-<pathentry kind="src" path="aseqmm"/>
-<pathentry kind="src" path="src"/>
-<pathentry kind="out" path="build"/>
-<pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
 </storageModule>
 </cconfiguration>
 </storageModule>

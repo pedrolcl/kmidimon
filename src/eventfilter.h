@@ -41,10 +41,12 @@ enum EvCategory {
 
 class CategoryFilter {
 public:
-    CategoryFilter(QString name = QString()) : m_name(name), m_filter(true) {}
+    CategoryFilter(QString name = QString()) : m_menu(NULL), m_name(name), m_filter(true) {}
     virtual ~CategoryFilter() {}
     QString getName() const { return m_name; }
     QString getName(int t);
+    QMenu* getMenu() const { return m_menu; }
+    void setMenu(QMenu* mnu) { m_menu = mnu; }
     bool getFilter() const { return m_filter; }
     void setFilter(bool value) { m_filter = value; }
     bool getFilter(int t) const;
@@ -55,6 +57,7 @@ public:
     }
 
 private:
+    QMenu  *m_menu;
     QString m_name;
     bool    m_filter;
     QHash<int, KToggleAction*> m_actions;
@@ -87,9 +90,9 @@ signals:
     void filterChanged();
 
 private:
-    QHash<EvCategory, CategoryFilter> m_cats;
+    QMenu* m_menu;
+    QHash<EvCategory, CategoryFilter*> m_cats;
     QHash<int, EvCategory> m_aux;
-
 };
 
 #endif /* EVENTFILTER_H_ */
