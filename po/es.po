@@ -6,16 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"Report-Msgid-Bugs-To: http://sourceforge."
-"net/tracker/?atid=731542&group_id=134956\n"
+"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2009-08-07 18:42+0200\n"
-"PO-Revision-Date: 2009-08-07 18:47+0200\n"
-"Last-Translator: \n"
-"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2009-08-07 21:08+0200\n"
+"Last-Translator: Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/connectdlg.cpp:39
@@ -24,7 +23,7 @@ msgstr "Conexiones"
 
 #: src/connectdlg.cpp:45
 msgid "Available Input Connections:"
-msgstr "Puertos de entrada disponibles"
+msgstr "Puertos de entrada disponibles:"
 
 #: src/connectdlg.cpp:53
 msgid "<b>Output Connection:</b>"
@@ -35,17 +34,14 @@ msgid "MIDI Channel"
 msgstr "Canal MIDI"
 
 #: src/eventfilter.cpp:57
-#, fuzzy
 msgid "MIDI System Common"
 msgstr "Mensajes MIDI de sistema común"
 
 #: src/eventfilter.cpp:58
-#, fuzzy
 msgid "MIDI System Real-Time"
 msgstr "Mensajes MIDI de tiempo real"
 
 #: src/eventfilter.cpp:59
-#, fuzzy
 msgid "MIDI System Exclusive"
 msgstr "Mensajes MIDI de sistema exclusivo"
 
@@ -367,11 +363,11 @@ msgstr "Conmutar la columna %1"
 
 #: src/kmidimon.cpp:259
 msgid "&Resize columns"
-msgstr ""
+msgstr "&Redimensionar columnas"
 
 #: src/kmidimon.cpp:260
 msgid "Resize the columns width to fit it's contents"
-msgstr ""
+msgstr "Redimensionar el ancho de las columnas para encajar sus contenidos"
 
 #: src/kmidimon.cpp:310
 msgid "Load MIDI file"
@@ -736,7 +732,7 @@ msgstr "Do"
 
 #: src/sequencemodel.cpp:772
 msgid "C♯"
-msgstr ""
+msgstr "Do♯"
 
 #: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
 #: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
@@ -745,7 +741,7 @@ msgstr "Re"
 
 #: src/sequencemodel.cpp:772
 msgid "D♯"
-msgstr ""
+msgstr "Re♯"
 
 #: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
 #: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
@@ -759,7 +755,7 @@ msgstr "Fa"
 
 #: src/sequencemodel.cpp:773
 msgid "F♯"
-msgstr ""
+msgstr "Fa♯"
 
 #: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
 #: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
@@ -768,7 +764,7 @@ msgstr "Sol"
 
 #: src/sequencemodel.cpp:773
 msgid "G♯"
-msgstr ""
+msgstr "Sol♯"
 
 #: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
 #: src/sequencemodel.cpp:961 src/sequencemodel.cpp:965
@@ -777,7 +773,7 @@ msgstr "La"
 
 #: src/sequencemodel.cpp:773
 msgid "A♯"
-msgstr ""
+msgstr "La♯"
 
 #: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
 #: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
@@ -786,52 +782,51 @@ msgstr "Si"
 
 #: src/sequencemodel.cpp:774
 msgid "D♭"
-msgstr ""
+msgstr "Re♭"
 
 #: src/sequencemodel.cpp:774
 msgid "E♭"
-msgstr ""
+msgstr "Mi♭"
 
 #: src/sequencemodel.cpp:775
 msgid "G♭"
-msgstr ""
+msgstr "Sol♭"
 
 #: src/sequencemodel.cpp:775
 msgid "A♭"
-msgstr ""
+msgstr "La♭"
 
 #: src/sequencemodel.cpp:775
 msgid "B♭"
-msgstr ""
+msgstr "Si♭"
 
 #: src/sequencemodel.cpp:915
 msgid "Text:1"
-msgstr ""
+msgstr "Texto:1"
 
 #: src/sequencemodel.cpp:917
 msgid "Copyright:2"
-msgstr ""
+msgstr "Copyright:2"
 
 #: src/sequencemodel.cpp:919
 msgid "Name:3"
-msgstr ""
+msgstr "Nombre:3"
 
 #: src/sequencemodel.cpp:921
 msgid "Instrument:4"
-msgstr ""
+msgstr "Instrumento:4"
 
 #: src/sequencemodel.cpp:923
 msgid "Lyric:5"
-msgstr ""
+msgstr "Letra:5"
 
 #: src/sequencemodel.cpp:925
-#, fuzzy
 msgid "Marker:6"
-msgstr "Barra de compás: %1"
+msgstr "Marcador:6"
 
 #: src/sequencemodel.cpp:927
 msgid "Cue:7"
-msgstr ""
+msgstr "Señal:7"
 
 #: src/sequencemodel.cpp:949
 msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
@@ -986,8 +981,7 @@ msgstr "Mensajes MIDI de canal"
 #. i18n: file: src/configdialogbase.ui:174
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_common)
 #: po/rc.cpp:42
-msgid ""
-"System common messages are: quarter frame, song position and tune request."
+msgid "System common messages are: quarter frame, song position and tune request."
 msgstr ""
 "Mensajes comunes del sistema son: marco de negra, posición de canción, y "
 "petición de afinación."
@@ -1075,8 +1069,7 @@ msgstr "Mostrar columnas"
 #. i18n: file: src/configdialogbase.ui:256
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showTicksColumn)
 #: po/rc.cpp:78
-msgid ""
-"Ticks are the musical time units. It is relative to tempo and resolution."
+msgid "Ticks are the musical time units. It is relative to tempo and resolution."
 msgstr ""
 "Tics son las unidades de tiempo musicales. Se relacionan con el tempo y la "
 "resolución."
@@ -1166,21 +1159,20 @@ msgstr "Traducir mensajes universales de sistema exclusivo"
 #. i18n: file: src/configdialogbase.ui:375
 #. i18n: ectx: property (text), widget (QCheckBox, m_translateNotes)
 #: po/rc.cpp:138
-#, fuzzy
 msgid "Translate Note Numbers into Names"
-msgstr "Traducir IDs de clientes ALSA como nombres"
+msgstr "Traducir números de notas como nombres"
 
 #. i18n: file: src/configdialogbase.ui:382
 #. i18n: ectx: property (text), widget (QCheckBox, m_translateCtrls)
 #: po/rc.cpp:141
 msgid "Translate MIDI Programs and Controllers"
-msgstr ""
+msgstr "Traducir programas y controladores MIDI"
 
 #. i18n: file: src/configdialogbase.ui:392
 #. i18n: ectx: property (text), widget (QLabel, lblInstrument)
 #: po/rc.cpp:144
 msgid "MIDI Instrument"
-msgstr ""
+msgstr "Instrumento MIDI"
 
 #. i18n: file: src/configdialogbase.ui:422
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFixedFont)
@@ -1225,9 +1217,8 @@ msgstr "Cone&xiones"
 #. i18n: file: src/kmidimonui.rc:20
 #. i18n: ectx: Menu (popup)
 #: po/rc.cpp:165
-#, fuzzy
 msgid "Display settings"
-msgstr "reproduciendo"
+msgstr "Opciones de visualización"
 
 #. i18n: file: src/kmidimonui.rc:23
 #. i18n: ectx: Menu (tracks)
