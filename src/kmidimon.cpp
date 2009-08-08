@@ -53,6 +53,7 @@
 #include "sequencemodel.h"
 #include "proxymodel.h"
 #include "eventfilter.h"
+#include "sequenceradaptor.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -70,7 +71,6 @@ KMidimon::KMidimon() :
     m_view->setAlternatingRowColors(true);
     m_view->setModel(m_proxy);
     m_view->setSortingEnabled(false);
-    //QAbstractItemView::NoSelection
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     connect( m_view->selectionModel(),
              SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
@@ -423,8 +423,10 @@ void KMidimon::readConfiguration()
     m_model->setTranslateNotes(config.readEntry("translate_notes", false));
     m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
     m_model->setInstrumentName(config.readEntry("instrument", QString()));
-    m_adaptor->setResolution(m_defaultResolution = config.readEntry("resolution", RESOLUTION));
-    m_adaptor->setTempo(m_defaultTempo = config.readEntry("tempo", TEMPO_BPM));
+    m_defaultResolution = config.readEntry("resolution", RESOLUTION);
+    m_defaultTempo = config.readEntry("tempo", TEMPO_BPM);
+    m_adaptor->setResolution(m_defaultResolution);
+    m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->queue_set_tempo();
     setFixedFont(config.readEntry("fixed_font", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
@@ -478,9 +480,8 @@ void KMidimon::preferences()
         m_model->setTranslateNotes(dlg.translateNotes());
         m_model->setTranslateCtrls(dlg.translateCtrls());
         m_model->setInstrumentName(dlg.getInstrumentName());
-        m_adaptor->setTempo(m_defaultTempo = dlg.getTempo());
-        m_adaptor->setResolution(m_defaultResolution = dlg.getResolution());
-        m_adaptor->queue_set_tempo();
+        m_defaultTempo = dlg.getTempo();
+        m_defaultResolution = dlg.getResolution();
         setFixedFont(dlg.useFixedFont());
         for (i = 0; i < COLUMN_COUNT; ++i) {
             setColumnStatus(i, dlg.showColumn(i));

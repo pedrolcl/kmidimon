@@ -25,7 +25,11 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+
 #include "kmidimon.h"
+#include "commons.h"
+
+using namespace ALSA::Sequencer;
 
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");

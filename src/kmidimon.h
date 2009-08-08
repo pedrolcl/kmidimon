@@ -24,7 +24,6 @@
 
 #include <QPointer>
 #include <kxmlguiwindow.h>
-#include "sequenceradaptor.h"
 
 class KAction;
 class KToggleAction;
@@ -41,6 +40,7 @@ class QModelIndex;
 class QSignalMapper;
 class QMenu;
 
+class SequencerAdaptor;
 class SequenceModel;
 class ProxyModel;
 

@@ -30,6 +30,7 @@
 #include <kapplication.h>
 #include <kstandarddirs.h>
 
+#include "sequenceradaptor.h"
 #include "sequencemodel.h"
 #include "kmidimon.h"
 #include "eventfilter.h"

@@ -1,9 +1,21 @@
+2009-08-08 00:00 plcl
+
+    * fix unregistered bug: don't change tempo/PPQ from the preferences
+      dialog, it may trash the current song
+
+2009-08-07 00:00 plcl
+
+    * add the fine grained event filters to the main menu bar in addition
+      to the context menu
+    * Store state of the new fine grained event filters
+    * Coarse filters disable fine grained filter menu groups
+
 2009-08-05 00:00 plcl
 
-    * Translate note numbers into names.
-    * Translate controller and program numbers into names.
-    * Instrument definitions: GM, GS and XG standards.
-    * Context menu: Adjust column sizes. 
+    * Translate note numbers into names
+    * Translate controller and program numbers into names
+    * Instrument definitions: GM, GS and XG standards
+    * Context menu: Adjust column sizes
     * Fine grained event filters
 
 2009-06-24 00:00 plcl
