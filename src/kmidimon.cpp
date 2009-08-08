@@ -46,6 +46,7 @@
 #include <kprogressdialog.h>
 #include <krecentfilesaction.h>
 #include <kmenubar.h>
+#include <kmessagebox.h>
 
 #include "kmidimon.h"
 #include "configdialog.h"
@@ -246,7 +247,7 @@ void KMidimon::setupActions()
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
     actionCollection()->addAction("delete_track", m_deleteTrack );
 
-    for(int i = 0; i < COLUMN_COUNT; ++i ) {
+    for ( int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i] = new KToggleAction(columnName[i], this);
         m_popupAction[i]->setWhatsThis(i18n("Toggle the %1 column",columnName[i]));
         connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
@@ -260,6 +261,13 @@ void KMidimon::setupActions()
     m_resizeColumns->setWhatsThis(i18n("Resize the columns width to fit it's contents"));
     connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
     actionCollection()->addAction("resize_columns", m_resizeColumns);
+
+    m_fileInfo = new KAction(this);
+    m_fileInfo->setText(i18n("Sequence Info"));
+    m_fileInfo->setWhatsThis(i18n("Display information about the loaded sequence"));
+    m_fileInfo->setIcon(KIcon("dialog-information"));
+    connect(m_fileInfo, SIGNAL(triggered()), SLOT(songFileInfo()));
+    actionCollection()->addAction("file_info", m_fileInfo);
 
     setStandardToolBarMenuEnabled(true);
     setupGUI();
@@ -278,6 +286,7 @@ void KMidimon::setupActions()
 
 void KMidimon::fileNew()
 {
+    m_file.clear();
     m_model->clear();
     for (int i = m_tabBar->count() - 1; i >= 0; i--) {
         m_tabBar->removeTab(i);
@@ -301,6 +310,7 @@ void KMidimon::slotURLSelected(const KUrl& url)
         QFileInfo finfo(path);
         if (finfo.exists()) {
             try {
+                m_file = path;
                 m_view->blockSignals(true);
                 stop();
                 m_model->clear();
@@ -730,4 +740,27 @@ KMidimon::updateView()
     QModelIndex index = m_model->getCurrentRow();
     if (index.isValid())
         m_view->setCurrentIndex(m_proxy->mapFromSource(index));
+}
+
+void
+KMidimon::songFileInfo()
+{
+    QString infostr;
+    if (m_file.isEmpty())
+        infostr = i18n("No file loaded");
+    else
+        infostr = i18n("File name: <b>%1</b><br>"
+                       "SMF Format: <b>%2</b><br>"
+                       "Number of tracks: <b>%3</b><br>"
+                       "Number of events: <b>%4</b><br>"
+                       "Division: <b>%5 ppq</b><br>"
+                       "Initial tempo: <b>%6 bpm</b>",
+                       m_file,
+                       m_model->getSMFFormat(),
+                       m_model->getSMFTracks(),
+                       m_model->getSong()->size(),
+                       m_model->getSMFDivision(),
+                       m_model->getInitialTempo()
+                       );
+    KMessageBox::information(this, infostr, i18n("Sequence Information"));
 }

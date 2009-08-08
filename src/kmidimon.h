@@ -88,6 +88,7 @@ public slots:
     void slotTicks(int row);
     void slotCurrentChanged(const QModelIndex& curr, const QModelIndex& prev);
     void updateView();
+    void songFileInfo();
 
 protected:
     void saveConfiguration();
@@ -115,6 +116,7 @@ private:
     KAction *m_deleteTrack;
     KAction *m_changeTrack;
     KAction *m_resizeColumns;
+    KAction *m_fileInfo;
     KRecentFilesAction *m_recentFiles;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
@@ -129,6 +131,7 @@ private:
 	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;
+    QString m_file;
 };
 
 #endif // _KMIDIMON_H_

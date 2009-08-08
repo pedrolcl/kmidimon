@@ -1,7 +1,8 @@
 2009-08-08 00:00 plcl
 
-    * fix unregistered bug: don't change tempo/PPQ from the preferences
+    * Fix unregistered bug: don't change tempo/PPQ from the preferences
       dialog, it may trash the current song
+    * New sequence information dialog 
 
 2009-08-07 00:00 plcl
 

@@ -1,7 +1,10 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="kmidimon" version="2">
 <MenuBar>
-    <Menu name="Control"><text>C&amp;ontrol</text>
+    <Menu name="file" >
+	<Action name="file_info" />
+    </Menu>
+    <Menu name="control"><text>C&amp;ontrol</text>
         <Action name="rewind" />
         <Action name="play" />
         <Action name="pause" />
@@ -9,7 +12,7 @@
         <Action name="record" />
         <Action name="stop" />
     </Menu>
-    <Menu name="Connections"><text>Connec&amp;tions</text>
+    <Menu name="connections"><text>Connec&amp;tions</text>
         <Action name="connect_all" />
         <Action name="disconnect_all" />
         <Separator />
