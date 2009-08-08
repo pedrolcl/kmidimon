@@ -107,14 +107,14 @@ SequenceModel::SequenceModel(QObject* parent) :
                    SLOT(errorHandler(const QString&)));
     connect(m_smf, SIGNAL(signalSMFWriteTrack(int)),
                    SLOT(trackHandler(int)));
-    //connect(m_smf, SIGNAL(signalSMFSequenceNum(int)),
-    //               SLOT(seqNum(int)));
-    //connect(m_smf, SIGNAL(signalSMFforcedChannel(int)),
-    //               SLOT(forcedChannel(int)));
-    //connect(m_smf, SIGNAL(signalSMFforcedPort(int)),
-    //               SLOT(forcedPort(int)));
-    //connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
-    //               SLOT(smpteEvent(int,int,int,int,int)));
+    connect(m_smf, SIGNAL(signalSMFSequenceNum(int)),
+                   SLOT(seqNum(int)));
+    connect(m_smf, SIGNAL(signalSMFforcedChannel(int)),
+                   SLOT(forcedChannel(int)));
+    connect(m_smf, SIGNAL(signalSMFforcedPort(int)),
+                   SLOT(forcedPort(int)));
+    connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
+                   SLOT(smpteEvent(int,int,int,int,int)));
 
     for(int i=0; i<16; ++i) {
         m_lastBank[i] = 0;
@@ -979,6 +979,17 @@ SequenceModel::key_sig(const SequencerEvent *ev) const
 }
 
 QString
+SequenceModel::smpte(const SequencerEvent *ev) const
+{
+    return i18n( "%1:%2:%3:%4:%5",
+                 ev->getRaw8(0),
+                 ev->getRaw8(1),
+                 ev->getRaw8(2),
+                 ev->getRaw8(3),
+                 ev->getRaw8(4));
+}
+
+QString
 SequenceModel::event_data1(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
@@ -1033,6 +1044,11 @@ SequenceModel::event_data1(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_USR_VAR0:
         return text_type(ev);
 
+    case SND_SEQ_EVENT_USR1:
+    case SND_SEQ_EVENT_USR2:
+    case SND_SEQ_EVENT_USR3:
+        return QString("%1").arg(ev->getRaw8(0));
+
        /* Other events */
     default:
         return QString::null;
@@ -1074,6 +1090,9 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
 
     case SND_SEQ_EVENT_KEYSIGN:
         return key_sig(ev);
+
+    case SND_SEQ_EVENT_USR4:
+        return smpte(ev);
 
         /* Other events */
     default:
@@ -1288,29 +1307,49 @@ SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
     //qDebug() << "Meta" << s;
 }
 
-/*void
+void
 SequenceModel::seqNum(int seq)
 {
     //qDebug() << "Sequence num:" << seq;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_USR1);
+    ev->setRaw8(0, seq);
+    appendEvent(ev);
+}
 
-/*void
+void
 SequenceModel::forcedChannel(int channel)
 {
     //qDebug() << "Forced channel:" << channel;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_USR2);
+    ev->setRaw8(0, channel);
+    appendEvent(ev);
+}
 
-/*void
+void
 SequenceModel::forcedPort(int port)
 {
     //qDebug() << "Forced port:" << port;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_USR3);
+    ev->setRaw8(0, port);
+    appendEvent(ev);
+}
 
-/*void
+void
 SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
 {
     //qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
-}*/
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_USR4);
+    ev->setRaw8(0, b0);
+    ev->setRaw8(1, b1);
+    ev->setRaw8(2, b2);
+    ev->setRaw8(3, b3);
+    ev->setRaw8(4, b4);
+    appendEvent(ev);
+}
 
 void
 SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
@@ -1510,6 +1549,9 @@ SequenceModel::setInstrumentName(const QString name)
 QString
 SequenceModel::getDuration() const
 {
-    QTime t = QTime(0, 0).addSecs(m_duration);
-    return t.toString("hh:mm:ss");
+    double fractpart, intpart;
+    fractpart = modf ( m_duration , &intpart );
+    QTime t = QTime(0, 0).addSecs(intpart).addMSecs(ceil(fractpart*1000));
+    return t.toString("hh:mm:ss.zzz");
 }
+

@@ -133,10 +133,10 @@ public slots:
     void keySigEvent(int b0, int b1);
     void errorHandler(const QString& errorStr);
     void trackHandler(int track);
-    //void seqNum(int seq);
-    //void forcedChannel(int channel);
-    //void forcedPort(int port);
-    //void smpteEvent(int b0, int b1, int b2, int b3, int b4);
+    void seqNum(int seq);
+    void forcedChannel(int channel);
+    void forcedPort(int port);
+    void smpteEvent(int b0, int b1, int b2, int b3, int b4);
 
 signals:
     void loadProgress(int);
@@ -176,6 +176,7 @@ private:
     QString text_data(const SequencerEvent *ev) const;
     QString time_sig(const SequencerEvent *ev) const;
     QString key_sig(const SequencerEvent *ev) const;
+    QString smpte(const SequencerEvent *ev) const;
 
     bool m_showClientNames;
     bool m_translateSysex;

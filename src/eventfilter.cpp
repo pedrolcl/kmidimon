@@ -99,6 +99,10 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR_VAR0, i18n("SMF Text"));
     insert(SMFCategory, SND_SEQ_EVENT_TIMESIGN, i18n("Time Signature"));
     insert(SMFCategory, SND_SEQ_EVENT_KEYSIGN, i18n("Key Signature"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR1, i18n("Sequence Number"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR2, i18n("Forced Channel"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR3, i18n("Forced Port"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR4, i18n("SMPTE Offset"));
 }
 
 QString EventFilter::getName(EvCategory c)
