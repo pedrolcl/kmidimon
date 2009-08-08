@@ -754,13 +754,15 @@ KMidimon::songFileInfo()
                        "Number of tracks: <b>%3</b><br>"
                        "Number of events: <b>%4</b><br>"
                        "Division: <b>%5 ppq</b><br>"
-                       "Initial tempo: <b>%6 bpm</b>",
+                       "Initial tempo: <b>%6 bpm</b><br>"
+                       "Duration: <b>%7</b>",
                        m_file,
                        m_model->getSMFFormat(),
                        m_model->getSMFTracks(),
                        m_model->getSong()->size(),
                        m_model->getSMFDivision(),
-                       m_model->getInitialTempo()
+                       m_model->getInitialTempo(),
+                       m_model->getDuration()
                        );
     KMessageBox::information(this, infostr, i18n("Sequence Information"));
 }

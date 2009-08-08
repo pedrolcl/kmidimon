@@ -25,6 +25,7 @@
 #include <QDataStream>
 #include <QListIterator>
 #include <QFileInfo>
+#include <QTime>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -60,6 +61,7 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_ntrks(1),
         m_division(RESOLUTION),
         m_initialTempo(TEMPO_BPM),
+        m_duration(0),
         m_ins(NULL),
         m_ins2(NULL),
         m_filter(NULL)
@@ -276,6 +278,7 @@ SequenceModel::clear()
     m_initialTempo = TEMPO_BPM;
     m_currentTrack = 0;
     m_currentRow = 0;
+    m_duration = 0;
 }
 
 void
@@ -1175,6 +1178,9 @@ void
 SequenceModel::endOfTrackEvent()
 {
     //qDebug() << "Meta Event: End Of Track";
+    double seconds = m_smf->getRealTime() / 1600.0;
+    if (seconds > m_duration)
+        m_duration = seconds;
     emit loadProgress(m_smf->getFilePos());
 }
 
@@ -1499,4 +1505,11 @@ SequenceModel::setInstrumentName(const QString name)
         m_ins2 = &m_insList[drmName];
     else
         m_ins2 = NULL;
+}
+
+QString
+SequenceModel::getDuration() const
+{
+    QTime t = QTime(0, 0).addSecs(m_duration);
+    return t.toString("hh:mm:ss");
 }

@@ -110,6 +110,7 @@ public:
     const SequenceItem& lastItem() const { return m_items.last(); }
     QStringList getInstruments() const;
     void setFilter(EventFilter* value) { m_filter = value; }
+    QString getDuration() const;
 
 public slots:
     void headerEvent(int format, int ntrks, int division);
@@ -194,6 +195,8 @@ private:
     int m_lastPatch[16];
     int m_lastCtlMSB;
     int m_lastCtlLSB;
+
+    double m_duration;
 
     ClientsMap m_clients;
     InstrumentList m_insList;
