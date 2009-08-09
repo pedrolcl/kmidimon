@@ -2,7 +2,7 @@
 <kpartgui name="kmidimon" version="2">
 <MenuBar>
     <Menu name="file" >
-	<Action name="file_info" />
+    <Action name="file_info" />
     </Menu>
     <Menu name="control"><text>C&amp;ontrol</text>
         <Action name="rewind" />
@@ -11,6 +11,9 @@
         <Action name="forward" />
         <Action name="record" />
         <Action name="stop" />
+        <Separator />
+        <Action name="tempo_slider" />
+        <Action name="tempo100" />
     </Menu>
     <Menu name="connections"><text>Connec&amp;tions</text>
         <Action name="connect_all" />
@@ -52,6 +55,8 @@
     <Action name="record" />
     <Action name="stop" />
     <Separator />
+    <Action name="tempo_slider" />
+    <Action name="tempo100" />
     <Action name="options_configure" />
 </ToolBar>
 <State name="recording_state">
@@ -64,14 +69,18 @@
         <Action name="play" />
         <Action name="forward" />
         <Action name="pause" />
+        <Action name="tempo_slider" />
+        <Action name="tempo100" />
     </disable>
 </State>
 <State name="stopped_state">
     <enable>
-       <Action name="record" />
+        <Action name="record" />
         <Action name="rewind" />
         <Action name="play" />
         <Action name="forward" />
+        <Action name="tempo_slider" />
+        <Action name="tempo100" />
     </enable>
     <disable>
         <Action name="stop" />
@@ -82,6 +91,8 @@
     <enable>
         <Action name="stop" />
         <Action name="pause" />
+        <Action name="tempo_slider" />
+        <Action name="tempo100" />
     </enable>
     <disable>
         <Action name="record" />

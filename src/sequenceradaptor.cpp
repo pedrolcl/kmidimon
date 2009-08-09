@@ -208,6 +208,14 @@ void SequencerAdaptor::queue_set_tempo()
              << "tempo: " << m_tempo;*/
 }
 
+void SequencerAdaptor::setTempoFactor(double factor)
+{
+    QueueTempo tempo = m_queue->getTempo();
+    tempo.setTempoFactor(factor);
+    m_queue->setTempo(tempo);
+    m_client->drainOutput();
+}
+
 QStringList SequencerAdaptor::inputConnections()
 {
     PortInfoList inputs(m_client->getAvailableInputs());

@@ -27,6 +27,7 @@
 #include <QTextStream>
 #include <QSignalMapper>
 #include <QVariant>
+#include <QToolTip>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -55,6 +56,7 @@
 #include "proxymodel.h"
 #include "eventfilter.h"
 #include "sequenceradaptor.h"
+#include "slideraction.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0)
@@ -196,7 +198,7 @@ void KMidimon::setupActions()
     actionCollection()->addAction("rewind", m_rewind);
 
     m_record = new KAction(this);
-    m_record->setText(i18n("&Record"));
+    m_record->setText(i18n("Record"));
     m_record->setIcon(KIcon("media-record"));
     m_record->setShortcut( Qt::Key_R );
     m_record->setWhatsThis(i18n("Append new recorded events to the current session"));
@@ -204,7 +206,7 @@ void KMidimon::setupActions()
     actionCollection()->addAction("record", m_record);
 
     m_stop = new KAction(this);
-    m_stop->setText( i18n("&Stop") );
+    m_stop->setText( i18n("Stop") );
     m_stop->setIcon(KIcon("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_S );
     m_stop->setWhatsThis(i18n("Stop playback or recording"));
@@ -212,37 +214,37 @@ void KMidimon::setupActions()
     actionCollection()->addAction("stop", m_stop);
 
     m_connectAll = new KAction(this);
-    m_connectAll->setText(i18n("&Connect All Inputs"));
+    m_connectAll->setText(i18n("Connect All Inputs"));
     m_connectAll->setWhatsThis(i18n("Connect all readable MIDI ports"));
     connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
     actionCollection()->addAction("connect_all", m_connectAll);
 
     m_disconnectAll = new KAction(this);
-    m_disconnectAll->setText(i18n("&Disconnect All Inputs"));
+    m_disconnectAll->setText(i18n("Disconnect All Inputs"));
     m_disconnectAll->setWhatsThis(i18n("Disconnect all input MIDI ports"));
     connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
     actionCollection()->addAction( "disconnect_all", m_disconnectAll );
 
     m_configConns = new KAction(this);
-    m_configConns->setText(i18n("Con&figure Connections"));
+    m_configConns->setText(i18n("Configure Connections"));
     m_configConns->setWhatsThis(i18n("Open the Connections dialog"));
     connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
     actionCollection()->addAction("connections_dialog", m_configConns );
 
     m_createTrack = new KAction(this);
-    m_createTrack->setText(i18n("&Add Track View"));
+    m_createTrack->setText(i18n("Add Track View"));
     m_createTrack->setWhatsThis(i18n("Create a new tab/track view"));
     connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
     actionCollection()->addAction("add_track", m_createTrack );
 
     m_changeTrack = new KAction(this);
-    m_changeTrack->setText(i18n("&Change Track View"));
+    m_changeTrack->setText(i18n("Change Track View"));
     m_changeTrack->setWhatsThis(i18n("Change the track number of the view"));
     connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
     actionCollection()->addAction("change_track", m_changeTrack );
 
     m_deleteTrack = new KAction(this);
-    m_deleteTrack->setText(i18n("&Delete Track View"));
+    m_deleteTrack->setText(i18n("Delete Track View"));
     m_deleteTrack->setWhatsThis(i18n("Delete the tab/track view"));
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
     actionCollection()->addAction("delete_track", m_deleteTrack );
@@ -257,7 +259,7 @@ void KMidimon::setupActions()
     connect(m_mapper, SIGNAL(mapped(int)), SLOT(toggleColumn(int)));
 
     m_resizeColumns = new KAction(this);
-    m_resizeColumns->setText(i18n("&Resize columns"));
+    m_resizeColumns->setText(i18n("Resize columns"));
     m_resizeColumns->setWhatsThis(i18n("Resize the columns width to fit it's contents"));
     connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
     actionCollection()->addAction("resize_columns", m_resizeColumns);
@@ -268,6 +270,19 @@ void KMidimon::setupActions()
     m_fileInfo->setIcon(KIcon("dialog-information"));
     connect(m_fileInfo, SIGNAL(triggered()), SLOT(songFileInfo()));
     actionCollection()->addAction("file_info", m_fileInfo);
+
+    m_tempoSlider = new KPlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
+    m_tempoSlider->setText(i18n("Scale Tempo"));
+    m_tempoSlider->setWhatsThis(i18n("Display a slider to scale the tempo between 50% and 200%"));
+    m_tempoSlider->setIcon(KIcon("chronometer"));
+    actionCollection()->addAction("tempo_slider", m_tempoSlider);
+
+    m_tempo100 = new KAction(this);
+    m_tempo100->setText(i18n("Reset Tempo"));
+    m_tempo100->setWhatsThis(i18n("Reset the tempo scale to 100%"));
+    m_tempo100->setIcon(KIcon("player-time"));
+    connect(m_tempo100, SIGNAL(triggered()), this, SLOT(tempoReset()));
+    actionCollection()->addAction("tempo100", m_tempo100);
 
     setStandardToolBarMenuEnabled(true);
     setupGUI();
@@ -300,6 +315,7 @@ void KMidimon::fileNew()
     m_adaptor->setResolution(m_defaultResolution);
     m_adaptor->queue_set_tempo();
     m_adaptor->rewind();
+    tempoReset();
     updateView();
 }
 
@@ -342,6 +358,7 @@ void KMidimon::slotURLSelected(const KUrl& url)
                 m_model->setCurrentTrack(0);
                 for (int i = 0; i < COLUMN_COUNT; ++i)
                     m_view->resizeColumnToContents(i);
+                tempoReset();
             } catch (...) {
                 m_model->clear();
             }
@@ -749,7 +766,7 @@ KMidimon::songFileInfo()
     if (m_file.isEmpty())
         infostr = i18n("No file loaded");
     else
-        infostr = i18n("File name: <b>%1</b><br>"
+        infostr = i18n("File: <b>%1</b><br>"
                        "SMF Format: <b>%2</b><br>"
                        "Number of tracks: <b>%3</b><br>"
                        "Number of events: <b>%4</b><br>"
@@ -765,4 +782,21 @@ KMidimon::songFileInfo()
                        m_model->getDuration()
                        );
     KMessageBox::information(this, infostr, i18n("Sequence Information"));
+}
+
+void KMidimon::tempoReset()
+{
+    m_adaptor->setTempoFactor(1.0);
+    m_tempoSlider->slider()->setValue(100);
+    m_tempoSlider->slider()->setToolTip("100%");
+}
+
+void KMidimon::tempoSlider(int value)
+{
+    double tempoFactor = (value*value + 100.0*value + 2e4) / 4e4;
+    m_adaptor->setTempoFactor(tempoFactor);
+    // Slider tooltip
+    QString tip = QString("%1\%").arg(tempoFactor*100.0, 0, 'f', 0);
+    m_tempoSlider->slider()->setToolTip(tip);
+    QToolTip::showText(QCursor::pos(), tip, this);
 }

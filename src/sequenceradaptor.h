@@ -74,6 +74,7 @@ public:
     QString output_subscriber();
     void updateModelClients();
     void setPosition(const int pos);
+    void setTempoFactor(double factor);
 
 public slots:
     /* handler for the sequencer events */

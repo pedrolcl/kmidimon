@@ -56,6 +56,8 @@ SET(kmidimon_SRCS
     sequenceitem.h
     sequencemodel.cpp
     sequencemodel.h
+    slideraction.cpp
+    slideraction.h
 )
 
 SET(kmidimon_UI 

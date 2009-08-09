@@ -43,6 +43,7 @@ class QMenu;
 class SequencerAdaptor;
 class SequenceModel;
 class ProxyModel;
+class KPlayerPopupSliderAction;
 
 const int COLUMN_COUNT = 7;
 
@@ -73,6 +74,8 @@ public slots:
     void changeTrack(int tabIndex);
     void songFinished();
     void slotURLSelected(const KUrl& url);
+    void tempoReset();
+    void tempoSlider(int value);
 
     void disconnectAll();
     void configConnections();
@@ -117,6 +120,8 @@ private:
     KAction *m_changeTrack;
     KAction *m_resizeColumns;
     KAction *m_fileInfo;
+    KPlayerPopupSliderAction *m_tempoSlider;
+    KAction *m_tempo100;
     KRecentFilesAction *m_recentFiles;
     KToggleAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
