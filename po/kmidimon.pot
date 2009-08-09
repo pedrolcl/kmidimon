@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
 "atid=731542&group_id=134956\n"
-"POT-Creation-Date: 2009-08-07 18:42+0200\n"
+"POT-Creation-Date: 2009-08-09 22:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Registered parameter"
 msgstr ""
 
-#: src/eventfilter.cpp:74 src/sequencemodel.cpp:317
+#: src/eventfilter.cpp:74 src/sequencemodel.cpp:321
 msgid "System exclusive"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: src/eventfilter.cpp:83 src/sequencemodel.cpp:472
+#: src/eventfilter.cpp:83 src/kmidimon.cpp:209 src/sequencemodel.cpp:476
 msgid "Stop"
 msgstr ""
 
@@ -185,273 +185,324 @@ msgstr ""
 msgid "Key Signature"
 msgstr ""
 
+#: src/eventfilter.cpp:102
+msgid "Sequence Number"
+msgstr ""
+
+#: src/eventfilter.cpp:103
+msgid "Forced Channel"
+msgstr ""
+
+#: src/eventfilter.cpp:104
+msgid "Forced Port"
+msgstr ""
+
+#: src/eventfilter.cpp:105
+msgid "SMPTE Offset"
+msgstr ""
+
 #. i18n: file: src/configdialogbase.ui:149
 #. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
-#: src/eventfilter.cpp:156 po/rc.cpp:27
+#: src/eventfilter.cpp:160 po/rc.cpp:27
 msgid "Filters"
 msgstr ""
 
-#: src/kmidimon.cpp:68
+#: src/kmidimon.cpp:72
 msgid "The events list"
 msgstr ""
 
-#: src/kmidimon.cpp:85
+#: src/kmidimon.cpp:88
 msgid "Track view selectors"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:259
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTicksColumn)
-#: src/kmidimon.cpp:121 src/sequencemodel.cpp:146 po/rc.cpp:81
+#: src/kmidimon.cpp:124 src/sequencemodel.cpp:149 po/rc.cpp:81
 msgid "Ticks"
 msgstr ""
 
-#: src/kmidimon.cpp:122 src/sequencemodel.cpp:148
+#: src/kmidimon.cpp:125 src/sequencemodel.cpp:151
 msgid "Time"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:279
 #. i18n: ectx: property (text), widget (QCheckBox, m_showSourceColumn)
-#: src/kmidimon.cpp:123 src/sequencemodel.cpp:150 po/rc.cpp:93
+#: src/kmidimon.cpp:126 src/sequencemodel.cpp:153 po/rc.cpp:93
 msgid "Source"
 msgstr ""
 
-#: src/kmidimon.cpp:124
+#: src/kmidimon.cpp:127
 msgid "Event Kind"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:299
 #. i18n: ectx: property (text), widget (QCheckBox, m_showChannelColumn)
-#: src/kmidimon.cpp:125 po/rc.cpp:105
+#: src/kmidimon.cpp:128 po/rc.cpp:105
 msgid "Channel"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:309
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData1Column)
-#: src/kmidimon.cpp:126 src/sequencemodel.cpp:156 po/rc.cpp:111
+#: src/kmidimon.cpp:129 src/sequencemodel.cpp:159 po/rc.cpp:111
 msgid "Data 1"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:319
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData2Column)
-#: src/kmidimon.cpp:127 src/sequencemodel.cpp:158 po/rc.cpp:117
+#: src/kmidimon.cpp:130 src/sequencemodel.cpp:161 po/rc.cpp:117
 msgid "Data 2"
 msgstr ""
 
-#: src/kmidimon.cpp:141
+#: src/kmidimon.cpp:144
 msgid "Exit the application"
 msgstr ""
 
-#: src/kmidimon.cpp:143
+#: src/kmidimon.cpp:146
 msgid "Open a disk file"
 msgstr ""
 
-#: src/kmidimon.cpp:146
+#: src/kmidimon.cpp:149
 msgid "Clear the current data and start a new empty session"
 msgstr ""
 
-#: src/kmidimon.cpp:148
+#: src/kmidimon.cpp:151
 msgid "Store the session data on a disk file"
 msgstr ""
 
-#: src/kmidimon.cpp:150
+#: src/kmidimon.cpp:153
 msgid "Configure the program setting several preferences"
 msgstr ""
 
-#: src/kmidimon.cpp:152
+#: src/kmidimon.cpp:155
 msgid "Organize the toolbar icons"
 msgstr ""
 
-#: src/kmidimon.cpp:169
+#: src/kmidimon.cpp:172
 msgid "&Play"
 msgstr ""
 
-#: src/kmidimon.cpp:172
+#: src/kmidimon.cpp:175
 msgid "Start playback of the current session"
 msgstr ""
 
-#: src/kmidimon.cpp:177 src/sequencemodel.cpp:486
+#: src/kmidimon.cpp:180 src/sequencemodel.cpp:490
 msgid "Pause"
 msgstr ""
 
-#: src/kmidimon.cpp:179
+#: src/kmidimon.cpp:182
 msgid "Pause the playback"
 msgstr ""
 
-#: src/kmidimon.cpp:184
+#: src/kmidimon.cpp:187
 msgid "Forward"
 msgstr ""
 
-#: src/kmidimon.cpp:186
+#: src/kmidimon.cpp:189
 msgid "Move the playback position to the last event"
 msgstr ""
 
-#: src/kmidimon.cpp:191
+#: src/kmidimon.cpp:194
 msgid "Backward"
 msgstr ""
 
-#: src/kmidimon.cpp:193
+#: src/kmidimon.cpp:196
 msgid "Move the playback position to the first event"
 msgstr ""
 
-#: src/kmidimon.cpp:198
-msgid "&Record"
+#: src/kmidimon.cpp:201
+msgid "Record"
 msgstr ""
 
-#: src/kmidimon.cpp:201
+#: src/kmidimon.cpp:204
 msgid "Append new recorded events to the current session"
 msgstr ""
 
-#: src/kmidimon.cpp:206
-msgid "&Stop"
-msgstr ""
-
-#: src/kmidimon.cpp:209
+#: src/kmidimon.cpp:212
 msgid "Stop playback or recording"
 msgstr ""
 
-#: src/kmidimon.cpp:214
-msgid "&Connect All Inputs"
+#: src/kmidimon.cpp:217
+msgid "Connect All Inputs"
 msgstr ""
 
-#: src/kmidimon.cpp:215
+#: src/kmidimon.cpp:218
 msgid "Connect all readable MIDI ports"
 msgstr ""
 
-#: src/kmidimon.cpp:220
-msgid "&Disconnect All Inputs"
+#: src/kmidimon.cpp:223
+msgid "Disconnect All Inputs"
 msgstr ""
 
-#: src/kmidimon.cpp:221
+#: src/kmidimon.cpp:224
 msgid "Disconnect all input MIDI ports"
 msgstr ""
 
-#: src/kmidimon.cpp:226
-msgid "Con&figure Connections"
+#: src/kmidimon.cpp:229
+msgid "Configure Connections"
 msgstr ""
 
-#: src/kmidimon.cpp:227
+#: src/kmidimon.cpp:230
 msgid "Open the Connections dialog"
 msgstr ""
 
-#: src/kmidimon.cpp:232
-msgid "&Add Track View"
+#: src/kmidimon.cpp:235
+msgid "Add Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:233
+#: src/kmidimon.cpp:236
 msgid "Create a new tab/track view"
 msgstr ""
 
-#: src/kmidimon.cpp:238
-msgid "&Change Track View"
+#: src/kmidimon.cpp:241
+msgid "Change Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:239
+#: src/kmidimon.cpp:242
 msgid "Change the track number of the view"
 msgstr ""
 
-#: src/kmidimon.cpp:244
-msgid "&Delete Track View"
+#: src/kmidimon.cpp:247
+msgid "Delete Track View"
 msgstr ""
 
-#: src/kmidimon.cpp:245
+#: src/kmidimon.cpp:248
 msgid "Delete the tab/track view"
 msgstr ""
 
-#: src/kmidimon.cpp:251
+#: src/kmidimon.cpp:254
 msgid "Toggle the %1 column"
 msgstr ""
 
-#: src/kmidimon.cpp:259
-msgid "&Resize columns"
+#: src/kmidimon.cpp:262
+msgid "Resize columns"
 msgstr ""
 
-#: src/kmidimon.cpp:260
+#: src/kmidimon.cpp:263
 msgid "Resize the columns width to fit it's contents"
 msgstr ""
 
-#: src/kmidimon.cpp:310
+#: src/kmidimon.cpp:268
+msgid "Sequence Info"
+msgstr ""
+
+#: src/kmidimon.cpp:269
+msgid "Display information about the loaded sequence"
+msgstr ""
+
+#: src/kmidimon.cpp:275
+msgid "Scale Tempo"
+msgstr ""
+
+#: src/kmidimon.cpp:276
+msgid "Display a slider to scale the tempo between 50% and 200%"
+msgstr ""
+
+#: src/kmidimon.cpp:281
+msgid "Reset Tempo"
+msgstr ""
+
+#: src/kmidimon.cpp:282
+msgid "Reset the tempo scale to 100%"
+msgstr ""
+
+#: src/kmidimon.cpp:336
 msgid "Load MIDI file"
 msgstr ""
 
-#: src/kmidimon.cpp:311
+#: src/kmidimon.cpp:337
 msgid "Loading..."
 msgstr ""
 
-#: src/kmidimon.cpp:349
+#: src/kmidimon.cpp:376
 msgid "*.mid *.midi *.kar|MIDI files (*.mid)"
 msgstr ""
 
-#: src/kmidimon.cpp:351
+#: src/kmidimon.cpp:378
 msgid "Open MIDI file"
 msgstr ""
 
-#: src/kmidimon.cpp:359
+#: src/kmidimon.cpp:386
 msgid ""
 "*.txt|Plain text files (*.txt)\n"
 "*.mid|MIDI files (*.mid)"
 msgstr ""
 
-#: src/kmidimon.cpp:362
+#: src/kmidimon.cpp:389
 msgid "Save MIDI monitor data"
 msgstr ""
 
-#: src/kmidimon.cpp:496
+#: src/kmidimon.cpp:524
 msgid "recording"
 msgstr ""
 
-#: src/kmidimon.cpp:509
+#: src/kmidimon.cpp:537
 msgid "stopped"
 msgstr ""
 
-#: src/kmidimon.cpp:516
+#: src/kmidimon.cpp:544
 msgid "playing"
 msgstr ""
 
-#: src/kmidimon.cpp:538
+#: src/kmidimon.cpp:566
 msgid "ALSA MIDI Monitor [%1]"
 msgstr ""
 
-#: src/kmidimon.cpp:632 src/kmidimon.cpp:676
+#: src/kmidimon.cpp:660 src/kmidimon.cpp:704
 msgid "Track %1"
 msgstr ""
 
-#: src/kmidimon.cpp:635 src/kmidimon.cpp:679
+#: src/kmidimon.cpp:663 src/kmidimon.cpp:707
 msgid "Track %1 View Selector"
 msgstr ""
 
-#: src/kmidimon.cpp:650
+#: src/kmidimon.cpp:678
 msgid "Change track"
 msgstr ""
 
-#: src/kmidimon.cpp:651
+#: src/kmidimon.cpp:679
 msgid "Change the track filter:"
 msgstr ""
 
-#: src/main.cpp:31
+#: src/kmidimon.cpp:767
+msgid "No file loaded"
+msgstr ""
+
+#: src/kmidimon.cpp:769
+msgid ""
+"File: <b>%1</b><br>SMF Format: <b>%2</b><br>Number of tracks: <b>%3</"
+"b><br>Number of events: <b>%4</b><br>Division: <b>%5 ppq</b><br>Initial "
+"tempo: <b>%6 bpm</b><br>Duration: <b>%7</b>"
+msgstr ""
+
+#: src/kmidimon.cpp:784
+msgid "Sequence Information"
+msgstr ""
+
+#: src/main.cpp:35
 msgid "KDE MIDI monitor using ALSA sequencer"
 msgstr ""
 
-#: src/main.cpp:37
+#: src/main.cpp:41
 msgid "KMidimon"
 msgstr ""
 
-#: src/main.cpp:39
+#: src/main.cpp:43
 msgid "(C) 2005-2008 Pedro Lopez-Cabanillas"
 msgstr ""
 
-#: src/main.cpp:43
+#: src/main.cpp:47
 msgid "Pedro Lopez-Cabanillas"
 msgstr ""
 
-#: src/main.cpp:45
+#: src/main.cpp:49
 msgid "Christoph Eckert"
 msgstr ""
 
-#: src/main.cpp:46
+#: src/main.cpp:50
 msgid "Documentation, good ideas and suggestions"
 msgstr ""
 
-#: src/main.cpp:65
+#: src/main.cpp:69
 msgid ""
 "Fatal error from the ALSA sequencer. This usually happens when the kernel "
 "doesn't have ALSA support, or the device node (/dev/snd/seq) doesn't exists, "
@@ -459,427 +510,431 @@ msgid ""
 "configuration. Returned error was: %1"
 msgstr ""
 
-#: src/main.cpp:71
+#: src/main.cpp:75
 msgid "Error"
 msgstr ""
 
-#: src/sequencemodel.cpp:152
+#: src/sequencemodel.cpp:155
 msgid "Event kind"
 msgstr ""
 
-#: src/sequencemodel.cpp:154
+#: src/sequencemodel.cpp:157
 msgid "Chan"
 msgstr ""
 
-#: src/sequencemodel.cpp:310
+#: src/sequencemodel.cpp:314
 msgid "Universal Non Real Time SysEx"
 msgstr ""
 
-#: src/sequencemodel.cpp:312
+#: src/sequencemodel.cpp:316
 msgid "Universal Real Time SysEx"
 msgstr ""
 
-#: src/sequencemodel.cpp:334
+#: src/sequencemodel.cpp:338
 msgid "broadcast"
 msgstr ""
 
-#: src/sequencemodel.cpp:336
+#: src/sequencemodel.cpp:340
 msgid "device %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:360 src/sequencemodel.cpp:364
+#: src/sequencemodel.cpp:364 src/sequencemodel.cpp:368
 msgid "Sample Dump"
 msgstr ""
 
-#: src/sequencemodel.cpp:362
+#: src/sequencemodel.cpp:366
 msgid "MTC Setup"
 msgstr ""
 
-#: src/sequencemodel.cpp:366
+#: src/sequencemodel.cpp:370
 msgid "Gen.Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:368
+#: src/sequencemodel.cpp:372
 msgid "Tuning"
 msgstr ""
 
-#: src/sequencemodel.cpp:370
+#: src/sequencemodel.cpp:374
 msgid "GM Mode"
 msgstr ""
 
-#: src/sequencemodel.cpp:372
+#: src/sequencemodel.cpp:376
 msgid "Wait"
 msgstr ""
 
-#: src/sequencemodel.cpp:374
+#: src/sequencemodel.cpp:378
 msgid "Cancel"
 msgstr ""
 
-#: src/sequencemodel.cpp:376
+#: src/sequencemodel.cpp:380
 msgid "NAK"
 msgstr ""
 
-#: src/sequencemodel.cpp:378
+#: src/sequencemodel.cpp:382
 msgid "ACK"
 msgstr ""
 
-#: src/sequencemodel.cpp:386
+#: src/sequencemodel.cpp:390
 msgid "MTC"
 msgstr ""
 
-#: src/sequencemodel.cpp:388
+#: src/sequencemodel.cpp:392
 msgid "Notation"
 msgstr ""
 
-#: src/sequencemodel.cpp:390
+#: src/sequencemodel.cpp:394
 msgid "GM Master"
 msgstr ""
 
-#: src/sequencemodel.cpp:392
+#: src/sequencemodel.cpp:396
 msgid "MMC"
 msgstr ""
 
-#: src/sequencemodel.cpp:408
+#: src/sequencemodel.cpp:412
 msgid "Special"
 msgstr ""
 
-#: src/sequencemodel.cpp:410
+#: src/sequencemodel.cpp:414
 msgid "Punch In Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:412
+#: src/sequencemodel.cpp:416
 msgid "Punch Out Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:414
+#: src/sequencemodel.cpp:418
 msgid "Delete Punch In Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:416
+#: src/sequencemodel.cpp:420
 msgid "Delete Punch Out Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:418
+#: src/sequencemodel.cpp:422
 msgid "Event Start Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:420
+#: src/sequencemodel.cpp:424
 msgid "Event Stop Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:422
+#: src/sequencemodel.cpp:426
 msgid "Event Start Point With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:424
+#: src/sequencemodel.cpp:428
 msgid "Event Stop Point With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:426
+#: src/sequencemodel.cpp:430
 msgid "Delete Event Start Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:428
+#: src/sequencemodel.cpp:432
 msgid "Delete Event Stop Point"
 msgstr ""
 
-#: src/sequencemodel.cpp:430
+#: src/sequencemodel.cpp:434
 msgid "Cue Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:432
+#: src/sequencemodel.cpp:436
 msgid "Cue Points With Info"
 msgstr ""
 
-#: src/sequencemodel.cpp:434
+#: src/sequencemodel.cpp:438
 msgid "Delete Cue Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:436
+#: src/sequencemodel.cpp:440
 msgid "Event Name"
 msgstr ""
 
-#: src/sequencemodel.cpp:449
+#: src/sequencemodel.cpp:453
 msgid "Full Frame: %1 %2 %3 %4"
 msgstr ""
 
-#: src/sequencemodel.cpp:454
+#: src/sequencemodel.cpp:458
 msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr ""
 
-#: src/sequencemodel.cpp:474
+#: src/sequencemodel.cpp:478
 msgid "Play"
 msgstr ""
 
-#: src/sequencemodel.cpp:476
+#: src/sequencemodel.cpp:480
 msgid "Deferred Play"
 msgstr ""
 
-#: src/sequencemodel.cpp:478
+#: src/sequencemodel.cpp:482
 msgid "Fast Forward"
 msgstr ""
 
-#: src/sequencemodel.cpp:480
+#: src/sequencemodel.cpp:484
 msgid "Rewind"
 msgstr ""
 
-#: src/sequencemodel.cpp:482
+#: src/sequencemodel.cpp:486
 msgid "Punch In"
 msgstr ""
 
-#: src/sequencemodel.cpp:484
+#: src/sequencemodel.cpp:488
 msgid "Punch out"
 msgstr ""
 
-#: src/sequencemodel.cpp:488
+#: src/sequencemodel.cpp:492
 msgid "Eject"
 msgstr ""
 
-#: src/sequencemodel.cpp:495
+#: src/sequencemodel.cpp:499
 msgid "Track Record Ready:"
 msgstr ""
 
-#: src/sequencemodel.cpp:498
+#: src/sequencemodel.cpp:502
 msgid "Track Sync Monitor:"
 msgstr ""
 
-#: src/sequencemodel.cpp:501
+#: src/sequencemodel.cpp:505
 msgid "Track Input Monitor:"
 msgstr ""
 
-#: src/sequencemodel.cpp:504
+#: src/sequencemodel.cpp:508
 msgid "Track Mute:"
 msgstr ""
 
-#: src/sequencemodel.cpp:518
+#: src/sequencemodel.cpp:522
 msgid "Locate: %1 %2 %3 %4 %5"
 msgstr ""
 
-#: src/sequencemodel.cpp:546
+#: src/sequencemodel.cpp:550
 msgid "Header"
 msgstr ""
 
-#: src/sequencemodel.cpp:548
+#: src/sequencemodel.cpp:552
 msgid "Data Packet"
 msgstr ""
 
-#: src/sequencemodel.cpp:550
+#: src/sequencemodel.cpp:554
 msgid "Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:557
+#: src/sequencemodel.cpp:561
 msgid "Multiple Loop Points"
 msgstr ""
 
-#: src/sequencemodel.cpp:559
+#: src/sequencemodel.cpp:563
 msgid "Loop Points Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:567
+#: src/sequencemodel.cpp:571
 msgid "Identity Request"
 msgstr ""
 
-#: src/sequencemodel.cpp:570
+#: src/sequencemodel.cpp:574
 msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr ""
 
-#: src/sequencemodel.cpp:583
+#: src/sequencemodel.cpp:587
 msgid "Dump Request: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:585
+#: src/sequencemodel.cpp:589
 msgid "Bulk Dump: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:587
+#: src/sequencemodel.cpp:591
 msgid "Note Change: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:595
+#: src/sequencemodel.cpp:599
 msgid "GM On"
 msgstr ""
 
-#: src/sequencemodel.cpp:597
+#: src/sequencemodel.cpp:601
 msgid "GM Off"
 msgstr ""
 
-#: src/sequencemodel.cpp:616
+#: src/sequencemodel.cpp:620
 msgid "Bar Marker: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:622
+#: src/sequencemodel.cpp:626
 msgid "Time Signature: %1 (%2/%3)"
 msgstr ""
 
-#: src/sequencemodel.cpp:635
+#: src/sequencemodel.cpp:639
 msgid "Volume: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:637
+#: src/sequencemodel.cpp:641
 msgid "Balance: %1"
 msgstr ""
 
-#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
-#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
+#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
+#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
 msgid "C"
 msgstr ""
 
-#: src/sequencemodel.cpp:772
+#: src/sequencemodel.cpp:776
 msgid "C♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
-#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
+#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
+#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
 msgid "D"
 msgstr ""
 
-#: src/sequencemodel.cpp:772
+#: src/sequencemodel.cpp:776
 msgid "D♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:772 src/sequencemodel.cpp:774
-#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
+#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
+#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
 msgid "E"
 msgstr ""
 
-#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
-#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:964
+#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:968
 msgid "F"
 msgstr ""
 
-#: src/sequencemodel.cpp:773
+#: src/sequencemodel.cpp:777
 msgid "F♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
-#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:964
+#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
 msgid "G"
 msgstr ""
 
-#: src/sequencemodel.cpp:773
+#: src/sequencemodel.cpp:777
 msgid "G♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
-#: src/sequencemodel.cpp:961 src/sequencemodel.cpp:965
+#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:969
 msgid "A"
 msgstr ""
 
-#: src/sequencemodel.cpp:773
+#: src/sequencemodel.cpp:777
 msgid "A♯"
 msgstr ""
 
-#: src/sequencemodel.cpp:773 src/sequencemodel.cpp:775
-#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
+#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
 msgid "B"
 msgstr ""
 
-#: src/sequencemodel.cpp:774
+#: src/sequencemodel.cpp:778
 msgid "D♭"
 msgstr ""
 
-#: src/sequencemodel.cpp:774
+#: src/sequencemodel.cpp:778
 msgid "E♭"
 msgstr ""
 
-#: src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:779
 msgid "G♭"
 msgstr ""
 
-#: src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:779
 msgid "A♭"
 msgstr ""
 
-#: src/sequencemodel.cpp:775
+#: src/sequencemodel.cpp:779
 msgid "B♭"
 msgstr ""
 
-#: src/sequencemodel.cpp:915
+#: src/sequencemodel.cpp:919
 msgid "Text:1"
 msgstr ""
 
-#: src/sequencemodel.cpp:917
+#: src/sequencemodel.cpp:921
 msgid "Copyright:2"
 msgstr ""
 
-#: src/sequencemodel.cpp:919
+#: src/sequencemodel.cpp:923
 msgid "Name:3"
 msgstr ""
 
-#: src/sequencemodel.cpp:921
+#: src/sequencemodel.cpp:925
 msgid "Instrument:4"
 msgstr ""
 
-#: src/sequencemodel.cpp:923
+#: src/sequencemodel.cpp:927
 msgid "Lyric:5"
 msgstr ""
 
-#: src/sequencemodel.cpp:925
+#: src/sequencemodel.cpp:929
 msgid "Marker:6"
 msgstr ""
 
-#: src/sequencemodel.cpp:927
+#: src/sequencemodel.cpp:931
 msgid "Cue:7"
 msgstr ""
 
-#: src/sequencemodel.cpp:949
+#: src/sequencemodel.cpp:953
 msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
 msgstr ""
 
-#: src/sequencemodel.cpp:959
+#: src/sequencemodel.cpp:963
 msgid "C flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:959
+#: src/sequencemodel.cpp:963
 msgid "G flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:959
+#: src/sequencemodel.cpp:963
 msgid "D flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
 msgid "A flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
 msgid "E flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:960 src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
 msgid "B flat"
 msgstr ""
 
-#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
+#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
 msgid "F sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:962 src/sequencemodel.cpp:965
+#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
 msgid "C sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:966
+#: src/sequencemodel.cpp:970
 msgid "G sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:966
+#: src/sequencemodel.cpp:970
 msgid "D sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:966
+#: src/sequencemodel.cpp:970
 msgid "A sharp"
 msgstr ""
 
-#: src/sequencemodel.cpp:974
+#: src/sequencemodel.cpp:978
 msgid "major"
 msgstr ""
 
-#: src/sequencemodel.cpp:974
+#: src/sequencemodel.cpp:978
 msgid "minor"
 msgstr ""
 
-#: src/sequencemodel.cpp:971
+#: src/sequencemodel.cpp:975
 msgid "%1%2, %3 %4"
+msgstr ""
+
+#: src/sequencemodel.cpp:984
+msgid "%1:%2:%3:%4:%5"
 msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:34
@@ -1035,7 +1090,7 @@ msgstr ""
 
 #. i18n: file: src/configdialogbase.ui:247
 #. i18n: ectx: property (title), widget (QGroupBox, columnsGroup)
-#. i18n: file: src/kmidimonui.rc:29
+#. i18n: file: src/kmidimonui.rc:35
 #. i18n: ectx: Menu (columns)
 #: po/rc.cpp:75 po/rc.cpp:171
 msgid "Show Columns"
@@ -1172,31 +1227,31 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:4
-#. i18n: ectx: Menu (Control)
+#. i18n: file: src/kmidimonui.rc:7
+#. i18n: ectx: Menu (control)
 #: po/rc.cpp:159
 msgid "C&ontrol"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:12
-#. i18n: ectx: Menu (Connections)
+#. i18n: file: src/kmidimonui.rc:18
+#. i18n: ectx: Menu (connections)
 #: po/rc.cpp:162
 msgid "Connec&tions"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:20
+#. i18n: file: src/kmidimonui.rc:26
 #. i18n: ectx: Menu (popup)
 #: po/rc.cpp:165
 msgid "Display settings"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:23
+#. i18n: file: src/kmidimonui.rc:29
 #. i18n: ectx: Menu (tracks)
 #: po/rc.cpp:168
 msgid "Tracks"
 msgstr ""
 
-#. i18n: file: src/kmidimonui.rc:40
+#. i18n: file: src/kmidimonui.rc:46
 #. i18n: ectx: ToolBar (mainToolBar)
 #: po/rc.cpp:174
 msgid "Main Toolbar"
