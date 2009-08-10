@@ -78,7 +78,7 @@ First, look for an answer in CMake FAQ:
 
 You may want to read the documentation at:
 
-    http://www.cmake.org/HTML/CMake-2.4.html
+    http://www.cmake.org/cmake/help/cmake2.6docs.html
 
 If you can't solve your problem, open a request for support at the project site:
 

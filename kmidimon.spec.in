@@ -53,8 +53,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/apps/*/*
 
 %changelog
-* Wed Jun 24 2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> @VERSION@
+* Sun Aug 9 2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> @VERSION@
 - Release @VERSION@
+* Wed Jun 24 2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.0
+- Release 0.7.0
 * Sun Dec 29 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.6.0
 - Release 0.6.0
 * Sun Apr 6 2008 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.5.1-0

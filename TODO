@@ -4,7 +4,9 @@ DONE:
 * Play the recorded session. Also MIDI files
 * Migration to KDE4
 * ALSA sequencer class library: aseqmm
+* Translate note numbers into names
+* Translate controller and program numbers into names 
+* Support for GM, GS or XG standards
 
 PENDING:
-* Translate note numbers into names. Base octave?
-* Translate controller and program numbers into names, allowing to choose between GM, GS or XG standards
+* RFE #2241450: Graphical views
