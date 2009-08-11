@@ -23,11 +23,11 @@
 #define PROXYMODEL_H_
 
 #include <QSortFilterProxyModel>
-#include <event.h>
+#include <alsaevent.h>
 
 class EventFilter;
 
-using namespace ALSA::Sequencer;
+USE_ALSASEQ_NAMESPACE
 
 class ProxyModel : public QSortFilterProxyModel
 {

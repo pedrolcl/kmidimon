@@ -25,14 +25,14 @@
 #include <QAbstractItemModel>
 #include <QMap>
 
-#include <event.h>
+#include <alsaevent.h>
 #include <qsmf.h>
 
 #include "sequenceitem.h"
 #include "instrument.h"
 
-using namespace ALSA::Sequencer;
-using namespace MIDI::Utils;
+USE_ALSASEQ_NAMESPACE
+USE_MIDIUTIL_NAMESPACE
 
 class EventFilter;
 

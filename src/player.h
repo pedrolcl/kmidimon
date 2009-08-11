@@ -21,10 +21,10 @@
 #define INCLUDED_PLAYER_H
 
 #include "playthread.h"
-#include "client.h"
+#include "alsaclient.h"
 #include "sequencemodel.h"
 
-using namespace ALSA::Sequencer;
+USE_ALSASEQ_NAMESPACE
 
 class Player : public SequencerOutputThread
 {

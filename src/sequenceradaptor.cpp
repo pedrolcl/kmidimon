@@ -27,11 +27,11 @@
 #include <kapplication.h>
 #include <klocale.h>
 
-#include <client.h>
-#include <port.h>
-#include <queue.h>
+#include <alsaclient.h>
+#include <alsaport.h>
+#include <alsaqueue.h>
+#include <alsaevent.h>
 #include <subscription.h>
-#include <event.h>
 
 #include "sequenceradaptor.h"
 #include "sequenceitem.h"

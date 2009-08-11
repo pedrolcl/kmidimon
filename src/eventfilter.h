@@ -28,7 +28,7 @@
 
 #include <ktoggleaction.h>
 #include <klocale.h>
-#include <event.h>
+#include <alsaevent.h>
 
 enum EvCategory {
     ChannelCategory,

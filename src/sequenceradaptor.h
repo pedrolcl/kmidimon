@@ -25,14 +25,14 @@
 #include <QEvent>
 #include <QMap>
 
-#include <queue.h>
-#include <port.h>
-#include <event.h>
+#include <alsaqueue.h>
+#include <alsaport.h>
+#include <alsaevent.h>
 
 class SequenceModel;
 class Player;
 
-using namespace ALSA::Sequencer;
+USE_ALSASEQ_NAMESPACE
 
 const int TEMPO_BPM(120);
 const int RESOLUTION(240);

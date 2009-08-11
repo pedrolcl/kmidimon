@@ -27,9 +27,9 @@
 #include <kmessagebox.h>
 
 #include "kmidimon.h"
-#include "commons.h"
+#include "aseqmmcommon.h"
 
-using namespace ALSA::Sequencer;
+USE_ALSASEQ_NAMESPACE
 
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");

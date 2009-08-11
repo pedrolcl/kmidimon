@@ -17,7 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include "queue.h"
+#include <alsaqueue.h>
 #include "player.h"
 
 Player::Player(MidiClient *seq, int portId)

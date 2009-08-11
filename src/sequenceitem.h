@@ -22,9 +22,9 @@
 #ifndef SEQUENCEITEM_H_
 #define SEQUENCEITEM_H_
 
-#include <event.h>
+#include <alsaevent.h>
 
-using namespace ALSA::Sequencer;
+USE_ALSASEQ_NAMESPACE
 
 class SequenceItem
 {
