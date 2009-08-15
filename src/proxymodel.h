@@ -27,7 +27,7 @@
 
 class EventFilter;
 
-USE_ALSASEQ_NAMESPACE
+using namespace aseqmm;
 
 class ProxyModel : public QSortFilterProxyModel
 {

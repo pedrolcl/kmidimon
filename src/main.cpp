@@ -29,7 +29,7 @@
 #include "kmidimon.h"
 #include "aseqmmcommon.h"
 
-USE_ALSASEQ_NAMESPACE
+using namespace aseqmm;
 
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");

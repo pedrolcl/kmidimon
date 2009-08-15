@@ -24,7 +24,7 @@
 #include "alsaclient.h"
 #include "sequencemodel.h"
 
-USE_ALSASEQ_NAMESPACE
+using namespace aseqmm;
 
 class Player : public SequencerOutputThread
 {

@@ -32,7 +32,7 @@
 class SequenceModel;
 class Player;
 
-USE_ALSASEQ_NAMESPACE
+using namespace aseqmm;
 
 const int TEMPO_BPM(120);
 const int RESOLUTION(240);

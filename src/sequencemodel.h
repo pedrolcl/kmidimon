@@ -31,8 +31,7 @@
 #include "sequenceitem.h"
 #include "instrument.h"
 
-USE_ALSASEQ_NAMESPACE
-USE_MIDIUTIL_NAMESPACE
+using namespace aseqmm;
 
 class EventFilter;
 
