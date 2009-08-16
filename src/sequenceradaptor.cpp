@@ -47,8 +47,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_tempo(TEMPO_BPM)
 {
     m_client = new MidiClient(this);
-    m_client->setOpenMode(SND_SEQ_OPEN_DUPLEX);
-    m_client->setBlockMode(false);
     m_client->open();
     m_client->setClientName("KMidimon");
     connect(m_client, SIGNAL(eventReceived(SequencerEvent*)),
@@ -57,7 +55,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_queue = m_client->createQueue("KMidimon");
 
     m_port = new MidiPort(this);
-    m_port->setMidiClient(m_client);
+    m_port->attach( m_client );
     m_port->setPortName("KMidimon");
     m_port->setCapability( SND_SEQ_PORT_CAP_READ |
                            SND_SEQ_PORT_CAP_WRITE |
@@ -69,7 +67,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->setTimestamping(true);
     m_port->setTimestampReal(false);
     m_port->setTimestampQueue(m_queue->getId());
-    m_port->attach();
     m_port->subscribeFromAnnounce();
 
     m_player = new Player(m_client, m_port->getPortId());
