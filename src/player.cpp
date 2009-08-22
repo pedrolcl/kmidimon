@@ -131,7 +131,7 @@ void Player::run()
                         sendEchoEvent(last_tick);
                     }
                 }*/
-                if (!isConnectionChange(ev)) {
+                if (!SequencerEvent::isConnectionChange(ev)) {
                     if(last_tick != ev->getTick()) {
                         last_tick = ev->getTick();
                         sendEchoEvent(last_tick);

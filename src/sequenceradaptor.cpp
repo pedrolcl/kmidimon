@@ -112,7 +112,7 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         ev->setSubscribers();
         ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
         SequenceItem itm(seconds, ticks, m_model->currentTrack(), ev);
-        if (isClient(ev)) updateModelClients();
+        if (SequencerEvent::isClient(ev)) updateModelClients();
         m_model->addItem(itm);
     } else {
         if (ev->getSequencerType() == SND_SEQ_EVENT_USR0)
