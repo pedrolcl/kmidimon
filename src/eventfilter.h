@@ -25,6 +25,7 @@
 #include <QHash>
 #include <QString>
 #include <QMenu>
+#include <QSignalMapper>
 
 #include <ktoggleaction.h>
 #include <klocale.h>
@@ -83,6 +84,10 @@ public:
     void loadConfiguration();
     void saveConfiguration();
 
+public slots:
+    void checkGroup(int c);
+    void uncheckGroup(int c);
+
 protected:
     void insert(EvCategory category, snd_seq_event_type_t t, QString name);
 
@@ -90,7 +95,8 @@ signals:
     void filterChanged();
 
 private:
-    QMenu* m_menu;
+    QMenu *m_menu;
+    QSignalMapper *m_mapperAll, *m_mapperNone;
     QHash<EvCategory, CategoryFilter*> m_cats;
     QHash<int, EvCategory> m_aux;
 };

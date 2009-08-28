@@ -103,6 +103,35 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR2, i18n("Forced Channel"));
     insert(SMFCategory, SND_SEQ_EVENT_USR3, i18n("Forced Port"));
     insert(SMFCategory, SND_SEQ_EVENT_USR4, i18n("SMPTE Offset"));
+
+    m_mapperAll = new QSignalMapper(this);
+    m_mapperNone = new QSignalMapper(this);
+    connect(m_mapperAll, SIGNAL(mapped(int)), SLOT(checkGroup(int)));
+    connect(m_mapperNone, SIGNAL(mapped(int)), SLOT(uncheckGroup(int)));
+}
+
+void EventFilter::checkGroup(int c)
+{
+    EvCategory cat = (EvCategory) c;
+    QHashIterator<int, KToggleAction*> it = m_cats[cat]->getIterator();
+    while( it.hasNext() ) {
+        it.next();
+        KToggleAction *item = it.value();
+        item->setChecked(true);
+    }
+    emit filterChanged();
+}
+
+void EventFilter::uncheckGroup(int c)
+{
+    EvCategory cat = (EvCategory) c;
+    QHashIterator<int, KToggleAction*> it = m_cats[cat]->getIterator();
+    while( it.hasNext() ) {
+        it.next();
+        KToggleAction *item = it.value();
+        item->setChecked(false);
+    }
+    emit filterChanged();
 }
 
 QString EventFilter::getName(EvCategory c)
@@ -158,11 +187,23 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
     if (m_menu == NULL) {
         m_menu = new QMenu(parent);
         m_menu->setTitle(i18n("Filters"));
-        foreach( CategoryFilter *cf, m_cats ) {
+        QHashIterator<EvCategory, CategoryFilter*> iter(m_cats);
+        while ( iter.hasNext() ) {
+            iter.next();
+            CategoryFilter *cf = iter.value();
             QMenu* submenu = new QMenu(parent);
             submenu->setTitle(cf->getName());
             m_menu->addMenu(submenu);
             cf->setMenu(submenu);
+            KAction *actionAll = new KAction(i18n("All"), this);
+            connect(actionAll, SIGNAL(triggered()), m_mapperAll, SLOT(map()));
+            m_mapperAll->setMapping(actionAll, (int) iter.key() );
+            submenu->addAction( actionAll );
+            KAction *actionNothing = new KAction(i18n("Nothing"), this);
+            connect(actionNothing, SIGNAL(triggered()), m_mapperNone, SLOT(map()));
+            m_mapperNone->setMapping(actionNothing, (int) iter.key() );
+            submenu->addAction( actionNothing );
+            submenu->addSeparator();
             QHashIterator<int, KToggleAction*> it = cf->getIterator();
             while( it.hasNext() ) {
                 it.next();
