@@ -28,6 +28,7 @@
 #include <QSignalMapper>
 #include <QVariant>
 #include <QToolTip>
+#include <QFileInfo>
 
 #include <klocale.h>
 #include <kaction.h>
@@ -765,22 +766,27 @@ KMidimon::songFileInfo()
     QString infostr;
     if (m_file.isEmpty())
         infostr = i18n("No file loaded");
-    else
+    else {
+        QFileInfo finfo(m_file);
         infostr = i18n("File: <b>%1</b><br>"
-                       "SMF Format: <b>%2</b><br>"
-                       "Number of tracks: <b>%3</b><br>"
-                       "Number of events: <b>%4</b><br>"
-                       "Division: <b>%5 ppq</b><br>"
-                       "Initial tempo: <b>%6 bpm</b><br>"
-                       "Duration: <b>%7</b>",
-                       m_file,
+                       "Created: <b>%2</b><br>"
+                       "Modified: <b>%3</b><br>"
+                       "SMF Format: <b>%4</b><br>"
+                       "Number of tracks: <b>%5</b><br>"
+                       "Number of events: <b>%6</b><br>"
+                       "Division: <b>%7 ppq</b><br>"
+                       "Initial tempo: <b>%8 bpm</b><br>"
+                       "Duration: <b>%9</b>",
+                       finfo.fileName(),
+                       finfo.created().toString(Qt::DefaultLocaleLongDate),
+                       finfo.lastModified().toString(Qt::DefaultLocaleLongDate),
                        m_model->getSMFFormat(),
                        m_model->getSMFTracks(),
                        m_model->getSong()->size(),
                        m_model->getSMFDivision(),
                        m_model->getInitialTempo(),
-                       m_model->getDuration()
-                       );
+                       m_model->getDuration() );
+    }
     KMessageBox::information(this, infostr, i18n("Sequence Information"));
 }
 
