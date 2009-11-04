@@ -60,7 +60,8 @@
 #include "slideraction.h"
 
 KMidimon::KMidimon() :
-    KXmlGuiWindow(0)
+    KXmlGuiWindow(0),
+    m_adaptor(0)
 {
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -79,44 +80,55 @@ KMidimon::KMidimon() :
     connect( m_view->selectionModel(),
              SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
              SLOT(slotCurrentChanged(const QModelIndex&, const QModelIndex&)) );
-    m_adaptor = new SequencerAdaptor(this);
-    m_adaptor->setModel(m_model);
-    m_adaptor->updateModelClients();
-    connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
-                      SLOT(resizeColumns(QModelIndex,int,int)) );
-    connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
-    m_tabBar = new KTabBar(this);
-    m_tabBar->setWhatsThis(i18n("Track view selectors"));
-    m_tabBar->setShape(QTabBar::RoundedNorth);
+    try {
+        m_adaptor = new SequencerAdaptor(this);
+        m_adaptor->setModel(m_model);
+        m_adaptor->updateModelClients();
+        connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+                          SLOT(resizeColumns(QModelIndex,int,int)) );
+        connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
+        m_tabBar = new KTabBar(this);
+        m_tabBar->setWhatsThis(i18n("Track view selectors"));
+        m_tabBar->setShape(QTabBar::RoundedNorth);
 #if QT_VERSION < 0x040500
-    m_tabBar->setTabReorderingEnabled(true);
-    m_tabBar->setCloseButtonEnabled(true);
-    connect( m_tabBar, SIGNAL(moveTab(int,int)),
-                       SLOT(reorderTabs(int,int)) );
-    connect( m_tabBar, SIGNAL(closeRequest(int)),
-                       SLOT(deleteTrack(int)) );
+        m_tabBar->setTabReorderingEnabled(true);
+        m_tabBar->setCloseButtonEnabled(true);
+        connect( m_tabBar, SIGNAL(moveTab(int,int)),
+                           SLOT(reorderTabs(int,int)) );
+        connect( m_tabBar, SIGNAL(closeRequest(int)),
+                           SLOT(deleteTrack(int)) );
 #else
-    m_tabBar->setExpanding(false);
-    m_tabBar->setMovable(true);
-    m_tabBar->setTabsClosable(true);
-    connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
-                       SLOT(deleteTrack(int)) );
+        m_tabBar->setExpanding(false);
+        m_tabBar->setMovable(true);
+        m_tabBar->setTabsClosable(true);
+        connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
+                           SLOT(deleteTrack(int)) );
 #endif
-    connect( m_tabBar, SIGNAL(newTabRequest()),
-                       SLOT(addTrack()) );
-    connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
-                       SLOT(changeTrack(int)) );
-    connect( m_tabBar, SIGNAL(currentChanged(int)),
-                       SLOT(tabIndexChanged(int)) );
-    layout->addWidget(m_tabBar);
-    layout->addWidget(m_view);
-    vbox->setLayout(layout);
-    setCentralWidget(vbox);
-    setupActions();
-    setAutoSaveSettings();
-    readConfiguration();
-    fileNew();
-    record();
+        connect( m_tabBar, SIGNAL(newTabRequest()),
+                           SLOT(addTrack()) );
+        connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
+                           SLOT(changeTrack(int)) );
+        connect( m_tabBar, SIGNAL(currentChanged(int)),
+                           SLOT(tabIndexChanged(int)) );
+        layout->addWidget(m_tabBar);
+        layout->addWidget(m_view);
+        vbox->setLayout(layout);
+        setCentralWidget(vbox);
+        setupActions();
+        setAutoSaveSettings();
+        readConfiguration();
+        fileNew();
+        record();
+    } catch (SequencerError& ex) {
+        QString errorstr = i18n("Fatal error from the ALSA sequencer. "
+            "This usually happens when the kernel doesn't have ALSA support, "
+            "or the device node (/dev/snd/seq) doesn't exists, "
+            "or the kernel module (snd_seq) is not loaded. "
+            "Please check your ALSA/MIDI configuration. Returned error was: %1")
+            .arg(ex.qstrError());
+        KMessageBox::error(0, errorstr, i18n("Error"));
+        close();
+    }
 }
 
 void KMidimon::setupActions()
@@ -407,6 +419,7 @@ void KMidimon::saveConfiguration()
 {
     int i;
     KConfigGroup config = KGlobal::config()->group("Settings");
+    if (m_adaptor == NULL) return;
     config.writeEntry("resolution", m_defaultResolution);
     config.writeEntry("tempo", m_defaultTempo);
     config.writeEntry("alsa", m_proxy->showAlsaMsg());

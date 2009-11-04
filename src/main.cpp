@@ -54,24 +54,14 @@ int main(int argc, char **argv)
 	//KCmdLineArgs::addCmdLineOptions( options );
 	KApplication app;
 	KMidimon *mainWin = 0;
-	try {
-		if (app.isSessionRestored()) {
-			RESTORE(KMidimon);
-		} else {
-			// no session.. just start up normally
-			//KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-			mainWin = new KMidimon;
-			mainWin->show();
-			//args->clear();
-		}
-		return app.exec();
-    } catch (SequencerError& ex) {
-        QString errorstr = i18n("Fatal error from the ALSA sequencer. "
-            "This usually happens when the kernel doesn't have ALSA support, "
-            "or the device node (/dev/snd/seq) doesn't exists, "
-            "or the kernel module (snd_seq) is not loaded. "
-            "Please check your ALSA/MIDI configuration. Returned error was: %1")
-            .arg(ex.qstrError());
-        KMessageBox::error(0, errorstr, i18n("Error"));
+    if (app.isSessionRestored()) {
+        RESTORE(KMidimon);
+    } else {
+        // no session.. just start up normally
+        //KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        mainWin = new KMidimon;
+        mainWin->show();
+        //args->clear();
     }
+    return app.exec();
 }
