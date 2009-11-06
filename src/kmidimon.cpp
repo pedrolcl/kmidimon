@@ -19,6 +19,15 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
+#include "kmidimon.h"
+#include "configdialog.h"
+#include "connectdlg.h"
+#include "sequencemodel.h"
+#include "proxymodel.h"
+#include "eventfilter.h"
+#include "sequenceradaptor.h"
+#include "slideraction.h"
+
 #include <QMenu>
 #include <QEvent>
 #include <QContextMenuEvent>
@@ -49,15 +58,6 @@
 #include <krecentfilesaction.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-
-#include "kmidimon.h"
-#include "configdialog.h"
-#include "connectdlg.h"
-#include "sequencemodel.h"
-#include "proxymodel.h"
-#include "eventfilter.h"
-#include "sequenceradaptor.h"
-#include "slideraction.h"
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0),
@@ -124,8 +124,8 @@ KMidimon::KMidimon() :
             "This usually happens when the kernel doesn't have ALSA support, "
             "or the device node (/dev/snd/seq) doesn't exists, "
             "or the kernel module (snd_seq) is not loaded. "
-            "Please check your ALSA/MIDI configuration. Returned error was: %1")
-            .arg(ex.qstrError());
+            "Please check your ALSA/MIDI configuration. Returned error was: %1",
+            ex.qstrError());
         KMessageBox::error(0, errorstr, i18n("Error"));
         close();
     }
@@ -136,8 +136,8 @@ void KMidimon::setupActions()
     const QString columnName[COLUMN_COUNT] = {
             i18n("Ticks"),
             i18n("Time"),
-            i18n("Source"),
-            i18n("Event Kind"),
+            i18nc("event origin", "Source"),
+            i18nc("type of event", "Event Kind"),
             i18n("Channel"),
             i18n("Data 1"),
             i18n("Data 2")
@@ -197,14 +197,14 @@ void KMidimon::setupActions()
     actionCollection()->addAction("pause", m_pause);
 
     m_forward = new KAction(this);
-    m_forward->setText(i18n("Forward"));
+    m_forward->setText(i18nc("player skip forward", "Forward"));
     m_forward->setIcon(KIcon("media-skip-forward"));
     m_forward->setWhatsThis(i18n("Move the playback position to the last event"));
     connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
     actionCollection()->addAction("forward", m_forward);
 
     m_rewind = new KAction(this);
-    m_rewind->setText(i18n("Backward"));
+    m_rewind->setText(i18nc("player skip backward", "Backward"));
     m_rewind->setIcon(KIcon("media-skip-backward"));
     m_rewind->setWhatsThis(i18n("Move the playback position to the first event"));
     connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
@@ -487,48 +487,50 @@ void KMidimon::preferences()
 {
     int i;
     bool was_running;
-    ConfigDialog dlg;
-
-    dlg.setTempo(m_defaultTempo);
-    dlg.setResolution(m_defaultResolution);
-    dlg.setRegAlsaMsg(m_proxy->showAlsaMsg());
-    dlg.setRegChannelMsg(m_proxy->showChannelMsg());
-    dlg.setRegCommonMsg(m_proxy->showCommonMsg());
-    dlg.setRegRealTimeMsg(m_proxy->showRealTimeMsg());
-    dlg.setRegSysexMsg(m_proxy->showSysexMsg());
-    dlg.setRegSmfMsg(m_proxy->showSmfMsg());
-    dlg.setShowClientNames(m_model->showClientNames());
-    dlg.setTranslateSysex(m_model->translateSysex());
-    dlg.setTranslateNotes(m_model->translateNotes());
-    dlg.setTranslateCtrls(m_model->translateCtrls());
-    dlg.setInstruments(m_model->getInstruments());
-    dlg.setInstrumentName(m_model->getInstrumentName());
-    dlg.setUseFixedFont(getFixedFont());
+    QPointer<ConfigDialog> dlg = new ConfigDialog(this);
+    dlg->setTempo(m_defaultTempo);
+    dlg->setResolution(m_defaultResolution);
+    dlg->setRegAlsaMsg(m_proxy->showAlsaMsg());
+    dlg->setRegChannelMsg(m_proxy->showChannelMsg());
+    dlg->setRegCommonMsg(m_proxy->showCommonMsg());
+    dlg->setRegRealTimeMsg(m_proxy->showRealTimeMsg());
+    dlg->setRegSysexMsg(m_proxy->showSysexMsg());
+    dlg->setRegSmfMsg(m_proxy->showSmfMsg());
+    dlg->setShowClientNames(m_model->showClientNames());
+    dlg->setTranslateSysex(m_model->translateSysex());
+    dlg->setTranslateNotes(m_model->translateNotes());
+    dlg->setTranslateCtrls(m_model->translateCtrls());
+    dlg->setInstruments(m_model->getInstruments());
+    dlg->setInstrumentName(m_model->getInstrumentName());
+    dlg->setUseFixedFont(getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
-        dlg.setShowColumn(i, m_popupAction[i]->isChecked());
+        dlg->setShowColumn(i, m_popupAction[i]->isChecked());
     }
-    if (dlg.exec()) {
-        was_running = m_adaptor->isRecording();
-        if (was_running) stop();
-        m_proxy->setFilterAlsaMsg(dlg.isRegAlsaMsg());
-        m_proxy->setFilterChannelMsg(dlg.isRegChannelMsg());
-        m_proxy->setFilterCommonMsg(dlg.isRegCommonMsg());
-        m_proxy->setFilterRealTimeMsg(dlg.isRegRealTimeMsg());
-        m_proxy->setFilterSysexMsg(dlg.isRegSysexMsg());
-        m_proxy->setFilterSmfMsg(dlg.isRegSmfMsg());
-        m_model->setShowClientNames(dlg.showClientNames());
-        m_model->setTranslateSysex(dlg.translateSysex());
-        m_model->setTranslateNotes(dlg.translateNotes());
-        m_model->setTranslateCtrls(dlg.translateCtrls());
-        m_model->setInstrumentName(dlg.getInstrumentName());
-        m_defaultTempo = dlg.getTempo();
-        m_defaultResolution = dlg.getResolution();
-        setFixedFont(dlg.useFixedFont());
-        for (i = 0; i < COLUMN_COUNT; ++i) {
-            setColumnStatus(i, dlg.showColumn(i));
+    if (dlg->exec() == QDialog::Accepted) {
+        if (dlg != NULL) {
+            was_running = m_adaptor->isRecording();
+            if (was_running) stop();
+            m_proxy->setFilterAlsaMsg(dlg->isRegAlsaMsg());
+            m_proxy->setFilterChannelMsg(dlg->isRegChannelMsg());
+            m_proxy->setFilterCommonMsg(dlg->isRegCommonMsg());
+            m_proxy->setFilterRealTimeMsg(dlg->isRegRealTimeMsg());
+            m_proxy->setFilterSysexMsg(dlg->isRegSysexMsg());
+            m_proxy->setFilterSmfMsg(dlg->isRegSmfMsg());
+            m_model->setShowClientNames(dlg->showClientNames());
+            m_model->setTranslateSysex(dlg->translateSysex());
+            m_model->setTranslateNotes(dlg->translateNotes());
+            m_model->setTranslateCtrls(dlg->translateCtrls());
+            m_model->setInstrumentName(dlg->getInstrumentName());
+            m_defaultTempo = dlg->getTempo();
+            m_defaultResolution = dlg->getResolution();
+            setFixedFont(dlg->useFixedFont());
+            for (i = 0; i < COLUMN_COUNT; ++i) {
+                setColumnStatus(i, dlg->showColumn(i));
+            }
+            if (was_running) record();
         }
-        if (was_running) record();
     }
+    delete dlg;
 }
 
 void KMidimon::record()
@@ -548,14 +550,14 @@ void KMidimon::stop()
 
 void KMidimon::songFinished()
 {
-    updateState("stopped_state", i18n("stopped"));
+    updateState("stopped_state", i18nc("player stopped","stopped"));
     updateView();
 }
 
 void KMidimon::play()
 {
     m_adaptor->play();
-    updateState("playing_state", i18n("playing"));
+    updateState("playing_state", i18nc("player playing","playing"));
 }
 
 void KMidimon::pause()
@@ -583,10 +585,11 @@ void KMidimon::updateState(const QString newState, const QString stateName)
 
 void KMidimon::editToolbars()
 {
-    KEditToolBar dlg(actionCollection());
-    if (dlg.exec()) {
-        setupGUI();
+    QPointer<KEditToolBar> dlg = new KEditToolBar(actionCollection());
+    if (dlg->exec() == QDialog::Accepted) {
+        if (dlg != NULL) setupGUI();
     }
+    delete dlg;
 }
 
 void KMidimon::connectAll()
@@ -605,27 +608,30 @@ void KMidimon::configConnections()
     QStringList subs = m_adaptor->list_subscribers();
     QStringList outputs = m_adaptor->outputConnections();
     m_outputConn = m_adaptor->output_subscriber();
-    ConnectDlg dlg(this, inputs, subs, outputs, m_outputConn);
-    if (dlg.exec()) {
-        QStringList desired = dlg.getSelectedInputs();
-        subs = m_adaptor->list_subscribers();
-        QStringList::ConstIterator i;
-        for (i = subs.constBegin(); i != subs.constEnd(); ++i) {
-            if (desired.contains(*i) == 0) {
-                m_adaptor->disconnect_input(*i);
+    QPointer<ConnectDlg> dlg = new ConnectDlg(this, inputs, subs, outputs, m_outputConn);
+    if (dlg->exec() == QDialog::Accepted) {
+        if (dlg != NULL) {
+            QStringList desired = dlg->getSelectedInputs();
+            subs = m_adaptor->list_subscribers();
+            QStringList::ConstIterator i;
+            for (i = subs.constBegin(); i != subs.constEnd(); ++i) {
+                if (desired.contains(*i) == 0) {
+                    m_adaptor->disconnect_input(*i);
+                }
             }
-        }
-        for (i = desired.constBegin(); i != desired.constEnd(); ++i) {
-            if (subs.contains(*i) == 0) {
-                m_adaptor->connect_input(*i);
+            for (i = desired.constBegin(); i != desired.constEnd(); ++i) {
+                if (subs.contains(*i) == 0) {
+                    m_adaptor->connect_input(*i);
+                }
             }
-        }
-        QString newOut = dlg.getSelectedOutput();
-        if (newOut != m_outputConn) {
-            m_adaptor->disconnect_output(m_outputConn);
-            m_adaptor->connect_output(m_outputConn = newOut);
+            QString newOut = dlg->getSelectedOutput();
+            if (newOut != m_outputConn) {
+                m_adaptor->disconnect_output(m_outputConn);
+                m_adaptor->connect_output(m_outputConn = newOut);
+            }
         }
     }
+    delete dlg;
 }
 
 void KMidimon::setColumnStatus(int colNum, bool status)
@@ -671,17 +677,15 @@ void KMidimon::resizeAllColumns()
 
 void KMidimon::addNewTab(int data)
 {
-    QString tabName = i18n("Track %1", data);
+    QString tabName = i18nc("song track", "Track %1", data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
     m_tabBar->setTabWhatsThis(i, i18n("Track %1 View Selector", data));
-    //qDebug() << "new tab data: " << data;
 }
 
 void KMidimon::tabIndexChanged(int index)
 {
     QVariant data = m_tabBar->tabData(index);
-    //qDebug() << "current tab data: " << data.toInt();
     m_proxy->setFilterTrack(data.toInt()-1);
     m_model->setCurrentTrack(data.toInt()-1);
 }
@@ -714,8 +718,7 @@ void KMidimon::changeTrack(int tabIndex)
 {
     int track = m_tabBar->tabData(tabIndex).toInt();
     if (askTrackFilter(track)) {
-        //qDebug() << "changeTrack: " << tabIndex;
-        QString tabName = i18n("Track %1", track);
+        QString tabName = i18nc("song track", "Track %1", track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
         m_tabBar->setTabWhatsThis(tabIndex, i18n("Track %1 View Selector", track));
@@ -781,14 +784,14 @@ KMidimon::songFileInfo()
         infostr = i18n("No file loaded");
     else {
         QFileInfo finfo(m_file);
-        infostr = i18n("File: <b>%1</b><br>"
-                       "Created: <b>%2</b><br>"
-                       "Modified: <b>%3</b><br>"
-                       "SMF Format: <b>%4</b><br>"
-                       "Number of tracks: <b>%5</b><br>"
-                       "Number of events: <b>%6</b><br>"
-                       "Division: <b>%7 ppq</b><br>"
-                       "Initial tempo: <b>%8 bpm</b><br>"
+        infostr = i18n("File: <b>%1</b><br/>"
+                       "Created: <b>%2</b><br/>"
+                       "Modified: <b>%3</b><br/>"
+                       "SMF Format: <b>%4</b><br/>"
+                       "Number of tracks: <b>%5</b><br/>"
+                       "Number of events: <b>%6</b><br/>"
+                       "Division: <b>%7 ppq</b><br/>"
+                       "Initial tempo: <b>%8 bpm</b><br/>"
                        "Duration: <b>%9</b>",
                        finfo.fileName(),
                        finfo.created().toString(Qt::DefaultLocaleLongDate),

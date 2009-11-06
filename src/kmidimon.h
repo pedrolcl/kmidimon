@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef _KMIDIMON_H_
-#define _KMIDIMON_H_
+#ifndef KMIDIMON_H
+#define KMIDIMON_H
 
 #include <QPointer>
 #include <kxmlguiwindow.h>
@@ -139,4 +139,4 @@ private:
     QString m_file;
 };
 
-#endif // _KMIDIMON_H_
+#endif // KMIDIMON_H

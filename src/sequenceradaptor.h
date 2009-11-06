@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCERCLIENT_H
-#define SEQUENCERCLIENT_H
+#ifndef SEQUENCERADAPTOR_H
+#define SEQUENCERADAPTOR_H
 
 #include <QEvent>
 #include <QMap>

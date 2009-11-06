@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef PROXYMODEL_H_
-#define PROXYMODEL_H_
+#ifndef PROXYMODEL_H
+#define PROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 #include <alsaevent.h>
@@ -66,4 +66,4 @@ private:
     EventFilter* m_filter;
 };
 
-#endif /* PROXYMODEL_H_ */
+#endif /* PROXYMODEL_H */

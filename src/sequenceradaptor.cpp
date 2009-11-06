@@ -19,13 +19,10 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include <iostream>
-#include <stdexcept>
-#include <QStringList>
-#include <QDebug>
-
-#include <kapplication.h>
-#include <klocale.h>
+#include "sequenceradaptor.h"
+#include "sequenceitem.h"
+#include "sequencemodel.h"
+#include "player.h"
 
 #include <alsaclient.h>
 #include <alsaport.h>
@@ -33,10 +30,11 @@
 #include <alsaevent.h>
 #include <subscription.h>
 
-#include "sequenceradaptor.h"
-#include "sequenceitem.h"
-#include "sequencemodel.h"
-#include "player.h"
+#include <QStringList>
+#include <QDebug>
+
+#include <kapplication.h>
+#include <klocale.h>
 
 using namespace std;
 
@@ -280,7 +278,7 @@ QString SequencerAdaptor::output_subscriber()
         PortInfo p = *it;
         return QString("%1:%2").arg(p.getClientName()).arg(p.getPort());
     }
-    return QString::null;
+    return QString();
 }
 
 void SequencerAdaptor::disconnect_all_inputs()

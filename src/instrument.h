@@ -26,8 +26,8 @@
 /*  Library of compatible instrument definitions:
     ftp://ftp.cakewalk.com/pub/InstrumentDefinitions/ */
 
-#ifndef __instrument_h
-#define __instrument_h
+#ifndef INSTRUMENT_H
+#define INSTRUMENT_H
 
 #include <QStringList>
 #include <QMap>
@@ -349,4 +349,4 @@ private:
 };
 
 
-#endif  // __instrument_h
+#endif  // INSTRUMENT_H

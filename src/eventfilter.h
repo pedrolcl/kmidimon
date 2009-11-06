@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef EVENTFILTER_H_
-#define EVENTFILTER_H_
+#ifndef EVENTFILTER_H
+#define EVENTFILTER_H
 
 #include <QHash>
 #include <QString>
@@ -101,4 +101,4 @@ private:
     QHash<int, EvCategory> m_aux;
 };
 
-#endif /* EVENTFILTER_H_ */
+#endif /* EVENTFILTER_H */

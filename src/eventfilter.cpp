@@ -19,13 +19,13 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include <kconfiggroup.h>
 #include "eventfilter.h"
+#include <kconfiggroup.h>
 
 QString CategoryFilter::getName(int t)
 {
     if (m_actions.contains(t))
-        return m_actions[t]->text().replace("&", "");
+        return m_actions[t]->text().remove('&');
     return QString();
 }
 
@@ -78,7 +78,7 @@ EventFilter::EventFilter(QObject* parent)
     insert(SysCommonCategory, SND_SEQ_EVENT_QFRAME, i18n("MTC Quarter Frame"));
     insert(SysCommonCategory, SND_SEQ_EVENT_TUNE_REQUEST, i18n("Tune Request"));
     /* MIDI Realtime Events */
-    insert(SysRTCategory, SND_SEQ_EVENT_START, i18n("Start"));
+    insert(SysRTCategory, SND_SEQ_EVENT_START, i18nc("player start","Start"));
     insert(SysRTCategory, SND_SEQ_EVENT_CONTINUE, i18n("Continue"));
     insert(SysRTCategory, SND_SEQ_EVENT_STOP, i18n("Stop"));
     insert(SysRTCategory, SND_SEQ_EVENT_CLOCK, i18n("Clock"));
@@ -195,7 +195,7 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
             submenu->setTitle(cf->getName());
             m_menu->addMenu(submenu);
             cf->setMenu(submenu);
-            KAction *actionAll = new KAction(i18n("All"), this);
+            KAction *actionAll = new KAction(i18nc("check all types","All"), this);
             connect(actionAll, SIGNAL(triggered()), m_mapperAll, SLOT(map()));
             m_mapperAll->setMapping(actionAll, (int) iter.key() );
             submenu->addAction( actionAll );

@@ -21,23 +21,32 @@
 
 #include "configdialog.h"
 
+ConfigDialog::ConfigDialog(QWidget *parent)
+    : KDialog(parent)
+{
+    QWidget *widget = new QWidget( this );
+    ui.setupUi(widget);
+    setMainWidget( widget );
+    setCaption( i18n("KMidimon Preferences") );
+}
+
 bool ConfigDialog::showColumn(int colNum)
 {
     switch (colNum) {
     case 0:
-        return m_showTicksColumn->isChecked();
+        return ui.m_showTicksColumn->isChecked();
     case 1:
-        return m_showTimeColumn->isChecked();
+        return ui.m_showTimeColumn->isChecked();
     case 2:
-        return m_showSourceColumn->isChecked();
+        return ui.m_showSourceColumn->isChecked();
     case 3:
-        return m_showEventTypeColumn->isChecked();
+        return ui.m_showEventTypeColumn->isChecked();
     case 4:
-        return m_showChannelColumn->isChecked();
+        return ui.m_showChannelColumn->isChecked();
     case 5:
-        return m_showData1Column->isChecked();
+        return ui.m_showData1Column->isChecked();
     case 6:
-        return m_showData2Column->isChecked();
+        return ui.m_showData2Column->isChecked();
     }
     return false;
 }
@@ -46,37 +55,37 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
 {
     switch (colNum) {
     case 0:
-        m_showTicksColumn->setChecked(newValue);
+        ui.m_showTicksColumn->setChecked(newValue);
         break;
     case 1:
-        m_showTimeColumn->setChecked(newValue);
+        ui.m_showTimeColumn->setChecked(newValue);
         break;
     case 2:
-        m_showSourceColumn->setChecked(newValue);
+        ui.m_showSourceColumn->setChecked(newValue);
         break;
     case 3:
-        m_showEventTypeColumn->setChecked(newValue);
+        ui.m_showEventTypeColumn->setChecked(newValue);
         break;
     case 4:
-        m_showChannelColumn->setChecked(newValue);
+        ui.m_showChannelColumn->setChecked(newValue);
         break;
     case 5:
-        m_showData1Column->setChecked(newValue);
+        ui.m_showData1Column->setChecked(newValue);
         break;
     case 6:
-        m_showData2Column->setChecked(newValue);
+        ui.m_showData2Column->setChecked(newValue);
         break;
     }
 }
 
 void ConfigDialog::setInstrumentName( const QString name )
 {
-    int index = m_instruments->findText( name );
-    m_instruments->setCurrentIndex( index );
+    int index = ui.m_instruments->findText( name );
+    ui.m_instruments->setCurrentIndex( index );
 }
 
 void ConfigDialog::setInstruments( const QStringList& items )
 {
-    m_instruments->clear();
-    m_instruments->addItems(items);
+    ui.m_instruments->clear();
+    ui.m_instruments->addItems(items);
 }

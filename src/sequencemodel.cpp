@@ -19,22 +19,20 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include <cmath>
+#include "sequencemodel.h"
+#include "sequenceradaptor.h"
+#include "kmidimon.h"
+#include "eventfilter.h"
 
+#include <cmath>
 #include <QFile>
 #include <QDataStream>
 #include <QListIterator>
 #include <QFileInfo>
 #include <QTime>
-
 #include <klocale.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
-
-#include "sequenceradaptor.h"
-#include "sequencemodel.h"
-#include "kmidimon.h"
-#include "eventfilter.h"
 
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
@@ -150,7 +148,7 @@ SequenceModel::headerData(int section, Qt::Orientation orientation,
         case 1:
             return i18n("Time");
         case 2:
-            return i18n("Source");
+            return i18nc("event origin","Source");
         case 3:
             return i18n("Event kind");
         case 4:
@@ -306,8 +304,8 @@ SequenceModel::sysex_type(const SequencerEvent *ev) const
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
-            if (sev->getLength() < 6) return QString::null;
-            if (*ptr++ != 0xf0) return QString::null;
+            if (sev->getLength() < 6) return QString();
+            if (*ptr++ != 0xf0) return QString();
             int msgId = *ptr++;
             switch (msgId) {
             case 0x7e:
@@ -320,7 +318,7 @@ SequenceModel::sysex_type(const SequencerEvent *ev) const
         }
         return i18n("System exclusive");
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -330,18 +328,18 @@ SequenceModel::sysex_chan(const SequencerEvent *ev) const
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
-            if (sev->getLength() < 6) return QString::null;
-            if (*ptr++ != 0xf0) return QString::null;
+            if (sev->getLength() < 6) return QString();
+            if (*ptr++ != 0xf0) return QString();
             *ptr++;
             int deviceId = *ptr++;
             if ( deviceId == 0x7f )
-                return i18n("broadcast");
+                return i18nc("cast or scattered in all directions","broadcast");
             else
                 return i18n("device %1", deviceId);
         }
         return "-";
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -351,8 +349,8 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
     if (sev != NULL) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
-            if (sev->getLength() < 6) return QString::null;
-            if (*ptr++ != 0xf0) return QString::null;
+            if (sev->getLength() < 6) return QString();
+            if (*ptr++ != 0xf0) return QString();
             int msgId = *ptr++;
             *ptr++;
             int subId1 = *ptr++;
@@ -401,7 +399,7 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
         }
         return QString("%1").arg(sev->getLength());
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -409,7 +407,7 @@ SequenceModel::sysex_mtc_setup(const int id) const
 {
     switch (id) {
         case 0x00:
-            return i18n("Special");
+            return i18nc("MTC special setup","Special");
         case 0x01:
             return i18n("Punch In Points");
         case 0x02:
@@ -441,7 +439,7 @@ SequenceModel::sysex_mtc_setup(const int id) const
         default:
             break;
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -463,7 +461,7 @@ SequenceModel::sysex_mtc(int id, int length, unsigned char *ptr) const
         default:
             break;
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -527,7 +525,7 @@ SequenceModel::sysex_mmc(int id, int length, unsigned char *ptr) const
     default:
         break;
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -538,8 +536,8 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
         if (m_translateSysex) {
             int val;
             unsigned char *ptr = (unsigned char *) sev->getData();
-            if (sev->getLength() < 6) return QString::null;
-            if (*ptr++ != 0xf0) return QString::null;
+            if (sev->getLength() < 6) return QString();
+            if (*ptr++ != 0xf0) return QString();
             int msgId = *ptr++;
             *ptr++;
             int subId1 = *ptr++;
@@ -636,9 +634,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                             val += (*ptr++ * 128);
                             switch (subId2) {
                                 case 0x01:
-                                    return i18n("Volume: %1", val);
+                                    return i18nc("sound volume","Volume: %1", val);
                                 case 0x02:
-                                    return i18n("Balance: %1", val - 8192);
+                                    return i18nc("sound balance","Balance: %1", val - 8192);
                                 default:
                                     break;
                             }
@@ -647,7 +645,7 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x06:
                         return sysex_mmc(subId2, sev->getLength(), ptr);
                     default:
-                        return QString::null;
+                        return QString();
                 }
             }
         }
@@ -662,7 +660,7 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
         }
         return text.trimmed();
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -683,7 +681,7 @@ SequenceModel::client_name(const int client_number) const
 {
     if (m_showClientNames) {
         QString name = m_clients[client_number];
-        if (name != QString::null)
+        if (!name.isEmpty())
             return name;
     }
     return QString("%1").arg(client_number);
@@ -704,7 +702,7 @@ SequenceModel::event_addr(const SequencerEvent *ev) const
         return QString("%1:%2").arg(client_name(pe->getClient()))
                                .arg(pe->getPort());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -714,7 +712,7 @@ SequenceModel::event_client(const SequencerEvent *ev) const
     if (ce != NULL)
         return client_name(ce->getClient());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -725,7 +723,7 @@ SequenceModel::event_sender(const SequencerEvent *ev) const
         return QString("%1:%2").arg(client_name(se->getSenderClient()))
                                .arg(se->getSenderPort());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -736,7 +734,7 @@ SequenceModel::event_dest(const SequencerEvent *ev) const
         return QString("%1:%2").arg(client_name(se->getDestClient()))
                                .arg(se->getDestPort());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -746,7 +744,7 @@ SequenceModel::common_param(const SequencerEvent *ev) const
     if (ve != NULL)
         return QString("%1").arg(ve->getValue());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -767,7 +765,7 @@ SequenceModel::event_channel(const SequencerEvent *ev) const
     if (che != NULL)
         return QString("%1").arg(che->getChannel()+1);
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -802,7 +800,7 @@ SequenceModel::note_key(const SequencerEvent* ev) const
     	else
             return QString("%1").arg(ke->getKey());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -824,7 +822,7 @@ SequenceModel::program_number(const SequencerEvent* ev) const
         }
         return QString("%1").arg(pc->getValue());
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -834,7 +832,7 @@ SequenceModel::note_velocity(const SequencerEvent* ev) const
     if (ke != NULL)
         return QString("%1").arg(ke->getVelocity());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -856,7 +854,7 @@ SequenceModel::control_param(const SequencerEvent* ev) const
         }
         return QString("%1").arg(ce->getParam());
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -866,7 +864,7 @@ SequenceModel::control_value(const SequencerEvent* ev) const
     if (ce != NULL)
         return QString("%1").arg(ce->getValue());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -876,7 +874,7 @@ SequenceModel::pitchbend_value(const SequencerEvent* ev) const
     if (pe != NULL)
         return QString("%1").arg(pe->getValue());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -886,7 +884,7 @@ SequenceModel::chanpress_value(const SequencerEvent* ev) const
     if (cp != NULL)
         return QString("%1").arg(cp->getValue());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -896,7 +894,7 @@ SequenceModel::tempo_bpm(const SequencerEvent *ev) const
     if (te != NULL)
         return QString("%1 bpm").arg(6e7 / te->getValue(), 0, 'f', 1);
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -906,7 +904,7 @@ SequenceModel::tempo_npt(const SequencerEvent *ev) const
     if (te != NULL)
         return QString("%1").arg(te->getValue());
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -920,7 +918,7 @@ SequenceModel::text_type(const SequencerEvent *ev) const
         case 2:
             return i18n("Copyright:2");
         case 3:
-            return i18n("Name:3");
+            return i18nc("song or track name","Name:3");
         case 4:
             return i18n("Instrument:4");
         case 5:
@@ -933,7 +931,7 @@ SequenceModel::text_type(const SequencerEvent *ev) const
             return QString("%1").arg( te->getTextType() );
         }
     } else {
-        return QString::null;
+        return QString();
     }
 }
 
@@ -944,7 +942,7 @@ SequenceModel::text_data(const SequencerEvent *ev) const
     if (te != NULL)
         return te->getText();
     else
-        return QString::null;
+        return QString();
 }
 
 QString
@@ -975,7 +973,7 @@ SequenceModel::key_sig(const SequencerEvent *ev) const
     return i18n("%1%2, %3 %4", abs(s),
             s < 0 ? QChar(0x266D) : QChar(0x266F), //s < 0 ? "♭" : "♯"
             tone,
-            ev->getRaw8(1) == 0 ? i18n("major") : i18n("minor"));
+            ev->getRaw8(1) == 0 ? i18nc("major mode scale","major") : i18nc("minor mode scale","minor"));
 }
 
 QString
@@ -1051,9 +1049,9 @@ SequenceModel::event_data1(const SequencerEvent *ev) const
 
        /* Other events */
     default:
-        return QString::null;
+        return QString();
     }
-    return QString::null;
+    return QString();
 }
 
 QString
@@ -1096,9 +1094,9 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
 
         /* Other events */
     default:
-        return QString::null;
+        return QString();
     }
-    return QString::null;
+    return QString();
 }
 
 const SequenceItem*
@@ -1522,7 +1520,7 @@ SequenceModel::getInstruments() const
     QStringList lst;
     InstrumentList::ConstIterator it;
     for(it = m_insList.begin(); it != m_insList.end(); ++it) {
-        if(!it.key().endsWith("Drums", Qt::CaseInsensitive))
+        if(!it.key().endsWith(QLatin1String("Drums"), Qt::CaseInsensitive))
             lst += it.key();
     }
     return lst;

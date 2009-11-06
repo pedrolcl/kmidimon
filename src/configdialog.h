@@ -22,62 +22,61 @@
 #ifndef CONFIGDIALOG_H
 #define CONFIGDIALOG_H
 
+#include <kdialog.h>
+
 #include "ui_configdialogbase.h"
 
-class ConfigDialog : public QDialog, public Ui::ConfigDialogBase
+class ConfigDialog : public KDialog
 {
     Q_OBJECT
 public:
-    ConfigDialog(QWidget *parent = 0)
-        : QDialog(parent),
-          Ui::ConfigDialogBase()
-    {
-        setupUi(this);
-    }
-
+    ConfigDialog(QWidget *parent = 0);
     virtual ~ConfigDialog() {}
 
-    int getTempo() { return m_tempo->value(); }
-    void setTempo(int newValue) { m_tempo->setValue(newValue); }
+    int getTempo() { return ui.m_tempo->value(); }
+    void setTempo(int newValue) { ui.m_tempo->setValue(newValue); }
 
-    int getResolution() { return m_resolution->value(); }
-    void setResolution(int newValue) { m_resolution->setValue(newValue); }
+    int getResolution() { return ui.m_resolution->value(); }
+    void setResolution(int newValue) { ui.m_resolution->setValue(newValue); }
 
-    bool isRegChannelMsg() { return m_channel->isChecked(); }
-    bool isRegCommonMsg() { return m_common->isChecked(); }
-    bool isRegRealTimeMsg() { return m_realtime->isChecked(); }
-    bool isRegSysexMsg() { return m_sysex->isChecked(); }
-    bool isRegAlsaMsg() { return m_alsa->isChecked(); }
-    bool isRegSmfMsg() { return m_smfmsg->isChecked(); }
+    bool isRegChannelMsg() { return ui.m_channel->isChecked(); }
+    bool isRegCommonMsg() { return ui.m_common->isChecked(); }
+    bool isRegRealTimeMsg() { return ui.m_realtime->isChecked(); }
+    bool isRegSysexMsg() { return ui.m_sysex->isChecked(); }
+    bool isRegAlsaMsg() { return ui.m_alsa->isChecked(); }
+    bool isRegSmfMsg() { return ui.m_smfmsg->isChecked(); }
 
-    void setRegChannelMsg(bool newValue) { m_channel->setChecked(newValue); }
-    void setRegCommonMsg(bool newValue) { m_common->setChecked(newValue); }
-    void setRegRealTimeMsg(bool newValue) { m_realtime->setChecked(newValue); }
-    void setRegSysexMsg(bool newValue) { m_sysex->setChecked(newValue); }
-    void setRegAlsaMsg(bool newValue) { m_alsa->setChecked(newValue); }
-    void setRegSmfMsg(bool newValue) { m_smfmsg->setChecked(newValue); }
+    void setRegChannelMsg(bool newValue) { ui.m_channel->setChecked(newValue); }
+    void setRegCommonMsg(bool newValue) { ui.m_common->setChecked(newValue); }
+    void setRegRealTimeMsg(bool newValue) { ui.m_realtime->setChecked(newValue); }
+    void setRegSysexMsg(bool newValue) { ui.m_sysex->setChecked(newValue); }
+    void setRegAlsaMsg(bool newValue) { ui.m_alsa->setChecked(newValue); }
+    void setRegSmfMsg(bool newValue) { ui.m_smfmsg->setChecked(newValue); }
 
-    bool showClientNames() { return m_showClientNames->isChecked(); }
-    void setShowClientNames(bool newValue) { m_showClientNames->setChecked(newValue); }
+    bool showClientNames() { return ui.m_showClientNames->isChecked(); }
+    void setShowClientNames(bool newValue) { ui.m_showClientNames->setChecked(newValue); }
 
-    bool translateSysex() { return m_translateSysex->isChecked(); }
-    void setTranslateSysex(bool newValue) { m_translateSysex->setChecked(newValue); }
+    bool translateSysex() { return ui.m_translateSysex->isChecked(); }
+    void setTranslateSysex(bool newValue) { ui.m_translateSysex->setChecked(newValue); }
 
-    bool useFixedFont() { return m_useFixedFont->isChecked(); }
-    void setUseFixedFont(bool newValue) { m_useFixedFont->setChecked(newValue); }
+    bool useFixedFont() { return ui.m_useFixedFont->isChecked(); }
+    void setUseFixedFont(bool newValue) { ui.m_useFixedFont->setChecked(newValue); }
 
     bool showColumn(int colNum);
     void setShowColumn(int colNum, bool newValue);
 
-    bool translateNotes() { return m_translateNotes->isChecked(); }
-    void setTranslateNotes(bool newValue) { m_translateNotes->setChecked(newValue); }
+    bool translateNotes() { return ui.m_translateNotes->isChecked(); }
+    void setTranslateNotes(bool newValue) { ui.m_translateNotes->setChecked(newValue); }
 
-    bool translateCtrls() { return m_translateCtrls->isChecked(); }
-    void setTranslateCtrls(bool newValue) { m_translateCtrls->setChecked(newValue); }
+    bool translateCtrls() { return ui.m_translateCtrls->isChecked(); }
+    void setTranslateCtrls(bool newValue) { ui.m_translateCtrls->setChecked(newValue); }
 
-    QString getInstrumentName() { return m_instruments->currentText(); }
+    QString getInstrumentName() { return ui.m_instruments->currentText(); }
     void setInstrumentName(const QString name);
     void setInstruments(const QStringList& items);
+
+private:
+    Ui::ConfigDialogBase ui;
 };
 
 #endif

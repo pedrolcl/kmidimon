@@ -17,8 +17,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include <alsaqueue.h>
 #include "player.h"
+#include <alsaqueue.h>
 
 Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),

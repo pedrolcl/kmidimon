@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCEITEM_H_
-#define SEQUENCEITEM_H_
+#ifndef SEQUENCEITEM_H
+#define SEQUENCEITEM_H
 
 #include <alsaevent.h>
 
@@ -58,4 +58,4 @@ private:
     SequencerEvent* m_event;
 };
 
-#endif /* SEQUENCEITEM_H_ */
+#endif /* SEQUENCEITEM_H */

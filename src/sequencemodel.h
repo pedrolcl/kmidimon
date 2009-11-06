@@ -19,8 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCEMODEL_H_
-#define SEQUENCEMODEL_H_
+#ifndef SEQUENCEMODEL_H
+#define SEQUENCEMODEL_H
 
 #include <QAbstractItemModel>
 #include <QMap>
@@ -209,4 +209,4 @@ private:
     EventFilter* m_filter;
 };
 
-#endif /* SEQUENCEMODEL_H_ */
+#endif /* SEQUENCEMODEL_H */

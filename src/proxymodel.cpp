@@ -19,10 +19,10 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "eventfilter.h"
 #include "proxymodel.h"
 #include "sequenceitem.h"
 #include "sequencemodel.h"
+#include "eventfilter.h"
 
 void ProxyModel::setFilterTrack(int track)
 {

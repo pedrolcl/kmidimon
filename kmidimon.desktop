@@ -1,8 +1,8 @@
 [Desktop Entry]
-Encoding=UTF-8
-Name=kmidimon
+Name=KMidimon
 Exec=kmidimon
 Icon=kmidimon
 Type=Application
 Comment=ALSA Sequencer MIDI monitor
-Categories=AudioVideo;Music
+Comment[es]=Monitor MIDI utilizando el secuenciador ALSA
+Categories=AudioVideo;Audio;Music;Midi;Player;Recorder;

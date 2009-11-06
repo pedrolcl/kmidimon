@@ -19,6 +19,8 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
+#include "connectdlg.h"
+
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QCheckBox>
@@ -26,8 +28,6 @@
 #include <QLabel>
 #include <klocale.h>
 #include <kcombobox.h>
-
-#include "connectdlg.h"
 
 ConnectDlg::ConnectDlg( QWidget *parent,
                         const QStringList& inputs,
@@ -70,7 +70,7 @@ QStringList ConnectDlg::getSelectedInputs() const
     QList<QCheckBox*> checks = m_group->findChildren<QCheckBox*> ();
     foreach ( QCheckBox* chk, checks ) {
         if (chk->isChecked()) {
-            lst += chk->text().remove("&");
+            lst += chk->text().remove('&');
         }
     }
     return lst;
