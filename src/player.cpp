@@ -122,7 +122,6 @@ void Player::run()
                 m_Queue->setTickPosition(last_tick);
                 m_Queue->continueRunning();
             }
-            m_Stopped = false;
             while (!stopped() && hasNext()) {
                 SequencerEvent* ev = nextEvent();
                 /*if (getEchoResolution() > 0) {
@@ -131,7 +130,7 @@ void Player::run()
                         sendEchoEvent(last_tick);
                     }
                 }*/
-                if (!SequencerEvent::isConnectionChange(ev)) {
+                if (!stopped() && !SequencerEvent::isConnectionChange(ev)) {
                     if(last_tick != ev->getTick()) {
                         last_tick = ev->getTick();
                         sendEchoEvent(last_tick);
