@@ -41,7 +41,6 @@ public:
     void setSong(Song* s, unsigned int division);
     void resetPosition();
     void setPosition(unsigned int pos);
-    bool isPlaying();
     void setLastIndex(const unsigned int index) { m_lastIndex = index; }
     unsigned int getLastIndex() const { return m_lastIndex; }
 

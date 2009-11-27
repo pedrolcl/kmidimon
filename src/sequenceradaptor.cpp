@@ -312,6 +312,6 @@ void SequencerAdaptor::songFinished()
 bool SequencerAdaptor::isPlaying()
 {
     if (m_player != NULL)
-        return m_player->isPlaying();
+        return m_player->isRunning();
     return false;
 }

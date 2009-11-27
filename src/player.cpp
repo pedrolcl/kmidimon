@@ -31,17 +31,12 @@ Player::Player(MidiClient *seq, int portId)
 
 Player::~Player()
 {
-    if (isRunning() && !stopped()) {
+    if (isRunning()) {
         stop();
     }
     if (m_songIterator != NULL) {
         delete m_songIterator;
     }
-}
-
-bool Player::isPlaying()
-{
-    return isRunning() && !stopped();
 }
 
 void Player::setSong(Song* s, unsigned int /*division*/)
@@ -97,7 +92,7 @@ SequencerEvent* Player::nextEvent()
 void
 Player::sendEchoEvent(int tick)
 {
-    if (m_MidiClient != NULL) {
+    if (!stopped() && m_MidiClient != NULL) {
         SystemEvent ev(SND_SEQ_EVENT_USR0);
         ev.setRaw32(0, m_lastIndex);
         ev.setSource(m_PortId);
