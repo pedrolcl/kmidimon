@@ -80,6 +80,7 @@ public slots:
     /* handler for the sequencer events */
     void sequencerEvent( SequencerEvent* ev );
     void songFinished();
+    void shutupSound();
 
 signals:
     void signalTicks(int tick);

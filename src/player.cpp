@@ -92,7 +92,7 @@ SequencerEvent* Player::nextEvent()
 void
 Player::sendEchoEvent(int tick)
 {
-    if (!stopped() && m_MidiClient != NULL) {
+    if (!stopRequested() && m_MidiClient != NULL) {
         SystemEvent ev(SND_SEQ_EVENT_USR0);
         ev.setRaw32(0, m_lastIndex);
         ev.setSource(m_PortId);
@@ -117,7 +117,7 @@ void Player::run()
                 m_Queue->setTickPosition(last_tick);
                 m_Queue->continueRunning();
             }
-            while (!stopped() && hasNext()) {
+            while (!stopRequested() && hasNext()) {
                 SequencerEvent* ev = nextEvent();
                 /*if (getEchoResolution() > 0) {
                     while (last_tick < ev->getTick()) {
@@ -125,7 +125,7 @@ void Player::run()
                         sendEchoEvent(last_tick);
                     }
                 }*/
-                if (!stopped() && !SequencerEvent::isConnectionChange(ev)) {
+                if (!stopRequested() && !SequencerEvent::isConnectionChange(ev)) {
                     if(last_tick != ev->getTick()) {
                         last_tick = ev->getTick();
                         sendEchoEvent(last_tick);
@@ -133,14 +133,14 @@ void Player::run()
                     sendSongEvent(ev);
                 }
             }
-            if (stopped()) {
+            if (stopRequested()) {
                 m_Queue->clear();
-                shutupSound();
+                emit stopped();
             } else {
                 drainOutput();
                 syncOutput();
-                if (stopped())
-                    shutupSound();
+                if (stopRequested())
+                    emit stopped();
                 else
                     emit finished();
             }

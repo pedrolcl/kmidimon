@@ -68,6 +68,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->subscribeFromAnnounce();
 
     m_player = new Player(m_client, m_port->getPortId());
+    connect(m_player, SIGNAL(stopped()), SLOT(shutupSound()));
     connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
     connect(m_player, SIGNAL(finished()), parent, SLOT(songFinished()));
 
@@ -113,7 +114,8 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         if (SequencerEvent::isClient(ev)) updateModelClients();
         m_model->addItem(itm);
     } else {
-        if (ev->getSequencerType() == SND_SEQ_EVENT_USR0)
+        if (m_player->isRunning() &&
+            (ev->getSequencerType() == SND_SEQ_EVENT_USR0))
             emit signalTicks(ev->getRaw32(0));
         delete ev;
     }
@@ -307,6 +309,24 @@ void SequencerAdaptor::songFinished()
 {
     m_player->resetPosition();
     m_model->setCurrentRow(0);
+}
+
+void SequencerAdaptor::shutupSound()
+{
+    int portId = m_port->getPortId();
+    for (int channel = 0; channel < 16; ++channel) {
+        ControllerEvent ev1(channel, MIDI_CTL_ALL_NOTES_OFF, 0);
+        ev1.setSource(portId);
+        ev1.setSubscribers();
+        ev1.setDirect();
+        m_client->outputDirect(&ev1);
+        ControllerEvent ev2(channel, MIDI_CTL_ALL_SOUNDS_OFF, 0);
+        ev2.setSource(portId);
+        ev2.setSubscribers();
+        ev2.setDirect();
+        m_client->outputDirect(&ev2);
+    }
+    m_client->drainOutput();
 }
 
 bool SequencerAdaptor::isPlaying()
