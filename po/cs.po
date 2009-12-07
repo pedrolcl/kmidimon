@@ -8,9 +8,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://sourceforge."
 "net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2009-08-09 22:01+0200\n"
-"PO-Revision-Date: 2009-12-05 18:20+0100\n"
-"Last-Translator: Pavel Fric\n"
-"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2009-12-07 12:13+0100\n"
+"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
+"Language-Team: Czech <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -55,15 +55,15 @@ msgstr "SMF"
 
 #: src/eventfilter.cpp:63
 msgid "Note on"
-msgstr "Zprávy zapnuty"
+msgstr "Nota zapnuta"
 
 #: src/eventfilter.cpp:64
 msgid "Note off"
-msgstr "Zprávy vypnuty"
+msgstr "Nota vypnuta"
 
 #: src/eventfilter.cpp:65
 msgid "Polyphonic aftertouch"
-msgstr "Zkouška vícehlasu"
+msgstr "Polyfonní úhoz"
 
 #: src/eventfilter.cpp:66 src/eventfilter.cpp:70
 msgid "Control change"
@@ -75,7 +75,7 @@ msgstr "Změna programu"
 
 #: src/eventfilter.cpp:68
 msgid "Channel aftertouch"
-msgstr "Zkouška kanálu"
+msgstr "Kanálový úhoz"
 
 #: src/eventfilter.cpp:69
 msgid "Pitch bend"
@@ -103,11 +103,11 @@ msgstr "Výběr písně"
 
 #: src/eventfilter.cpp:78
 msgid "MTC Quarter Frame"
-msgstr "Rámeček čtvrtiny MTC"
+msgstr "Čtvrtinový snímek MTC"
 
 #: src/eventfilter.cpp:79
 msgid "Tune Request"
-msgstr "Žádost o čistý zvuk"
+msgstr "Žádost o naladění"
 
 #: src/eventfilter.cpp:81
 msgid "Start"
@@ -127,7 +127,7 @@ msgstr "Ukazatel času"
 
 #: src/eventfilter.cpp:85
 msgid "Tick"
-msgstr "Ťukot"
+msgstr "Jednotka"
 
 #: src/eventfilter.cpp:86
 msgid "Reset"
@@ -219,7 +219,7 @@ msgstr "Přepínače pohledu na stopu"
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTicksColumn)
 #: src/kmidimon.cpp:124 src/sequencemodel.cpp:149 po/rc.cpp:81
 msgid "Ticks"
-msgstr "Ťukot"
+msgstr "Jednotky"
 
 #: src/kmidimon.cpp:125 src/sequencemodel.cpp:151
 msgid "Time"
@@ -383,7 +383,7 @@ msgstr "Změnit šířku sloupců, aby se do ní vešel její obsah"
 
 #: src/kmidimon.cpp:268
 msgid "Sequence Info"
-msgstr "Informace o úryvku"
+msgstr "Informace sekvenci"
 
 #: src/kmidimon.cpp:269
 msgid "Display information about the loaded sequence"
@@ -549,7 +549,7 @@ msgstr "Zařízení %1"
 
 #: src/sequencemodel.cpp:364 src/sequencemodel.cpp:368
 msgid "Sample Dump"
-msgstr "Vzorkovací výpis"
+msgstr "Výpis obsahu paměti vzorků"
 
 #: src/sequencemodel.cpp:366
 msgid "MTC Setup"
@@ -645,15 +645,15 @@ msgstr "Smazat bod konce události"
 
 #: src/sequencemodel.cpp:434
 msgid "Cue Points"
-msgstr "Body úloh"
+msgstr "Body narážek (cue)"
 
 #: src/sequencemodel.cpp:436
 msgid "Cue Points With Info"
-msgstr "Body úloh s údaji"
+msgstr "Body narážek s údaji"
 
 #: src/sequencemodel.cpp:438
 msgid "Delete Cue Points"
-msgstr "Smazat body úloh"
+msgstr "Smazat body narážek"
 
 #: src/sequencemodel.cpp:440
 msgid "Event Name"
@@ -661,7 +661,7 @@ msgstr "Název události"
 
 #: src/sequencemodel.cpp:453
 msgid "Full Frame: %1 %2 %3 %4"
-msgstr "Plný rámeček: %1 %2 %3 %4"
+msgstr "Plný snímek: %1 %2 %3 %4"
 
 #: src/sequencemodel.cpp:458
 msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
@@ -713,7 +713,7 @@ msgstr "Ztlumení skladby:"
 
 #: src/sequencemodel.cpp:522
 msgid "Locate: %1 %2 %3 %4 %5"
-msgstr "Umístit: %1 %2 %3 %4 %5"
+msgstr "Jít na: %1 %2 %3 %4 %5"
 
 #: src/sequencemodel.cpp:550
 msgid "Header"
@@ -741,15 +741,15 @@ msgstr "Požadavek na totožnost"
 
 #: src/sequencemodel.cpp:574
 msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
-msgstr "Odpověď totožnosti: %1 %2 %3 %4 %5 %6 %7 %8 %9"
+msgstr "Odpověď s totožností: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 
 #: src/sequencemodel.cpp:587
 msgid "Dump Request: %1"
-msgstr "Požadavek na výpis: %1"
+msgstr "Požadavek na výpis obsahu paměti: %1"
 
 #: src/sequencemodel.cpp:589
 msgid "Bulk Dump: %1"
-msgstr "Hromadný výpis: %1"
+msgstr "Hromadný výpis obsahu paměti: %1"
 
 #: src/sequencemodel.cpp:591
 msgid "Note Change: %1"
@@ -880,7 +880,7 @@ msgstr "Značka: 6"
 
 #: src/sequencemodel.cpp:931
 msgid "Cue:7"
-msgstr "Úloha: 7"
+msgstr "Narážka: 7"
 
 #: src/sequencemodel.cpp:953
 msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
@@ -985,7 +985,7 @@ msgid ""
 "The number of MIDI ticks per quarter note. This is a default value; a MIDI "
 "file (SMF) may change this value."
 msgstr ""
-"Počet tiknutí MIDI na čtvrťovou notu. Jedná se o výchozí hodnotu; tato "
+"Počet jednotek MIDI na čtvrťovou notu. Jedná se o výchozí hodnotu; tato "
 "hodnota může být změněna souborem MIDI (SMF)."
 
 #. i18n: file: src/configdialogbase.ui:100
@@ -1029,7 +1029,7 @@ msgid ""
 msgstr ""
 "Zprávy kanálu MIDI zahrnují: Nota zapnuta/vypnuta, Změna ovládání, Změna "
 "programu, "
-"Ovládání výšky tónu, Tlaková citlivost klávesy, Kanálová tlaková citlivost."
+"Ovládání výšky tónu, Tlaková citlivost klávesy a Kanálová tlaková citlivost."
 
 #. i18n: file: src/configdialogbase.ui:167
 #. i18n: ectx: property (text), widget (QCheckBox, m_channel)
@@ -1043,7 +1043,8 @@ msgstr "Zprávy kanálu MIDI"
 msgid ""
 "System common messages are: quarter frame, song position and tune request."
 msgstr ""
-"Běžnými zprávami systému jsou: čtvrťový rámec, poloha písně a požadavek na "
+"Běžnými zprávami systému jsou: čtvrtinový snímek, poloha písně a požadavek "
+"na "
 "ladění."
 
 #. i18n: file: src/configdialogbase.ui:177
@@ -1131,7 +1132,7 @@ msgstr "Ukázat sloupce"
 msgid ""
 "Ticks are the musical time units. It is relative to tempo and resolution."
 msgstr ""
-"Tiknutí jsou hudebními jednotkami času. Jsou v poměru k tempu a rozlišení."
+"Jednotky jsou hudebními jednotkami času. Jsou v poměru k tempu a rozlišení."
 
 #. i18n: file: src/configdialogbase.ui:266
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showTimeColumn)
@@ -1149,7 +1150,7 @@ msgstr "Čas (v sekundách)"
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showSourceColumn)
 #: po/rc.cpp:90
 msgid "MIDI port originating the messages"
-msgstr "Přípojka MIDI, která je původce zpráv"
+msgstr "Přípojka MIDI, která je původcem zpráv"
 
 #. i18n: file: src/configdialogbase.ui:286
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showEventTypeColumn)

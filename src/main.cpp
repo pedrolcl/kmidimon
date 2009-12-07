@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 {
 	KAboutData about("kmidimon", 0, ki18n("KMidimon"), version,
 	                 ki18n(description), KAboutData::License_GPL,
-	                 ki18n("(C) 2005-2008 Pedro Lopez-Cabanillas"),
+	                 ki18n("(C) 2005-2009 Pedro Lopez-Cabanillas"),
 	                 KLocalizedString(),
 	                 "http://kmetronome.sourceforge.net/kmidimon",
 	                 "plcl@users.sourceforge.net");
