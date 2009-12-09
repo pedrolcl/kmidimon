@@ -787,7 +787,7 @@ SequenceModel::note_key(const SequencerEvent* ev) const
     const KeyEvent* ke = dynamic_cast<const KeyEvent*>(ev);
     if (ke != NULL)
     	if (m_translateNotes)
-            if ((ke->getChannel() == 9) && (m_ins2 != NULL)) {
+            if ((ke->getChannel() == MIDI_GM_DRUM_CHANNEL) && (m_ins2 != NULL)) {
                 int b = m_lastBank[ke->getChannel()];
                 int p = m_lastPatch[ke->getChannel()];
                 const InstrumentData& notes = m_ins2->notes(b, p);
@@ -809,12 +809,12 @@ SequenceModel::program_number(const SequencerEvent* ev) const
     const ProgramChangeEvent* pc = dynamic_cast<const ProgramChangeEvent*>(ev);
     if (pc != NULL) {
         if (m_translateCtrls) {
-            if (pc->getChannel() == 9 && m_ins2 != NULL) {
+            if (pc->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != NULL) {
                 const InstrumentData& patch = m_ins2->patch(m_lastBank[pc->getChannel()]);
                 if (patch.contains(pc->getValue()))
                     return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
             }
-            if (pc->getChannel() != 9 && m_ins != NULL) {
+            if (pc->getChannel() != MIDI_GM_DRUM_CHANNEL && m_ins != NULL) {
                 const InstrumentData& patch = m_ins->patch(m_lastBank[pc->getChannel()]);
                 if (patch.contains(pc->getValue()))
                     return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
@@ -842,7 +842,7 @@ SequenceModel::control_param(const SequencerEvent* ev) const
     if (ce != NULL) {
         if (m_translateCtrls) {
             Instrument* ins = NULL;
-            if (ce->getChannel() == 9 && m_ins2 != NULL)
+            if (ce->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != NULL)
                 ins = m_ins2;
             if (m_ins != NULL)
                 ins = m_ins;
