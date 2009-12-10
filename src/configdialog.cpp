@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "configdialog.h"
+#include <KCharsets>
 
 ConfigDialog::ConfigDialog(QWidget *parent)
     : KDialog(parent)
@@ -28,6 +29,7 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     ui.setupUi(widget);
     setMainWidget( widget );
     setCaption( i18n("KMidimon Preferences") );
+    initEncodings();
 }
 
 bool ConfigDialog::showColumn(int colNum)
@@ -78,7 +80,7 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
     }
 }
 
-void ConfigDialog::setInstrumentName( const QString name )
+void ConfigDialog::setInstrumentName( const QString& name )
 {
     int index = ui.m_instruments->findText( name );
     ui.m_instruments->setCurrentIndex( index );
@@ -88,4 +90,25 @@ void ConfigDialog::setInstruments( const QStringList& items )
 {
     ui.m_instruments->clear();
     ui.m_instruments->addItems(items);
+}
+
+void ConfigDialog::initEncodings()
+{
+    ui.m_codecs->clear();
+    ui.m_codecs->addItem(i18nc("@item:inlistbox Default MIDI text encoding", "Default ( ASCII )"));
+    ui.m_codecs->addItems( KGlobal::charsets()->descriptiveEncodingNames() );
+}
+
+QString ConfigDialog::getEncoding()
+{
+    /*if (ui.m_codecs->currentIndex() == 0)
+        return QString();
+    return KGlobal::charsets()->encodingForName(ui.m_codecs->currentText());*/
+    return ui.m_codecs->currentText();
+}
+
+void ConfigDialog::setEncoding(const QString& name)
+{
+    int index = ui.m_codecs->findText( name );
+    ui.m_codecs->setCurrentIndex( index );
 }

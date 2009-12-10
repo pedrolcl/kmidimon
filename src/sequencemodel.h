@@ -111,6 +111,9 @@ public:
     void setFilter(EventFilter* value) { m_filter = value; }
     QString getDuration() const;
 
+    void setEncoding(const QString& encoding);
+    QString getEncoding() const { return m_encoding; }
+
 public slots:
     void headerEvent(int format, int ntrks, int division);
     void trackStartEvent();
@@ -201,6 +204,7 @@ private:
     ClientsMap m_clients;
     InstrumentList m_insList;
     QString m_instrumentName;
+    QString m_encoding;
     Song m_items;
     Song m_loadedSong;
     QSmf* m_smf;

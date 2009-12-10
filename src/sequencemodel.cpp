@@ -30,9 +30,11 @@
 #include <QListIterator>
 #include <QFileInfo>
 #include <QTime>
+#include <QTextCodec>
 #include <klocale.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
+#include <kcharsets.h>
 
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
@@ -1553,3 +1555,16 @@ SequenceModel::getDuration() const
     return t.toString("hh:mm:ss.zzz");
 }
 
+void
+SequenceModel::setEncoding(const QString& encoding)
+{
+    if (m_encoding != encoding) {
+        //qDebug() << Q_FUNC_INFO << encoding;
+        QString name = KGlobal::charsets()->encodingForName(encoding);
+        //qDebug() << "name:" << name;
+        QTextCodec* codec = QTextCodec::codecForName(name.toLatin1());
+        //qDebug() << "codec:" << (codec ? codec->name() : "NULL");
+        m_smf->setTextCodec(codec);
+        m_encoding = encoding;
+    }
+}

@@ -433,6 +433,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("translate_notes", m_model->translateNotes());
     config.writeEntry("translate_ctrls", m_model->translateCtrls());
     config.writeEntry("instrument", m_model->getInstrumentName());
+    config.writeEntry("encoding", m_model->getEncoding());
     config.writeEntry("fixed_font", getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
@@ -464,6 +465,7 @@ void KMidimon::readConfiguration()
     m_model->setTranslateNotes(config.readEntry("translate_notes", false));
     m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
     m_model->setInstrumentName(config.readEntry("instrument", QString()));
+    m_model->setEncoding(config.readEntry("encoding", QString()));
     m_defaultResolution = config.readEntry("resolution", RESOLUTION);
     m_defaultTempo = config.readEntry("tempo", TEMPO_BPM);
     m_adaptor->setResolution(m_defaultResolution);
@@ -502,6 +504,7 @@ void KMidimon::preferences()
     dlg->setTranslateCtrls(m_model->translateCtrls());
     dlg->setInstruments(m_model->getInstruments());
     dlg->setInstrumentName(m_model->getInstrumentName());
+    dlg->setEncoding(m_model->getEncoding());
     dlg->setUseFixedFont(getFixedFont());
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg->setShowColumn(i, m_popupAction[i]->isChecked());
@@ -521,6 +524,7 @@ void KMidimon::preferences()
             m_model->setTranslateNotes(dlg->translateNotes());
             m_model->setTranslateCtrls(dlg->translateCtrls());
             m_model->setInstrumentName(dlg->getInstrumentName());
+            m_model->setEncoding(dlg->getEncoding());
             m_defaultTempo = dlg->getTempo();
             m_defaultResolution = dlg->getResolution();
             setFixedFont(dlg->useFixedFont());

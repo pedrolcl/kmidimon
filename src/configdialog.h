@@ -72,8 +72,12 @@ public:
     void setTranslateCtrls(bool newValue) { ui.m_translateCtrls->setChecked(newValue); }
 
     QString getInstrumentName() { return ui.m_instruments->currentText(); }
-    void setInstrumentName(const QString name);
+    void setInstrumentName(const QString& name);
     void setInstruments(const QStringList& items);
+
+    void initEncodings();
+    QString getEncoding();
+    void setEncoding(const QString& name);
 
 private:
     Ui::ConfigDialogBase ui;
