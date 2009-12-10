@@ -443,7 +443,7 @@ MA 02110-1301, USA
        <item row="7" column="0">
         <widget class="QLabel" name="lblCodec">
          <property name="text">
-          <string>Text Encoding</string>
+          <string>SMF Text Encoding</string>
          </property>
         </widget>
        </item>
