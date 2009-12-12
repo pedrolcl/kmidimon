@@ -386,8 +386,7 @@ void KMidimon::fileOpen()
 {
     KUrl u = KFileDialog::getOpenUrl(
             KUrl("kfiledialog:///MIDIMONITOR"),
-            i18n("*.mid *.midi *.kar|MIDI files (*.mid)"),
-            this,
+            "audio/midi", this,
             i18n("Open MIDI file"));
     if (!u.isEmpty()) slotURLSelected(u);
 }

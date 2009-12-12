@@ -1,6 +1,11 @@
+2009-12-11 00:00 plcl
+
+    * support for SMF sequencer specific and unregistered meta-events
+    * open files filtered by mime-type instead of extensions
+
 2009-12-10 00:00 plcl
 
-    * support for international text encodings. 
+    * support for international text encodings
     * translations updated.
 
 2009-12-05 00:00 plcl
@@ -13,7 +18,7 @@
 
 2009-08-28 00:00 plcl
 
-    * fine grained filter menu: add to each category two new options: all, none.
+    * fine grained filter menu: add to each category two new options: all, none
 
 2009-08-11 00:00 plcl
 
@@ -130,7 +135,7 @@
     * Format sysex with 2 hex digits per byte 
     * Show/hide columns 
     * Option for translating universal sysex messages 
-    * Configure dialog available even when recording.
+    * Configure dialog available even when recording
 
 2005-08-05 00:10  plcl
 
@@ -138,13 +143,13 @@
     
     * New Connections menu, with three items: connect-all, 
       disconnect-all and a dialog allowing the user to configure
-      ALSA sequencer connections from inside the program.
+      ALSA sequencer connections from inside the program
       
     * New column showing the source ALSA client/port for
       each event.
       
     * New configurable option to show the ALSA client name 
-      or number, applied to the new column and elsewhere.
+      or number, applied to the new column and elsewhere
       
 2005-05-13 00:02  plcl
 
@@ -152,7 +157,7 @@
 
 2005-05-12 23:23  plcl
 
-    * Use <State> in xml.rc, instead of setEnabled() in code.
+    * Use <State> in xml.rc, instead of setEnabled() in code
 
 2005-05-01 14:39  plcl
 
@@ -160,11 +165,11 @@
 
 2005-05-01 14:35  plcl
 
-    * More code restructuration. Hopefully it works this time.
+    * More code restructuration. Hopefully it works this time
 
 2005-05-01 14:34  plcl
 
-    * Translations enabled. First Spanish translation.
+    * Translations enabled. First Spanish translation
 
 2005-04-30 00:37  plcl
 

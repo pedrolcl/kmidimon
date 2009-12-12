@@ -103,6 +103,8 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR2, i18n("Forced Channel"));
     insert(SMFCategory, SND_SEQ_EVENT_USR3, i18n("Forced Port"));
     insert(SMFCategory, SND_SEQ_EVENT_USR4, i18n("SMPTE Offset"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1, i18n("Sequencer Specific"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2, i18n("Meta (unregistered)"));
 
     m_mapperAll = new QSignalMapper(this);
     m_mapperNone = new QSignalMapper(this);

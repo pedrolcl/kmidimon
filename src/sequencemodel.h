@@ -40,8 +40,13 @@ typedef QMap<int,QString> ClientsMap;
 class Song : public QList<SequenceItem>
 {
 public:
+    Song() : QList<SequenceItem>(), m_last(0) {}
     virtual ~Song() {}
     void sort();
+    void setLast(long);
+    long getLast() { return m_last; }
+private:
+    long m_last;
 };
 
 typedef QListIterator<SequenceItem> SongIterator;
@@ -127,7 +132,7 @@ public slots:
     void programEvent(int chan, int patch);
     void chanPressEvent(int chan, int press);
     void sysexEvent(const QByteArray& data);
-    void variableEvent(const QByteArray& data);
+    void seqSpecificEvent(const QByteArray& data);
     void metaMiscEvent(int typ, const QByteArray& data);
     void textEvent(int type, const QString& data);
     void tempoEvent(int tempo);
@@ -179,6 +184,8 @@ private:
     QString time_sig(const SequencerEvent *ev) const;
     QString key_sig(const SequencerEvent *ev) const;
     QString smpte(const SequencerEvent *ev) const;
+    QString var_event(const SequencerEvent *ev) const;
+    QString meta_misc(const SequencerEvent *ev) const;
 
     bool m_showClientNames;
     bool m_translateSysex;

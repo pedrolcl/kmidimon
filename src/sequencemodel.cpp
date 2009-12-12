@@ -46,6 +46,12 @@ void Song::sort()
     qStableSort(begin(), end(), eventLessThan);
 }
 
+void Song::setLast(long last)
+{
+    if (last > m_last)
+        m_last = last;
+}
+
 SequenceModel::SequenceModel(QObject* parent) :
         QAbstractItemModel(parent),
         m_showClientNames(false),
@@ -89,10 +95,10 @@ SequenceModel::SequenceModel(QObject* parent) :
                    SLOT(chanPressEvent(int,int)));
     connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)),
                    SLOT(sysexEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFMetaMisc(int, const QByteArray&)),
+    connect(m_smf, SIGNAL(signalSMFMetaUnregistered(int, const QByteArray&)),
                    SLOT(metaMiscEvent(int, const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFVariable(const QByteArray&)),
-                   SLOT(variableEvent(const QByteArray&)));
+    connect(m_smf, SIGNAL(signalSMFSeqSpecific(const QByteArray&)),
+                   SLOT(seqSpecificEvent(const QByteArray&)));
     connect(m_smf, SIGNAL(signalSMFText(int,const QString&)),
                    SLOT(textEvent(int,const QString&)));
     connect(m_smf, SIGNAL(signalSMFendOfTrack()),
@@ -284,8 +290,7 @@ SequenceModel::clear()
 void
 SequenceModel::saveToTextStream(QTextStream& str)
 {
-    for( int i = 0; i < m_items.count(); ++i ) {
-        SequenceItem itm = m_items[i];
+    foreach ( const SequenceItem& itm, m_items ) {
         const SequencerEvent* ev = itm.getEvent();
         if (ev != NULL) {
             str << event_ticks(ev).trimmed() << ","
@@ -655,10 +660,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
         unsigned char *data = (unsigned char *) sev->getData();
         QString text;
         for (i = 0; i < sev->getLength(); ++i) {
-            QString h(QString("%1").arg(data[i], 0, 16));
-            if (h.length() < 2) h.prepend('0');
-            h.prepend(' ');
-            text.append(h);
+            QString h = QString::number(data[i], 16);
+            text.append(' ');
+            text.append(h.rightJustified(2, QChar('0')));
         }
         return text.trimmed();
     }
@@ -990,6 +994,37 @@ SequenceModel::smpte(const SequencerEvent *ev) const
 }
 
 QString
+SequenceModel::var_event(const SequencerEvent *ev) const
+{
+    const VariableEvent* ve = dynamic_cast<const VariableEvent*>(ev);
+    if (ve != NULL) {
+        unsigned int i = 0;
+        const unsigned char *data = reinterpret_cast<const unsigned char *>(ve->getData());
+        QString text;
+        if (ve->getSequencerType() == SND_SEQ_EVENT_USR_VAR2)
+            i = 1;
+        for ( ; i < ve->getLength(); ++i ) {
+            QString h = QString::number(data[i], 16);
+            text.append(' ');
+            text.append(h.rightJustified(2, QChar('0')));
+        }
+        return text.trimmed();
+    }
+    return QString();
+}
+
+QString
+SequenceModel::meta_misc(const SequencerEvent *ev) const
+{
+    const VariableEvent* ve = dynamic_cast<const VariableEvent*>(ev);
+    if (ve != NULL) {
+        int type = ve->getData()[0];
+        return QString::number(type);
+    }
+    return QString();
+}
+
+QString
 SequenceModel::event_data1(const SequencerEvent *ev) const
 {
     switch (ev->getSequencerType()) {
@@ -1049,6 +1084,9 @@ SequenceModel::event_data1(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_USR3:
         return QString("%1").arg(ev->getRaw8(0));
 
+    case SND_SEQ_EVENT_USR_VAR2:
+        return meta_misc(ev);
+
        /* Other events */
     default:
         return QString();
@@ -1094,6 +1132,10 @@ SequenceModel::event_data2(const SequencerEvent *ev) const
     case SND_SEQ_EVENT_USR4:
         return smpte(ev);
 
+    case SND_SEQ_EVENT_USR_VAR1:
+    case SND_SEQ_EVENT_USR_VAR2:
+        return var_event(ev);
+
         /* Other events */
     default:
         return QString();
@@ -1127,10 +1169,10 @@ SequenceModel::loadFromFile(const QString& path)
     m_initialTempo = -1;
     m_smf->readFromFile(path);
     m_loadedSong.sort();
-    SongIterator it(m_loadedSong);
     beginInsertRows(QModelIndex(), 0, m_loadedSong.count() - 1);
     m_items += m_loadedSong;
     endInsertRows();
+    m_items.setLast(m_loadedSong.getLast());
     m_loadedSong.clear();
 }
 
@@ -1164,6 +1206,7 @@ SequenceModel::appendEvent(SequencerEvent* ev)
     }
     SequenceItem itm(seconds, ticks, m_currentTrack, ev);
     m_loadedSong.append(itm);
+    m_loadedSong.setLast(ticks);
     emit loadProgress(m_smf->getFilePos());
     //QCoreApplication::sendPostedEvents ();
     KApplication::processEvents();
@@ -1189,6 +1232,8 @@ SequenceModel::trackStartEvent()
 void
 SequenceModel::trackEndEvent()
 {
+    long ticks = m_smf->getCurrentTime();
+    m_loadedSong.setLast(ticks);
     //qDebug() << "Track end:" << m_currentTrack;
     emit loadProgress(m_smf->getFilePos());
 }
@@ -1288,23 +1333,22 @@ SequenceModel::sysexEvent(const QByteArray& data)
 }
 
 void
-SequenceModel::variableEvent(const QByteArray& data)
+SequenceModel::seqSpecificEvent(const QByteArray& data)
 {
-    int j;
-    QString s;
-    for (j = 0; j < data.count(); ++j)
-        s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
-    //qDebug() << "Variable event" << s;
+    SequencerEvent* ev = new VariableEvent(data);
+    ev->setSequencerType(SND_SEQ_EVENT_USR_VAR1);
+    appendEvent(ev);
 }
 
 void
 SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
 {
-    int j;
-    QString s = QString("type=%1 ").arg(typ);
-    for (j = 0; j < data.count(); ++j)
-        s.append(QString("%1 ").arg(data[j] & 0xff, 2, 16));
-    //qDebug() << "Meta" << s;
+    QByteArray dataCopy;
+    dataCopy.append(typ);
+    dataCopy.append(data);
+    SequencerEvent* ev = new VariableEvent(dataCopy);
+    ev->setSequencerType(SND_SEQ_EVENT_USR_VAR2);
+    appendEvent(ev);
 }
 
 void
@@ -1405,8 +1449,7 @@ void
 SequenceModel::trackHandler(int track)
 {
     unsigned int delta, last_tick = 0;
-    for( int i = 0; i < m_items.count(); ++i ) {
-        SequenceItem itm = m_items[i];
+    foreach ( const SequenceItem& itm, m_items ) {
         if (itm.getTrack() == track) {
             const SequencerEvent* ev = itm.getEvent();
             if (ev != NULL) {
@@ -1424,6 +1467,24 @@ SequenceModel::trackHandler(int track)
                         if (e != NULL)
                             m_smf->writeMetaEvent(delta, e->getTextType(),
                                                   e->getText());
+                    }
+                    break;
+                    case SND_SEQ_EVENT_USR_VAR1: {
+                        const VariableEvent* e = dynamic_cast<const VariableEvent*>(ev);
+                        if (e != NULL) {
+                            QByteArray b(e->getData(), e->getLength());
+                            m_smf->writeMetaEvent(delta, sequencer_specific, b);
+                        }
+                    }
+                    break;
+                    case SND_SEQ_EVENT_USR_VAR2: {
+                        const VariableEvent* e = dynamic_cast<const VariableEvent*>(ev);
+                        if (e != NULL) {
+                            QByteArray b(e->getData(), e->getLength());
+                            int type = b.at(0);
+                            b.remove(0, 1);
+                            m_smf->writeMetaEvent(delta, type, b);
+                        }
                     }
                     break;
                     case SND_SEQ_EVENT_SYSEX: {
@@ -1508,12 +1569,35 @@ SequenceModel::trackHandler(int track)
                         // writeKeySignature(0, 2, major_mode) = D major (2#)
                     }
                     break;
+                    case SND_SEQ_EVENT_USR1: {
+                        m_smf->writeSequenceNumber(delta, ev->getRaw8(0));
+                    }
+                    break;
+                    case SND_SEQ_EVENT_USR2: {
+                        int data = ev->getRaw8(0);
+                        m_smf->writeMetaEvent(delta, forced_channel, data);
+                    }
+                    case SND_SEQ_EVENT_USR3: {
+                        int data = ev->getRaw8(0);
+                        m_smf->writeMetaEvent(delta, forced_port, data);
+                    }
+                    case SND_SEQ_EVENT_USR4: {
+                        QByteArray data;
+                        data.append(ev->getRaw8(0));
+                        data.append(ev->getRaw8(1));
+                        data.append(ev->getRaw8(2));
+                        data.append(ev->getRaw8(3));
+                        data.append(ev->getRaw8(4));
+                        m_smf->writeMetaEvent(delta, smpte_offset, data);
+                    }
+                    break;
                 }
             }
         }
     }
     // final event
-    m_smf->writeMetaEvent(0, end_of_track);
+    delta = m_items.getLast() - last_tick;
+    m_smf->writeMetaEvent(delta, end_of_track);
 }
 
 QStringList
@@ -1561,9 +1645,7 @@ SequenceModel::setEncoding(const QString& encoding)
     if (m_encoding != encoding) {
         //qDebug() << Q_FUNC_INFO << encoding;
         QString name = KGlobal::charsets()->encodingForName(encoding);
-        //qDebug() << "name:" << name;
         QTextCodec* codec = QTextCodec::codecForName(name.toLatin1());
-        //qDebug() << "codec:" << (codec ? codec->name() : "NULL");
         m_smf->setTextCodec(codec);
         m_encoding = encoding;
     }
