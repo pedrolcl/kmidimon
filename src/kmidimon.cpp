@@ -849,6 +849,7 @@ void KMidimon::muteTrack(int tabIndex)
     if (song != NULL) {
         bool newState = !song->mutedState(track);
         song->setMutedState(track, newState);
+        if (newState) m_adaptor->removeTrackEvents(track);
     }
 }
 

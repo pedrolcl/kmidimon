@@ -43,6 +43,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 {
     m_client = new MidiClient(this);
     m_client->open();
+    m_client->setPoolOutput(100);
     m_client->setClientName("KMidimon");
     connect(m_client, SIGNAL(eventReceived(SequencerEvent*)),
             SLOT(sequencerEvent(SequencerEvent*)));
@@ -330,4 +331,12 @@ bool SequencerAdaptor::isPlaying()
 void SequencerAdaptor::setLoop(bool enable)
 {
     m_player->setLoop(enable);
+}
+
+void SequencerAdaptor::removeTrackEvents(int track)
+{
+    RemoveEvents spec;
+    spec.setCondition(SND_SEQ_REMOVE_OUTPUT | SND_SEQ_REMOVE_TAG_MATCH);
+    spec.setTag(track);
+    m_client->removeEvents(&spec);
 }

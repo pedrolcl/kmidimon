@@ -75,6 +75,7 @@ public:
     void updateModelClients();
     void setPosition(const int pos);
     void setTempoFactor(double factor);
+    void removeTrackEvents(int track);
 
 public slots:
     /* handler for the sequencer events */
