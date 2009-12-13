@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://sourceforge."
-"net/tracker/?atid=731542&group_id=134956\n"
-"POT-Creation-Date: 2009-12-10 23:43+0100\n"
+"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
+"atid=731542&group_id=134956\n"
+"POT-Creation-Date: 2009-12-13 19:53+0100\n"
 "PO-Revision-Date: 2009-12-13 17:56+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -98,7 +98,7 @@ msgstr "Ne-zanesený parametr"
 msgid "Registered parameter"
 msgstr "Zanesený parametr"
 
-#: src/eventfilter.cpp:74 src/sequencemodel.cpp:321
+#: src/eventfilter.cpp:74 src/sequencemodel.cpp:338
 msgid "System exclusive"
 msgstr "Výhradní systému"
 
@@ -127,7 +127,7 @@ msgstr "Spustit"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/eventfilter.cpp:83 src/kmidimon.cpp:222 src/sequencemodel.cpp:476
+#: src/eventfilter.cpp:83 src/kmidimon.cpp:223 src/sequencemodel.cpp:493
 msgid "Stop"
 msgstr "Zastavit"
 
@@ -211,18 +211,27 @@ msgstr "Vynucená přípojka"
 msgid "SMPTE Offset"
 msgstr "Posun SMPTE"
 
+#: src/eventfilter.cpp:106
+#, fuzzy
+msgid "Sequencer Specific"
+msgstr "Sekvencer"
+
+#: src/eventfilter.cpp:107
+msgid "Meta (unregistered)"
+msgstr ""
+
 #. i18n: file: src/configdialogbase.ui:153
 #. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
-#: src/eventfilter.cpp:189 po/rc.cpp:21
+#: src/eventfilter.cpp:191 po/rc.cpp:21
 msgid "Filters"
 msgstr "Filtry"
 
-#: src/eventfilter.cpp:198
+#: src/eventfilter.cpp:200
 msgctxt "check all types"
 msgid "All"
 msgstr "Vše"
 
-#: src/eventfilter.cpp:202
+#: src/eventfilter.cpp:204
 msgid "Nothing"
 msgstr "Nic"
 
@@ -230,11 +239,11 @@ msgstr "Nic"
 msgid "The events list"
 msgstr "Seznam událostí"
 
-#: src/kmidimon.cpp:91
+#: src/kmidimon.cpp:92
 msgid "Track view selectors"
 msgstr "Přepínače pohledu na stopu"
 
-#: src/kmidimon.cpp:123
+#: src/kmidimon.cpp:124
 msgid ""
 "Fatal error from the ALSA sequencer. This usually happens when the kernel "
 "doesn't have ALSA support, or the device node (/dev/snd/seq) doesn't exists, "
@@ -246,217 +255,230 @@ msgstr ""
 "není nahrán modul jádra (snd_seq). Ověřte, prosím, své nastavení ALSA/MIDI. "
 "Vrácenou chybou bylo: %1"
 
-#: src/kmidimon.cpp:129
+#: src/kmidimon.cpp:130
 msgid "Error"
 msgstr "Chyba"
 
 #. i18n: file: src/configdialogbase.ui:269
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTicksColumn)
-#: src/kmidimon.cpp:137 src/sequencemodel.cpp:149 po/rc.cpp:72
+#: src/kmidimon.cpp:138 src/sequencemodel.cpp:167 po/rc.cpp:72
 msgid "Ticks"
 msgstr "Jednotky"
 
-#: src/kmidimon.cpp:138 src/sequencemodel.cpp:151
+#: src/kmidimon.cpp:139 src/sequencemodel.cpp:169
 msgid "Time"
 msgstr "Čas"
 
-#: src/kmidimon.cpp:139 src/sequencemodel.cpp:153
+#: src/kmidimon.cpp:140 src/sequencemodel.cpp:171
 msgctxt "event origin"
 msgid "Source"
 msgstr "Zdroj"
 
-#: src/kmidimon.cpp:140
+#: src/kmidimon.cpp:141
 msgctxt "type of event"
 msgid "Event Kind"
 msgstr "Druh události"
 
-#: src/kmidimon.cpp:141
+#: src/kmidimon.cpp:142
 msgid "Channel"
 msgstr "Kanál"
 
 #. i18n: file: src/configdialogbase.ui:319
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData1Column)
-#: src/kmidimon.cpp:142 src/sequencemodel.cpp:159 po/rc.cpp:102
+#: src/kmidimon.cpp:143 src/sequencemodel.cpp:177 po/rc.cpp:102
 msgid "Data 1"
 msgstr "Data 1"
 
 #. i18n: file: src/configdialogbase.ui:329
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData2Column)
-#: src/kmidimon.cpp:143 src/sequencemodel.cpp:161 po/rc.cpp:108
+#: src/kmidimon.cpp:144 src/sequencemodel.cpp:179 po/rc.cpp:108
 msgid "Data 2"
 msgstr "Data 2"
 
-#: src/kmidimon.cpp:157
+#: src/kmidimon.cpp:158
 msgid "Exit the application"
 msgstr "Ukončit aplikaci"
 
-#: src/kmidimon.cpp:159
+#: src/kmidimon.cpp:160
 msgid "Open a disk file"
 msgstr "Otevřít soubor na disku"
 
-#: src/kmidimon.cpp:162
+#: src/kmidimon.cpp:163
 msgid "Clear the current data and start a new empty session"
 msgstr "Smazat současná data a začít s novým prázdným sezením"
 
-#: src/kmidimon.cpp:164
+#: src/kmidimon.cpp:165
 msgid "Store the session data on a disk file"
 msgstr "Uložit data se sezením do souboru na disku"
 
-#: src/kmidimon.cpp:166
+#: src/kmidimon.cpp:167
 msgid "Configure the program setting several preferences"
 msgstr "Nastavit několik voleb v nastavení programu"
 
-#: src/kmidimon.cpp:168
+#: src/kmidimon.cpp:169
 msgid "Organize the toolbar icons"
 msgstr "Uspořádat ikony v pruhu s nástroji"
 
-#: src/kmidimon.cpp:185
+#: src/kmidimon.cpp:186
 msgid "&Play"
 msgstr "&Přehrát"
 
-#: src/kmidimon.cpp:188
+#: src/kmidimon.cpp:189
 msgid "Start playback of the current session"
 msgstr "Spustit přehrávání současného sezení"
 
-#: src/kmidimon.cpp:193 src/sequencemodel.cpp:490
+#: src/kmidimon.cpp:194 src/sequencemodel.cpp:507
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: src/kmidimon.cpp:195
+#: src/kmidimon.cpp:196
 msgid "Pause the playback"
 msgstr "Pozastavit přehrávání"
 
-#: src/kmidimon.cpp:200
+#: src/kmidimon.cpp:201
 msgctxt "player skip forward"
 msgid "Forward"
 msgstr "Vpřed"
 
-#: src/kmidimon.cpp:202
+#: src/kmidimon.cpp:203
 msgid "Move the playback position to the last event"
 msgstr "Posunout polohu přehrávání na poslední událost"
 
-#: src/kmidimon.cpp:207
+#: src/kmidimon.cpp:208
 msgctxt "player skip backward"
 msgid "Backward"
 msgstr "Zpět"
 
-#: src/kmidimon.cpp:209
+#: src/kmidimon.cpp:210
 msgid "Move the playback position to the first event"
 msgstr "Posunout polohu přehrávání na první událost"
 
-#: src/kmidimon.cpp:214
+#: src/kmidimon.cpp:215
 msgid "Record"
 msgstr "Nahrát"
 
-#: src/kmidimon.cpp:217
+#: src/kmidimon.cpp:218
 msgid "Append new recorded events to the current session"
 msgstr "Připojit nově nahrané události k současnému sezení"
 
-#: src/kmidimon.cpp:225
+#: src/kmidimon.cpp:226
 msgid "Stop playback or recording"
 msgstr "Zastavit přehrávání nebo nahrávání"
 
-#: src/kmidimon.cpp:230
+#: src/kmidimon.cpp:231
 msgid "Connect All Inputs"
 msgstr "Připojit všechny vstupy"
 
-#: src/kmidimon.cpp:231
+#: src/kmidimon.cpp:232
 msgid "Connect all readable MIDI ports"
 msgstr "Připojit všechny čitelné přípojky MIDI"
 
-#: src/kmidimon.cpp:236
+#: src/kmidimon.cpp:237
 msgid "Disconnect All Inputs"
 msgstr "Odpojit všechny vstupy"
 
-#: src/kmidimon.cpp:237
+#: src/kmidimon.cpp:238
 msgid "Disconnect all input MIDI ports"
 msgstr "Odpojit všechny vstupní přípojky MIDI"
 
-#: src/kmidimon.cpp:242
+#: src/kmidimon.cpp:243
 msgid "Configure Connections"
 msgstr "Nastavit spojení"
 
-#: src/kmidimon.cpp:243
+#: src/kmidimon.cpp:244
 msgid "Open the Connections dialog"
 msgstr "Otevřít dialog pro spojení"
 
-#: src/kmidimon.cpp:248
+#: src/kmidimon.cpp:249
 msgid "Add Track View"
 msgstr "Přidat pohled na stopu"
 
-#: src/kmidimon.cpp:249
+#: src/kmidimon.cpp:250
 msgid "Create a new tab/track view"
 msgstr "Vytvořit novou kartu/nový pohled na stopu"
 
-#: src/kmidimon.cpp:254
+#: src/kmidimon.cpp:255
 msgid "Change Track View"
 msgstr "Změnit pohled na stopu"
 
-#: src/kmidimon.cpp:255
+#: src/kmidimon.cpp:256
 msgid "Change the track number of the view"
 msgstr "Změnit číslo stopy v pohledu"
 
-#: src/kmidimon.cpp:260
+#: src/kmidimon.cpp:261
 msgid "Delete Track View"
 msgstr "Smazat pohled na stopu"
 
-#: src/kmidimon.cpp:261
+#: src/kmidimon.cpp:262
 msgid "Delete the tab/track view"
 msgstr "Smazat kartu/pohled na stopu"
 
-#: src/kmidimon.cpp:267
+#: src/kmidimon.cpp:268
 msgid "Toggle the %1 column"
 msgstr "Přepnout sloupec %1"
 
-#: src/kmidimon.cpp:275
+#: src/kmidimon.cpp:276
 msgid "Resize columns"
 msgstr "Změnit velikost sloupců"
 
-#: src/kmidimon.cpp:276
+#: src/kmidimon.cpp:277
 msgid "Resize the columns width to fit it's contents"
 msgstr "Změnit šířku sloupců, aby se do ní vešel její obsah"
 
-#: src/kmidimon.cpp:281
+#: src/kmidimon.cpp:282
 msgid "Sequence Info"
 msgstr "Informace sekvenci"
 
-#: src/kmidimon.cpp:282
+#: src/kmidimon.cpp:283
 msgid "Display information about the loaded sequence"
 msgstr "Zobrazit informace o nahraném úryvku"
 
-#: src/kmidimon.cpp:288
+#: src/kmidimon.cpp:289
 msgid "Scale Tempo"
 msgstr "Změnit tempo"
 
-#: src/kmidimon.cpp:289
+#: src/kmidimon.cpp:290
 msgid "Display a slider to scale the tempo between 50% and 200%"
 msgstr "Zobrazit posuvník kvůli změně tempa mezi 50% a 200%"
 
-#: src/kmidimon.cpp:294
+#: src/kmidimon.cpp:295
 msgid "Reset Tempo"
 msgstr "Nastavit znovu tempo"
 
-#: src/kmidimon.cpp:295
+#: src/kmidimon.cpp:296
 msgid "Reset the tempo scale to 100%"
 msgstr "Přenastavit velikost tempa na 100%"
 
-#: src/kmidimon.cpp:349
+#: src/kmidimon.cpp:302
+msgid "Player Loop"
+msgstr ""
+
+#: src/kmidimon.cpp:303
+msgid "Start playing again at song ending"
+msgstr ""
+
+#: src/kmidimon.cpp:308
+#, fuzzy
+msgid "Mute Track"
+msgstr "Stopy"
+
+#: src/kmidimon.cpp:309
+msgid "Mute (silence) the track"
+msgstr ""
+
+#: src/kmidimon.cpp:362
 msgid "Load MIDI file"
 msgstr "Nahrát soubor MIDI"
 
-#: src/kmidimon.cpp:350
+#: src/kmidimon.cpp:363
 msgid "Loading..."
 msgstr "Nahrává se ..."
 
-#: src/kmidimon.cpp:389
-msgid "*.mid *.midi *.kar|MIDI files (*.mid)"
-msgstr "*.mid *.midi *.kar|Soubory MIDI (*.mid)"
-
-#: src/kmidimon.cpp:391
+#: src/kmidimon.cpp:403
 msgid "Open MIDI file"
 msgstr "Otevřít soubor MIDI"
 
-#: src/kmidimon.cpp:399
+#: src/kmidimon.cpp:411
 msgid ""
 "*.txt|Plain text files (*.txt)\n"
 "*.mid|MIDI files (*.mid)"
@@ -464,50 +486,50 @@ msgstr ""
 "*.txt|Soubory prostého textu (*.txt)\n"
 "*.mid|Soubory MIDI (*.mid)"
 
-#: src/kmidimon.cpp:402
+#: src/kmidimon.cpp:414
 msgid "Save MIDI monitor data"
 msgstr "Uložit údaje ze sledování MIDI"
 
-#: src/kmidimon.cpp:544
+#: src/kmidimon.cpp:556
 msgid "recording"
 msgstr "Nahrává se"
 
-#: src/kmidimon.cpp:557
+#: src/kmidimon.cpp:569
 msgctxt "player stopped"
 msgid "stopped"
 msgstr "Zastaveno"
 
-#: src/kmidimon.cpp:564
+#: src/kmidimon.cpp:576
 msgctxt "player playing"
 msgid "playing"
 msgstr "Přehrává se"
 
-#: src/kmidimon.cpp:586
+#: src/kmidimon.cpp:598
 msgid "ALSA MIDI Monitor [%1]"
 msgstr "Sledování MIDI přes ALSA [%1]"
 
-#: src/kmidimon.cpp:684 src/kmidimon.cpp:725
+#: src/kmidimon.cpp:699 src/kmidimon.cpp:740
 msgctxt "song track"
 msgid "Track %1"
 msgstr "Stopa %1"
 
-#: src/kmidimon.cpp:687 src/kmidimon.cpp:728
+#: src/kmidimon.cpp:702 src/kmidimon.cpp:743
 msgid "Track %1 View Selector"
 msgstr "Přepínač pohledu pro stopu %1"
 
-#: src/kmidimon.cpp:700
+#: src/kmidimon.cpp:715
 msgid "Change track"
 msgstr "Změnit stopu"
 
-#: src/kmidimon.cpp:701
+#: src/kmidimon.cpp:716
 msgid "Change the track filter:"
 msgstr "Změnit filtr pro stopu:"
 
-#: src/kmidimon.cpp:788
+#: src/kmidimon.cpp:802
 msgid "No file loaded"
 msgstr "Nebyl nahrán žádný soubor"
 
-#: src/kmidimon.cpp:791
+#: src/kmidimon.cpp:805
 msgid ""
 "File: <b>%1</b><br/>Created: <b>%2</b><br/>Modified: <b>%3</b><br/>SMF "
 "Format: <b>%4</b><br/>Number of tracks: <b>%5</b><br/>Number of events: <b>%"
@@ -515,11 +537,11 @@ msgid ""
 ">Duration: <b>%9</b>"
 msgstr ""
 "Soubor: <b>%1</b><br/>Vytvořeno: <b>%2</b><br/>Upraveno: <b>%3</b><br/>SMF "
-"formát: <b>%4</b><br/>Počet skladeb: <b>%5</b><br/>Počet událostí: <b>%"
-"6</b><br/>Rozdělení: <b>%7 ppq</b><br/>Počáteční tempo: <b>%8 úzm</b><br/"
-">Doba trvání: <b>%9</b>"
+"formát: <b>%4</b><br/>Počet skladeb: <b>%5</b><br/>Počet událostí: <b>%6</"
+"b><br/>Rozdělení: <b>%7 ppq</b><br/>Počáteční tempo: <b>%8 úzm</b><br/>Doba "
+"trvání: <b>%9</b>"
 
-#: src/kmidimon.cpp:810
+#: src/kmidimon.cpp:824
 msgid "Sequence Information"
 msgstr "Informace o pořadí"
 
@@ -547,433 +569,433 @@ msgstr "Christoph Eckert"
 msgid "Documentation, good ideas and suggestions"
 msgstr "Dokumentace, dobré nápady a návrhy"
 
-#: src/sequencemodel.cpp:155
+#: src/sequencemodel.cpp:173
 msgid "Event kind"
 msgstr "Druh události"
 
-#: src/sequencemodel.cpp:157
+#: src/sequencemodel.cpp:175
 msgid "Chan"
 msgstr "Kanál"
 
-#: src/sequencemodel.cpp:314
+#: src/sequencemodel.cpp:331
 msgid "Universal Non Real Time SysEx"
 msgstr "Univerzální SysEx nikoli ve skutečném čase"
 
-#: src/sequencemodel.cpp:316
+#: src/sequencemodel.cpp:333
 msgid "Universal Real Time SysEx"
 msgstr "Univerzální SysEx ve skutečném čase"
 
-#: src/sequencemodel.cpp:338
+#: src/sequencemodel.cpp:355
 msgctxt "cast or scattered in all directions"
 msgid "broadcast"
 msgstr "Vysílání"
 
-#: src/sequencemodel.cpp:340
+#: src/sequencemodel.cpp:357
 msgid "device %1"
 msgstr "Zařízení %1"
 
-#: src/sequencemodel.cpp:364 src/sequencemodel.cpp:368
+#: src/sequencemodel.cpp:381 src/sequencemodel.cpp:385
 msgid "Sample Dump"
 msgstr "Výpis obsahu paměti vzorků"
 
-#: src/sequencemodel.cpp:366
+#: src/sequencemodel.cpp:383
 msgid "MTC Setup"
 msgstr "Nastavení MTC"
 
-#: src/sequencemodel.cpp:370
+#: src/sequencemodel.cpp:387
 msgid "Gen.Info"
 msgstr "Gen.Info"
 
-#: src/sequencemodel.cpp:372
+#: src/sequencemodel.cpp:389
 msgid "Tuning"
 msgstr "Intonace"
 
-#: src/sequencemodel.cpp:374
+#: src/sequencemodel.cpp:391
 msgid "GM Mode"
 msgstr "Režim GM"
 
-#: src/sequencemodel.cpp:376
+#: src/sequencemodel.cpp:393
 msgid "Wait"
 msgstr "Počkat"
 
-#: src/sequencemodel.cpp:378
+#: src/sequencemodel.cpp:395
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/sequencemodel.cpp:380
+#: src/sequencemodel.cpp:397
 msgid "NAK"
 msgstr "NAK"
 
-#: src/sequencemodel.cpp:382
+#: src/sequencemodel.cpp:399
 msgid "ACK"
 msgstr "ACK"
 
-#: src/sequencemodel.cpp:390
+#: src/sequencemodel.cpp:407
 msgid "MTC"
 msgstr "MTC"
 
-#: src/sequencemodel.cpp:392
+#: src/sequencemodel.cpp:409
 msgid "Notation"
 msgstr "Notový zápis"
 
-#: src/sequencemodel.cpp:394
+#: src/sequencemodel.cpp:411
 msgid "GM Master"
 msgstr "Řídící GM"
 
-#: src/sequencemodel.cpp:396
+#: src/sequencemodel.cpp:413
 msgid "MMC"
 msgstr "MMC"
 
-#: src/sequencemodel.cpp:412
+#: src/sequencemodel.cpp:429
 msgctxt "MTC special setup"
 msgid "Special"
 msgstr "Zvláštní"
 
-#: src/sequencemodel.cpp:414
+#: src/sequencemodel.cpp:431
 msgid "Punch In Points"
 msgstr "Body pro začátek přepisu oblastí"
 
-#: src/sequencemodel.cpp:416
+#: src/sequencemodel.cpp:433
 msgid "Punch Out Points"
 msgstr "Body pro konce přepisů oblastí"
 
-#: src/sequencemodel.cpp:418
+#: src/sequencemodel.cpp:435
 msgid "Delete Punch In Points"
 msgstr "Smazat body pro začátek přepisu oblastí"
 
-#: src/sequencemodel.cpp:420
+#: src/sequencemodel.cpp:437
 msgid "Delete Punch Out Points"
 msgstr "Smazat body pro konce přepisů oblastí"
 
-#: src/sequencemodel.cpp:422
+#: src/sequencemodel.cpp:439
 msgid "Event Start Point"
 msgstr "Bod začátku události"
 
-#: src/sequencemodel.cpp:424
+#: src/sequencemodel.cpp:441
 msgid "Event Stop Point"
 msgstr "Bod konce události"
 
-#: src/sequencemodel.cpp:426
+#: src/sequencemodel.cpp:443
 msgid "Event Start Point With Info"
 msgstr "Bod začátku události s údaji"
 
-#: src/sequencemodel.cpp:428
+#: src/sequencemodel.cpp:445
 msgid "Event Stop Point With Info"
 msgstr "Bod konce události s údaji"
 
-#: src/sequencemodel.cpp:430
+#: src/sequencemodel.cpp:447
 msgid "Delete Event Start Point"
 msgstr "Smazat bod začátku události"
 
-#: src/sequencemodel.cpp:432
+#: src/sequencemodel.cpp:449
 msgid "Delete Event Stop Point"
 msgstr "Smazat bod konce události"
 
-#: src/sequencemodel.cpp:434
+#: src/sequencemodel.cpp:451
 msgid "Cue Points"
 msgstr "Body narážek (cue)"
 
-#: src/sequencemodel.cpp:436
+#: src/sequencemodel.cpp:453
 msgid "Cue Points With Info"
 msgstr "Body narážek s údaji"
 
-#: src/sequencemodel.cpp:438
+#: src/sequencemodel.cpp:455
 msgid "Delete Cue Points"
 msgstr "Smazat body narážek"
 
-#: src/sequencemodel.cpp:440
+#: src/sequencemodel.cpp:457
 msgid "Event Name"
 msgstr "Název události"
 
-#: src/sequencemodel.cpp:453
+#: src/sequencemodel.cpp:470
 msgid "Full Frame: %1 %2 %3 %4"
 msgstr "Plný snímek: %1 %2 %3 %4"
 
-#: src/sequencemodel.cpp:458
+#: src/sequencemodel.cpp:475
 msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr "Uživatelské bity: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 
-#: src/sequencemodel.cpp:478
+#: src/sequencemodel.cpp:495
 msgid "Play"
 msgstr "Přehrát"
 
-#: src/sequencemodel.cpp:480
+#: src/sequencemodel.cpp:497
 msgid "Deferred Play"
 msgstr "Odložené přehrávání"
 
-#: src/sequencemodel.cpp:482
+#: src/sequencemodel.cpp:499
 msgid "Fast Forward"
 msgstr "Rychle vpřed"
 
-#: src/sequencemodel.cpp:484
+#: src/sequencemodel.cpp:501
 msgid "Rewind"
 msgstr "Přetočit zpět"
 
-#: src/sequencemodel.cpp:486
+#: src/sequencemodel.cpp:503
 msgid "Punch In"
 msgstr "Začít přepis oblasti"
 
-#: src/sequencemodel.cpp:488
+#: src/sequencemodel.cpp:505
 msgid "Punch out"
 msgstr "Ukončit přepis oblasti"
 
-#: src/sequencemodel.cpp:492
+#: src/sequencemodel.cpp:509
 msgid "Eject"
 msgstr "Vysunout"
 
-#: src/sequencemodel.cpp:499
+#: src/sequencemodel.cpp:516
 msgid "Track Record Ready:"
 msgstr "Nahrávání skladby připraveno:"
 
-#: src/sequencemodel.cpp:502
+#: src/sequencemodel.cpp:519
 msgid "Track Sync Monitor:"
 msgstr "Sledování seřízení skladby:"
 
-#: src/sequencemodel.cpp:505
+#: src/sequencemodel.cpp:522
 msgid "Track Input Monitor:"
 msgstr "Sledování vstupu pro skladbu:"
 
-#: src/sequencemodel.cpp:508
+#: src/sequencemodel.cpp:525
 msgid "Track Mute:"
 msgstr "Ztlumení skladby:"
 
-#: src/sequencemodel.cpp:522
+#: src/sequencemodel.cpp:539
 msgid "Locate: %1 %2 %3 %4 %5"
 msgstr "Jít na: %1 %2 %3 %4 %5"
 
-#: src/sequencemodel.cpp:550
+#: src/sequencemodel.cpp:567
 msgid "Header"
 msgstr "Hlavička"
 
-#: src/sequencemodel.cpp:552
+#: src/sequencemodel.cpp:569
 msgid "Data Packet"
 msgstr "Balík s daty"
 
-#: src/sequencemodel.cpp:554
+#: src/sequencemodel.cpp:571
 msgid "Request"
 msgstr "Požadavek"
 
-#: src/sequencemodel.cpp:561
+#: src/sequencemodel.cpp:578
 msgid "Multiple Loop Points"
 msgstr "Body vícečetné smyčky"
 
-#: src/sequencemodel.cpp:563
+#: src/sequencemodel.cpp:580
 msgid "Loop Points Request"
 msgstr "Požadavek na body smyčky"
 
-#: src/sequencemodel.cpp:571
+#: src/sequencemodel.cpp:588
 msgid "Identity Request"
 msgstr "Požadavek na totožnost"
 
-#: src/sequencemodel.cpp:574
+#: src/sequencemodel.cpp:591
 msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 msgstr "Odpověď s totožností: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 
-#: src/sequencemodel.cpp:587
+#: src/sequencemodel.cpp:604
 msgid "Dump Request: %1"
 msgstr "Požadavek na výpis obsahu paměti: %1"
 
-#: src/sequencemodel.cpp:589
+#: src/sequencemodel.cpp:606
 msgid "Bulk Dump: %1"
 msgstr "Hromadný výpis obsahu paměti: %1"
 
-#: src/sequencemodel.cpp:591
+#: src/sequencemodel.cpp:608
 msgid "Note Change: %1"
 msgstr "Změna noty: %1"
 
-#: src/sequencemodel.cpp:599
+#: src/sequencemodel.cpp:616
 msgid "GM On"
 msgstr "GM zapnuto"
 
-#: src/sequencemodel.cpp:601
+#: src/sequencemodel.cpp:618
 msgid "GM Off"
 msgstr "GM vypnuto"
 
-#: src/sequencemodel.cpp:620
+#: src/sequencemodel.cpp:637
 msgid "Bar Marker: %1"
 msgstr "Značka taktu: %1"
 
-#: src/sequencemodel.cpp:626
+#: src/sequencemodel.cpp:643
 msgid "Time Signature: %1 (%2/%3)"
 msgstr "Taktové označení: %1 (%2/%3)"
 
-#: src/sequencemodel.cpp:639
+#: src/sequencemodel.cpp:656
 msgctxt "sound volume"
 msgid "Volume: %1"
 msgstr "Hlasitost: %1"
 
-#: src/sequencemodel.cpp:641
+#: src/sequencemodel.cpp:658
 msgctxt "sound balance"
 msgid "Balance: %1"
 msgstr "Vyrovnání: %1"
 
-#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
-#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
+#: src/sequencemodel.cpp:792 src/sequencemodel.cpp:794
+#: src/sequencemodel.cpp:981 src/sequencemodel.cpp:984
 msgid "C"
 msgstr "C"
 
-#: src/sequencemodel.cpp:776
+#: src/sequencemodel.cpp:792
 msgid "C♯"
 msgstr "C♯"
 
-#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
-#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
+#: src/sequencemodel.cpp:792 src/sequencemodel.cpp:794
+#: src/sequencemodel.cpp:981 src/sequencemodel.cpp:984
 msgid "D"
 msgstr "D"
 
-#: src/sequencemodel.cpp:776
+#: src/sequencemodel.cpp:792
 msgid "D♯"
 msgstr "D♯"
 
-#: src/sequencemodel.cpp:776 src/sequencemodel.cpp:778
-#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
+#: src/sequencemodel.cpp:792 src/sequencemodel.cpp:794
+#: src/sequencemodel.cpp:982 src/sequencemodel.cpp:985
 msgid "E"
 msgstr "E"
 
-#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
-#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:968
+#: src/sequencemodel.cpp:793 src/sequencemodel.cpp:795
+#: src/sequencemodel.cpp:980 src/sequencemodel.cpp:984
 msgid "F"
 msgstr "F"
 
-#: src/sequencemodel.cpp:777
+#: src/sequencemodel.cpp:793
 msgid "F♯"
 msgstr "F♯"
 
-#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
-#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:968
+#: src/sequencemodel.cpp:793 src/sequencemodel.cpp:795
+#: src/sequencemodel.cpp:981 src/sequencemodel.cpp:984
 msgid "G"
 msgstr "G"
 
-#: src/sequencemodel.cpp:777
+#: src/sequencemodel.cpp:793
 msgid "G♯"
 msgstr "G♯"
 
-#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
-#: src/sequencemodel.cpp:965 src/sequencemodel.cpp:969
+#: src/sequencemodel.cpp:793 src/sequencemodel.cpp:795
+#: src/sequencemodel.cpp:981 src/sequencemodel.cpp:985
 msgid "A"
 msgstr "A"
 
-#: src/sequencemodel.cpp:777
+#: src/sequencemodel.cpp:793
 msgid "A♯"
 msgstr "A♯"
 
-#: src/sequencemodel.cpp:777 src/sequencemodel.cpp:779
-#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
+#: src/sequencemodel.cpp:793 src/sequencemodel.cpp:795
+#: src/sequencemodel.cpp:982 src/sequencemodel.cpp:985
 msgid "B"
 msgstr "H"
 
-#: src/sequencemodel.cpp:778
+#: src/sequencemodel.cpp:794
 msgid "D♭"
 msgstr "D♭"
 
-#: src/sequencemodel.cpp:778
+#: src/sequencemodel.cpp:794
 msgid "E♭"
 msgstr "E♭"
 
-#: src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:795
 msgid "G♭"
 msgstr "G♭"
 
-#: src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:795
 msgid "A♭"
 msgstr "A♭"
 
-#: src/sequencemodel.cpp:779
+#: src/sequencemodel.cpp:795
 msgid "B♭"
 msgstr "B♭"
 
-#: src/sequencemodel.cpp:919
+#: src/sequencemodel.cpp:935
 msgid "Text:1"
 msgstr "Text: 1"
 
-#: src/sequencemodel.cpp:921
+#: src/sequencemodel.cpp:937
 msgid "Copyright:2"
 msgstr "Autorské právo: 2"
 
-#: src/sequencemodel.cpp:923
+#: src/sequencemodel.cpp:939
 msgctxt "song or track name"
 msgid "Name:3"
 msgstr "Název: 3"
 
-#: src/sequencemodel.cpp:925
+#: src/sequencemodel.cpp:941
 msgid "Instrument:4"
 msgstr "Nástroj: 4"
 
-#: src/sequencemodel.cpp:927
+#: src/sequencemodel.cpp:943
 msgid "Lyric:5"
 msgstr "Text písně: 5"
 
-#: src/sequencemodel.cpp:929
+#: src/sequencemodel.cpp:945
 msgid "Marker:6"
 msgstr "Značka: 6"
 
-#: src/sequencemodel.cpp:931
+#: src/sequencemodel.cpp:947
 msgid "Cue:7"
 msgstr "Narážka: 7"
 
-#: src/sequencemodel.cpp:953
+#: src/sequencemodel.cpp:969
 msgid "%1/%2, %3 clocks per click, %4 32nd per quarter"
 msgstr "%1/%2, %3 hodiny na klepnutí %4 32tý na čtvrt"
 
-#: src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:979
 msgid "C flat"
 msgstr "Ces"
 
-#: src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:979
 msgid "G flat"
 msgstr "Ges"
 
-#: src/sequencemodel.cpp:963
+#: src/sequencemodel.cpp:979
 msgid "D flat"
 msgstr "Des"
 
-#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
+#: src/sequencemodel.cpp:980 src/sequencemodel.cpp:983
 msgid "A flat"
 msgstr "As"
 
-#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
+#: src/sequencemodel.cpp:980 src/sequencemodel.cpp:983
 msgid "E flat"
 msgstr "Es"
 
-#: src/sequencemodel.cpp:964 src/sequencemodel.cpp:967
+#: src/sequencemodel.cpp:980 src/sequencemodel.cpp:983
 msgid "B flat"
 msgstr "Bé"
 
-#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
+#: src/sequencemodel.cpp:982 src/sequencemodel.cpp:985
 msgid "F sharp"
 msgstr "Fis"
 
-#: src/sequencemodel.cpp:966 src/sequencemodel.cpp:969
+#: src/sequencemodel.cpp:982 src/sequencemodel.cpp:985
 msgid "C sharp"
 msgstr "Cis"
 
-#: src/sequencemodel.cpp:970
+#: src/sequencemodel.cpp:986
 msgid "G sharp"
 msgstr "Gis"
 
-#: src/sequencemodel.cpp:970
+#: src/sequencemodel.cpp:986
 msgid "D sharp"
 msgstr "Dis"
 
-#: src/sequencemodel.cpp:970
+#: src/sequencemodel.cpp:986
 msgid "A sharp"
 msgstr "Ais"
 
-#: src/sequencemodel.cpp:978
+#: src/sequencemodel.cpp:994
 msgctxt "major mode scale"
 msgid "major"
 msgstr "Dur"
 
-#: src/sequencemodel.cpp:978
+#: src/sequencemodel.cpp:994
 msgctxt "minor mode scale"
 msgid "minor"
 msgstr "Moll"
 
-#: src/sequencemodel.cpp:975
+#: src/sequencemodel.cpp:991
 msgid "%1%2, %3 %4"
 msgstr "%1%2, %3 %4"
 
-#: src/sequencemodel.cpp:984
+#: src/sequencemodel.cpp:1000
 msgid "%1:%2:%3:%4:%5"
 msgstr "%1:%2:%3:%4:%5"
 
@@ -1126,7 +1148,7 @@ msgstr "Zobrazit"
 
 #. i18n: file: src/configdialogbase.ui:259
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: file: src/kmidimonui.rc:35
+#. i18n: file: src/kmidimonui.rc:37
 #. i18n: ectx: Menu (columns)
 #: po/rc.cpp:66 po/rc.cpp:159
 msgid "Show Columns"
@@ -1281,25 +1303,25 @@ msgstr "Kódování textu SMF"
 msgid "C&ontrol"
 msgstr "O&vládání"
 
-#. i18n: file: src/kmidimonui.rc:18
+#. i18n: file: src/kmidimonui.rc:19
 #. i18n: ectx: Menu (connections)
 #: po/rc.cpp:150
 msgid "Connec&tions"
 msgstr "&Spojení"
 
-#. i18n: file: src/kmidimonui.rc:26
+#. i18n: file: src/kmidimonui.rc:27
 #. i18n: ectx: Menu (popup)
 #: po/rc.cpp:153
 msgid "Display settings"
 msgstr "Nastavení zobrazení"
 
-#. i18n: file: src/kmidimonui.rc:29
+#. i18n: file: src/kmidimonui.rc:30
 #. i18n: ectx: Menu (tracks)
 #: po/rc.cpp:156
 msgid "Tracks"
 msgstr "Stopy"
 
-#. i18n: file: src/kmidimonui.rc:46
+#. i18n: file: src/kmidimonui.rc:48
 #. i18n: ectx: ToolBar (mainToolBar)
 #: po/rc.cpp:162
 msgid "Main Toolbar"
@@ -1314,6 +1336,9 @@ msgstr "Pavel Fric"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "fripohled.blogspot.com"
+
+#~ msgid "*.mid *.midi *.kar|MIDI files (*.mid)"
+#~ msgstr "*.mid *.midi *.kar|Soubory MIDI (*.mid)"
 
 #~ msgid ""
 #~ "Default MIDI queue settings. MIDI files (SMF) may change these values."
