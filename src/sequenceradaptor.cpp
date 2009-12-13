@@ -29,10 +29,7 @@
 #include <alsaqueue.h>
 #include <alsaevent.h>
 #include <subscription.h>
-
 #include <QStringList>
-#include <QDebug>
-
 #include <kapplication.h>
 #include <klocale.h>
 
@@ -70,8 +67,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_player = new Player(m_client, m_port->getPortId());
     connect(m_player, SIGNAL(stopped()), SLOT(shutupSound()));
     connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
-    connect(m_player, SIGNAL(finished()), parent, SLOT(songFinished()));
-
     m_client->startSequencerInput();
 }
 
@@ -178,7 +173,6 @@ void SequencerAdaptor::record()
         else m_queue->continueRunning();
         s = m_queue->getStatus();
         m_recording = s.isRunning();
-        //qDebug() << "recording at: " << s.getTickTime();
     }
 }
 
@@ -186,7 +180,6 @@ void SequencerAdaptor::setPosition(const int pos)
 {
     const SequencerEvent* ev = m_model->getEvent(pos);
     if (ev != NULL) {
-        //qDebug() << "SequencerAdaptor::setPosition(" << pos << ")";
         int t = ev->getTick();
         if (m_player != NULL) m_player->setPosition(t);
         m_model->setCurrentRow(pos);
@@ -200,9 +193,6 @@ void SequencerAdaptor::queue_set_tempo()
     tempo.setPPQ(m_resolution);
     tempo.setNominalBPM(m_tempo);
     m_queue->setTempo(tempo);
-    /*qDebug() << "SequencerAdaptor::queue_set_tempo()"
-             << "resolution: " << m_resolution
-             << "tempo: " << m_tempo;*/
 }
 
 void SequencerAdaptor::setTempoFactor(double factor)
@@ -309,6 +299,7 @@ void SequencerAdaptor::songFinished()
 {
     m_player->resetPosition();
     m_model->setCurrentRow(0);
+    emit finished();
 }
 
 void SequencerAdaptor::shutupSound()
@@ -334,4 +325,9 @@ bool SequencerAdaptor::isPlaying()
     if (m_player != NULL)
         return m_player->isRunning();
     return false;
+}
+
+void SequencerAdaptor::setLoop(bool enable)
+{
+    m_player->setLoop(enable);
 }

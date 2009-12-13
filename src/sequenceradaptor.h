@@ -81,9 +81,11 @@ public slots:
     void sequencerEvent( SequencerEvent* ev );
     void songFinished();
     void shutupSound();
+    void setLoop(bool enable);
 
 signals:
     void signalTicks(int tick);
+    void finished();
 
 private:
     QStringList list_ports(PortInfoList& refs);

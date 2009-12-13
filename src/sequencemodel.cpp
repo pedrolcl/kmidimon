@@ -23,7 +23,6 @@
 #include "sequenceradaptor.h"
 #include "kmidimon.h"
 #include "eventfilter.h"
-
 #include <cmath>
 #include <QFile>
 #include <QDataStream>
@@ -46,10 +45,23 @@ void Song::sort()
     qStableSort(begin(), end(), eventLessThan);
 }
 
+void Song::clear()
+{
+    QList<SequenceItem>::clear();
+    m_mutedState.clear();
+}
+
 void Song::setLast(long last)
 {
     if (last > m_last)
         m_last = last;
+}
+
+void Song::setMutedState(int track, bool muted)
+{
+    if (muted != m_mutedState[track]) {
+        m_mutedState[track] = muted;
+    }
 }
 
 SequenceModel::SequenceModel(QObject* parent) :
@@ -1164,7 +1176,6 @@ SequenceModel::loadFromFile(const QString& path)
 {
     clear();
     m_loadedSong.clear();
-    //qDebug() << "loading from file: " << path;
     m_currentTrack = -1;
     m_initialTempo = -1;
     m_smf->readFromFile(path);
@@ -1201,6 +1212,7 @@ SequenceModel::appendEvent(SequencerEvent* ev)
     double seconds = m_smf->getRealTime() / 1600.0;
     ev->setSource(m_portId);
     ev->scheduleTick(m_queueId, ticks, false);
+    ev->setTag(m_currentTrack);
     if (ev->getSequencerType() != SND_SEQ_EVENT_TEMPO) {
         ev->setSubscribers();
     }
@@ -1208,14 +1220,12 @@ SequenceModel::appendEvent(SequencerEvent* ev)
     m_loadedSong.append(itm);
     m_loadedSong.setLast(ticks);
     emit loadProgress(m_smf->getFilePos());
-    //QCoreApplication::sendPostedEvents ();
     KApplication::processEvents();
 }
 
 void
 SequenceModel::headerEvent(int format, int ntrks, int division)
 {
-    //qDebug() << "SMF Header:" << format << ntrks << division;
     m_format = format;
     m_ntrks = ntrks;
     m_division = division;
@@ -1225,7 +1235,7 @@ void
 SequenceModel::trackStartEvent()
 {
     m_currentTrack++;
-    //qDebug() << "Track start:" << m_currentTrack;
+    m_loadedSong.setMutedState(m_currentTrack, false);
     emit loadProgress(m_smf->getFilePos());
 }
 
@@ -1234,14 +1244,12 @@ SequenceModel::trackEndEvent()
 {
     long ticks = m_smf->getCurrentTime();
     m_loadedSong.setLast(ticks);
-    //qDebug() << "Track end:" << m_currentTrack;
     emit loadProgress(m_smf->getFilePos());
 }
 
 void
 SequenceModel::endOfTrackEvent()
 {
-    //qDebug() << "Meta Event: End Of Track";
     double seconds = m_smf->getRealTime() / 1600.0;
     if (seconds > m_duration)
         m_duration = seconds;
@@ -1354,7 +1362,6 @@ SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
 void
 SequenceModel::seqNum(int seq)
 {
-    //qDebug() << "Sequence num:" << seq;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR1);
     ev->setRaw8(0, seq);
@@ -1364,7 +1371,6 @@ SequenceModel::seqNum(int seq)
 void
 SequenceModel::forcedChannel(int channel)
 {
-    //qDebug() << "Forced channel:" << channel;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR2);
     ev->setRaw8(0, channel);
@@ -1374,7 +1380,6 @@ SequenceModel::forcedChannel(int channel)
 void
 SequenceModel::forcedPort(int port)
 {
-    //qDebug() << "Forced port:" << port;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR3);
     ev->setRaw8(0, port);
@@ -1384,7 +1389,6 @@ SequenceModel::forcedPort(int port)
 void
 SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
 {
-    //qDebug() << "SMPTE:" << b0 << b1 << b2 << b3 << b4;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR4);
     ev->setRaw8(0, b0);
@@ -1398,7 +1402,6 @@ SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
 void
 SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
 {
-    //qDebug() << "Time Signature:" << b0 << b1 << b2 << b3;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_TIMESIGN);
     ev->setRaw8(0, b0);
@@ -1411,7 +1414,6 @@ SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
 void
 SequenceModel::keySigEvent(int b0, int b1)
 {
-    //qDebug() << "Key Signature:" << b0 << b1;
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_KEYSIGN);
     ev->setRaw8(0, b0);
@@ -1643,7 +1645,6 @@ void
 SequenceModel::setEncoding(const QString& encoding)
 {
     if (m_encoding != encoding) {
-        //qDebug() << Q_FUNC_INFO << encoding;
         QString name = KGlobal::charsets()->encodingForName(encoding);
         QTextCodec* codec = QTextCodec::codecForName(name.toLatin1());
         m_smf->setTextCodec(codec);

@@ -87,6 +87,7 @@ KMidimon::KMidimon() :
         connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                           SLOT(resizeColumns(QModelIndex,int,int)) );
         connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
+        connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
         m_tabBar = new KTabBar(this);
         m_tabBar->setWhatsThis(i18n("Track view selectors"));
         m_tabBar->setShape(QTabBar::RoundedNorth);
@@ -296,6 +297,18 @@ void KMidimon::setupActions()
     m_tempo100->setIcon(KIcon("player-time"));
     connect(m_tempo100, SIGNAL(triggered()), this, SLOT(tempoReset()));
     actionCollection()->addAction("tempo100", m_tempo100);
+
+    m_loop = new KToggleAction(this);
+    m_loop->setText(i18n("Player Loop"));
+    m_loop->setWhatsThis(i18n("Start playing again at song ending"));
+    connect(m_loop, SIGNAL(triggered()), SLOT(slotLoop()));
+    actionCollection()->addAction("loop", m_loop);
+
+    m_muteTrack = new KToggleAction(this);
+    m_muteTrack->setText(i18n("Mute Track"));
+    m_muteTrack->setWhatsThis(i18n("Mute (silence) the track"));
+    connect(m_muteTrack, SIGNAL(triggered()), SLOT(muteCurrentTrack()));
+    actionCollection()->addAction("mute_track", m_muteTrack );
 
     setStandardToolBarMenuEnabled(true);
     setupGUI();
@@ -654,6 +667,9 @@ void KMidimon::toggleColumn(int colNum)
 void KMidimon::contextMenuEvent(QContextMenuEvent*)
 {
     Q_CHECK_PTR( m_popup );
+    QVariant data = m_tabBar->tabData(m_tabBar->currentIndex());
+    int track = data.toInt() - 1;
+    m_muteTrack->setChecked(m_model->getSong()->mutedState(track));
     m_popup->exec(QCursor::pos());
 }
 
@@ -741,7 +757,6 @@ void KMidimon::changeCurrentTrack()
 
 void KMidimon::reorderTabs(int fromIndex, int toIndex)
 {
-    //qDebug() << "reorderTabs(" << fromIndex << "," << toIndex << ")";
     QIcon icon = m_tabBar->tabIcon(fromIndex);
     QString text = m_tabBar->tabText(fromIndex);
     QVariant data = m_tabBar->tabData(fromIndex);
@@ -824,4 +839,25 @@ void KMidimon::tempoSlider(int value)
     QString tip = QString("%1\%").arg(tempoFactor*100.0, 0, 'f', 0);
     m_tempoSlider->slider()->setToolTip(tip);
     QToolTip::showText(QCursor::pos(), tip, this);
+}
+
+void KMidimon::muteTrack(int tabIndex)
+{
+    QVariant data = m_tabBar->tabData(tabIndex);
+    int track = data.toInt() - 1;
+    Song* song = m_model->getSong();
+    if (song != NULL) {
+        bool newState = !song->mutedState(track);
+        song->setMutedState(track, newState);
+    }
+}
+
+void KMidimon::muteCurrentTrack()
+{
+    muteTrack(m_tabBar->currentIndex());
+}
+
+void KMidimon::slotLoop()
+{
+    m_adaptor->setLoop(m_loop->isChecked());
 }

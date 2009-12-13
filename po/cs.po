@@ -5,12 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"atid=731542&group_id=134956\n"
+"Report-Msgid-Bugs-To: http://sourceforge."
+"net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2009-12-10 23:43+0100\n"
-"PO-Revision-Date: 2009-12-07 12:13+0100\n"
+"PO-Revision-Date: 2009-12-13 17:56+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
-"Language-Team: Czech <>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,14 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/configdialog.cpp:31
-#, fuzzy
 msgid "KMidimon Preferences"
-msgstr "Nastavení"
+msgstr "Nastavení programu KMidimon"
 
 #: src/configdialog.cpp:98
 msgctxt "@item:inlistbox Default MIDI text encoding"
 msgid "Default ( ASCII )"
-msgstr ""
+msgstr "Výchozí (ASCII)"
 
 #: src/connectdlg.cpp:39
 msgid "Connections"
@@ -120,7 +119,6 @@ msgid "Tune Request"
 msgstr "Žádost o naladění"
 
 #: src/eventfilter.cpp:81
-#, fuzzy
 msgctxt "player start"
 msgid "Start"
 msgstr "Spustit"
@@ -222,12 +220,11 @@ msgstr "Filtry"
 #: src/eventfilter.cpp:198
 msgctxt "check all types"
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: src/eventfilter.cpp:202
-#, fuzzy
 msgid "Nothing"
-msgstr "Notový zápis"
+msgstr "Nic"
 
 #: src/kmidimon.cpp:74
 msgid "The events list"
@@ -264,13 +261,11 @@ msgid "Time"
 msgstr "Čas"
 
 #: src/kmidimon.cpp:139 src/sequencemodel.cpp:153
-#, fuzzy
 msgctxt "event origin"
 msgid "Source"
 msgstr "Zdroj"
 
 #: src/kmidimon.cpp:140
-#, fuzzy
 msgctxt "type of event"
 msgid "Event Kind"
 msgstr "Druh události"
@@ -332,7 +327,6 @@ msgid "Pause the playback"
 msgstr "Pozastavit přehrávání"
 
 #: src/kmidimon.cpp:200
-#, fuzzy
 msgctxt "player skip forward"
 msgid "Forward"
 msgstr "Vpřed"
@@ -342,7 +336,6 @@ msgid "Move the playback position to the last event"
 msgstr "Posunout polohu přehrávání na poslední událost"
 
 #: src/kmidimon.cpp:207
-#, fuzzy
 msgctxt "player skip backward"
 msgid "Backward"
 msgstr "Zpět"
@@ -480,13 +473,11 @@ msgid "recording"
 msgstr "Nahrává se"
 
 #: src/kmidimon.cpp:557
-#, fuzzy
 msgctxt "player stopped"
 msgid "stopped"
 msgstr "Zastaveno"
 
 #: src/kmidimon.cpp:564
-#, fuzzy
 msgctxt "player playing"
 msgid "playing"
 msgstr "Přehrává se"
@@ -496,7 +487,6 @@ msgid "ALSA MIDI Monitor [%1]"
 msgstr "Sledování MIDI přes ALSA [%1]"
 
 #: src/kmidimon.cpp:684 src/kmidimon.cpp:725
-#, fuzzy
 msgctxt "song track"
 msgid "Track %1"
 msgstr "Stopa %1"
@@ -518,16 +508,16 @@ msgid "No file loaded"
 msgstr "Nebyl nahrán žádný soubor"
 
 #: src/kmidimon.cpp:791
-#, fuzzy
 msgid ""
 "File: <b>%1</b><br/>Created: <b>%2</b><br/>Modified: <b>%3</b><br/>SMF "
 "Format: <b>%4</b><br/>Number of tracks: <b>%5</b><br/>Number of events: <b>%"
 "6</b><br/>Division: <b>%7 ppq</b><br/>Initial tempo: <b>%8 bpm</b><br/"
 ">Duration: <b>%9</b>"
 msgstr ""
-"Soubor: <b>%1</b><br>SMF formát: <b>%2</b><br>Počet skladeb: <b>%3</"
-"b><br>Počet událostí: <b>%4</b><br>Figurace: <b>%5 ppq</"
-"b><br>Počátečnítempo: <b>%6 úzm</b><br>Doba trvání: <b>%7</b>"
+"Soubor: <b>%1</b><br/>Vytvořeno: <b>%2</b><br/>Upraveno: <b>%3</b><br/>SMF "
+"formát: <b>%4</b><br/>Počet skladeb: <b>%5</b><br/>Počet událostí: <b>%"
+"6</b><br/>Rozdělení: <b>%7 ppq</b><br/>Počáteční tempo: <b>%8 úzm</b><br/"
+">Doba trvání: <b>%9</b>"
 
 #: src/kmidimon.cpp:810
 msgid "Sequence Information"
@@ -542,9 +532,8 @@ msgid "KMidimon"
 msgstr "KMidimon"
 
 #: src/main.cpp:43
-#, fuzzy
 msgid "(C) 2005-2009 Pedro Lopez-Cabanillas"
-msgstr "(C) 2005-2008 Pedro Lopez-Cabanillas"
+msgstr "(C) 2005-2009 Pedro Lopez-Cabanillas"
 
 #: src/main.cpp:47
 msgid "Pedro Lopez-Cabanillas"
@@ -575,7 +564,6 @@ msgid "Universal Real Time SysEx"
 msgstr "Univerzální SysEx ve skutečném čase"
 
 #: src/sequencemodel.cpp:338
-#, fuzzy
 msgctxt "cast or scattered in all directions"
 msgid "broadcast"
 msgstr "Vysílání"
@@ -637,7 +625,6 @@ msgid "MMC"
 msgstr "MMC"
 
 #: src/sequencemodel.cpp:412
-#, fuzzy
 msgctxt "MTC special setup"
 msgid "Special"
 msgstr "Zvláštní"
@@ -811,13 +798,11 @@ msgid "Time Signature: %1 (%2/%3)"
 msgstr "Taktové označení: %1 (%2/%3)"
 
 #: src/sequencemodel.cpp:639
-#, fuzzy
 msgctxt "sound volume"
 msgid "Volume: %1"
 msgstr "Hlasitost: %1"
 
 #: src/sequencemodel.cpp:641
-#, fuzzy
 msgctxt "sound balance"
 msgid "Balance: %1"
 msgstr "Vyrovnání: %1"
@@ -906,7 +891,6 @@ msgid "Copyright:2"
 msgstr "Autorské právo: 2"
 
 #: src/sequencemodel.cpp:923
-#, fuzzy
 msgctxt "song or track name"
 msgid "Name:3"
 msgstr "Název: 3"
@@ -976,13 +960,11 @@ msgid "A sharp"
 msgstr "Ais"
 
 #: src/sequencemodel.cpp:978
-#, fuzzy
 msgctxt "major mode scale"
 msgid "major"
 msgstr "Dur"
 
 #: src/sequencemodel.cpp:978
-#, fuzzy
 msgctxt "minor mode scale"
 msgid "minor"
 msgstr "Moll"
@@ -1138,7 +1120,6 @@ msgstr "Zprávy SMF"
 #. i18n: file: src/configdialogbase.ui:246
 #. i18n: ectx: attribute (title), widget (QWidget, tabDisplay)
 #: po/rc.cpp:63
-#, fuzzy
 msgctxt "Columns to show"
 msgid "Display"
 msgstr "Zobrazit"
@@ -1180,7 +1161,6 @@ msgstr "Přípojka MIDI, která je původcem zpráv"
 #. i18n: file: src/configdialogbase.ui:289
 #. i18n: ectx: property (text), widget (QCheckBox, m_showSourceColumn)
 #: po/rc.cpp:84
-#, fuzzy
 msgctxt "Origin of the event"
 msgid "Source"
 msgstr "Zdroj"
@@ -1206,7 +1186,6 @@ msgstr "Kanál MIDI (1 až 16)"
 #. i18n: file: src/configdialogbase.ui:309
 #. i18n: ectx: property (text), widget (QCheckBox, m_showChannelColumn)
 #: po/rc.cpp:96
-#, fuzzy
 msgctxt "MIDI Channel Number"
 msgid "Channel"
 msgstr "Kanál"
@@ -1293,9 +1272,8 @@ msgstr "Nástroj MIDI"
 #. i18n: file: src/configdialogbase.ui:446
 #. i18n: ectx: property (text), widget (QLabel, lblCodec)
 #: po/rc.cpp:144
-#, fuzzy
 msgid "SMF Text Encoding"
-msgstr "Text SMF"
+msgstr "Kódování textu SMF"
 
 #. i18n: file: src/kmidimonui.rc:7
 #. i18n: ectx: Menu (control)

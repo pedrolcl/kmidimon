@@ -1,3 +1,9 @@
+2009-12-13 00:00 plcl
+
+    * playback loop
+    * mute track
+    * Czech translation updated by Pavel Fric
+
 2009-12-11 00:00 plcl
 
     * support for SMF sequencer specific and unregistered meta-events

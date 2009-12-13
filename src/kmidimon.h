@@ -70,12 +70,15 @@ public slots:
     void addTrack();
     void deleteCurrentTrack();
     void changeCurrentTrack();
+    void muteCurrentTrack();
     void deleteTrack(int tabIndex);
     void changeTrack(int tabIndex);
+    void muteTrack(int tabIndex);
     void songFinished();
     void slotURLSelected(const KUrl& url);
     void tempoReset();
     void tempoSlider(int value);
+    void slotLoop();
 
     void disconnectAll();
     void configConnections();
@@ -133,6 +136,8 @@ private:
     QPointer<KProgressDialog> m_pd;
     QString m_outputConn;
     EventFilter* m_filter;
+    KToggleAction *m_loop;
+    KToggleAction *m_muteTrack;
 	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;

@@ -12,6 +12,7 @@
         <Action name="record" />
         <Action name="stop" />
         <Separator />
+        <Action name="loop" />
         <Action name="tempo_slider" />
         <Action name="tempo100" />
     </Menu>
@@ -30,6 +31,7 @@
     <Action name="add_track"/> 
     <Action name="delete_track"/>
     <Action name="change_track"/>
+    <Action name="mute_track" />
   </Menu>
   <Menu name="columns">
     <text>Show Columns</text>

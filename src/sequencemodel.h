@@ -43,10 +43,15 @@ public:
     Song() : QList<SequenceItem>(), m_last(0) {}
     virtual ~Song() {}
     void sort();
+    void clear();
     void setLast(long);
     long getLast() { return m_last; }
+    bool mutedState(int track) { return m_mutedState[track]; }
+    void setMutedState(int track, bool muted);
+
 private:
     long m_last;
+    QMap<int, bool> m_mutedState;
 };
 
 typedef QListIterator<SequenceItem> SongIterator;

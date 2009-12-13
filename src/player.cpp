@@ -19,6 +19,7 @@
 
 #include "player.h"
 #include <alsaqueue.h>
+#include <kdebug.h>
 
 Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),
@@ -26,7 +27,8 @@ Player::Player(MidiClient *seq, int portId)
     m_songIterator(0),
     m_songPosition(0),
     m_lastIndex(0),
-    m_echoResolution(0)
+    m_echoResolution(0),
+    m_loop(false)
 { }
 
 Player::~Player()
@@ -104,7 +106,7 @@ Player::sendEchoEvent(int tick)
 
 void Player::run()
 {
-    unsigned int last_tick;
+    unsigned int last_tick, final_tick = m_song->getLast();
     if (m_MidiClient != NULL) {
         try  {
             m_npfds = snd_seq_poll_descriptors_count(m_MidiClient->getHandle(), POLLOUT);
@@ -126,11 +128,23 @@ void Player::run()
                     }
                 }*/
                 if (!stopRequested() && !SequencerEvent::isConnectionChange(ev)) {
-                    if(last_tick != ev->getTick()) {
+                    if (last_tick != ev->getTick()) {
                         last_tick = ev->getTick();
                         sendEchoEvent(last_tick);
                     }
-                    sendSongEvent(ev);
+                    if (!m_song->mutedState(ev->getTag()))
+                        sendSongEvent(ev);
+                }
+                if (!stopRequested() && !hasNext()) {
+                    if (final_tick > last_tick)
+                        sendEchoEvent(final_tick);
+                    if (!stopRequested() && m_loop) {
+                        drainOutput();
+                        syncOutput();
+                        resetPosition();
+                        last_tick = 0;
+                        m_Queue->setTickPosition(0);
+                    }
                 }
             }
             if (stopRequested()) {
@@ -151,4 +165,9 @@ void Player::run()
         m_npfds = 0;
         m_pfds = 0;
     }
+}
+
+void Player::setLoop(bool enabled)
+{
+    m_loop = enabled;
 }
