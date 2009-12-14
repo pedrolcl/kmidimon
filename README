@@ -1,1 +1,70 @@
-For build&install, see the INSTALL document.
+For brief building instructions, see INSTALL.
+
+Developers environment
+======================
+
+You need the following software:
+
+* CMake
+    Debian: "cmake"
+    http://packages.debian.org/sid/cmake
+    
+* pkg-config
+    Debian: "pkg-config"
+    http://packages.debian.org/sid/pkg-config
+    
+* Qt4 libraries
+    Debian: "libqt4-dev"
+    http://packages.debian.org/sid/libqt4-dev
+    
+* KDE4 SDK and libraries
+    Debian: "kdesdk", "kdelibs5-dev"
+    http://packages.debian.org/sid/kdesdk
+    http://packages.debian.org/sid/kdelibs5-dev
+
+* ALSA library
+    Debian package: "libasound2-dev"
+    http://packages.debian.org/sid/libasound2-dev
+
+* DBus-1 library
+    Debian package: "libdbus-1-dev"
+    http://packages.debian.org/sid/libdbus-1-dev
+
+Getting the development sources
+===============================
+
+Compiling and hacking the CVS sources is a bit different compared to the
+distribution tarball. You can get the latest sources either using a sourceforge
+user account, or the anonymous user (with read only rights). The CVS client  
+documentation for SourceForge users is available at
+http://sourceforge.net/apps/trac/sourceforge/wiki/CVS%20client%20instructions
+
+1. Check out the module aseqmm from the CVS repository.
+        Host: kmetronome.cvs.sourceforge.net
+        Path: /cvsroot/kmetronome
+        Module: aseqmm
+
+example:
+$ cvs -z3 -d:pserver:anonymous@kmetronome.cvs.sourceforge.net:/cvsroot/kmetronome checkout -P aseqmm  
+
+2. Check out the module kmidimon from the CVS repository.
+        Host: kmetronome.cvs.sourceforge.net
+        Path: /cvsroot/kmetronome
+        Module: kmidimon
+
+example:
+$ cvs -z3 -d:pserver:anonymous@kmetronome.cvs.sourceforge.net:/cvsroot/kmetronome checkout -P kmidimon  
+
+3. Create the links for 'aseqmm' in the kmidimon directory.
+$ cd kmidimon
+$ ./link-aseqmm
+
+The module 'aseqmm' is also used by other projects in a similar way. 
+It will become an independent shared library some future day.
+
+4. Configure and compile
+
+$ cmake . -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix`
+$ make VERBOSE=1
+
+5. Hack and enjoy!
