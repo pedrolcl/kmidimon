@@ -32,12 +32,13 @@
 #include <QStringList>
 #include <kapplication.h>
 #include <klocale.h>
+#include <kdebug.h>
 
 using namespace std;
 
 SequencerAdaptor::SequencerAdaptor(QObject *parent):
     QObject(parent),
-    m_recording(false),
+    m_state(ErrorState),
     m_resolution(RESOLUTION),
     m_tempo(TEMPO_BPM)
 {
@@ -69,6 +70,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     connect(m_player, SIGNAL(stopped()), SLOT(shutupSound()));
     connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
     m_client->startSequencerInput();
+    m_state = StoppedState;
 }
 
 SequencerAdaptor::~SequencerAdaptor()
@@ -99,7 +101,7 @@ void SequencerAdaptor::updateModelClients()
 
 void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 {
-    if (m_recording) {
+    if (m_state == RecordingState) {
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
         double seconds = s.getClockTime();
@@ -119,7 +121,7 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 
 void SequencerAdaptor::play()
 {
-    if (!m_model->isEmpty() & !m_player->isRunning()) {
+    if (!m_model->isEmpty() && !m_player->isRunning()) {
         if (m_player->getInitialPosition() == 0) {
             if (m_tempo == 0) return;
             m_player->setSong(m_model->getSong(), m_resolution);
@@ -127,6 +129,7 @@ void SequencerAdaptor::play()
             m_client->drainOutput();
         }
         m_player->start();
+        m_state = PlayingState;
     }
 }
 
@@ -136,19 +139,24 @@ void SequencerAdaptor::pause(bool checked)
         if (m_player->isRunning()) {
             m_player->stop();
             m_player->setPosition(m_queue->getStatus().getTickTime());
+            m_state = PausedState;
         }
     } else {
         m_player->start();
+        m_state = PlayingState;
     }
 }
 
 void SequencerAdaptor::stop()
 {
-    if (m_recording | m_player->isRunning()) {
+    if (m_state == RecordingState ||
+        m_state == PausedState ||
+        m_state == PlayingState ||
+        m_player->isRunning()) {
         m_player->stop();
         m_queue->stop();
         m_queue->clear();
-        m_recording = false;
+        m_state = StoppedState;
         songFinished();
     }
 }
@@ -168,12 +176,13 @@ void SequencerAdaptor::forward()
 
 void SequencerAdaptor::record()
 {
-    if (!m_recording) {
+    if (m_state != RecordingState) {
         QueueStatus s = m_queue->getStatus();
         if (s.getTickTime() == 0) m_queue->start();
         else m_queue->continueRunning();
         s = m_queue->getStatus();
-        m_recording = s.isRunning();
+        if (s.isRunning())
+            m_state = RecordingState;
     }
 }
 

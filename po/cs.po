@@ -5,11 +5,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"atid=731542&group_id=134956\n"
+"Report-Msgid-Bugs-To: http://sourceforge."
+"net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2009-12-13 19:53+0100\n"
-"PO-Revision-Date: 2009-12-13 17:56+0100\n"
-"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
+"PO-Revision-Date: 2009-12-14 19:46+0100\n"
+"Last-Translator: Pavel\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -212,13 +212,12 @@ msgid "SMPTE Offset"
 msgstr "Posun SMPTE"
 
 #: src/eventfilter.cpp:106
-#, fuzzy
 msgid "Sequencer Specific"
-msgstr "Sekvencer"
+msgstr "Přesně stanovené pro sekvencer"
 
 #: src/eventfilter.cpp:107
 msgid "Meta (unregistered)"
-msgstr ""
+msgstr "Meta (nezapsaný)"
 
 #. i18n: file: src/configdialogbase.ui:153
 #. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
@@ -451,20 +450,19 @@ msgstr "Přenastavit velikost tempa na 100%"
 
 #: src/kmidimon.cpp:302
 msgid "Player Loop"
-msgstr ""
+msgstr "Smyčka při přehrávání"
 
 #: src/kmidimon.cpp:303
 msgid "Start playing again at song ending"
-msgstr ""
+msgstr "Spustit přehrávání znovu na konci písně"
 
 #: src/kmidimon.cpp:308
-#, fuzzy
 msgid "Mute Track"
-msgstr "Stopy"
+msgstr "Ztlumit stopu"
 
 #: src/kmidimon.cpp:309
 msgid "Mute (silence) the track"
-msgstr ""
+msgstr "Ztlumit (ztišit) stopu"
 
 #: src/kmidimon.cpp:362
 msgid "Load MIDI file"

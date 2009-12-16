@@ -553,12 +553,15 @@ void KMidimon::record()
 {
     m_adaptor->forward();
     m_adaptor->record();
-    updateState("recording_state", i18n("recording"));
+    if (m_adaptor->isRecording())
+        updateState("recording_state", i18n("recording"));
 }
 
 void KMidimon::stop()
 {
-    if (m_adaptor->isRecording() | m_adaptor->isPlaying()) {
+    if ( m_adaptor->isRecording() ||
+         m_adaptor->isPlaying() ||
+         m_adaptor->isPaused()) {
         m_adaptor->stop();
         songFinished();
     }
@@ -573,12 +576,15 @@ void KMidimon::songFinished()
 void KMidimon::play()
 {
     m_adaptor->play();
-    updateState("playing_state", i18nc("player playing","playing"));
+    if (m_adaptor->isPlaying())
+        updateState("playing_state", i18nc("player playing","playing"));
 }
 
 void KMidimon::pause()
 {
     m_adaptor->pause(m_pause->isChecked());
+    //if (m_adaptor->isPaused())
+    //  updateState("paused_state", i18nc("player paused","paused"));
 }
 
 void KMidimon::rewind()
@@ -597,6 +603,7 @@ void KMidimon::updateState(const QString newState, const QString stateName)
 {
     setCaption(i18n("ALSA MIDI Monitor [%1]", stateName));
     slotStateChanged(newState);
+    m_pause->setChecked(m_adaptor->isPaused());
 }
 
 void KMidimon::editToolbars()

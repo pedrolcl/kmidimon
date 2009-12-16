@@ -41,11 +41,22 @@ class SequencerAdaptor: public QObject
 {
 	Q_OBJECT
 public:
+	enum State
+	{
+	    StoppedState,
+	    PlayingState,
+	    RecordingState,
+	    PausedState,
+	    ErrorState
+	};
+
     SequencerAdaptor(QObject *parent);
     ~SequencerAdaptor();
 
-    bool isRecording() { return m_recording; }
+    bool isRecording() { return m_state == RecordingState; }
+    bool isPaused() { return m_state == PausedState; }
     bool isPlaying();
+    State currentState() { return m_state; }
 
     void queue_set_tempo();
 
@@ -91,7 +102,7 @@ signals:
 private:
     QStringList list_ports(PortInfoList& refs);
 
-    bool m_recording;
+    State m_state;
     int m_resolution;
     int m_tempo;
 
