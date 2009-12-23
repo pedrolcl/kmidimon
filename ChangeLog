@@ -1,5 +1,6 @@
 2009-12-23 00:00 plcl
 
+    * Release 0.7.2
     * Build system improvements
     * Fixed dynamic linking issues with aseqmm
     * assorted fixes 
