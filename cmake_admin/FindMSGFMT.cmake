@@ -53,7 +53,7 @@ MACRO(ADD_TRANSLATIONS _baseName)
 	SET(_in  "${CMAKE_CURRENT_SOURCE_DIR}/${_file_we}.po")
 	ADD_CUSTOM_COMMAND(
 	    OUTPUT ${_out}
-	    COMMAND ${MSGFMT_EXECUTABLE} -o ${_out} ${_in}
+	    COMMAND ${MSGFMT_EXECUTABLE} --statistics -o ${_out} ${_in}
 	    DEPENDS ${_in} )
 	INSTALL(FILES ${_out}
 	    DESTINATION ${LOCALE_INSTALL_DIR}/${_file_we}/LC_MESSAGES/

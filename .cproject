@@ -73,26 +73,18 @@
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
-<target name="distclean" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<target name="all" path="build" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>make</buildCommand>
 <buildArguments>VERBOSE=1</buildArguments>
-<buildTarget>distclean</buildTarget>
-<stopOnError>false</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-<runAllBuilders>true</runAllBuilders>
-</target>
-<target name="cmake" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>cmake</buildCommand>
-<buildArguments/>
-<buildTarget>. -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=/usr</buildTarget>
+<buildTarget>all</buildTarget>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 <runAllBuilders>true</runAllBuilders>
 </target>
-<target name="all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>make</buildCommand>
-<buildArguments>VERBOSE=1</buildArguments>
-<buildTarget>all</buildTarget>
+<target name="cmake" path="build" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>cmake</buildCommand>
+<buildArguments/>
+<buildTarget>.. -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=/usr -DSTATIC_ASEQMM=0</buildTarget>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 <runAllBuilders>true</runAllBuilders>

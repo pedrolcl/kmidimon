@@ -105,7 +105,6 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
         double seconds = s.getClockTime();
-        ev->setSource(m_port->getPortId());
         ev->setSubscribers();
         ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
         SequenceItem itm(seconds, ticks, m_model->currentTrack(), ev);
