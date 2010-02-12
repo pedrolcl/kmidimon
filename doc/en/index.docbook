@@ -68,7 +68,9 @@ Do NOT change these in the translation. -->
 <title>Introduction</title>
 
 <para>
-There's no exhaustive documentation yet. The provisional homepage can currently be found on <ulink url="http://kmetronome.sourceforge.net/kmidimon/">http://kmetronome.sourceforge.net/kmidimon/</ulink>.
+There's no exhaustive documentation yet. The provisional homepage can currently 
+be found at <ulink url="http://kmidimon.sourceforge.net">
+http://kmidimon.sourceforge.net</ulink>.
 </para>
 
 <para>
@@ -269,13 +271,13 @@ distribution. -->
 <appendix id="installation">
 <title>Installation</title>
 
-<sect1 id="getting-kmetronome">
+<sect1 id="getting-kmidimon">
 <title>How to obtain &kmidimon;</title>
 
 <para>
 Here you can find the last version:
 <ulink
-url="http://sourceforge.net/projects/kmetronome">Project home page</ulink>
+url="http://sourceforge.net/projects/kmidimon">Project home page</ulink>
 </para>
 
 </sect1>
@@ -301,7 +303,7 @@ ALSA library, drivers and utilities can be found at
 <para>
 You can find a list of changes at
 <ulink
-url="http://kmetronome.sourceforge.net">http://kmetronome.sourceforge.net
+url="http://kmidimon.sourceforge.net">http://kmidimon.sourceforge.net
 </ulink>
 </para>
 </sect1>
