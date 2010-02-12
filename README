@@ -33,33 +33,34 @@ You need the following software:
 Getting the development sources
 ===============================
 
-Compiling and hacking the CVS sources is a bit different compared to the
+Compiling and hacking the SVN sources is a bit different compared to the
 distribution tarball. You can get the latest sources either using a sourceforge
-user account, or the anonymous user (with read only rights). The CVS client  
-documentation for SourceForge users is available at
-http://sourceforge.net/apps/trac/sourceforge/wiki/CVS%20client%20instructions
+user account, or the anonymous user (with read only rights). The SVN client 
+documentation for SourceForge users is available at:
+ 
+        http://p.sf.net/sourceforge/svn
 
-1. Check out the module aseqmm from the CVS repository.
-        Host: kmetronome.cvs.sourceforge.net
-        Path: /cvsroot/kmetronome
-        Module: aseqmm
+1. Check out the module Drumstick from the SVN repository.
+        Host: drumstick.svn.sourceforge.net
+        Path: /svnroot/drumstick/trunk
+        Module: drumstick
 
 example:
-$ cvs -z3 -d:pserver:anonymous@kmetronome.cvs.sourceforge.net:/cvsroot/kmetronome checkout -P aseqmm  
+$ svn co https://drumstick.svn.sourceforge.net/svnroot/drumstick/trunk drumstick 
 
-2. Check out the module kmidimon from the CVS repository.
-        Host: kmetronome.cvs.sourceforge.net
-        Path: /cvsroot/kmetronome
+2. Check out the module kmidimon from the SVN repository.
+        Host: kmidimon.svn.sourceforge.net
+        Path: /svnroot/kmidimon/trunk
         Module: kmidimon
 
 example:
-$ cvs -z3 -d:pserver:anonymous@kmetronome.cvs.sourceforge.net:/cvsroot/kmetronome checkout -P kmidimon  
+$ svn co https://kmidimon.svn.sourceforge.net/svnroot/kmidimon/trunk kmidimon 
 
-3. Create the links for 'aseqmm' in the kmidimon directory.
+3. Create the links for 'drumstick' in the kmidimon directory.
 $ cd kmidimon
-$ ./link-aseqmm
+$ ./link-drumstick
 
-The module 'aseqmm' is also used by other projects in a similar way. 
+The module 'drumstick' is also used by other projects in a similar way. 
 It will become an independent shared library some future day.
 
 4. Configure and compile

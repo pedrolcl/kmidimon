@@ -6,9 +6,9 @@ Description:    ALSA Sequencer MIDI monitor
 Keywords:       MIDI Qt ALSA KDE monitor
 Author:         plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
 Maintained-by:  plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
-Primary-site:   http://sourceforge.net/projects/kmetronome
-Alternate-site: http://kmetronome.sourceforge.net/kmidimon
-Original-site:  http://sourceforge.net/projects/kmetronome
+Primary-site:   http://sourceforge.net/projects/kmidimon
+Alternate-site: http://kmidimon.sourceforge.net
+Original-site:  http://sourceforge.net/projects/kmidimon
 Platform:       Linux, requires KDE4 and ALSA
 Copying-policy: GPL
 End

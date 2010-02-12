@@ -9,7 +9,7 @@ Release:        0
 License:        GPL v2 or later
 Summary:        KDE MIDI Monitor for ALSA Sequencer
 Group:          Productivity/Multimedia/Sound/Midi
-URL:            http://kmetronome.sourceforge.net/kmidimon/
+URL:            http://kmidimon.sourceforge.net
 Source:         %name-%version.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 BuildRequires:  cmake

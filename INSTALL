@@ -13,14 +13,19 @@ supplied here:
 Building with CMake
 -------------------
 
-Unpack the tarball or check out CVS.  Assuming that you have the
+Unpack the tarball or check out SVN.  Assuming that you have the
 source in ~/src/kmidimon, you need to change to that directory:
 
 $ cd ~/src/kmidimon
 
+Create a build directory, and change to it
+
+$ mkdir build
+$ cd build
+
 Now run CMake to generate the build files.
 
-$ cmake .
+$ cmake ..
 
 Finally, run make, and then (sudo) make install, and you're done.
 
@@ -48,26 +53,26 @@ $ make install DESTDIR=~/rpmroot
 Some variables you may want to set:
 
     * CMAKE_INSTALL_PREFIX:
-      cmake . -DCMAKE_INSTALL_PREFIX=/opt/kde is the equivalent to
+      cmake .. -DCMAKE_INSTALL_PREFIX=/opt/kde is the equivalent to
       ./configure --prefix=/opt/kde for programs that use autotools
 
-    * WANT_XXXX: there are some options available:  
-    WANT_STATIC  Statically linked aseqmm (default ON)
-    WANT_PCH     Use precompiled headers (default OFF)
+    * there are some options available:  
+    STATIC_DRUMSTICK  Statically linked drumstick (default ON)
+    ENABLE_PCH        Use precompiled headers (default OFF)
 
 The above options can take any of the following values: 0, 1, OFF, ON,
 TRUE, FALSE, YES, NO (case insensitive). For example:
 
-$ cmake . -DWANT_PCH=YES -DCMAKE_INSTALL_PREFIX=/usr
+$ cmake .. -ENABLE_PCH=YES -DCMAKE_INSTALL_PREFIX=/usr
 
 If you would prefer to avoid all this typing, you can use ccmake to
 view and change these options using a friendly curses-based interface:
 
-$ ccmake .
+$ ccmake ..
 
 or a GUI equivalent:
 
-$ cmake-gui
+$ cmake-gui ..
 
 Dealing with Configuration Problems
 -----------------------------------
@@ -82,4 +87,4 @@ You may want to read the documentation at:
 
 If you can't solve your problem, open a request for support at the project site:
 
-    http://sourceforge.net/projects/kmetronome/
+    http://sourceforge.net/projects/kmidimon/
