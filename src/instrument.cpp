@@ -1,10 +1,10 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2009 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2010 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  * For this file, the following copyright notice is also applicable:       *
- * Copyright (C) 2005-2009, rncbc aka Rui Nuno Capela. All rights reserved.*
+ * Copyright (C) 2005-2010, rncbc aka Rui Nuno Capela. All rights reserved.*
  * See http://qtractor.sourceforge.net                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
