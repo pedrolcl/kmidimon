@@ -24,7 +24,7 @@
 #include "alsaclient.h"
 #include "sequencemodel.h"
 
-using namespace aseqmm;
+using namespace drumstick;
 
 class Player : public SequencerOutputThread
 {

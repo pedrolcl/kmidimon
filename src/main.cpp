@@ -27,9 +27,9 @@
 #include <kmessagebox.h>
 
 #include "kmidimon.h"
-#include "aseqmmcommon.h"
+#include "drumstickcommon.h"
 
-using namespace aseqmm;
+using namespace drumstick;
 
 static const char description[] =
     I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	                 ki18n(description), KAboutData::License_GPL,
 	                 ki18n("(C) 2005-2009 Pedro Lopez-Cabanillas"),
 	                 KLocalizedString(),
-	                 "http://kmetronome.sourceforge.net/kmidimon",
+	                 "http://kmidimon.sourceforge.net",
 	                 "plcl@users.sourceforge.net");
 	about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
 	                "plcl@users.sourceforge.net");

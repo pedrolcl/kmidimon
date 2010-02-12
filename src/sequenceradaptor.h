@@ -32,7 +32,7 @@
 class SequenceModel;
 class Player;
 
-using namespace aseqmm;
+using namespace drumstick;
 
 const int TEMPO_BPM(120);
 const int RESOLUTION(240);

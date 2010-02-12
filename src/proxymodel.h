@@ -27,7 +27,7 @@
 
 class EventFilter;
 
-using namespace aseqmm;
+using namespace drumstick;
 
 class ProxyModel : public QSortFilterProxyModel
 {

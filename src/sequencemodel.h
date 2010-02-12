@@ -31,7 +31,7 @@
 #include "sequenceitem.h"
 #include "instrument.h"
 
-using namespace aseqmm;
+using namespace drumstick;
 
 class EventFilter;
 
