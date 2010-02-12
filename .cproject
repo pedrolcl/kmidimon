@@ -66,7 +66,7 @@
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 
 <storageModule moduleId="org.eclipse.cdt.core.pathentry">
-<pathentry kind="src" path="aseqmm"/>
+<pathentry kind="src" path="drumstick"/>
 <pathentry kind="src" path="src"/>
 <pathentry kind="out" path="build"/>
 <pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
@@ -84,7 +84,7 @@
 <target name="cmake" path="build" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>cmake</buildCommand>
 <buildArguments/>
-<buildTarget>.. -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=/usr -DSTATIC_ASEQMM=1</buildTarget>
+<buildTarget>.. -DCMAKE_BUILD_TYPE=debugfull -DCMAKE_INSTALL_PREFIX=/usr -DSTATIC_DRUMSTICK=1</buildTarget>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 <runAllBuilders>true</runAllBuilders>
