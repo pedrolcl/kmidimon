@@ -22,20 +22,23 @@
 #ifndef SEQUENCEMODEL_H
 #define SEQUENCEMODEL_H
 
-#include <QAbstractItemModel>
-#include <QMap>
+#include "sequenceitem.h"
+#include "instrument.h"
 
 #include <alsaevent.h>
 #include <qsmf.h>
+#include <qwrk.h>
 
-#include "sequenceitem.h"
-#include "instrument.h"
+#include <QAbstractItemModel>
+#include <QMap>
+#include <QHash>
+#include <QList>
 
 using namespace drumstick;
 
 class EventFilter;
 
-typedef QMap<int,QString> ClientsMap;
+typedef QHash<int,QString> ClientsMap;
 
 class Song : public QList<SequenceItem>
 {
@@ -85,7 +88,9 @@ public:
     void saveToTextStream(QTextStream& str);
     void saveToFile(const QString& path);
     void loadFromFile(const QString& path);
-    void appendEvent(SequencerEvent* ev);
+    void appendEvent(long ticks, double seconds, int track, SequencerEvent* ev);
+    void appendSMFEvent(SequencerEvent* ev);
+    void appendWRKEvent(long ticks, int track, SequencerEvent* ev);
 
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
@@ -124,7 +129,10 @@ public:
     void setEncoding(const QString& encoding);
     QString getEncoding() const { return m_encoding; }
 
+    QString getFileFormat() const { return m_fileFormat; }
+
 public slots:
+    /* SMF slots */
     void headerEvent(int format, int ntrks, int division);
     void trackStartEvent();
     void trackEndEvent();
@@ -142,13 +150,52 @@ public slots:
     void textEvent(int type, const QString& data);
     void tempoEvent(int tempo);
     void timeSigEvent(int b0, int b1, int b2, int b3);
-    void keySigEvent(int b0, int b1);
-    void errorHandler(const QString& errorStr);
+    void keySigEventSMF(int b0, int b1);
+    void errorHandlerSMF(const QString& errorStr);
     void trackHandler(int track);
     void seqNum(int seq);
     void forcedChannel(int channel);
     void forcedPort(int port);
     void smpteEvent(int b0, int b1, int b2, int b3, int b4);
+
+    /* WRK slots */
+    void errorHandlerWRK(const QString& errorStr);
+    void unknownChunk(int type, const QByteArray& data);
+    void fileHeader(int verh, int verl);
+    void endOfWrk();
+    void streamEndEvent(long time);
+
+    void trackHeader(const QString& name1, const QString& name2,
+                     int trackno, int channel, int pitch,
+                     int velocity, int port,
+                     bool selected, bool muted, bool loop);
+    void timeBase(int timebase);
+    void globalVars();
+    void noteEvent(int track, long time, int chan, int pitch, int vol, int dur);
+    void keyPressEvent(int track, long time, int chan, int pitch, int press);
+    void ctlChangeEvent(int track, long time, int chan, int ctl, int value);
+    void pitchBendEvent(int track, long time, int chan, int value);
+    void programEvent(int track, long time, int chan, int patch);
+    void chanPressEvent(int track, long time, int chan, int press);
+    void sysexEvent(int track, long time, int bank);
+    void sysexEventBank(int bank, const QString& name, bool autosend, int port, const QByteArray& data);
+    void textEvent(int track, long time, int typ, const QString& data);
+    void timeSigEvent(int bar, int num, int den);
+    void keySigEventWRK(int bar, int alt);
+    void tempoEvent(long time, int tempo);
+    void trackPatch(int track, int patch);
+    void comments(const QString& cmt);
+    void variableRecord(const QString& name, const QByteArray& data);
+    void newTrackHeader(const QString& name,
+                        int trackno, int channel, int pitch,
+                        int velocity, int port,
+                        bool selected, bool muted, bool loop);
+    void trackName(int trackno, const QString& name);
+    void trackVol(int track, int vol);
+    void trackBank(int track, int bank);
+    void segment(int track, long time, const QString& name);
+    void chord(int track, long time, const QString& name, const QByteArray& data);
+    void expression(int track, long time, int code, const QString& text);
 
 signals:
     void loadProgress(int);
@@ -167,9 +214,11 @@ private:
     QString event_channel(const SequencerEvent *ev) const;
     QString event_data1(const SequencerEvent *ev) const;
     QString event_data2(const SequencerEvent *ev) const;
+    QString event_data3(const SequencerEvent *ev) const;
     QString note_name(const int note) const;
     QString note_key(const SequencerEvent* ev) const;
     QString note_velocity(const SequencerEvent* ev) const;
+    QString note_duration(const SequencerEvent* ev) const;
     QString control_param(const SequencerEvent* ev) const;
     QString control_value(const SequencerEvent* ev) const;
     QString program_number(const SequencerEvent* ev) const;
@@ -186,8 +235,10 @@ private:
     QString tempo_npt(const SequencerEvent *ev) const;
     QString text_type(const SequencerEvent *ev) const;
     QString text_data(const SequencerEvent *ev) const;
-    QString time_sig(const SequencerEvent *ev) const;
-    QString key_sig(const SequencerEvent *ev) const;
+    QString time_sig1(const SequencerEvent *ev) const;
+    QString time_sig2(const SequencerEvent *ev) const;
+    QString key_sig1(const SequencerEvent *ev) const;
+    QString key_sig2(const SequencerEvent *ev) const;
     QString smpte(const SequencerEvent *ev) const;
     QString var_event(const SequencerEvent *ev) const;
     QString meta_misc(const SequencerEvent *ev) const;
@@ -220,9 +271,33 @@ private:
     Song m_items;
     Song m_loadedSong;
     QSmf* m_smf;
+    QWrk* m_wrk;
     Instrument* m_ins;
     Instrument* m_ins2;
     EventFilter* m_filter;
+
+    struct SysexEventRec {
+        int track;
+        long time;
+        int bank;
+    };
+    QList<SysexEventRec> m_savedSysexEvents;
+    QString m_fileFormat;
+
+    struct TrackMapRec {
+        int channel;
+        int pitch;
+        int velocity;
+    };
+    QHash<int,TrackMapRec> m_trackMap;
+
+    struct TimeSigRec {
+        int bar;
+        int num;
+        int den;
+        long time;
+    };
+    QList<TimeSigRec> m_bars;
 };
 
 #endif /* SEQUENCEMODEL_H */

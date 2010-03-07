@@ -26,8 +26,8 @@ MA 02110-1301, USA
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>277</height>
+    <width>302</width>
+    <height>307</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -245,8 +245,8 @@ MA 02110-1301, USA
       <attribute name="title">
        <string comment="Columns to show">Display</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
@@ -260,7 +260,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showTicksColumn">
          <property name="whatsThis">
           <string>Ticks are the musical time units. It is relative to tempo and resolution.</string>
@@ -270,7 +270,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showTimeColumn">
          <property name="whatsThis">
           <string>Seconds are absolute time units</string>
@@ -280,7 +280,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showSourceColumn">
          <property name="whatsThis">
           <string>MIDI port originating the messages</string>
@@ -290,7 +290,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showEventTypeColumn">
          <property name="whatsThis">
           <string>Message type displayed as a text string</string>
@@ -300,7 +300,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showChannelColumn">
          <property name="whatsThis">
           <string>MIDI Channel (1 to 16)</string>
@@ -310,7 +310,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showData1Column">
          <property name="whatsThis">
           <string>Parameter data depending on the message type</string>
@@ -320,7 +320,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item>
         <widget class="QCheckBox" name="m_showData2Column">
          <property name="whatsThis">
           <string>Parameter data depending on the message type</string>
@@ -330,7 +330,17 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item>
+        <widget class="QCheckBox" name="m_showData3Column">
+         <property name="whatsThis">
+          <string>Parameter data depending on the message type</string>
+         </property>
+         <property name="text">
+          <string>Data 3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

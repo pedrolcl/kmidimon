@@ -60,6 +60,7 @@ EventFilter::EventFilter(QObject* parent)
     m_cats.insert(ALSACategory, new CategoryFilter(i18n("ALSA")));
     m_cats.insert(SMFCategory, new CategoryFilter(i18n("SMF")));
     /* MIDI Channel events */
+    insert(ChannelCategory, SND_SEQ_EVENT_NOTE, i18n("Note"));
     insert(ChannelCategory, SND_SEQ_EVENT_NOTEON, i18n("Note on"));
     insert(ChannelCategory, SND_SEQ_EVENT_NOTEOFF, i18n("Note off"));
     insert(ChannelCategory, SND_SEQ_EVENT_KEYPRESS, i18n("Polyphonic aftertouch"));

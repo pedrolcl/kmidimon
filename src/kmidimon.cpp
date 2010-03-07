@@ -141,7 +141,8 @@ void KMidimon::setupActions()
             i18nc("type of event", "Event Kind"),
             i18n("Channel"),
             i18n("Data 1"),
-            i18n("Data 2")
+            i18n("Data 2"),
+            i18n("Data 3")
     };
     const QString actionName[COLUMN_COUNT] = {
             "show_ticks",
@@ -150,7 +151,8 @@ void KMidimon::setupActions()
             "show_kind",
             "show_channel",
             "show_data1",
-            "show_data2"
+            "show_data2",
+            "show_data3"
     };
     KAction* a;
 
@@ -359,7 +361,7 @@ void KMidimon::slotURLSelected(const KUrl& url)
                 for (int i = m_tabBar->count() - 1; i >= 0; i--) {
                     m_tabBar->removeTab(i);
                 }
-                m_pd = new KProgressDialog(this, i18n("Load MIDI file"),
+                m_pd = new KProgressDialog(this, i18n("Load file"),
                                 i18n("Loading..."));
                 m_pd->setAllowCancel(false);
                 m_pd->setMinimumDuration(500);
@@ -399,7 +401,7 @@ void KMidimon::fileOpen()
 {
     KUrl u = KFileDialog::getOpenUrl(
             KUrl("kfiledialog:///MIDIMONITOR"),
-            "audio/midi", this,
+            "audio/midi audio/cakewalk", this,
             i18n("Open MIDI file"));
     if (!u.isEmpty()) slotURLSelected(u);
 }
@@ -812,7 +814,7 @@ KMidimon::songFileInfo()
         infostr = i18n("File: <b>%1</b><br/>"
                        "Created: <b>%2</b><br/>"
                        "Modified: <b>%3</b><br/>"
-                       "SMF Format: <b>%4</b><br/>"
+                       "Format: <b>%4</b><br/>"
                        "Number of tracks: <b>%5</b><br/>"
                        "Number of events: <b>%6</b><br/>"
                        "Division: <b>%7 ppq</b><br/>"
@@ -821,7 +823,7 @@ KMidimon::songFileInfo()
                        finfo.fileName(),
                        finfo.created().toString(Qt::DefaultLocaleLongDate),
                        finfo.lastModified().toString(Qt::DefaultLocaleLongDate),
-                       m_model->getSMFFormat(),
+                       m_model->getFileFormat(),
                        m_model->getSMFTracks(),
                        m_model->getSong()->size(),
                        m_model->getSMFDivision(),

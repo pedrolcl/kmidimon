@@ -6,3 +6,4 @@ Type=Application
 Comment=ALSA Sequencer MIDI monitor
 Comment[es]=Monitor MIDI utilizando el secuenciador ALSA
 Categories=AudioVideo;Audio;Music;Midi;Player;Recorder;
+MimeType=audio/midi;audio/x-midi;audio/cakewalk;

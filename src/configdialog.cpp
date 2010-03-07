@@ -49,6 +49,8 @@ bool ConfigDialog::showColumn(int colNum)
         return ui.m_showData1Column->isChecked();
     case 6:
         return ui.m_showData2Column->isChecked();
+    case 7:
+        return ui.m_showData3Column->isChecked();
     }
     return false;
 }
@@ -76,6 +78,9 @@ void ConfigDialog::setShowColumn(int colNum, bool newValue)
         break;
     case 6:
         ui.m_showData2Column->setChecked(newValue);
+        break;
+    case 7:
+        ui.m_showData3Column->setChecked(newValue);
         break;
     }
 }

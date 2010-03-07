@@ -45,7 +45,7 @@ class SequenceModel;
 class ProxyModel;
 class KPlayerPopupSliderAction;
 
-const int COLUMN_COUNT = 7;
+const int COLUMN_COUNT = 8;
 
 class KMidimon : public KXmlGuiWindow
 {
