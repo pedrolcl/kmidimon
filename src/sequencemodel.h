@@ -130,6 +130,7 @@ public:
     QString getEncoding() const { return m_encoding; }
 
     QString getFileFormat() const { return m_fileFormat; }
+    int getTrackForIndex(int idx);
 
 public slots:
     /* SMF slots */

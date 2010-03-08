@@ -384,7 +384,7 @@ void KMidimon::openURL(const KUrl& url)
             int ntrks = m_model->getSMFTracks();
             if (ntrks < 1) ntrks = 1;
             for (int i = 0; i < ntrks; i++)
-                addNewTab(i+1);
+                addNewTab(m_model->getTrackForIndex(i));
             m_tabBar->setCurrentIndex(0);
             m_proxy->setFilterTrack(0);
             m_model->setCurrentTrack(0);

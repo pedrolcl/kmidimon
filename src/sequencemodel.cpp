@@ -51,6 +51,7 @@ void Song::clear()
 {
     QList<SequenceItem>::clear();
     m_mutedState.clear();
+    m_last = 0;
 }
 
 void Song::setLast(long last)
@@ -2159,7 +2160,8 @@ void SequenceModel::expression(int track, long time, int /*code*/, const QString
 
 void SequenceModel::endOfWrk()
 {
-    kDebug();
+    if (m_initialTempo < 0)
+        m_initialTempo = TEMPO_BPM;
 }
 
 void SequenceModel::unknownChunk(int type, const QByteArray& data)
@@ -2167,4 +2169,13 @@ void SequenceModel::unknownChunk(int type, const QByteArray& data)
     kDebug() << "dec:" << type
              << "hex:" << hex << type << dec
              << "size:" << data.length();
+}
+
+int SequenceModel::getTrackForIndex(int idx)
+{
+    QList<int> indexes = m_trackMap.keys();
+    if (!indexes.isEmpty())
+        return indexes.at(idx) + 1;
+    else
+        return idx+1;
 }
