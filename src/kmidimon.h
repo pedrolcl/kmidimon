@@ -75,7 +75,7 @@ public slots:
     void changeTrack(int tabIndex);
     void muteTrack(int tabIndex);
     void songFinished();
-    void slotURLSelected(const KUrl& url);
+    void openURL(const KUrl& url);
     void tempoReset();
     void tempoSlider(int value);
     void slotLoop();
@@ -95,6 +95,8 @@ public slots:
     void slotCurrentChanged(const QModelIndex& curr, const QModelIndex& prev);
     void updateView();
     void songFileInfo();
+    void dropEvent( QDropEvent * event );
+    void dragEnterEvent( QDragEnterEvent * event );
 
 protected:
     void saveConfiguration();

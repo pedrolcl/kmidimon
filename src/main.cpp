@@ -19,15 +19,14 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include <exception>
-#include <kapplication.h>
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
 #include "kmidimon.h"
 #include "drumstickcommon.h"
+
+#include <KApplication>
+#include <KAboutData>
+#include <KCmdLineArgs>
+#include <KLocale>
+#include <KUrl>
 
 using namespace drumstick;
 
@@ -49,19 +48,21 @@ int main(int argc, char **argv)
 	about.addCredit(ki18n("Christoph Eckert"),
 	                ki18n("Documentation, good ideas and suggestions"));
 	KCmdLineArgs::init(argc, argv, &about);
-    //KCmdLineOptions options;
-    //options.add("+[URL]", ki18n( "Document to open" ));
-	//KCmdLineArgs::addCmdLineOptions( options );
+    KCmdLineOptions options;
+    options.add("+[URL]", ki18n( "File to open" ));
+	KCmdLineArgs::addCmdLineOptions( options );
 	KApplication app;
-	KMidimon *mainWin = 0;
+
+    // see if we are starting with session management
     if (app.isSessionRestored()) {
-        RESTORE(KMidimon);
+        kRestoreMainWindows<KMidimon>();
     } else {
         // no session.. just start up normally
-        //KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-        mainWin = new KMidimon;
+        KMidimon *mainWin = new KMidimon;
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        if (args->count() > 0)
+            mainWin->openURL(args->url(0));
         mainWin->show();
-        //args->clear();
     }
     return app.exec();
 }

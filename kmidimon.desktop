@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=KMidimon
-Exec=kmidimon
+Exec=kmidimon %u
 Icon=kmidimon
 Type=Application
 Comment=ALSA Sequencer MIDI monitor

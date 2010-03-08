@@ -28,6 +28,27 @@
 #include "sequenceradaptor.h"
 #include "slideraction.h"
 
+#include <KLocale>
+#include <KAction>
+#include <KApplication>
+#include <KFileDialog>
+#include <KEditToolBar>
+#include <KGlobal>
+#include <KGlobalSettings>
+#include <KToggleAction>
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KXMLGUIFactory>
+#include <KUrl>
+#include <KTabBar>
+#include <KIcon>
+#include <KInputDialog>
+#include <KProgressDialog>
+#include <KRecentFilesAction>
+#include <KMenuBar>
+#include <KMessageBox>
+#include <KIO/NetAccess>
+
 #include <QMenu>
 #include <QEvent>
 #include <QContextMenuEvent>
@@ -38,26 +59,7 @@
 #include <QVariant>
 #include <QToolTip>
 #include <QFileInfo>
-
-#include <klocale.h>
-#include <kaction.h>
-#include <kapplication.h>
-#include <kfiledialog.h>
-#include <kedittoolbar.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
-#include <ktoggleaction.h>
-#include <kstandardaction.h>
-#include <kactioncollection.h>
-#include <kxmlguifactory.h>
-#include <kurl.h>
-#include <ktabbar.h>
-#include <kicon.h>
-#include <kinputdialog.h>
-#include <kprogressdialog.h>
-#include <krecentfilesaction.h>
-#include <kmenubar.h>
-#include <kmessagebox.h>
+#include <QDropEvent>
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0),
@@ -77,6 +79,7 @@ KMidimon::KMidimon() :
     m_view->setModel(m_proxy);
     m_view->setSortingEnabled(false);
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
+    setAcceptDrops(true);
     connect( m_view->selectionModel(),
              SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
              SLOT(slotCurrentChanged(const QModelIndex&, const QModelIndex&)) );
@@ -160,7 +163,7 @@ void KMidimon::setupActions()
     a->setWhatsThis(i18n("Exit the application"));
     a = KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
     a->setWhatsThis(i18n("Open a disk file"));
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(slotURLSelected(const KUrl&)), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
     a = KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
     a->setWhatsThis(i18n("Clear the current data and start a new empty session"));
     m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
@@ -347,53 +350,54 @@ void KMidimon::fileNew()
     updateView();
 }
 
-void KMidimon::slotURLSelected(const KUrl& url)
+void KMidimon::openURL(const KUrl& url)
 {
-    QString path = url.toLocalFile();
-    if (!path.isNull()) {
-        QFileInfo finfo(path);
-        if (finfo.exists()) {
-            try {
-                m_file = path;
-                m_view->blockSignals(true);
-                stop();
-                m_model->clear();
-                for (int i = m_tabBar->count() - 1; i >= 0; i--) {
-                    m_tabBar->removeTab(i);
-                }
-                m_pd = new KProgressDialog(this, i18n("Load file"),
-                                i18n("Loading..."));
-                m_pd->setAllowCancel(false);
-                m_pd->setMinimumDuration(500);
-                m_pd->progressBar()->setRange(0, finfo.size());
-                m_pd->progressBar()->setValue(0);
-                connect( m_model, SIGNAL(loadProgress(int)),
-                         m_pd->progressBar(), SLOT(setValue(int)) );
-                m_model->loadFromFile(path);
-                m_pd->progressBar()->setValue(finfo.size());
-                m_adaptor->setResolution(m_model->getSMFDivision());
-                if (m_model->getInitialTempo() > 0) {
-                    m_adaptor->setTempo(m_model->getInitialTempo());
-                    m_adaptor->queue_set_tempo();
-                }
-                m_adaptor->rewind();
-                int ntrks = m_model->getSMFTracks();
-                if (ntrks < 1) ntrks = 1;
-                for (int i = 0; i < ntrks; i++)
-                    addNewTab(i+1);
-                m_tabBar->setCurrentIndex(0);
-                m_proxy->setFilterTrack(0);
-                m_model->setCurrentTrack(0);
-                for (int i = 0; i < COLUMN_COUNT; ++i)
-                    m_view->resizeColumnToContents(i);
-                tempoReset();
-            } catch (...) {
-                m_model->clear();
+    QString tmpFile;
+    if(KIO::NetAccess::download(url, tmpFile, this)) {
+        try {
+            QFileInfo finfo(tmpFile);
+            m_file = url.toLocalFile();
+            if (m_file.isEmpty())
+                m_file = url.prettyUrl();
+            m_view->blockSignals(true);
+            stop();
+            m_model->clear();
+            for (int i = m_tabBar->count() - 1; i >= 0; i--) {
+                m_tabBar->removeTab(i);
             }
-            m_view->blockSignals(false);
-            m_recentFiles->addUrl(url);
-            delete m_pd;
+            m_pd = new KProgressDialog(this, i18n("Load file"),
+                            i18n("Loading..."));
+            m_pd->setAllowCancel(false);
+            m_pd->setMinimumDuration(500);
+            m_pd->progressBar()->setRange(0, finfo.size());
+            m_pd->progressBar()->setValue(0);
+            connect( m_model, SIGNAL(loadProgress(int)),
+                     m_pd->progressBar(), SLOT(setValue(int)) );
+            m_model->loadFromFile(tmpFile);
+            m_pd->progressBar()->setValue(finfo.size());
+            m_adaptor->setResolution(m_model->getSMFDivision());
+            if (m_model->getInitialTempo() > 0) {
+                m_adaptor->setTempo(m_model->getInitialTempo());
+                m_adaptor->queue_set_tempo();
+            }
+            m_adaptor->rewind();
+            int ntrks = m_model->getSMFTracks();
+            if (ntrks < 1) ntrks = 1;
+            for (int i = 0; i < ntrks; i++)
+                addNewTab(i+1);
+            m_tabBar->setCurrentIndex(0);
+            m_proxy->setFilterTrack(0);
+            m_model->setCurrentTrack(0);
+            for (int i = 0; i < COLUMN_COUNT; ++i)
+                m_view->resizeColumnToContents(i);
+            tempoReset();
+        } catch (...) {
+            m_model->clear();
         }
+        m_view->blockSignals(false);
+        m_recentFiles->addUrl(url);
+        KIO::NetAccess::removeTempFile(tmpFile);
+        delete m_pd;
     }
 }
 
@@ -403,7 +407,7 @@ void KMidimon::fileOpen()
             KUrl("kfiledialog:///MIDIMONITOR"),
             "audio/midi audio/cakewalk", this,
             i18n("Open MIDI file"));
-    if (!u.isEmpty()) slotURLSelected(u);
+    if (!u.isEmpty()) openURL(u);
 }
 
 void KMidimon::fileSave()
@@ -870,4 +874,21 @@ void KMidimon::muteCurrentTrack()
 void KMidimon::slotLoop()
 {
     m_adaptor->setLoop(m_loop->isChecked());
+}
+
+void KMidimon::dragEnterEvent( QDragEnterEvent * event )
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void KMidimon::dropEvent( QDropEvent * event )
+{
+    if ( event->mimeData()->hasUrls() ) {
+        QList<QUrl> urls = event->mimeData()->urls();
+        if (!urls.empty())
+            openURL(urls.first());
+        event->accept();
+    }
 }
