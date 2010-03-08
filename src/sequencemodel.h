@@ -243,6 +243,7 @@ private:
     QString smpte(const SequencerEvent *ev) const;
     QString var_event(const SequencerEvent *ev) const;
     QString meta_misc(const SequencerEvent *ev) const;
+    void processItems();
 
     bool m_showClientNames;
     bool m_translateSysex;
@@ -270,7 +271,7 @@ private:
     QString m_instrumentName;
     QString m_encoding;
     Song m_items;
-    Song m_loadedSong;
+    Song m_tempSong;
     QSmf* m_smf;
     QWrk* m_wrk;
     Instrument* m_ins;

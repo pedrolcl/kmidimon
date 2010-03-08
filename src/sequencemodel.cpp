@@ -355,10 +355,8 @@ SequenceModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, m_items.count());
     QList<SequenceItem>::Iterator it;
-    for ( it = m_items.begin(); it != m_items.end(); ++it ) {
-        SequenceItem itm = *it;
-        itm.deleteEvent();
-    }
+    for ( it = m_items.begin(); it != m_items.end(); ++it )
+        (*it).deleteEvent();
     m_items.clear();
     endRemoveRows();
     m_format = 0;
@@ -1298,7 +1296,7 @@ void
 SequenceModel::loadFromFile(const QString& path)
 {
     clear();
-    m_loadedSong.clear();
+    m_tempSong.clear();
     m_currentTrack = -1;
     m_initialTempo = -1;
     KMimeType::Ptr type = KMimeType::findByPath(path);
@@ -1310,12 +1308,46 @@ SequenceModel::loadFromFile(const QString& path)
         kDebug() << "unrecognized format";
         return;
     }
-    m_loadedSong.sort();
-    beginInsertRows(QModelIndex(), 0, m_loadedSong.count() - 1);
-    m_items += m_loadedSong;
+    m_tempSong.sort();
+    beginInsertRows(QModelIndex(), 0, m_tempSong.count() - 1);
+    m_items += m_tempSong;
     endInsertRows();
-    m_items.setLast(m_loadedSong.getLast());
-    m_loadedSong.clear();
+    m_items.setLast(m_tempSong.getLast());
+    m_tempSong.clear();
+}
+
+void
+SequenceModel::processItems()
+{
+    m_tempSong.clear();
+    foreach ( const SequenceItem& itm, m_items ) {
+        SequencerEvent* ev = itm.getEvent();
+        double seconds = 0;
+        long ticks = itm.getTicks();
+        int track = itm.getTrack();
+        if ( ev != NULL && ev->getSequencerType() == SND_SEQ_EVENT_NOTE ) {
+            NoteEvent* note = static_cast<NoteEvent*>(ev);
+            NoteOnEvent* noteon = new NoteOnEvent( note->getChannel(),
+                                                   note->getKey(),
+                                                   note->getVelocity() );
+            noteon->scheduleTick(m_queueId, ticks, false);
+            noteon->setTag(track);
+            SequenceItem itm1(seconds, ticks, track, noteon);
+            m_tempSong.append(itm1);
+            NoteOffEvent* noteoff = new NoteOffEvent( note->getChannel(),
+                                                      note->getKey(),
+                                                      note->getVelocity() );
+            ticks += note->getDuration();
+            noteoff->scheduleTick(m_queueId, ticks, false);
+            noteoff->setTag(track);
+            SequenceItem itm2(seconds, ticks, track, noteoff);
+            m_tempSong.append(itm2);
+        } else {
+            SequenceItem itm(seconds, ticks, track, ev->clone());
+            m_tempSong.append(itm);
+        }
+    }
+    m_tempSong.sort();
 }
 
 void
@@ -1329,10 +1361,15 @@ SequenceModel::saveToFile(const QString& path)
         saveToTextStream(stream);
         file.close();
     } else { // MIDI
+        processItems();
         m_smf->setDivision(m_division);
         m_smf->setFileFormat(1);
         m_smf->setTracks(m_ntrks);
         m_smf->writeToFile(path);
+        QList<SequenceItem>::Iterator it;
+        for ( it = m_tempSong.begin(); it != m_tempSong.end(); ++it )
+            (*it).deleteEvent();
+        m_tempSong.clear();
     }
 }
 
@@ -1346,8 +1383,8 @@ SequenceModel::appendEvent(long ticks, double seconds, int track, SequencerEvent
         ev->setSubscribers();
     }
     SequenceItem itm(seconds, ticks, track, ev);
-    m_loadedSong.append(itm);
-    m_loadedSong.setLast(ticks);
+    m_tempSong.append(itm);
+    m_tempSong.setLast(ticks);
 }
 
 void
@@ -1378,7 +1415,7 @@ SequenceModel::trackStartEvent()
     rec.pitch = 0;
     rec.velocity = 0;
     m_trackMap[m_currentTrack] = rec;
-    m_loadedSong.setMutedState(m_currentTrack, false);
+    m_tempSong.setMutedState(m_currentTrack, false);
     emit loadProgress(m_smf->getFilePos());
 }
 
@@ -1386,7 +1423,7 @@ void
 SequenceModel::trackEndEvent()
 {
     long ticks = m_smf->getCurrentTime();
-    m_loadedSong.setLast(ticks);
+    m_tempSong.setLast(ticks);
     emit loadProgress(m_smf->getFilePos());
 }
 
@@ -1597,7 +1634,7 @@ void
 SequenceModel::trackHandler(int track)
 {
     unsigned int delta, last_tick = 0;
-    foreach ( const SequenceItem& itm, m_items ) {
+    foreach ( const SequenceItem& itm, m_tempSong ) {
         if (itm.getTrack() == track) {
             const SequencerEvent* ev = itm.getEvent();
             if (ev != NULL) {
@@ -1744,7 +1781,7 @@ SequenceModel::trackHandler(int track)
         }
     }
     // final event
-    delta = m_items.getLast() - last_tick;
+    delta = m_tempSong.getLast() - last_tick;
     m_smf->writeMetaEvent(delta, end_of_track);
 }
 
@@ -1834,7 +1871,7 @@ void SequenceModel::timeBase(int timebase)
 void SequenceModel::globalVars()
 {
     emit keySigEventWRK(0, m_wrk->getKeySig());
-    m_loadedSong.setLast( m_wrk->getEndAllTime() );
+    m_tempSong.setLast( m_wrk->getEndAllTime() );
     emit loadProgress(m_wrk->getFilePos());
 }
 
@@ -1857,7 +1894,7 @@ void SequenceModel::trackHeader( const QString& name1, const QString& name2,
     rec.velocity = velocity;
     m_trackMap[trackno] = rec;
     m_ntrks++;
-    m_loadedSong.setMutedState(m_currentTrack, muted);
+    m_tempSong.setMutedState(m_currentTrack, muted);
     QString trkName = name1 + ' ' + name2;
     trkName = trkName.trimmed();
     if (!trkName.isEmpty()) {
@@ -2074,7 +2111,7 @@ void SequenceModel::newTrackHeader( const QString& name,
     rec.velocity = velocity;
     m_trackMap[trackno] = rec;
     m_ntrks++;
-    m_loadedSong.setMutedState(m_currentTrack, muted);
+    m_tempSong.setMutedState(m_currentTrack, muted);
     if (!name.isEmpty())
         textEvent(trackno, 0, 3, name);
     emit loadProgress(m_wrk->getFilePos());
