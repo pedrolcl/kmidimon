@@ -106,6 +106,7 @@ protected:
     bool getFixedFont() const { return m_useFixedFont; }
     void addNewTab(int data);
     bool askTrackFilter(int& track);
+    void updateCaption();
 
 private:
     SequencerAdaptor *m_adaptor;
@@ -144,6 +145,7 @@ private:
     int m_defaultTempo;
     int m_defaultResolution;
     QString m_file;
+    QString m_currentState;
 };
 
 #endif // KMIDIMON_H

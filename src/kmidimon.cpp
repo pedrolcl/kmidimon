@@ -348,6 +348,7 @@ void KMidimon::fileNew()
     m_adaptor->rewind();
     tempoReset();
     updateView();
+    updateCaption();
 }
 
 void KMidimon::openURL(const KUrl& url)
@@ -397,6 +398,7 @@ void KMidimon::openURL(const KUrl& url)
         m_view->blockSignals(false);
         m_recentFiles->addUrl(url);
         KIO::NetAccess::removeTempFile(tmpFile);
+        updateCaption();
         delete m_pd;
     }
 }
@@ -605,9 +607,19 @@ void KMidimon::forward()
     updateView();
 }
 
+void KMidimon::updateCaption()
+{
+    QFileInfo finfo(m_file);
+    QString name = finfo.fileName();
+    if (name.isEmpty())
+        name = i18n("(empty)");
+    setCaption(i18n("%1 [%2]", name, m_currentState));
+}
+
 void KMidimon::updateState(const QString newState, const QString stateName)
 {
-    setCaption(i18n("ALSA MIDI Monitor [%1]", stateName));
+    m_currentState = stateName;
+    updateCaption();
     slotStateChanged(newState);
     m_pause->setChecked(m_adaptor->isPaused());
 }
