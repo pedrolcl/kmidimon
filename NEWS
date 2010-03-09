@@ -1,10 +1,4 @@
-Latest release: 0.7.1, includes:
-* Translate note numbers into names
-* Translate controller and program numbers into names 
-* Support for GM, GS or XG standards
-* New context menu option: adjust column sizes
-* Fine grained event filters, in addition to the old coarse filters
-* Fixed bug: don't change the current sequence PPQ/Tempo when applying the preferences dialog
-* New dialog showing information about the current loaded sequence
-* Support more SMF events: Sequence Number, Forced Channel, Forced Port and SMPTE Offset
-* Playback speed control: tempo "zoom" slider allowing continuous scaling from 50% to 200%
+There are news feeds available for the project at:
+
+http://sourceforge.net/export/rss2_keepsake.php?group_id=304270
+http://freshmeat.net/projects/kmidimon/releases.atom
