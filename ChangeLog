@@ -1,3 +1,12 @@
+2010-03-09 00:00 plcl
+    * Release 0.7.3
+    * using Drumstick-0.3
+    * play WRK files (cakewalk)
+    * open files from the command line
+    * drag and drop files into the main window
+    * fixed Loop and stop time (last event time was not initialised)
+    * show the file name in the window title bar
+    
 2010-02-12 00:00 plcl
     * Switch to SVN
     * Replacing aseqmm by Drumstick 
