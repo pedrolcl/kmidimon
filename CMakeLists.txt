@@ -144,8 +144,8 @@ ADD_CUSTOM_TARGET ( tarball
     COMMAND cp -r src kmidimon-${VERSION}
     COMMAND cp -rHL drumstick kmidimon-${VERSION}
     COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.ins *.spec* *.desktop *.lsm kmidimon-${VERSION}
-    COMMAND tar -cj --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
-    COMMAND tar -cz --exclude CVS --exclude .cvsignore --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
+    COMMAND tar -cj --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.bz2 kmidimon-${VERSION}
+    COMMAND tar -cz --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${VERSION}.tar.gz kmidimon-${VERSION}
     COMMAND rm -rf kmidimon-${VERSION}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
