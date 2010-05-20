@@ -22,8 +22,7 @@
 #ifndef CONFIGDIALOG_H
 #define CONFIGDIALOG_H
 
-#include <kdialog.h>
-
+#include <KDE/KDialog>
 #include "ui_configdialogbase.h"
 
 class ConfigDialog : public KDialog
