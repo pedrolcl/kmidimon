@@ -9,6 +9,14 @@ that page.  If you must build it from source, please read the instructions
 supplied here:
 
     http://www.cmake.org/HTML/install.html
+
+This program needs the Drumstick libraries. You should install the development
+package before trying to compile KMidimon. You can alternatively build
+KMidimon statically linked to Drumstick, see the advanced build options.
+
+Drumstick is available here:
+
+    http://drumstick.sourceforge.net 
     
 Building with CMake
 -------------------
@@ -57,7 +65,7 @@ Some variables you may want to set:
       ./configure --prefix=/opt/kde for programs that use autotools
 
     * there are some options available:  
-    STATIC_DRUMSTICK  Statically linked drumstick (default ON)
+    STATIC_DRUMSTICK  Statically linked Drumstick (default OFF)
     ENABLE_PCH        Use precompiled headers (default OFF)
 
 The above options can take any of the following values: 0, 1, OFF, ON,
