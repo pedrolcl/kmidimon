@@ -190,7 +190,7 @@ void KMidimon::setupActions()
     m_play = new KAction(this);
     m_play->setText(i18n("&Play"));
     m_play->setIcon(KIcon("media-playback-start"));
-    m_play->setShortcut( Qt::Key_P );
+    m_play->setShortcut( Qt::Key_MediaPlay );
     m_play->setWhatsThis(i18n("Start playback of the current session"));
     connect(m_play, SIGNAL(triggered()), SLOT(play()));
     actionCollection()->addAction("play", m_play);
@@ -219,7 +219,7 @@ void KMidimon::setupActions()
     m_record = new KAction(this);
     m_record->setText(i18n("Record"));
     m_record->setIcon(KIcon("media-record"));
-    m_record->setShortcut( Qt::Key_R );
+    m_record->setShortcut( Qt::Key_MediaRecord );
     m_record->setWhatsThis(i18n("Append new recorded events to the current session"));
     connect(m_record, SIGNAL(triggered()), SLOT(record()));
     actionCollection()->addAction("record", m_record);
@@ -227,7 +227,7 @@ void KMidimon::setupActions()
     m_stop = new KAction(this);
     m_stop->setText( i18n("Stop") );
     m_stop->setIcon(KIcon("media-playback-stop"));
-    m_stop->setShortcut( Qt::Key_S );
+    m_stop->setShortcut( Qt::Key_MediaStop );
     m_stop->setWhatsThis(i18n("Stop playback or recording"));
     connect(m_stop, SIGNAL(triggered()), SLOT(stop()));
     actionCollection()->addAction("stop", m_stop);
