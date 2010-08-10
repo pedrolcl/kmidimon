@@ -690,6 +690,8 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                                 return i18n("GM On");
                             case 0x02:
                                 return i18n("GM Off");
+                            case 0x03:
+                                return i18n("GM2 On");
                             default:
                                 break;
                         }
