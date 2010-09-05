@@ -277,14 +277,18 @@ SequenceModel::getCurrentRow()
 }
 
 int
-SequenceModel::rowCount(const QModelIndex& /*parent*/) const
+SequenceModel::rowCount(const QModelIndex& parent) const
 {
+    if (parent.isValid())
+        return 0;
     return m_items.count();
 }
 
 int
-SequenceModel::columnCount(const QModelIndex& /*parent*/) const
+SequenceModel::columnCount(const QModelIndex& parent) const
 {
+    if (parent.isValid())
+        return 0;
     return COLUMN_COUNT;
 }
 
@@ -423,7 +427,7 @@ SequenceModel::sysex_chan(const SequencerEvent *ev) const
             unsigned char *ptr = (unsigned char *) sev->getData();
             if (sev->getLength() < 6) return QString();
             if (*ptr++ != 0xf0) return QString();
-            *ptr++;
+            (void) *ptr++;
             unsigned char deviceId = *ptr++;
             if ( deviceId == 0x7f )
                 return i18nc("cast or scattered in all directions","broadcast");
@@ -445,7 +449,7 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
             if (sev->getLength() < 6) return QString();
             if (*ptr++ != 0xf0) return QString();
             int msgId = *ptr++;
-            *ptr++;
+            (void) *ptr++;
             int subId1 = *ptr++;
             if (msgId == 0x7e) { // Universal Non Real Time
                 switch (subId1) {
@@ -609,7 +613,8 @@ SequenceModel::sysex_mmc(int id, int length, unsigned char *ptr) const
         break;
     case 0x44:
         if (length >= 13) {
-            *ptr++; *ptr++;
+            (void) *ptr++;
+            (void) *ptr++;
             return i18n("Locate: %1 %2 %3 %4 %5",
                     ptr[0], ptr[1], ptr[2], ptr[3],
                     ptr[4] );
@@ -632,7 +637,7 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
             if (sev->getLength() < 6) return QString();
             if (*ptr++ != 0xf0) return QString();
             int msgId = *ptr++;
-            *ptr++;
+            (void) *ptr++;
             int subId1 = *ptr++;
             int subId2 = *ptr++;
             if (msgId == 0x7e) { // Universal Non Real Time
