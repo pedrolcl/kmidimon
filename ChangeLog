@@ -1,3 +1,8 @@
+2010-09-05 00:00 plcl
+    * require drumstick >= 0.5
+    * do not set real-time priority on MIDI input thread
+    * fixed class SequenceModel: warnings and dimensions
+
 2010-03-09 00:00 plcl
     * Release 0.7.3
     * using Drumstick-0.3
