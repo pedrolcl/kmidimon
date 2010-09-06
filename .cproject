@@ -66,7 +66,6 @@
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 
 <storageModule moduleId="org.eclipse.cdt.core.pathentry">
-<pathentry kind="src" path="drumstick"/>
 <pathentry kind="src" path="src"/>
 <pathentry kind="out" path="build"/>
 <pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
