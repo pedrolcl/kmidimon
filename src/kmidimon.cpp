@@ -69,7 +69,7 @@ KMidimon::KMidimon() :
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
     m_autoResizeColumns = false;
-    m_requestRealtime = false;
+    m_requestRealtimePrio = false;
     m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
     m_proxy = new ProxyModel(this);
@@ -444,7 +444,7 @@ void KMidimon::saveConfiguration()
     if (m_adaptor == NULL) return;
     config.writeEntry("resolution", m_defaultResolution);
     config.writeEntry("tempo", m_defaultTempo);
-    config.writeEntry("realtime", m_requestRealtime);
+    config.writeEntry("realtime_prio", m_requestRealtimePrio);
     config.writeEntry("alsa", m_proxy->showAlsaMsg());
     config.writeEntry("channel", m_proxy->showChannelMsg());
     config.writeEntry("common", m_proxy->showCommonMsg());
@@ -493,11 +493,11 @@ void KMidimon::readConfiguration()
     m_autoResizeColumns = config.readEntry("auto_resize", false);
     m_defaultResolution = config.readEntry("resolution", RESOLUTION);
     m_defaultTempo = config.readEntry("tempo", TEMPO_BPM);
-    m_requestRealtime = config.readEntry("realtime", false);
+    m_requestRealtimePrio = config.readEntry("realtime_prio", false);
     m_adaptor->setResolution(m_defaultResolution);
     m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->queue_set_tempo();
-    m_adaptor->setRequestRealtime(m_requestRealtime);
+    m_adaptor->setRequestRealtime(m_requestRealtimePrio);
     setFixedFont(config.readEntry("fixed_font", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.readEntry(QString("show_column_%1").arg(i), true);
@@ -519,7 +519,7 @@ void KMidimon::preferences()
     QPointer<ConfigDialog> dlg = new ConfigDialog(this);
     dlg->setTempo(m_defaultTempo);
     dlg->setResolution(m_defaultResolution);
-    dlg->setRequestRealtime(m_requestRealtime);
+    dlg->setRequestRealtime(m_requestRealtimePrio);
     dlg->setRegAlsaMsg(m_proxy->showAlsaMsg());
     dlg->setRegChannelMsg(m_proxy->showChannelMsg());
     dlg->setRegCommonMsg(m_proxy->showCommonMsg());
@@ -561,8 +561,8 @@ void KMidimon::preferences()
             for (i = 0; i < COLUMN_COUNT; ++i) {
                 setColumnStatus(i, dlg->showColumn(i));
             }
-            m_requestRealtime = dlg->requestRealtime();
-            m_adaptor->setRequestRealtime(m_requestRealtime);
+            m_requestRealtimePrio = dlg->requestRealtime();
+            m_adaptor->setRequestRealtime(m_requestRealtimePrio);
             if (was_running) record();
         }
     }

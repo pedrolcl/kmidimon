@@ -147,7 +147,7 @@ private:
     QString m_file;
     QString m_currentState;
     bool m_autoResizeColumns;
-    bool m_requestRealtime;
+    bool m_requestRealtimePrio;
 };
 
 #endif // KMIDIMON_H
