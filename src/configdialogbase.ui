@@ -26,8 +26,8 @@ MA 02110-1301, USA
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
-    <height>307</height>
+    <width>397</width>
+    <height>277</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,7 +38,7 @@ MA 02110-1301, USA
   </property>
   <property name="minimumSize">
    <size>
-    <width>285</width>
+    <width>397</width>
     <height>277</height>
    </size>
   </property>
@@ -48,6 +48,12 @@ MA 02110-1301, USA
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="KTabWidget" name="m_tabWidget">
+     <property name="minimumSize">
+      <size>
+       <width>385</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -133,7 +139,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -145,6 +151,13 @@ MA 02110-1301, USA
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_requestRealtime">
+         <property name="text">
+          <string>Request realtime priority for MIDI input</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -383,7 +396,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="m_showClientNames">
          <property name="whatsThis">
           <string>Display ALSA client numbers or Names</string>
@@ -393,7 +406,7 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <widget class="QCheckBox" name="m_translateSysex">
          <property name="whatsThis">
           <string>Display some Universal Sysex messages as text, or hexadecimal numbers</string>
@@ -403,21 +416,21 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="5" column="0" colspan="2">
         <widget class="QCheckBox" name="m_translateNotes">
          <property name="text">
           <string>Translate Note Numbers into Names</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="QCheckBox" name="m_translateCtrls">
          <property name="text">
           <string>Translate MIDI Programs and Controllers</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="lblInstrument">
          <property name="enabled">
           <bool>true</bool>
@@ -430,14 +443,14 @@ MA 02110-1301, USA
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="8" column="1">
         <widget class="KComboBox" name="m_instruments">
          <property name="enabled">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2">
+       <item row="10" column="0" colspan="2">
         <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -450,15 +463,22 @@ MA 02110-1301, USA
          </property>
         </spacer>
        </item>
-       <item row="7" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="lblCodec">
          <property name="text">
           <string>SMF Text Encoding</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="9" column="1">
         <widget class="QComboBox" name="m_codecs"/>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_resizeColumns">
+         <property name="text">
+          <string>Resize colums automatically while recording events</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -470,14 +490,14 @@ MA 02110-1301, USA
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>

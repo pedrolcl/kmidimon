@@ -349,3 +349,18 @@ void SequencerAdaptor::removeTrackEvents(int track)
     spec.setTag(track);
     m_client->removeEvents(&spec);
 }
+
+void SequencerAdaptor::setRequestRealtime(bool newValue)
+{
+    bool old = requestedRealtime();
+    if (old != newValue && m_state == StoppedState) {
+        m_client->stopSequencerInput();
+        m_client->setRealTimeInput(newValue);
+        m_client->startSequencerInput();
+    }
+}
+
+bool SequencerAdaptor::requestedRealtime()
+{
+    return m_client->realTimeInputEnabled();
+}

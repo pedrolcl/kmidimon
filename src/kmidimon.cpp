@@ -68,6 +68,8 @@ KMidimon::KMidimon() :
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
+    m_autoResizeColumns = false;
+    m_requestRealtime = false;
     m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
     m_proxy = new ProxyModel(this);
@@ -88,7 +90,7 @@ KMidimon::KMidimon() :
         m_adaptor->setModel(m_model);
         m_adaptor->updateModelClients();
         connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
-                          SLOT(resizeColumns(QModelIndex,int,int)) );
+                          SLOT(modelRowsInserted(QModelIndex,int,int)) );
         connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
         connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
         m_tabBar = new KTabBar(this);
@@ -442,6 +444,7 @@ void KMidimon::saveConfiguration()
     if (m_adaptor == NULL) return;
     config.writeEntry("resolution", m_defaultResolution);
     config.writeEntry("tempo", m_defaultTempo);
+    config.writeEntry("realtime", m_requestRealtime);
     config.writeEntry("alsa", m_proxy->showAlsaMsg());
     config.writeEntry("channel", m_proxy->showChannelMsg());
     config.writeEntry("common", m_proxy->showCommonMsg());
@@ -455,6 +458,7 @@ void KMidimon::saveConfiguration()
     config.writeEntry("instrument", m_model->getInstrumentName());
     config.writeEntry("encoding", m_model->getEncoding());
     config.writeEntry("fixed_font", getFixedFont());
+    config.writeEntry("auto_resize", m_autoResizeColumns);
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.writeEntry(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
@@ -486,11 +490,14 @@ void KMidimon::readConfiguration()
     m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
     m_model->setInstrumentName(config.readEntry("instrument", QString()));
     m_model->setEncoding(config.readEntry("encoding", QString()));
+    m_autoResizeColumns = config.readEntry("auto_resize", false);
     m_defaultResolution = config.readEntry("resolution", RESOLUTION);
     m_defaultTempo = config.readEntry("tempo", TEMPO_BPM);
+    m_requestRealtime = config.readEntry("realtime", false);
     m_adaptor->setResolution(m_defaultResolution);
     m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->queue_set_tempo();
+    m_adaptor->setRequestRealtime(m_requestRealtime);
     setFixedFont(config.readEntry("fixed_font", false));
     for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.readEntry(QString("show_column_%1").arg(i), true);
@@ -512,6 +519,7 @@ void KMidimon::preferences()
     QPointer<ConfigDialog> dlg = new ConfigDialog(this);
     dlg->setTempo(m_defaultTempo);
     dlg->setResolution(m_defaultResolution);
+    dlg->setRequestRealtime(m_requestRealtime);
     dlg->setRegAlsaMsg(m_proxy->showAlsaMsg());
     dlg->setRegChannelMsg(m_proxy->showChannelMsg());
     dlg->setRegCommonMsg(m_proxy->showCommonMsg());
@@ -526,6 +534,7 @@ void KMidimon::preferences()
     dlg->setInstrumentName(m_model->getInstrumentName());
     dlg->setEncoding(m_model->getEncoding());
     dlg->setUseFixedFont(getFixedFont());
+    dlg->setResizeColumns(m_autoResizeColumns);
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg->setShowColumn(i, m_popupAction[i]->isChecked());
     }
@@ -545,12 +554,15 @@ void KMidimon::preferences()
             m_model->setTranslateCtrls(dlg->translateCtrls());
             m_model->setInstrumentName(dlg->getInstrumentName());
             m_model->setEncoding(dlg->getEncoding());
+            m_autoResizeColumns = dlg->resizeColumns();
             m_defaultTempo = dlg->getTempo();
             m_defaultResolution = dlg->getResolution();
             setFixedFont(dlg->useFixedFont());
             for (i = 0; i < COLUMN_COUNT; ++i) {
                 setColumnStatus(i, dlg->showColumn(i));
             }
+            m_requestRealtime = dlg->requestRealtime();
+            m_adaptor->setRequestRealtime(m_requestRealtime);
             if (was_running) record();
         }
     }
@@ -707,9 +719,10 @@ void KMidimon::setFixedFont(bool newValue)
     }
 }
 
-void KMidimon::resizeColumns(const QModelIndex&, int, int)
+void KMidimon::modelRowsInserted(const QModelIndex&, int, int)
 {
-	resizeAllColumns();
+    if (m_autoResizeColumns)
+        resizeAllColumns();
     m_view->scrollToBottom();
 }
 

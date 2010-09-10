@@ -87,6 +87,8 @@ public:
     void setPosition(const int pos);
     void setTempoFactor(double factor);
     void removeTrackEvents(int track);
+    void setRequestRealtime(bool newValue);
+    bool requestedRealtime();
 
 public slots:
     /* handler for the sequencer events */

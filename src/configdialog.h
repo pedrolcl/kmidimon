@@ -78,6 +78,12 @@ public:
     QString getEncoding();
     void setEncoding(const QString& name);
 
+    bool requestRealtime() { return ui.m_requestRealtime->isChecked(); }
+    void setRequestRealtime(bool newValue) { ui.m_requestRealtime->setChecked(newValue); }
+
+    bool resizeColumns() { return ui.m_resizeColumns->isChecked(); }
+    void setResizeColumns(bool newValue) { ui.m_resizeColumns->setChecked(newValue); }
+
 private:
     Ui::ConfigDialogBase ui;
 };

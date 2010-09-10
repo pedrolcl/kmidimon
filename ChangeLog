@@ -1,3 +1,8 @@
+2010-09-10 00:00 plcl
+    * config option to request real-time priority
+    * config option to resize columns while recording
+    * (both options are disabled by default)
+
 2010-09-05 00:00 plcl
     * require drumstick >= 0.5
     * do not set real-time priority on MIDI input thread

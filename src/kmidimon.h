@@ -87,7 +87,7 @@ public slots:
     void contextMenuEvent( QContextMenuEvent *ev );
     void setColumnStatus(int colNum, bool status);
     void toggleColumn(int colNum);
-    void resizeColumns(const QModelIndex& parent, int start, int end);
+    void modelRowsInserted(const QModelIndex& parent, int start, int end);
     void resizeAllColumns();
     void tabIndexChanged(int index);
     void reorderTabs(int fromIndex, int toIndex);
@@ -146,6 +146,8 @@ private:
     int m_defaultResolution;
     QString m_file;
     QString m_currentState;
+    bool m_autoResizeColumns;
+    bool m_requestRealtime;
 };
 
 #endif // KMIDIMON_H
