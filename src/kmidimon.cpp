@@ -409,7 +409,7 @@ void KMidimon::fileOpen()
 {
     KUrl u = KFileDialog::getOpenUrl(
             KUrl("kfiledialog:///MIDIMONITOR"),
-            "audio/midi audio/cakewalk", this,
+            "audio/midi audio/cakewalk audio/overture", this,
             i18n("Open MIDI file"));
     if (!u.isEmpty()) openURL(u);
 }

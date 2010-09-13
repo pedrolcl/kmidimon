@@ -74,6 +74,7 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_translateNotes(false),
         m_translateCtrls(false),
         m_useFlats(false),
+        m_reportsFilePos(false),
         m_currentTrack(0),
         m_currentRow(0),
         m_portId(0),
@@ -83,9 +84,10 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_division(RESOLUTION),
         m_initialTempo(TEMPO_BPM),
         m_duration(0),
-        m_ins(NULL),
-        m_ins2(NULL),
-        m_filter(NULL)
+        m_ins(0),
+        m_ins2(0),
+        m_filter(0),
+        m_appendFunc(0)
 {
     m_smf = new QSmf(this);
     connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
@@ -197,6 +199,54 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_wrk, SIGNAL(signalWRKChord(int,long,const QString&,const QByteArray&)),
                    SLOT(chord(int,long,const QString&,const QByteArray&)));
     connect(m_wrk, SIGNAL(signalWRKExpression(int,long,int,const QString&)),
+                   SLOT(expression(int,long,int,const QString&)));
+
+    m_ove = new QOve(this);
+    connect(m_ove, SIGNAL(signalOVEError(const QString&)),
+                   SLOT(oveErrorHandler(const QString&)));
+    connect(m_ove, SIGNAL(signalOVEHeader(int,int)),
+                   SLOT(oveFileHeader(int,int)));
+    connect(m_ove, SIGNAL(signalOVEEnd()),
+                   SLOT(endOfWrk()));
+    connect(m_ove, SIGNAL(signalOVENoteOn(int, long, int, int, int)),
+                   SLOT(oveNoteOnEvent(int, long, int, int, int)));
+    connect(m_ove, SIGNAL(signalOVENoteOff(int, long, int, int, int)),
+                   SLOT(oveNoteOffEvent(int, long, int, int, int)));
+    connect(m_ove, SIGNAL(signalOVEKeyPress(int,long,int,int,int)),
+                   SLOT(keyPressEvent(int,long,int,int,int)));
+    connect(m_ove, SIGNAL(signalOVECtlChange(int,long,int,int,int)),
+                   SLOT(ctlChangeEvent(int,long,int,int,int)));
+    connect(m_ove, SIGNAL(signalOVEPitchBend(int,long,int,int)),
+                   SLOT(pitchBendEvent(int,long,int,int)));
+    connect(m_ove, SIGNAL(signalOVEProgram(int,long,int,int)),
+                   SLOT(programEvent(int,long,int,int)));
+    connect(m_ove, SIGNAL(signalOVEChanPress(int,long,int,int)),
+                   SLOT(chanPressEvent(int,long,int,int)));
+    connect(m_ove, SIGNAL(signalOVESysexEvent(int,long,int)),
+                   SLOT(sysexEvent(int,long,int)));
+    connect(m_ove, SIGNAL(signalOVESysex(int,const QString&,bool,int,const QByteArray&)),
+                   SLOT(sysexEventBank(int,const QString&,bool,int,const QByteArray&)));
+    connect(m_ove, SIGNAL(signalOVETempo(long,int)),
+                   SLOT(tempoEvent(long,int)));
+    connect(m_ove, SIGNAL(signalOVETrackPatch(int,int,int)),
+                   SLOT(oveTrackPatch(int,int,int)));
+    connect(m_ove, SIGNAL(signalOVENewTrack(const QString&,int,int,int,int,int,bool,bool,bool)),
+                   SLOT(newTrackHeader(const QString&,int,int,int,int,int,bool,bool,bool)));
+    connect(m_ove, SIGNAL(signalOVETrackVol(int,int,int)),
+                   SLOT(oveTrackVol(int,int,int)));
+    connect(m_ove, SIGNAL(signalOVETrackBank(int,int,int)),
+                   SLOT(oveTrackBank(int,int,int)));
+
+    connect(m_ove, SIGNAL(signalOVEText(int,long,const QString&)),
+                   SLOT(oveTextEvent(int,long,const QString&)));
+    connect(m_ove, SIGNAL(signalOVETimeSig(int,long,int,int)),
+                   SLOT(oveTimeSigEvent(int,long,int,int)));
+    connect(m_ove, SIGNAL(signalOVEKeySig(int,long,int)),
+                   SLOT(oveKeySigEvent(int,long,int)));
+
+    connect(m_ove, SIGNAL(signalOVEChord(int,long,const QString&,const QByteArray&)),
+                   SLOT(chord(int,long,const QString&,const QByteArray&)));
+    connect(m_ove, SIGNAL(signalOVEExpression(int,long,int,const QString&)),
                    SLOT(expression(int,long,int,const QString&)));
 
     for(int i=0; i<16; ++i) {
@@ -1308,10 +1358,20 @@ SequenceModel::loadFromFile(const QString& path)
     m_initialTempo = -1;
     KMimeType::Ptr type = KMimeType::findByPath(path);
     if (type->name() == "audio/midi") {
+        m_appendFunc = &SequenceModel::appendSMFEvent;
+        m_reportsFilePos = true;
         m_smf->readFromFile(path);
     } else if (type->name() == "audio/cakewalk") {
+        m_appendFunc = &SequenceModel::appendWRKEvent;
+        m_reportsFilePos = true;
         m_wrk->readFromFile(path);
+    } else if (type->name() == "audio/overture") {
+        m_appendFunc = &SequenceModel::appendOVEEvent;
+        m_reportsFilePos = false;
+        m_ove->readFromFile(path);
     } else {
+        m_appendFunc = 0;
+        m_reportsFilePos = false;
         kDebug() << "unrecognized format";
         return;
     }
@@ -1383,6 +1443,8 @@ SequenceModel::saveToFile(const QString& path)
 void
 SequenceModel::appendEvent(long ticks, double seconds, int track, SequencerEvent* ev)
 {
+    if (seconds > m_duration)
+        m_duration = seconds;
     ev->setSource(m_portId);
     ev->scheduleTick(m_queueId, ticks, false);
     ev->setTag(track);
@@ -1395,12 +1457,13 @@ SequenceModel::appendEvent(long ticks, double seconds, int track, SequencerEvent
 }
 
 void
-SequenceModel::appendSMFEvent(SequencerEvent* ev)
+SequenceModel::appendSMFEvent(long, int, SequencerEvent* ev)
 {
     long ticks = m_smf->getCurrentTime();
     double seconds = m_smf->getRealTime() / 1600.0;
     appendEvent(ticks, seconds, m_currentTrack, ev);
-    emit loadProgress(m_smf->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_smf->getFilePos());
     KApplication::processEvents();
 }
 
@@ -1423,7 +1486,8 @@ SequenceModel::trackStartEvent()
     rec.velocity = 0;
     m_trackMap[m_currentTrack] = rec;
     m_tempSong.setMutedState(m_currentTrack, false);
-    emit loadProgress(m_smf->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_smf->getFilePos());
 }
 
 void
@@ -1431,7 +1495,8 @@ SequenceModel::trackEndEvent()
 {
     long ticks = m_smf->getCurrentTime();
     m_tempSong.setLast(ticks);
-    emit loadProgress(m_smf->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_smf->getFilePos());
 }
 
 void
@@ -1440,28 +1505,29 @@ SequenceModel::endOfTrackEvent()
     double seconds = m_smf->getRealTime() / 1600.0;
     if (seconds > m_duration)
         m_duration = seconds;
-    emit loadProgress(m_smf->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_smf->getFilePos());
 }
 
 void
 SequenceModel::noteOnEvent(int chan, int pitch, int vol)
 {
     SequencerEvent* ev = new NoteOnEvent(chan, pitch, vol);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::noteOffEvent(int chan, int pitch, int vol)
 {
     SequencerEvent* ev = new NoteOffEvent(chan, pitch, vol);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::keyPressEvent(int chan, int pitch, int press)
 {
     SequencerEvent* ev = new KeyPressEvent(chan, pitch, press);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1495,14 +1561,14 @@ SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
     }
 
     SequencerEvent* ev = new ControllerEvent(chan, ctl, value);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::pitchBendEvent(int chan, int value)
 {
     SequencerEvent* ev = new PitchBendEvent(chan, value);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1510,21 +1576,21 @@ SequenceModel::programEvent(int chan, int patch)
 {
     m_lastPatch[chan] = patch;
     SequencerEvent* ev = new ProgramChangeEvent(chan, patch);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::chanPressEvent(int chan, int press)
 {
     SequencerEvent* ev = new ChanPressEvent(chan, press);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::sysexEvent(const QByteArray& data)
 {
     SequencerEvent* ev = new SysExEvent(data);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1532,7 +1598,7 @@ SequenceModel::seqSpecificEvent(const QByteArray& data)
 {
     SequencerEvent* ev = new VariableEvent(data);
     ev->setSequencerType(SND_SEQ_EVENT_USR_VAR1);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1543,7 +1609,7 @@ SequenceModel::metaMiscEvent(int typ, const QByteArray& data)
     dataCopy.append(data);
     SequencerEvent* ev = new VariableEvent(dataCopy);
     ev->setSequencerType(SND_SEQ_EVENT_USR_VAR2);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1552,7 +1618,7 @@ SequenceModel::seqNum(int seq)
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR1);
     ev->setRaw8(0, seq);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1561,7 +1627,7 @@ SequenceModel::forcedChannel(int channel)
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR2);
     ev->setRaw8(0, channel);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
     TrackMapRec rec = m_trackMap[m_currentTrack];
     rec.channel = channel;
     m_trackMap[m_currentTrack] = rec;
@@ -1573,7 +1639,7 @@ SequenceModel::forcedPort(int port)
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_USR3);
     ev->setRaw8(0, port);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1586,7 +1652,7 @@ SequenceModel::smpteEvent(int b0, int b1, int b2, int b3, int b4)
     ev->setRaw8(2, b2);
     ev->setRaw8(3, b3);
     ev->setRaw8(4, b4);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1598,7 +1664,7 @@ SequenceModel::timeSigEvent(int b0, int b1, int b2, int b3)
     ev->setRaw8(1, b1);
     ev->setRaw8(2, b2);
     ev->setRaw8(3, b3);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1608,7 +1674,7 @@ SequenceModel::keySigEventSMF(int b0, int b1)
     ev->setSequencerType(SND_SEQ_EVENT_KEYSIGN);
     ev->setRaw8(0, b0);
     ev->setRaw8(1, b1);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
     m_useFlats = (b0 < 0);
 }
 
@@ -1616,7 +1682,7 @@ void
 SequenceModel::textEvent(int type, const QString& data)
 {
     SequencerEvent* ev = new TextEvent(data, type);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
@@ -1627,14 +1693,16 @@ SequenceModel::tempoEvent(int tempo)
         m_initialTempo = round( 6e7 / tempo );
     }
     SequencerEvent* ev = new TempoEvent(m_queueId, tempo);
-    appendSMFEvent(ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void
 SequenceModel::errorHandlerSMF(const QString& errorStr)
 {
-    qWarning() << "*** Warning! " << errorStr
-               << " at file offset " << m_smf->getFilePos();
+    QString ofs;
+    if (m_reportsFilePos)
+        ofs = QString(" at file offset %1").arg(m_smf->getFilePos());
+    qWarning() << "*** Warning! " << errorStr << ofs;
 }
 
 void
@@ -1852,14 +1920,17 @@ SequenceModel::appendWRKEvent(long ticks, int track, SequencerEvent* ev)
 {
     double seconds = m_wrk->getRealTime(ticks);
     appendEvent(ticks, seconds, track, ev);
-    emit loadProgress(m_wrk->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_wrk->getFilePos());
     KApplication::processEvents();
 }
 
 void SequenceModel::errorHandlerWRK(const QString& errorStr)
 {
-    qWarning() << "*** Warning! " << errorStr
-               << " at file offset " << m_wrk->getFilePos();
+    QString ofs;
+    if (m_reportsFilePos)
+        ofs = QString(" at file offset %1").arg(m_wrk->getFilePos());
+    qWarning() << "*** Warning! " << errorStr << ofs;
 }
 
 void SequenceModel::fileHeader(int verh, int verl)
@@ -1879,7 +1950,8 @@ void SequenceModel::globalVars()
 {
     emit keySigEventWRK(0, m_wrk->getKeySig());
     m_tempSong.setLast( m_wrk->getEndAllTime() );
-    emit loadProgress(m_wrk->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_wrk->getFilePos());
 }
 
 void SequenceModel::streamEndEvent(long time)
@@ -1906,9 +1978,10 @@ void SequenceModel::trackHeader( const QString& name1, const QString& name2,
     trkName = trkName.trimmed();
     if (!trkName.isEmpty()) {
         SequencerEvent* ev = new TextEvent(trkName, 3);
-        appendWRKEvent(0, trackno, ev);
+        (this->*m_appendFunc)(0, trackno, ev);
     }
-    emit loadProgress(m_wrk->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_wrk->getFilePos());
 }
 void SequenceModel::noteEvent(int track, long time, int chan, int pitch, int vol, int dur)
 {
@@ -1919,7 +1992,7 @@ void SequenceModel::noteEvent(int track, long time, int chan, int pitch, int vol
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new NoteEvent(channel, key, velocity, dur);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::keyPressEvent(int track, long time, int chan, int pitch, int press)
@@ -1930,7 +2003,7 @@ void SequenceModel::keyPressEvent(int track, long time, int chan, int pitch, int
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new KeyPressEvent(channel, key, press);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::ctlChangeEvent(int track, long time, int chan, int ctl, int value)
@@ -1940,7 +2013,7 @@ void SequenceModel::ctlChangeEvent(int track, long time, int chan, int ctl, int 
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new ControllerEvent(channel, ctl, value);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::pitchBendEvent(int track, long time, int chan, int value)
@@ -1950,7 +2023,7 @@ void SequenceModel::pitchBendEvent(int track, long time, int chan, int value)
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new PitchBendEvent(channel, value);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::programEvent(int track, long time, int chan, int patch)
@@ -1960,7 +2033,7 @@ void SequenceModel::programEvent(int track, long time, int chan, int patch)
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new ProgramChangeEvent(channel, patch);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::chanPressEvent(int track, long time, int chan, int press)
@@ -1970,7 +2043,7 @@ void SequenceModel::chanPressEvent(int track, long time, int chan, int press)
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new ChanPressEvent(channel, press);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::sysexEvent(int track, long time, int bank)
@@ -1985,23 +2058,19 @@ void SequenceModel::sysexEvent(int track, long time, int bank)
 void SequenceModel::sysexEventBank(int bank, const QString& /*name*/, bool autosend, int /*port*/, const QByteArray& data)
 {
     SysExEvent* ev = new SysExEvent(data);
-
     if (autosend)
-        appendWRKEvent(0, 0, ev->clone());
-
+       (this->*m_appendFunc)(0, 0, ev->clone());
     foreach(const SysexEventRec& rec, m_savedSysexEvents) {
-        if (rec.bank == bank) {
-            appendWRKEvent(rec.time, rec.track, ev->clone());
-        }
+        if (rec.bank == bank)
+           (this->*m_appendFunc)(rec.time, rec.track, ev->clone());
     }
-
     delete ev;
 }
 
 void SequenceModel::textEvent(int track, long time, int /*type*/, const QString& data)
 {
     SequencerEvent* ev = new TextEvent(data, 1);
-    appendWRKEvent(time, track, ev);
+    (this->*m_appendFunc)(time, track, ev);
 }
 
 void SequenceModel::timeSigEvent(int bar, int num, int den)
@@ -2039,7 +2108,7 @@ void SequenceModel::timeSigEvent(int bar, int num, int den)
             m_bars.append(newts);
         }
     }
-    appendWRKEvent(newts.time, 0, ev);
+    (this->*m_appendFunc)(newts.time, 0, ev);
 }
 
 void SequenceModel::keySigEventWRK(int bar, int alt)
@@ -2054,7 +2123,7 @@ void SequenceModel::keySigEventWRK(int bar, int alt)
             break;
         }
     }
-    appendWRKEvent(time, 0, ev);
+    (this->*m_appendFunc)(time, 0, ev);
 }
 
 void SequenceModel::tempoEvent(long time, int tempo)
@@ -2065,7 +2134,7 @@ void SequenceModel::tempoEvent(long time, int tempo)
         m_initialTempo = round( bpm );
     }
     SequencerEvent* ev = new TempoEvent(m_queueId, round ( 6e7 / bpm ) );
-    appendWRKEvent(time, 0, ev);
+    (this->*m_appendFunc)(time, 0, ev);
 }
 
 void SequenceModel::trackPatch(int track, int patch)
@@ -2080,7 +2149,7 @@ void SequenceModel::trackPatch(int track, int patch)
 void SequenceModel::comments(const QString& cmt)
 {
     SequencerEvent* ev = new TextEvent("Comment: " + cmt, 1);
-    appendWRKEvent(0, 0, ev);
+    (this->*m_appendFunc)(0, 0, ev);
 }
 
 void SequenceModel::variableRecord(const QString& name, const QByteArray& data)
@@ -2102,7 +2171,7 @@ void SequenceModel::variableRecord(const QString& name, const QByteArray& data)
             ev = new TextEvent(s, 2);
         else
             ev = new TextEvent(name + ": " + s, 1);
-        appendWRKEvent(0, 0, ev);
+        (this->*m_appendFunc)(0, 0, ev);
     }
 }
 
@@ -2121,13 +2190,14 @@ void SequenceModel::newTrackHeader( const QString& name,
     m_tempSong.setMutedState(m_currentTrack, muted);
     if (!name.isEmpty())
         textEvent(trackno, 0, 3, name);
-    emit loadProgress(m_wrk->getFilePos());
+    if (m_reportsFilePos)
+        emit loadProgress(m_wrk->getFilePos());
 }
 
 void SequenceModel::trackName(int trackno, const QString& name)
 {
     SequencerEvent* ev = new TextEvent(name, 3);
-    appendWRKEvent(0, trackno, ev);
+    (this->*m_appendFunc)(0, trackno, ev);
 }
 
 void SequenceModel::trackVol(int track, int vol)
@@ -2182,7 +2252,7 @@ void SequenceModel::segment(int track, long time, const QString& name)
 {
     if (!name.isEmpty()) {
         SequencerEvent *ev = new TextEvent("Segment: " + name, 6);
-        appendWRKEvent(time, track, ev);
+        (this->*m_appendFunc)(time, track, ev);
     }
 }
 
@@ -2190,7 +2260,7 @@ void SequenceModel::chord(int track, long time, const QString& name, const QByte
 {
     if (!name.isEmpty()) {
         SequencerEvent *ev = new TextEvent("Chord: " + name, 1);
-        appendWRKEvent(time, track, ev);
+        (this->*m_appendFunc)(time, track, ev);
     }
 }
 
@@ -2198,7 +2268,7 @@ void SequenceModel::expression(int track, long time, int /*code*/, const QString
 {
     if (!text.isEmpty()) {
         SequencerEvent *ev = new TextEvent(text, 1);
-        appendWRKEvent(time, track, ev);
+        (this->*m_appendFunc)(time, track, ev);
     }
 }
 
@@ -2222,4 +2292,160 @@ int SequenceModel::getTrackForIndex(int idx)
         return indexes.at(idx) + 1;
     else
         return idx+1;
+}
+
+/* ********************************* *
+ * Overture OVE file format handling
+ * ********************************* */
+
+double SequenceModel::oveRealTime(long ticks) const
+{
+    double division = 1.0 * m_division;
+    TempoRec last;
+    last.time = 0;
+    last.tempo = 100.0;
+    last.seconds = 0.0;
+    if (!m_tempos.isEmpty()) {
+        foreach(const TempoRec& rec, m_tempos) {
+            if (rec.time >= ticks)
+                break;
+            last = rec;
+        }
+    }
+    return last.seconds + (((ticks - last.time) / division) * (60.0 / last.tempo));
+}
+
+void
+SequenceModel::appendOVEEvent(long ticks, int track, SequencerEvent* ev)
+{
+    double seconds = oveRealTime(ticks);
+    appendEvent(ticks, seconds, track, ev);
+    KApplication::processEvents();
+}
+
+void SequenceModel::oveErrorHandler(const QString& errorStr)
+{
+    qWarning() << "*** Warning! " << errorStr;
+}
+
+void SequenceModel::oveFileHeader(int quarter, int /*trackCount*/)
+{
+    m_fileFormat = QLatin1String("Overture File");
+    m_format = 1;
+    m_ntrks = 0; // dynamically calculated
+    m_division = quarter;
+}
+
+void SequenceModel::oveNoteOnEvent(int track, long tick, int channel, int pitch, int vol)
+{
+    SequencerEvent* ev = new NoteOnEvent(channel, pitch, vol);
+    (this->*m_appendFunc)(tick, track, ev);
+}
+
+void SequenceModel::oveNoteOffEvent(int track, long tick, int channel, int pitch, int vol)
+{
+    SequencerEvent* ev = new NoteOffEvent(channel, pitch, vol);
+    (this->*m_appendFunc)(tick, track, ev);
+}
+
+void SequenceModel::oveTrackPatch(int track, int channel, int patch)
+{
+    int ch = channel;
+    TrackMapRec rec = m_trackMap[track];
+    if (rec.channel > -1)
+        ch = rec.channel;
+    programEvent(track, 0, ch, patch);
+}
+
+void SequenceModel::oveTrackVol(int track, int channel, int vol)
+{
+    int ch = channel;
+    int lsb, msb;
+    TrackMapRec rec = m_trackMap[track];
+    if (rec.channel > -1)
+        ch = rec.channel;
+    if (vol < 128)
+        ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, vol);
+    else {
+        lsb = vol % 0x80;
+        msb = vol / 0x80;
+        ctlChangeEvent(track, 0, ch, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
+        ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, msb);
+    }
+}
+
+void SequenceModel::oveTrackBank(int track, int channel, int bank)
+{
+    // assume GM/GS bank method
+    int ch = channel;
+    int lsb, msb;
+    TrackMapRec rec = m_trackMap[track];
+    if (rec.channel > -1)
+        ch = rec.channel;
+    lsb = bank % 0x80;
+    msb = bank / 0x80;
+    ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_BANK, msb);
+    ctlChangeEvent(track, 0, ch, MIDI_CTL_LSB_BANK, lsb);
+}
+
+void SequenceModel::oveTextEvent(int track, long tick, const QString& data)
+{
+    SequencerEvent* ev = new TextEvent(data, 1);
+    (this->*m_appendFunc)(tick, track, ev);
+}
+
+void SequenceModel::oveTimeSigEvent(int bar, long tick, int num, int den)
+{
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_TIMESIGN);
+    int div, d = den;
+    for ( div = 0; d > 1; d /= 2 )
+        ++div;
+    ev->setRaw8(0, num);
+    ev->setRaw8(1, div);
+    ev->setRaw8(2, 24 * 4 / den);
+    ev->setRaw8(3, 8);
+    TimeSigRec newts;
+    newts.bar = bar;
+    newts.num = num;
+    newts.den = den;
+    newts.time = tick;
+    m_bars.append(newts);
+    (this->*m_appendFunc)(tick, 0, ev);
+}
+
+void SequenceModel::oveKeySigEvent(int /*bar*/, long tick, int alt)
+{
+    SequencerEvent* ev = new SequencerEvent();
+    ev->setSequencerType(SND_SEQ_EVENT_KEYSIGN);
+    ev->setRaw8(0, alt);
+    (this->*m_appendFunc)(tick, 0, ev);
+}
+
+void SequenceModel::oveTempoEvent(long time, int tempo)
+{
+    double bpm = tempo / 100.0;
+    double division = 1.0 * m_division;
+    if ( m_initialTempo < 0 ) {
+        m_initialTempo = round( bpm );
+    }
+    TempoRec last, next;
+    next.time = time;
+    next.tempo = bpm;
+    next.seconds = 0.0;
+    last.time = 0;
+    last.tempo = next.tempo;
+    last.seconds = 0.0;
+    if (!m_tempos.isEmpty()) {
+        foreach(const TempoRec& rec, m_tempos) {
+            if (rec.time >= time)
+                break;
+            last = rec;
+        }
+        next.seconds = last.seconds +
+            (((time - last.time) / division) * (60.0 / last.tempo));
+    }
+    m_tempos.append(next);
+    SequencerEvent* ev = new TempoEvent(m_queueId, round ( 6e7 / bpm ) );
+    (this->*m_appendFunc)(time, 0, ev);
 }

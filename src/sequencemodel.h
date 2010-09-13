@@ -28,6 +28,7 @@
 #include <alsaevent.h>
 #include <qsmf.h>
 #include <qwrk.h>
+#include <qove.h>
 
 #include <QAbstractItemModel>
 #include <QMap>
@@ -89,8 +90,11 @@ public:
     void saveToFile(const QString& path);
     void loadFromFile(const QString& path);
     void appendEvent(long ticks, double seconds, int track, SequencerEvent* ev);
-    void appendSMFEvent(SequencerEvent* ev);
+
+    void appendSMFEvent(long ticks, int track, SequencerEvent* ev);
     void appendWRKEvent(long ticks, int track, SequencerEvent* ev);
+    void appendOVEEvent(long ticks, int track, SequencerEvent* ev);
+    double oveRealTime(long ticks) const;
 
     bool showClientNames() const { return m_showClientNames; }
     bool translateSysex() const { return m_translateSysex; }
@@ -198,6 +202,19 @@ public slots:
     void chord(int track, long time, const QString& name, const QByteArray& data);
     void expression(int track, long time, int code, const QString& text);
 
+    /* OVE slots */
+    void oveErrorHandler(const QString& errorStr);
+    void oveFileHeader(int quarter, int trackCount);
+    void oveNoteOnEvent(int track, long tick, int channel, int pitch, int vol);
+    void oveNoteOffEvent(int track, long tick, int channel, int pitch, int vol);
+    void oveTrackPatch(int track, int channel, int patch);
+    void oveTrackVol(int track, int channel, int vol);
+    void oveTrackBank(int track, int channel, int bank);
+    void oveTextEvent(int track, long tick, const QString& data);
+    void oveTimeSigEvent(int bar, long tick, int num, int den);
+    void oveKeySigEvent(int bar, long tick, int alt);
+    void oveTempoEvent(long time, int tempo);
+
 signals:
     void loadProgress(int);
 
@@ -250,6 +267,8 @@ private:
     bool m_translateNotes;
     bool m_translateCtrls;
     bool m_useFlats;
+    bool m_reportsFilePos;
+
     int m_currentTrack;
     int m_currentRow;
     int m_portId;
@@ -274,6 +293,7 @@ private:
     Song m_tempSong;
     QSmf* m_smf;
     QWrk* m_wrk;
+    QOve* m_ove;
     Instrument* m_ins;
     Instrument* m_ins2;
     EventFilter* m_filter;
@@ -300,6 +320,16 @@ private:
         long time;
     };
     QList<TimeSigRec> m_bars;
+
+    struct TempoRec {
+        long time;
+        double tempo;
+        double seconds;
+    };
+    QList<TempoRec> m_tempos;
+
+    typedef void (SequenceModel::*AppendFunc)(long,int,SequencerEvent*);
+    AppendFunc m_appendFunc;
 };
 
 #endif /* SEQUENCEMODEL_H */
