@@ -904,7 +904,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
     if (m_filter != NULL)
         res = m_filter->getName(ev->getSequencerType());
     if (res.isEmpty())
-        res = QString("Event type %1").arg(ev->getSequencerType());
+        res = i18n("Event type %1", ev->getSequencerType());
     return res;
 }
 
@@ -973,7 +973,7 @@ SequenceModel::program_number(const SequencerEvent* ev) const
                     return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
             }
         }
-        return QString("%1").arg(pc->getValue());
+        return QString::number(pc->getValue());
     }
     return QString();
 }
@@ -1025,7 +1025,7 @@ SequenceModel::control_value(const SequencerEvent* ev) const
 {
     const ControllerEvent* ce = static_cast<const ControllerEvent*>(ev);
     if (ce != NULL)
-        return QString("%1").arg(ce->getValue());
+        return QString::number(ce->getValue());
     else
         return QString();
 }
@@ -1035,7 +1035,7 @@ SequenceModel::pitchbend_value(const SequencerEvent* ev) const
 {
     const PitchBendEvent* pe = static_cast<const PitchBendEvent*>(ev);
     if (pe != NULL)
-        return QString("%1").arg(pe->getValue());
+        return QString::number(pe->getValue());
     else
         return QString();
 }
@@ -1055,7 +1055,7 @@ SequenceModel::tempo_bpm(const SequencerEvent *ev) const
 {
     const TempoEvent* te = static_cast<const TempoEvent*>(ev);
     if (te != NULL)
-        return QString("%1 bpm").arg(6e7 / te->getValue(), 0, 'f', 1);
+        return i18n("%1 bpm", QString::number(6e7 / te->getValue(), 'f', 1));
     else
         return QString();
 }
@@ -1065,7 +1065,7 @@ SequenceModel::tempo_npt(const SequencerEvent *ev) const
 {
     const TempoEvent* te = static_cast<const TempoEvent*>(ev);
     if (te != NULL)
-        return QString("%1").arg(te->getValue());
+        return QString::number(te->getValue());
     else
         return QString();
 }
@@ -1475,7 +1475,7 @@ SequenceModel::headerEvent(int format, int ntrks, int division)
     m_format = format;
     m_ntrks = ntrks;
     m_division = division;
-    m_fileFormat = QString("SMF type %1").arg(format);
+    m_fileFormat = i18n("SMF type %1", format);
 }
 
 void
@@ -1937,7 +1937,7 @@ void SequenceModel::errorHandlerWRK(const QString& errorStr)
 
 void SequenceModel::fileHeader(int verh, int verl)
 {
-    m_fileFormat = QString("WRK file version %1.%2").arg(verh).arg(verl);
+    m_fileFormat = i18n("WRK file version %1.%2", verh, verl);
     m_format = 1;
     m_ntrks = 0;
     m_division = 120;
