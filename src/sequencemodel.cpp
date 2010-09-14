@@ -1150,7 +1150,7 @@ SequenceModel::key_sig2(const SequencerEvent *ev) const
         mode = ( ev->getRaw8(1) == 0 ? i18nc("major mode scale","major") :
                                        i18nc("minor mode scale","minor") );
     }
-    return tone + " " + mode;
+    return tone + ' ' + mode;
 }
 
 QString

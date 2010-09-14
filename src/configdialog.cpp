@@ -28,7 +28,7 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     QWidget *widget = new QWidget( this );
     ui.setupUi(widget);
     setMainWidget( widget );
-    setCaption( i18n("KMidimon Preferences") );
+    setCaption( i18nc("@title:window", "KMidimon Preferences") );
     initEncodings();
 }
 

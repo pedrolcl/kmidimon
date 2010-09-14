@@ -471,12 +471,12 @@ MA 02110-1301, USA
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QComboBox" name="m_codecs"/>
+        <widget class="KComboBox" name="m_codecs"/>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="QCheckBox" name="m_resizeColumns">
          <property name="text">
-          <string>Resize colums automatically while recording events</string>
+          <string>Resize columns automatically while recording events</string>
          </property>
         </widget>
        </item>

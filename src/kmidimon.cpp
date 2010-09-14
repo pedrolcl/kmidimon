@@ -405,7 +405,7 @@ void KMidimon::openURL(const KUrl& url)
         QString loadingMsg = m_model->getLoadingMessages();
         if (!loadingMsg.isEmpty()) {
             loadingMsg.insert(0,
-                i18n("Warning, this file may be non-standard or damaged.<br>"));
+                i18n("Warning, this file may be non-standard or damaged.<br/>"));
             KMessageBox::sorry(this, loadingMsg, i18n("File parsing error"));
         }
     }
@@ -630,7 +630,7 @@ void KMidimon::updateCaption()
     QFileInfo finfo(m_file);
     QString name = finfo.fileName();
     if (name.isEmpty())
-        name = i18n("(empty)");
+        name = i18n("(no file)");
     setCaption(i18n("%1 [%2]", name, m_currentState));
 }
 
