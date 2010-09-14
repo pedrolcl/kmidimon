@@ -136,6 +136,8 @@ public:
     QString getFileFormat() const { return m_fileFormat; }
     int getTrackForIndex(int idx);
 
+    QString getLoadingMessages() const { return m_loadingMessages; }
+
 public slots:
     /* SMF slots */
     void headerEvent(int format, int ntrks, int division);
@@ -330,6 +332,8 @@ private:
 
     typedef void (SequenceModel::*AppendFunc)(long,int,SequencerEvent*);
     AppendFunc m_appendFunc;
+
+    QString m_loadingMessages;
 };
 
 #endif /* SEQUENCEMODEL_H */

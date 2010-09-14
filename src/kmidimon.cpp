@@ -402,6 +402,12 @@ void KMidimon::openURL(const KUrl& url)
         KIO::NetAccess::removeTempFile(tmpFile);
         updateCaption();
         delete m_pd;
+        QString loadingMsg = m_model->getLoadingMessages();
+        if (!loadingMsg.isEmpty()) {
+            loadingMsg.insert(0,
+                i18n("Warning, this file may be non-standard or damaged.<br>"));
+            KMessageBox::sorry(this, loadingMsg, i18n("File parsing error"));
+        }
     }
 }
 

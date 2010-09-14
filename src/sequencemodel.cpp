@@ -424,6 +424,8 @@ SequenceModel::clear()
     m_savedSysexEvents.clear();
     m_trackMap.clear();
     m_bars.clear();
+    m_tempos.clear();
+    m_loadingMessages.clear();
 }
 
 void
@@ -1699,10 +1701,10 @@ SequenceModel::tempoEvent(int tempo)
 void
 SequenceModel::errorHandlerSMF(const QString& errorStr)
 {
-    QString ofs;
+    m_loadingMessages.append(errorStr);
     if (m_reportsFilePos)
-        ofs = QString(" at file offset %1").arg(m_smf->getFilePos());
-    qWarning() << "*** Warning! " << errorStr << ofs;
+        m_loadingMessages.append(
+            i18n(" at offset %1",m_smf->getFilePos()));
 }
 
 void
@@ -1927,10 +1929,10 @@ SequenceModel::appendWRKEvent(long ticks, int track, SequencerEvent* ev)
 
 void SequenceModel::errorHandlerWRK(const QString& errorStr)
 {
-    QString ofs;
+    m_loadingMessages.append(errorStr);
     if (m_reportsFilePos)
-        ofs = QString(" at file offset %1").arg(m_wrk->getFilePos());
-    qWarning() << "*** Warning! " << errorStr << ofs;
+        m_loadingMessages.append(
+            i18n(" at offset %1",m_wrk->getFilePos()));
 }
 
 void SequenceModel::fileHeader(int verh, int verl)
@@ -2325,12 +2327,12 @@ SequenceModel::appendOVEEvent(long ticks, int track, SequencerEvent* ev)
 
 void SequenceModel::oveErrorHandler(const QString& errorStr)
 {
-    qWarning() << "*** Warning! " << errorStr;
+    m_loadingMessages.append(errorStr);
 }
 
 void SequenceModel::oveFileHeader(int quarter, int /*trackCount*/)
 {
-    m_fileFormat = QLatin1String("Overture File");
+    m_fileFormat = i18n("Overture File");
     m_format = 1;
     m_ntrks = 0; // dynamically calculated
     m_division = quarter;
