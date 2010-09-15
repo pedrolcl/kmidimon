@@ -248,9 +248,10 @@ private:
     QString sysex_chan(const SequencerEvent *ev) const;
     QString sysex_data1(const SequencerEvent *ev) const;
     QString sysex_data2(const SequencerEvent *ev) const;
-    QString sysex_mtc_setup(const int id) const;
-    QString sysex_mtc(int id, int length, unsigned char *ptr) const;
-    QString sysex_mmc(int id, int length, unsigned char *ptr) const;
+    QString sysex_data3(const SequencerEvent *ev) const;
+    int sysex_data_first(const SequencerEvent *ev) const;
+    QString sysex_mtc(const int id) const;
+    QString sysex_mmc(const int id) const;
     QString tempo_bpm(const SequencerEvent *ev) const;
     QString tempo_npt(const SequencerEvent *ev) const;
     QString text_type(const SequencerEvent *ev) const;
