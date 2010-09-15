@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: http://sourceforge."
 "net/tracker/?atid=731542&group_id=134956\n"
-"POT-Creation-Date: 2010-09-14 13:37+0200\n"
-"PO-Revision-Date: 2010-09-14 13:48+0200\n"
+"POT-Creation-Date: 2010-09-15 22:29+0200\n"
+"PO-Revision-Date: 2010-09-15 23:16+0200\n"
 "Last-Translator: Pedro López-Cabanillas <plcl@users.sourceforge.net>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "Nota activada"
 msgid "Note off"
 msgstr "Nota desactivada"
 
-#: src/eventfilter.cpp:66
+#: src/eventfilter.cpp:66 src/sequencemodel.cpp:880
 msgid "Polyphonic aftertouch"
 msgstr "Post-pulsación polifónica"
 
@@ -89,7 +89,7 @@ msgstr "Cambio de controlador"
 msgid "Program change"
 msgstr "Cambio de programa"
 
-#: src/eventfilter.cpp:69
+#: src/eventfilter.cpp:69 src/sequencemodel.cpp:878
 msgid "Channel aftertouch"
 msgstr "Post-pulsación de canal"
 
@@ -105,7 +105,7 @@ msgstr "Parámetro no registrado"
 msgid "Registered parameter"
 msgstr "Parámetro registrado"
 
-#: src/eventfilter.cpp:75 src/sequencemodel.cpp:468
+#: src/eventfilter.cpp:75
 msgid "System exclusive"
 msgstr "Sistema exclusivo"
 
@@ -146,7 +146,7 @@ msgstr "Reloj"
 msgid "Tick"
 msgstr "Tic"
 
-#: src/eventfilter.cpp:87
+#: src/eventfilter.cpp:87 src/sequencemodel.cpp:647
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -194,7 +194,7 @@ msgstr "Tempo"
 msgid "SMF Text"
 msgstr "Texto SMF"
 
-#: src/eventfilter.cpp:101
+#: src/eventfilter.cpp:101 src/sequencemodel.cpp:834
 msgid "Time Signature"
 msgstr "Medida del compás"
 
@@ -267,15 +267,15 @@ msgstr "Error"
 
 #. i18n: file: src/configdialogbase.ui:282
 #. i18n: ectx: property (text), widget (QCheckBox, m_showTicksColumn)
-#: src/kmidimon.cpp:143 src/sequencemodel.cpp:282 po/rc.cpp:75
+#: src/kmidimon.cpp:143 src/sequencemodel.cpp:278 po/rc.cpp:75
 msgid "Ticks"
 msgstr "Tics"
 
-#: src/kmidimon.cpp:144 src/sequencemodel.cpp:284
+#: src/kmidimon.cpp:144 src/sequencemodel.cpp:280
 msgid "Time"
 msgstr "Tiempo"
 
-#: src/kmidimon.cpp:145 src/sequencemodel.cpp:286
+#: src/kmidimon.cpp:145 src/sequencemodel.cpp:282
 msgctxt "event origin"
 msgid "Source"
 msgstr "Origen"
@@ -291,19 +291,19 @@ msgstr "Canal"
 
 #. i18n: file: src/configdialogbase.ui:332
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData1Column)
-#: src/kmidimon.cpp:148 src/sequencemodel.cpp:292 po/rc.cpp:105
+#: src/kmidimon.cpp:148 src/sequencemodel.cpp:288 po/rc.cpp:105
 msgid "Data 1"
 msgstr "Datos 1"
 
 #. i18n: file: src/configdialogbase.ui:342
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData2Column)
-#: src/kmidimon.cpp:149 src/sequencemodel.cpp:294 po/rc.cpp:111
+#: src/kmidimon.cpp:149 src/sequencemodel.cpp:290 po/rc.cpp:111
 msgid "Data 2"
 msgstr "Datos 2"
 
 #. i18n: file: src/configdialogbase.ui:352
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData3Column)
-#: src/kmidimon.cpp:150 src/sequencemodel.cpp:296 po/rc.cpp:117
+#: src/kmidimon.cpp:150 src/sequencemodel.cpp:292 po/rc.cpp:117
 msgid "Data 3"
 msgstr "Datos 3"
 
@@ -339,7 +339,7 @@ msgstr "&Reproducir"
 msgid "Start playback of the current session"
 msgstr "Iniciar la reproducción de la sesión actual"
 
-#: src/kmidimon.cpp:201 src/sequencemodel.cpp:637
+#: src/kmidimon.cpp:201 src/sequencemodel.cpp:639
 msgid "Pause"
 msgstr "Pausa"
 
@@ -560,9 +560,11 @@ msgid ""
 ">Division: <b>%7 ppq</b><br/>Initial tempo: <b>%8 bpm</b><br/>Duration: <b>%"
 "9</b>"
 msgstr ""
-"Archivo: <b>%1</b><br>Creado: <b>%2</b><br>Modificado: <b>%3</b><br>Formato: "
-"<b>%4</b><br>Número de pistas: <b>%5</b><br>Número de eventos: <b>%6</"
-"b><br>División: <b>%7 ppn</b><br>Tempo inicial: <b>%8 npm</b><br>Duración: "
+"Archivo: <b>%1</b><br/>Creado: <b>%2</b><br/>Modificado: <b>%3</b><br/>"
+"Formato: "
+"<b>%4</b><br/>Número de pistas: <b>%5</b><br/>Número de eventos: <b>%6</"
+"b><br/>División: <b>%7 ppn</b><br/>Tempo inicial: <b>%8 npm</b><br/>"
+"Duración: "
 "<b>%9</b>"
 
 #: src/kmidimon.cpp:868
@@ -597,28 +599,28 @@ msgstr "Documentación, buenas ideas y consejos"
 msgid "File to open"
 msgstr "Archivo a abrir"
 
-#: src/sequencemodel.cpp:288
+#: src/sequencemodel.cpp:284
 msgid "Event kind"
 msgstr "Tipo de evento"
 
-#: src/sequencemodel.cpp:290
+#: src/sequencemodel.cpp:286
 msgid "Chan"
 msgstr "Canal"
 
-#: src/sequencemodel.cpp:461
+#: src/sequencemodel.cpp:463
 msgid "Universal Non Real Time SysEx"
 msgstr "Sistema exclusivo universal no tiempo real"
 
-#: src/sequencemodel.cpp:463
+#: src/sequencemodel.cpp:465
 msgid "Universal Real Time SysEx"
 msgstr "Sistema exclusivo universal de tiempo real"
 
-#: src/sequencemodel.cpp:485
+#: src/sequencemodel.cpp:486
 msgctxt "cast or scattered in all directions"
 msgid "broadcast"
 msgstr "difusión"
 
-#: src/sequencemodel.cpp:487
+#: src/sequencemodel.cpp:488
 msgid "device %1"
 msgstr "dispositivo %1"
 
@@ -626,133 +628,173 @@ msgstr "dispositivo %1"
 msgid "Sample Dump"
 msgstr "Volcado de muestra"
 
-#: src/sequencemodel.cpp:513
-msgid "MTC Setup"
-msgstr "Configuración de MTC"
+#: src/sequencemodel.cpp:513 src/sequencemodel.cpp:545
+msgid "MTC"
+msgstr "MTC"
 
 #: src/sequencemodel.cpp:517
+msgctxt "General Info"
 msgid "Gen.Info"
 msgstr "Info.general"
 
 #: src/sequencemodel.cpp:519
+msgid "File Dump"
+msgstr "Volcado de archivo"
+
+#: src/sequencemodel.cpp:521 src/sequencemodel.cpp:559
 msgid "Tuning"
 msgstr "Afinación"
 
-#: src/sequencemodel.cpp:521
+#: src/sequencemodel.cpp:523
+msgctxt "General MIDI mode"
 msgid "GM Mode"
 msgstr "Modo GM"
 
-#: src/sequencemodel.cpp:523
+#: src/sequencemodel.cpp:525
+msgctxt "Downloadable Sounds"
+msgid "DLS"
+msgstr "DLS"
+
+#: src/sequencemodel.cpp:527
+msgctxt "File Reference"
+msgid "File Ref."
+msgstr "Ref.archivo"
+
+#: src/sequencemodel.cpp:529
+msgid "End of File"
+msgstr "Fin archivo"
+
+#: src/sequencemodel.cpp:531
 msgid "Wait"
 msgstr "Esperar"
 
-#: src/sequencemodel.cpp:525
+#: src/sequencemodel.cpp:533
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/sequencemodel.cpp:527
+#: src/sequencemodel.cpp:535
 msgid "NAK"
 msgstr "Rechazo"
 
-#: src/sequencemodel.cpp:529
+#: src/sequencemodel.cpp:537
 msgid "ACK"
 msgstr "Confirmación"
 
-#: src/sequencemodel.cpp:537
-msgid "MTC"
-msgstr "MTC"
+#: src/sequencemodel.cpp:547
+msgid "Show Control"
+msgstr "Control de escenografía"
 
-#: src/sequencemodel.cpp:539
+#: src/sequencemodel.cpp:549
 msgid "Notation"
 msgstr "Notación"
 
-#: src/sequencemodel.cpp:541
-msgid "GM Master"
-msgstr "GM Maestro"
+#: src/sequencemodel.cpp:551
+msgid "Device Control"
+msgstr "Control de dispositivo"
 
-#: src/sequencemodel.cpp:543
-msgid "MMC"
-msgstr "MMC"
+#: src/sequencemodel.cpp:553
+msgid "MTC Cueing"
+msgstr "Señalización MTC"
 
-#: src/sequencemodel.cpp:559
+#: src/sequencemodel.cpp:555
+msgid "MMC Command"
+msgstr "Mandato MMC"
+
+#: src/sequencemodel.cpp:557
+msgid "MMC Response"
+msgstr "Respuesta MMC"
+
+#: src/sequencemodel.cpp:561
+msgctxt "General MIDI 2 Controller Destination"
+msgid "GM2 Destination"
+msgstr "Destino GM2"
+
+#: src/sequencemodel.cpp:563
+msgctxt "Key-based Instrument Control"
+msgid "Instrument"
+msgstr "Instrumento"
+
+#: src/sequencemodel.cpp:565
+msgctxt "Scalable Polyphony MIDI MIP Message"
+msgid "Polyphony"
+msgstr "Polifonía"
+
+#: src/sequencemodel.cpp:567
+msgctxt "Mobile Phone Control Message"
+msgid "Mobile Phone"
+msgstr "Teléfono móvil"
+
+#: src/sequencemodel.cpp:583
 msgctxt "MTC special setup"
 msgid "Special"
 msgstr "Especial"
 
-#: src/sequencemodel.cpp:561
+#: src/sequencemodel.cpp:585
 msgid "Punch In Points"
 msgstr "Puntos de comienzo de grabación"
 
-#: src/sequencemodel.cpp:563
+#: src/sequencemodel.cpp:587
 msgid "Punch Out Points"
 msgstr "Puntos de parada de grabación"
 
-#: src/sequencemodel.cpp:565
+#: src/sequencemodel.cpp:589
 msgid "Delete Punch In Points"
 msgstr "Borrar puntos de inicio de grabación"
 
-#: src/sequencemodel.cpp:567
+#: src/sequencemodel.cpp:591
 msgid "Delete Punch Out Points"
 msgstr "Borrar puntos de parada de grabación"
 
-#: src/sequencemodel.cpp:569
+#: src/sequencemodel.cpp:593
 msgid "Event Start Point"
 msgstr "Evento Punto de inicio"
 
-#: src/sequencemodel.cpp:571
+#: src/sequencemodel.cpp:595
 msgid "Event Stop Point"
 msgstr "Evento Punto de parada"
 
-#: src/sequencemodel.cpp:573
+#: src/sequencemodel.cpp:597
 msgid "Event Start Point With Info"
 msgstr "Evento Punto de inicio con información"
 
-#: src/sequencemodel.cpp:575
+#: src/sequencemodel.cpp:599
 msgid "Event Stop Point With Info"
 msgstr "Evento Punto de parada con información"
 
-#: src/sequencemodel.cpp:577
+#: src/sequencemodel.cpp:601
 msgid "Delete Event Start Point"
 msgstr "Borrar evento Punto de inicio"
 
-#: src/sequencemodel.cpp:579
+#: src/sequencemodel.cpp:603
 msgid "Delete Event Stop Point"
 msgstr "Borrar evento Punto de parada"
 
-#: src/sequencemodel.cpp:581
+#: src/sequencemodel.cpp:605
 msgid "Cue Points"
 msgstr "Señales de escena"
 
-#: src/sequencemodel.cpp:583
+#: src/sequencemodel.cpp:607
 msgid "Cue Points With Info"
 msgstr "Señales de escena con información"
 
-#: src/sequencemodel.cpp:585
-msgid "Delete Cue Points"
-msgstr "Borrar señales de escena"
+#: src/sequencemodel.cpp:609
+msgid "Delete Cue Point"
+msgstr "Borrar señal de escena"
 
-#: src/sequencemodel.cpp:587
+#: src/sequencemodel.cpp:611
 msgid "Event Name"
 msgstr "Nombre de Evento"
-
-#: src/sequencemodel.cpp:600
-msgid "Full Frame: %1 %2 %3 %4"
-msgstr "Fotograma completo: %1 %2 %3 %4"
-
-#: src/sequencemodel.cpp:605
-msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
-msgstr "Bits de Usuario: %1 %2 %3 %4 %5 %6 %7 %8 %9"
 
 #: src/sequencemodel.cpp:625
 msgid "Play"
 msgstr "Iniciar"
 
 #: src/sequencemodel.cpp:627
-msgid "Deferred Play"
+msgid "Deferred play"
 msgstr "Inicio diferido"
 
 #: src/sequencemodel.cpp:629
-msgid "Fast Forward"
+msgid "Fast forward"
 msgstr "Avance rápido"
 
 #: src/sequencemodel.cpp:631
@@ -760,302 +802,458 @@ msgid "Rewind"
 msgstr "Rebobinar"
 
 #: src/sequencemodel.cpp:633
-msgid "Punch In"
-msgstr "Marca de inicio de grabación"
+msgid "Punch in"
+msgstr "Inicio de grabación"
 
 #: src/sequencemodel.cpp:635
 msgid "Punch out"
 msgstr "Marca de fin de grabación"
 
-#: src/sequencemodel.cpp:639
+#: src/sequencemodel.cpp:637
+msgid "Pause recording"
+msgstr "Pausa de grabación"
+
+#: src/sequencemodel.cpp:641
 msgid "Eject"
 msgstr "Expulsión"
 
-#: src/sequencemodel.cpp:646
-msgid "Track Record Ready:"
-msgstr "Grabación de pista preparada:"
+#: src/sequencemodel.cpp:643
+msgid "Chase"
+msgstr "Persecución"
+
+#: src/sequencemodel.cpp:645
+msgid "Error reset"
+msgstr "Restablecer error"
 
 #: src/sequencemodel.cpp:649
-msgid "Track Sync Monitor:"
-msgstr "Monitor de sincronización de pista:"
+msgid "Write"
+msgstr "Escribir"
 
-#: src/sequencemodel.cpp:652
-msgid "Track Input Monitor:"
-msgstr "Monitor de entrada de pista:"
+#: src/sequencemodel.cpp:651
+msgid "Masked Write"
+msgstr "Escritura con máscara"
+
+#: src/sequencemodel.cpp:653
+msgid "Read"
+msgstr "Leer"
 
 #: src/sequencemodel.cpp:655
-msgid "Track Mute:"
-msgstr "Silenciamiento de pista: "
+msgid "Update"
+msgstr "Actualizar"
 
-#: src/sequencemodel.cpp:670
-msgid "Locate: %1 %2 %3 %4 %5"
-msgstr "Localización: %1 %2 %3 %4 %5"
+#: src/sequencemodel.cpp:657
+msgid "Locate"
+msgstr "Localización"
 
-#: src/sequencemodel.cpp:698
+#: src/sequencemodel.cpp:659
+msgid "Variable play"
+msgstr "Reproducción variable"
+
+#: src/sequencemodel.cpp:661
+msgid "Search"
+msgstr "Búsqueda"
+
+#: src/sequencemodel.cpp:663
+msgid "Shuttle"
+msgstr "Transporte"
+
+#: src/sequencemodel.cpp:665
+msgid "Step"
+msgstr "Paso"
+
+#: src/sequencemodel.cpp:687 src/sequencemodel.cpp:728
 msgid "Header"
 msgstr "Cabecera"
 
-#: src/sequencemodel.cpp:700
+#: src/sequencemodel.cpp:689 src/sequencemodel.cpp:730
 msgid "Data Packet"
 msgstr "Paquete de datos"
 
-#: src/sequencemodel.cpp:702
+#: src/sequencemodel.cpp:691 src/sequencemodel.cpp:732
 msgid "Request"
 msgstr "Solicitud"
 
-#: src/sequencemodel.cpp:709
-msgid "Multiple Loop Points"
-msgstr "Puntos de repetición múltiples"
+#: src/sequencemodel.cpp:698
+msgid "Loop Points Send"
+msgstr "Envío de puntos de repetición"
 
-#: src/sequencemodel.cpp:711
+#: src/sequencemodel.cpp:700
 msgid "Loop Points Request"
 msgstr "Solicitud de puntos de repetición"
 
-#: src/sequencemodel.cpp:719
+#: src/sequencemodel.cpp:702
+msgid "Sample Name Send"
+msgstr "Envío de nombre de muestra"
+
+#: src/sequencemodel.cpp:704
+msgid "Sample Name Request"
+msgstr "Solicitud de nombre de muestra"
+
+#: src/sequencemodel.cpp:706
+msgid "Ext.Dump Header"
+msgstr "Cabecera de volcado extra"
+
+#: src/sequencemodel.cpp:708
+msgid "Ext.Loop Points Send"
+msgstr "Envío de puntos de repetición extra"
+
+#: src/sequencemodel.cpp:710
+msgid "Ext.Loop Points Request"
+msgstr "Solicitud de puntos de repetición extra"
+
+#: src/sequencemodel.cpp:718
 msgid "Identity Request"
 msgstr "Solicitud de identificación"
 
-#: src/sequencemodel.cpp:722
-msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
-msgstr "Respuesta de identificación %1 %2 %3 %4 %5 %6 %7 %8 %9 "
+#: src/sequencemodel.cpp:720
+msgid "Identity Reply"
+msgstr "Respuesta de identificación"
 
-#: src/sequencemodel.cpp:735
-msgid "Dump Request: %1"
-msgstr "Solicitud de volcado: %1"
+#: src/sequencemodel.cpp:740
+msgid "Dump Request"
+msgstr "Solicitud de volcado"
 
-#: src/sequencemodel.cpp:737
-msgid "Bulk Dump: %1"
-msgstr "Volcado masivo: %1"
+#: src/sequencemodel.cpp:742
+msgid "Bulk Dump"
+msgstr "Volcado masivo"
 
-#: src/sequencemodel.cpp:739
-msgid "Note Change: %1"
-msgstr "Cambio de Nota: %1"
+#: src/sequencemodel.cpp:744
+msgid "Note Change"
+msgstr "Cambio de nota"
 
-#: src/sequencemodel.cpp:747
+#: src/sequencemodel.cpp:746
+msgid "Tuning Dump Request"
+msgstr "Solicitud de volcado de afinación"
+
+#: src/sequencemodel.cpp:748
+msgid "Key-based Tuning Dump"
+msgstr "Volcado de afinación por tecla"
+
+#: src/sequencemodel.cpp:750
+msgid "Scale/Octave Dump 1b"
+msgstr "Volcado de escala/octava  1b"
+
+#: src/sequencemodel.cpp:752
+msgid "Scale/Octave Dump 2b"
+msgstr "Volcado de escala/octava 2b"
+
+#: src/sequencemodel.cpp:754
+msgid "Single Note Change"
+msgstr "Cambio de una nota"
+
+#: src/sequencemodel.cpp:756
+msgid "Scale/Octave Tuning 1b"
+msgstr "Afinación de escala/octava 1b"
+
+#: src/sequencemodel.cpp:758
+msgid "Scale/Octave Tuning 2b"
+msgstr "Afinación de escala/octava 2b"
+
+#: src/sequencemodel.cpp:766
 msgid "GM On"
 msgstr "GM activado"
 
-#: src/sequencemodel.cpp:749
+#: src/sequencemodel.cpp:768
 msgid "GM Off"
 msgstr "GM desactivado"
 
-#: src/sequencemodel.cpp:751
+#: src/sequencemodel.cpp:770
 msgid "GM2 On"
 msgstr "GM2 activado"
 
-#: src/sequencemodel.cpp:770
-msgid "Bar Marker: %1"
-msgstr "Barra de compás: %1"
+#: src/sequencemodel.cpp:778
+msgid "DLS On"
+msgstr "DLS activado"
 
-#: src/sequencemodel.cpp:776
-msgid "Time Signature: %1 (%2/%3)"
-msgstr "Medida del compás: %1 (%2/%3)"
+#: src/sequencemodel.cpp:780
+msgid "DLS Off"
+msgstr "DLS desactivado"
 
-#: src/sequencemodel.cpp:789
+#: src/sequencemodel.cpp:782
+msgid "DLS Voice Alloc. Off"
+msgstr "DLS reserva voz desact."
+
+#: src/sequencemodel.cpp:784
+msgid "DLS Voice Alloc. On"
+msgstr "DLS reserva voz activada"
+
+#: src/sequencemodel.cpp:792
+msgid "Open"
+msgstr "Abrir"
+
+#: src/sequencemodel.cpp:794
+msgid "Select Contents"
+msgstr "Seleccionar contenidos"
+
+#: src/sequencemodel.cpp:796
+msgid "Open and Select"
+msgstr "Abrir y seleccionar"
+
+#: src/sequencemodel.cpp:798
+msgid "Close"
+msgstr "Cerrar"
+
+#: src/sequencemodel.cpp:813
+msgid "Full Frame"
+msgstr "Cuadro completo"
+
+#: src/sequencemodel.cpp:815
+msgid "User Bits"
+msgstr "Bits de usuario"
+
+#: src/sequencemodel.cpp:823
+msgid "MSC Extension"
+msgstr "Extensión MSC"
+
+#: src/sequencemodel.cpp:825
+msgid "MSC Cmd.%1"
+msgstr "Mandato MSC %1"
+
+#: src/sequencemodel.cpp:831
+msgid "Bar Marker"
+msgstr "Barra de compás"
+
+#: src/sequencemodel.cpp:842
 msgctxt "sound volume"
-msgid "Volume: %1"
-msgstr "Volumen: %1"
+msgid "Volume"
+msgstr "Volumen"
 
-#: src/sequencemodel.cpp:791
+#: src/sequencemodel.cpp:844
 msgctxt "sound balance"
-msgid "Balance: %1"
-msgstr "Balance: %1"
+msgid "Balance"
+msgstr "Balance"
 
-#: src/sequencemodel.cpp:907
+#: src/sequencemodel.cpp:846
+msgid "Fine Tuning"
+msgstr "Afinación fina"
+
+#: src/sequencemodel.cpp:848
+msgid "Coarse Tuning"
+msgstr "Afinación basta"
+
+#: src/sequencemodel.cpp:850
+msgid "Global Parameter"
+msgstr "Parámetro global"
+
+#: src/sequencemodel.cpp:860
+msgid "Response %1"
+msgstr "Respuesta %1"
+
+#: src/sequencemodel.cpp:864
+msgid "Single Note"
+msgstr "Nota simple"
+
+#: src/sequencemodel.cpp:866
+msgid "Single Note with Bank"
+msgstr "Nota simple con banco"
+
+#: src/sequencemodel.cpp:868
+msgid "Scale/Octave 1b"
+msgstr "Escala/octava 1b"
+
+#: src/sequencemodel.cpp:870
+msgid "Scale/Octave 2b"
+msgstr "Escala/octava 2b"
+
+#: src/sequencemodel.cpp:882
+msgid "Controller"
+msgstr "Controlador"
+
+#: src/sequencemodel.cpp:1036
 msgid "Event type %1"
 msgstr "Evento de tipo %1"
 
-#: src/sequencemodel.cpp:927 src/sequencemodel.cpp:929
-#: src/sequencemodel.cpp:1140 src/sequencemodel.cpp:1143
+#: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
+#: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "C"
 msgstr "Do"
 
-#: src/sequencemodel.cpp:927
+#: src/sequencemodel.cpp:1056
 msgid "C♯"
 msgstr "Do♯"
 
-#: src/sequencemodel.cpp:927 src/sequencemodel.cpp:929
-#: src/sequencemodel.cpp:1140 src/sequencemodel.cpp:1143
+#: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
+#: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "D"
 msgstr "Re"
 
-#: src/sequencemodel.cpp:927
+#: src/sequencemodel.cpp:1056
 msgid "D♯"
 msgstr "Re♯"
 
-#: src/sequencemodel.cpp:927 src/sequencemodel.cpp:929
-#: src/sequencemodel.cpp:1141 src/sequencemodel.cpp:1144
+#: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
+#: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "E"
 msgstr "Mi"
 
-#: src/sequencemodel.cpp:928 src/sequencemodel.cpp:930
-#: src/sequencemodel.cpp:1139 src/sequencemodel.cpp:1143
+#: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
+#: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1272
 msgid "F"
 msgstr "Fa"
 
-#: src/sequencemodel.cpp:928
+#: src/sequencemodel.cpp:1057
 msgid "F♯"
 msgstr "Fa♯"
 
-#: src/sequencemodel.cpp:928 src/sequencemodel.cpp:930
-#: src/sequencemodel.cpp:1140 src/sequencemodel.cpp:1143
+#: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
+#: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "G"
 msgstr "Sol"
 
-#: src/sequencemodel.cpp:928
+#: src/sequencemodel.cpp:1057
 msgid "G♯"
 msgstr "Sol♯"
 
-#: src/sequencemodel.cpp:928 src/sequencemodel.cpp:930
-#: src/sequencemodel.cpp:1140 src/sequencemodel.cpp:1144
+#: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
+#: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1273
 msgid "A"
 msgstr "La"
 
-#: src/sequencemodel.cpp:928
+#: src/sequencemodel.cpp:1057
 msgid "A♯"
 msgstr "La♯"
 
-#: src/sequencemodel.cpp:928 src/sequencemodel.cpp:930
-#: src/sequencemodel.cpp:1141 src/sequencemodel.cpp:1144
+#: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
+#: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "B"
 msgstr "Si"
 
-#: src/sequencemodel.cpp:929
+#: src/sequencemodel.cpp:1058
 msgid "D♭"
 msgstr "Re♭"
 
-#: src/sequencemodel.cpp:929
+#: src/sequencemodel.cpp:1058
 msgid "E♭"
 msgstr "Mi♭"
 
-#: src/sequencemodel.cpp:930
+#: src/sequencemodel.cpp:1059
 msgid "G♭"
 msgstr "Sol♭"
 
-#: src/sequencemodel.cpp:930
+#: src/sequencemodel.cpp:1059
 msgid "A♭"
 msgstr "La♭"
 
-#: src/sequencemodel.cpp:930
+#: src/sequencemodel.cpp:1059
 msgid "B♭"
 msgstr "Si♭"
 
-#: src/sequencemodel.cpp:1058
+#: src/sequencemodel.cpp:1187
 msgid "%1 bpm"
 msgstr "%1 npm"
 
-#: src/sequencemodel.cpp:1080
+#: src/sequencemodel.cpp:1209
 msgid "Text:1"
 msgstr "Texto:1"
 
-#: src/sequencemodel.cpp:1082
+#: src/sequencemodel.cpp:1211
 msgid "Copyright:2"
 msgstr "Copyright:2"
 
-#: src/sequencemodel.cpp:1084
+#: src/sequencemodel.cpp:1213
 msgctxt "song or track name"
 msgid "Name:3"
 msgstr "Nombre:3"
 
-#: src/sequencemodel.cpp:1086
+#: src/sequencemodel.cpp:1215
 msgid "Instrument:4"
 msgstr "Instrumento:4"
 
-#: src/sequencemodel.cpp:1088
+#: src/sequencemodel.cpp:1217
 msgid "Lyric:5"
 msgstr "Letra:5"
 
-#: src/sequencemodel.cpp:1090
+#: src/sequencemodel.cpp:1219
 msgid "Marker:6"
 msgstr "Marcador:6"
 
-#: src/sequencemodel.cpp:1092
+#: src/sequencemodel.cpp:1221
 msgid "Cue:7"
 msgstr "Señal:7"
 
-#: src/sequencemodel.cpp:1114
+#: src/sequencemodel.cpp:1243
 msgid "%1/%2"
 msgstr "%1/%2"
 
-#: src/sequencemodel.cpp:1122
+#: src/sequencemodel.cpp:1251
 msgid "%1 clocks per click, %2 32nd per quarter"
 msgstr "%1 tiempos por clic, %2 fusas por negra"
 
-#: src/sequencemodel.cpp:1131
+#: src/sequencemodel.cpp:1260
 msgid "%1%2"
 msgstr "%1%2"
 
-#: src/sequencemodel.cpp:1138
+#: src/sequencemodel.cpp:1267
 msgid "C flat"
 msgstr "Do bemol"
 
-#: src/sequencemodel.cpp:1138
+#: src/sequencemodel.cpp:1267
 msgid "G flat"
 msgstr "Sol bemol"
 
-#: src/sequencemodel.cpp:1138
+#: src/sequencemodel.cpp:1267
 msgid "D flat"
 msgstr "Re bemol"
 
-#: src/sequencemodel.cpp:1139 src/sequencemodel.cpp:1142
+#: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "A flat"
 msgstr "La bemol"
 
-#: src/sequencemodel.cpp:1139 src/sequencemodel.cpp:1142
+#: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "E flat"
 msgstr "Mi bemol"
 
-#: src/sequencemodel.cpp:1139 src/sequencemodel.cpp:1142
+#: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "B flat"
 msgstr "Si bemol"
 
-#: src/sequencemodel.cpp:1141 src/sequencemodel.cpp:1144
+#: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "F sharp"
 msgstr "Fa sostenido"
 
-#: src/sequencemodel.cpp:1141 src/sequencemodel.cpp:1144
+#: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "C sharp"
 msgstr "Do sostenido"
 
-#: src/sequencemodel.cpp:1145
+#: src/sequencemodel.cpp:1274
 msgid "G sharp"
 msgstr "Sol sostenido"
 
-#: src/sequencemodel.cpp:1145
+#: src/sequencemodel.cpp:1274
 msgid "D sharp"
 msgstr "Re sostenido"
 
-#: src/sequencemodel.cpp:1145
+#: src/sequencemodel.cpp:1274
 msgid "A sharp"
 msgstr "La sostenido"
 
-#: src/sequencemodel.cpp:1150
+#: src/sequencemodel.cpp:1279
 msgctxt "major mode scale"
 msgid "major"
 msgstr "mayor"
 
-#: src/sequencemodel.cpp:1151
+#: src/sequencemodel.cpp:1280
 msgctxt "minor mode scale"
 msgid "minor"
 msgstr "menor"
 
-#: src/sequencemodel.cpp:1159
+#: src/sequencemodel.cpp:1288
 msgid "%1:%2:%3:%4:%5"
 msgstr "%1:%2:%3:%4:%5"
 
-#: src/sequencemodel.cpp:1478
+#: src/sequencemodel.cpp:1610
 msgid "SMF type %1"
 msgstr "SMF de tipo %1"
 
-#: src/sequencemodel.cpp:1707 src/sequencemodel.cpp:1935
+#: src/sequencemodel.cpp:1846 src/sequencemodel.cpp:2074
 msgid " at offset %1"
 msgstr " en la posición %1"
 
-#: src/sequencemodel.cpp:1940
+#: src/sequencemodel.cpp:2079
 msgid "WRK file version %1.%2"
 msgstr "Archivo WRK versión %1.%2"
 
-#: src/sequencemodel.cpp:2335
+#: src/sequencemodel.cpp:2475
 msgid "Overture File"
 msgstr "Archivo de Overture"
 
@@ -1413,6 +1611,42 @@ msgstr "Pedro López-Cabanillas"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "plcl@users.sourceforge.net"
+
+#~ msgid "MTC Setup"
+#~ msgstr "Configuración de MTC"
+
+#~ msgid "GM Master"
+#~ msgstr "GM Maestro"
+
+#~ msgid "MMC"
+#~ msgstr "MMC"
+
+#~ msgid "User Bits: %1 %2 %3 %4 %5 %6 %7 %8 %9"
+#~ msgstr "Bits de Usuario: %1 %2 %3 %4 %5 %6 %7 %8 %9"
+
+#~ msgid "Track Record Ready:"
+#~ msgstr "Grabación de pista preparada:"
+
+#~ msgid "Track Sync Monitor:"
+#~ msgstr "Monitor de sincronización de pista:"
+
+#~ msgid "Track Input Monitor:"
+#~ msgstr "Monitor de entrada de pista:"
+
+#~ msgid "Track Mute:"
+#~ msgstr "Silenciamiento de pista: "
+
+#~ msgid "Locate: %1 %2 %3 %4 %5"
+#~ msgstr "Localización: %1 %2 %3 %4 %5"
+
+#~ msgid "Multiple Loop Points"
+#~ msgstr "Puntos de repetición múltiples"
+
+#~ msgid "Identity Reply: %1 %2 %3 %4 %5 %6 %7 %8 %9"
+#~ msgstr "Respuesta de identificación %1 %2 %3 %4 %5 %6 %7 %8 %9 "
+
+#~ msgid "Time Signature: %1 (%2/%3)"
+#~ msgstr "Medida del compás: %1 (%2/%3)"
 
 #~ msgid "KMidimon Preferences"
 #~ msgstr "Preferencias"
