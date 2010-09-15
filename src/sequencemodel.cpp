@@ -103,7 +103,7 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_smf, SIGNAL(signalSMFKeyPress(int,int,int)),
                    SLOT(keyPressEvent(int,int,int)));
     connect(m_smf, SIGNAL(signalSMFCtlChange(int,int,int)),
-                   SLOT(ctlChangeEvent(int,int,int)));
+                   SLOT(smfCtlChangeEvent(int,int,int)));
     connect(m_smf, SIGNAL(signalSMFPitchBend(int,int)),
                    SLOT(pitchBendEvent(int,int)));
     connect(m_smf, SIGNAL(signalSMFProgram(int,int)),
@@ -161,7 +161,7 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_wrk, SIGNAL(signalWRKKeyPress(int,long,int,int,int)),
                    SLOT(keyPressEvent(int,long,int,int,int)));
     connect(m_wrk, SIGNAL(signalWRKCtlChange(int,long,int,int,int)),
-                   SLOT(ctlChangeEvent(int,long,int,int,int)));
+                   SLOT(wrkCtlChangeEvent(int,long,int,int,int)));
     connect(m_wrk, SIGNAL(signalWRKPitchBend(int,long,int,int)),
                    SLOT(pitchBendEvent(int,long,int,int)));
     connect(m_wrk, SIGNAL(signalWRKProgram(int,long,int,int)),
@@ -215,7 +215,7 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_ove, SIGNAL(signalOVEKeyPress(int,long,int,int,int)),
                    SLOT(keyPressEvent(int,long,int,int,int)));
     connect(m_ove, SIGNAL(signalOVECtlChange(int,long,int,int,int)),
-                   SLOT(ctlChangeEvent(int,long,int,int,int)));
+                   SLOT(wrkCtlChangeEvent(int,long,int,int,int)));
     connect(m_ove, SIGNAL(signalOVEPitchBend(int,long,int,int)),
                    SLOT(pitchBendEvent(int,long,int,int)));
     connect(m_ove, SIGNAL(signalOVEProgram(int,long,int,int)),
@@ -249,10 +249,6 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_ove, SIGNAL(signalOVEExpression(int,long,int,const QString&)),
                    SLOT(expression(int,long,int,const QString&)));
 
-    for(int i=0; i<16; ++i) {
-        m_lastBank[i] = 0;
-        m_lastPatch[i] = 0;
-    }
 
     QString stdins =  KStandardDirs::locate("appdata", "standards.ins");
     if (!stdins.isEmpty())
@@ -426,6 +422,12 @@ SequenceModel::clear()
     m_bars.clear();
     m_tempos.clear();
     m_loadingMessages.clear();
+    m_lastCtlMSB = 0;
+    m_lastCtlLSB = 0;
+    for (int i=0; i<16; ++i) {
+        m_lastBank[i] = 0;
+        m_lastPatch[i] = 0;
+    }
 }
 
 void
@@ -1504,7 +1506,7 @@ SequenceModel::loadFromFile(const QString& path)
     } else {
         m_appendFunc = 0;
         m_reportsFilePos = false;
-        kDebug() << "unrecognized format";
+        kDebug() << "unrecognized format:" << type->name();
         return;
     }
     m_tempSong.sort();
@@ -1674,8 +1676,10 @@ SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
         else if (m_ins != NULL)
             bsm = m_ins->bankSelMethod();
 
-        if (ctl == MIDI_CTL_MSB_BANK)
+        if (ctl == MIDI_CTL_MSB_BANK) {
             m_lastCtlMSB = value;
+            m_lastCtlLSB = 0;
+        }
         if (ctl == MIDI_CTL_LSB_BANK)
             m_lastCtlLSB = value;
 
@@ -1691,7 +1695,12 @@ SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
                 break;
         }
     }
+}
 
+void
+SequenceModel::smfCtlChangeEvent(int chan, int ctl, int value)
+{
+    ctlChangeEvent(chan, ctl, value);
     SequencerEvent* ev = new ControllerEvent(chan, ctl, value);
     (this->*m_appendFunc)(0, 0, ev);
 }
@@ -2138,12 +2147,13 @@ void SequenceModel::keyPressEvent(int track, long time, int chan, int pitch, int
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::ctlChangeEvent(int track, long time, int chan, int ctl, int value)
+void SequenceModel::wrkCtlChangeEvent(int track, long time, int chan, int ctl, int value)
 {
     int channel = chan;
     TrackMapRec rec = m_trackMap[track];
     if (rec.channel > -1)
         channel = rec.channel;
+    ctlChangeEvent(channel, ctl, value);
     SequencerEvent* ev = new ControllerEvent(channel, ctl, value);
     (this->*m_appendFunc)(time, track, ev);
 }
@@ -2340,12 +2350,12 @@ void SequenceModel::trackVol(int track, int vol)
     if (rec.channel > -1)
         channel = rec.channel;
     if (vol < 128)
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, vol);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, vol);
     else {
         lsb = vol % 0x80;
         msb = vol / 0x80;
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, msb);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, msb);
     }
 }
 
@@ -2365,14 +2375,14 @@ void SequenceModel::trackBank(int track, int bank)
     case 0:
         lsb = bank % 0x80;
         msb = bank / 0x80;
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, msb);
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, lsb);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, msb);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, lsb);
         break;
     case 1:
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, bank);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, bank);
         break;
     case 2:
-        ctlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, bank);
+        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, bank);
         break;
     default: /* if method is 3 or above, do nothing */
         break;
@@ -2497,12 +2507,12 @@ void SequenceModel::oveTrackVol(int track, int channel, int vol)
     if (rec.channel > -1)
         ch = rec.channel;
     if (vol < 128)
-        ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, vol);
+        wrkCtlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, vol);
     else {
         lsb = vol % 0x80;
         msb = vol / 0x80;
-        ctlChangeEvent(track, 0, ch, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
-        ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, msb);
+        wrkCtlChangeEvent(track, 0, ch, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
+        wrkCtlChangeEvent(track, 0, ch, MIDI_CTL_MSB_MAIN_VOLUME, msb);
     }
 }
 
@@ -2516,8 +2526,8 @@ void SequenceModel::oveTrackBank(int track, int channel, int bank)
         ch = rec.channel;
     lsb = bank % 0x80;
     msb = bank / 0x80;
-    ctlChangeEvent(track, 0, ch, MIDI_CTL_MSB_BANK, msb);
-    ctlChangeEvent(track, 0, ch, MIDI_CTL_LSB_BANK, lsb);
+    wrkCtlChangeEvent(track, 0, ch, MIDI_CTL_MSB_BANK, msb);
+    wrkCtlChangeEvent(track, 0, ch, MIDI_CTL_LSB_BANK, lsb);
 }
 
 void SequenceModel::oveTextEvent(int track, long tick, const QString& data)

@@ -1,5 +1,6 @@
 2010-09-15 00:00 plcl
     * revised universal sysex messages translation
+    * revised bank/patch messages translation
 
 2010-09-14 00:00 plcl
     * better reporting of file loading errors

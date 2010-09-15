@@ -137,6 +137,7 @@ public:
     int getTrackForIndex(int idx);
 
     QString getLoadingMessages() const { return m_loadingMessages; }
+    void ctlChangeEvent(int chan, int ctl, int value);
 
 public slots:
     /* SMF slots */
@@ -147,7 +148,7 @@ public slots:
     void noteOnEvent(int chan, int pitch, int vol);
     void noteOffEvent(int chan, int pitch, int vol);
     void keyPressEvent(int chan, int pitch, int press);
-    void ctlChangeEvent(int chan, int ctl, int value);
+    void smfCtlChangeEvent(int chan, int ctl, int value);
     void pitchBendEvent(int chan, int value);
     void programEvent(int chan, int patch);
     void chanPressEvent(int chan, int press);
@@ -180,7 +181,7 @@ public slots:
     void globalVars();
     void noteEvent(int track, long time, int chan, int pitch, int vol, int dur);
     void keyPressEvent(int track, long time, int chan, int pitch, int press);
-    void ctlChangeEvent(int track, long time, int chan, int ctl, int value);
+    void wrkCtlChangeEvent(int track, long time, int chan, int ctl, int value);
     void pitchBendEvent(int track, long time, int chan, int value);
     void programEvent(int track, long time, int chan, int patch);
     void chanPressEvent(int track, long time, int chan, int press);
