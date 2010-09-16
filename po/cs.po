@@ -2,14 +2,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Pavel Fric <pavelfric@seznam.cz>, 2009.
+# Pavel Fric <fripohled@blogspot.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
-"atid=731542&group_id=134956\n"
+"Report-Msgid-Bugs-To: http://sourceforge."
+"net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2010-09-15 22:29+0200\n"
-"PO-Revision-Date: 2009-12-14 19:46+0100\n"
-"Last-Translator: Pavel\n"
+"PO-Revision-Date: 2010-09-16 12:07+0200\n"
+"Last-Translator: Pavel Fric <fripohled@blogspot.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: src/configdialog.cpp:31
 msgctxt "@title:window"
 msgid "KMidimon Configuration"
-msgstr ""
+msgstr "Nastavení KMidimonu"
 
 #: src/configdialog.cpp:104
 msgctxt "@item:inlistbox Default MIDI text encoding"
@@ -64,9 +65,8 @@ msgid "SMF"
 msgstr "SMF"
 
 #: src/eventfilter.cpp:63
-#, fuzzy
 msgid "Note"
-msgstr "Nota zapnuta"
+msgstr "Nota"
 
 #: src/eventfilter.cpp:64
 msgid "Note on"
@@ -303,9 +303,8 @@ msgstr "Data 2"
 #. i18n: file: src/configdialogbase.ui:352
 #. i18n: ectx: property (text), widget (QCheckBox, m_showData3Column)
 #: src/kmidimon.cpp:150 src/sequencemodel.cpp:292 po/rc.cpp:117
-#, fuzzy
 msgid "Data 3"
-msgstr "Data 1"
+msgstr "Data 3"
 
 #: src/kmidimon.cpp:165
 msgid "Exit the application"
@@ -478,9 +477,8 @@ msgid "Mute (silence) the track"
 msgstr "Ztlumit (ztišit) stopu"
 
 #: src/kmidimon.cpp:371
-#, fuzzy
 msgid "Load file"
-msgstr "Nahrát soubor MIDI"
+msgstr "Nahrát soubor"
 
 #: src/kmidimon.cpp:372
 msgid "Loading..."
@@ -488,11 +486,11 @@ msgstr "Nahrává se ..."
 
 #: src/kmidimon.cpp:408
 msgid "Warning, this file may be non-standard or damaged.<br/>"
-msgstr ""
+msgstr "Varování: tento soubor je buď nestandardní nebo poškozený.<br/>"
 
 #: src/kmidimon.cpp:409
 msgid "File parsing error"
-msgstr ""
+msgstr "Chyba při zpracování souboru"
 
 #: src/kmidimon.cpp:419
 msgid "Open MIDI file"
@@ -525,13 +523,12 @@ msgid "playing"
 msgstr "Přehrává se"
 
 #: src/kmidimon.cpp:633
-#, fuzzy
 msgid "(no file)"
-msgstr "Nahrát soubor MIDI"
+msgstr "(žádný soubor)"
 
 #: src/kmidimon.cpp:634
 msgid "%1 [%2]"
-msgstr ""
+msgstr "%1 [%2]"
 
 #: src/kmidimon.cpp:743 src/kmidimon.cpp:784
 msgctxt "song track"
@@ -555,15 +552,14 @@ msgid "No file loaded"
 msgstr "Nebyl nahrán žádný soubor"
 
 #: src/kmidimon.cpp:849
-#, fuzzy
 msgid ""
 "File: <b>%1</b><br/>Created: <b>%2</b><br/>Modified: <b>%3</b><br/>Format: "
 "<b>%4</b><br/>Number of tracks: <b>%5</b><br/>Number of events: <b>%6</b><br/"
 ">Division: <b>%7 ppq</b><br/>Initial tempo: <b>%8 bpm</b><br/>Duration: <b>%"
 "9</b>"
 msgstr ""
-"Soubor: <b>%1</b><br/>Vytvořeno: <b>%2</b><br/>Upraveno: <b>%3</b><br/>SMF "
-"formát: <b>%4</b><br/>Počet skladeb: <b>%5</b><br/>Počet událostí: <b>%6</"
+"Soubor: <b>%1</b><br/>Vytvořeno: <b>%2</b><br/>Upraveno: <b>%3</b><br/> "
+"Formát: <b>%4</b><br/>Počet skladeb: <b>%5</b><br/>Počet událostí: <b>%6</"
 "b><br/>Rozdělení: <b>%7 ppq</b><br/>Počáteční tempo: <b>%8 úzm</b><br/>Doba "
 "trvání: <b>%9</b>"
 
@@ -580,9 +576,8 @@ msgid "KMidimon"
 msgstr "KMidimon"
 
 #: src/main.cpp:42
-#, fuzzy
 msgid "(C) 2005-2010 Pedro Lopez-Cabanillas"
-msgstr "(C) 2005-2009 Pedro Lopez-Cabanillas"
+msgstr "(C) 2005-2010 Pedro Lopez-Cabanillas"
 
 #: src/main.cpp:46
 msgid "Pedro Lopez-Cabanillas"
@@ -598,7 +593,7 @@ msgstr "Dokumentace, dobré nápady a návrhy"
 
 #: src/main.cpp:52
 msgid "File to open"
-msgstr ""
+msgstr "Soubor k otevření"
 
 #: src/sequencemodel.cpp:284
 msgid "Event kind"
@@ -627,29 +622,26 @@ msgstr "Zařízení %1"
 
 #: src/sequencemodel.cpp:511 src/sequencemodel.cpp:515
 msgid "Sample Dump"
-msgstr "Výpis obsahu paměti vzorků"
+msgstr "Vyklopení vzorků"
 
 #: src/sequencemodel.cpp:513 src/sequencemodel.cpp:545
 msgid "MTC"
 msgstr "MTC"
 
 #: src/sequencemodel.cpp:517
-#, fuzzy
 msgctxt "General Info"
 msgid "Gen.Info"
 msgstr "Gen.Info"
 
 #: src/sequencemodel.cpp:519
-#, fuzzy
 msgid "File Dump"
-msgstr "Výpis obsahu paměti vzorků"
+msgstr "Vyklopení souboru"
 
 #: src/sequencemodel.cpp:521 src/sequencemodel.cpp:559
 msgid "Tuning"
 msgstr "Intonace"
 
 #: src/sequencemodel.cpp:523
-#, fuzzy
 msgctxt "General MIDI mode"
 msgid "GM Mode"
 msgstr "Režim GM"
@@ -657,17 +649,16 @@ msgstr "Režim GM"
 #: src/sequencemodel.cpp:525
 msgctxt "Downloadable Sounds"
 msgid "DLS"
-msgstr ""
+msgstr "DLS"
 
 #: src/sequencemodel.cpp:527
 msgctxt "File Reference"
 msgid "File Ref."
-msgstr ""
+msgstr "Dop. souboru"
 
 #: src/sequencemodel.cpp:529
-#, fuzzy
 msgid "End of File"
-msgstr "Nahrát soubor MIDI"
+msgstr "Konec souboru"
 
 #: src/sequencemodel.cpp:531
 msgid "Wait"
@@ -686,52 +677,48 @@ msgid "ACK"
 msgstr "ACK"
 
 #: src/sequencemodel.cpp:547
-#, fuzzy
 msgid "Show Control"
-msgstr "O&vládání"
+msgstr "Ukázat ovládání"
 
 #: src/sequencemodel.cpp:549
 msgid "Notation"
 msgstr "Notový zápis"
 
 #: src/sequencemodel.cpp:551
-#, fuzzy
 msgid "Device Control"
-msgstr "O&vládání"
+msgstr "Ovládání zařízení"
 
 #: src/sequencemodel.cpp:553
-#, fuzzy
 msgid "MTC Cueing"
-msgstr "Intonace"
+msgstr "Příposlech při nahrávání MTC"
 
 #: src/sequencemodel.cpp:555
 msgid "MMC Command"
-msgstr ""
+msgstr "Příkaz MMC"
 
 #: src/sequencemodel.cpp:557
 msgid "MMC Response"
-msgstr ""
+msgstr "Odpověď MMC"
 
 #: src/sequencemodel.cpp:561
 msgctxt "General MIDI 2 Controller Destination"
 msgid "GM2 Destination"
-msgstr ""
+msgstr "Cíl GM2"
 
 #: src/sequencemodel.cpp:563
-#, fuzzy
 msgctxt "Key-based Instrument Control"
 msgid "Instrument"
-msgstr "Nástroj: 4"
+msgstr "Nástroj"
 
 #: src/sequencemodel.cpp:565
 msgctxt "Scalable Polyphony MIDI MIP Message"
 msgid "Polyphony"
-msgstr ""
+msgstr "Polyfonie"
 
 #: src/sequencemodel.cpp:567
 msgctxt "Mobile Phone Control Message"
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Přenosný telefon"
 
 #: src/sequencemodel.cpp:583
 msgctxt "MTC special setup"
@@ -787,9 +774,8 @@ msgid "Cue Points With Info"
 msgstr "Body narážek s údaji"
 
 #: src/sequencemodel.cpp:609
-#, fuzzy
 msgid "Delete Cue Point"
-msgstr "Smazat body narážek"
+msgstr "Smazat bod narážky"
 
 #: src/sequencemodel.cpp:611
 msgid "Event Name"
@@ -800,12 +786,10 @@ msgid "Play"
 msgstr "Přehrát"
 
 #: src/sequencemodel.cpp:627
-#, fuzzy
 msgid "Deferred play"
-msgstr "Odložené přehrávání"
+msgstr "Pozdržené přehrávání"
 
 #: src/sequencemodel.cpp:629
-#, fuzzy
 msgid "Fast forward"
 msgstr "Rychle vpřed"
 
@@ -814,7 +798,6 @@ msgid "Rewind"
 msgstr "Přetočit zpět"
 
 #: src/sequencemodel.cpp:633
-#, fuzzy
 msgid "Punch in"
 msgstr "Začít přepis oblasti"
 
@@ -823,63 +806,56 @@ msgid "Punch out"
 msgstr "Ukončit přepis oblasti"
 
 #: src/sequencemodel.cpp:637
-#, fuzzy
 msgid "Pause recording"
-msgstr "Nahrává se"
+msgstr "Pozastavit nahrávání"
 
 #: src/sequencemodel.cpp:641
 msgid "Eject"
 msgstr "Vysunout"
 
 #: src/sequencemodel.cpp:643
-#, fuzzy
 msgid "Chase"
-msgstr "Kanál"
+msgstr "Stíhat"
 
 #: src/sequencemodel.cpp:645
-#, fuzzy
 msgid "Error reset"
-msgstr "Chyba"
+msgstr "Nové vysázení chyby"
 
 #: src/sequencemodel.cpp:649
-#, fuzzy
 msgid "Write"
-msgstr "Počkat"
+msgstr "Zapsat"
 
 #: src/sequencemodel.cpp:651
 msgid "Masked Write"
-msgstr ""
+msgstr "Skrytý zápis"
 
 #: src/sequencemodel.cpp:653
-#, fuzzy
 msgid "Read"
-msgstr "Nahrát"
+msgstr "Číst"
 
 #: src/sequencemodel.cpp:655
 msgid "Update"
-msgstr ""
+msgstr "Obnovit"
 
 #: src/sequencemodel.cpp:657
-#, fuzzy
 msgid "Locate"
-msgstr "Nota zapnuta"
+msgstr "Najít"
 
 #: src/sequencemodel.cpp:659
 msgid "Variable play"
-msgstr ""
+msgstr "Měnitelné přehrávání"
 
 #: src/sequencemodel.cpp:661
 msgid "Search"
-msgstr ""
+msgstr "Hledat"
 
 #: src/sequencemodel.cpp:663
 msgid "Shuttle"
-msgstr ""
+msgstr "Jezdit tam a zpět"
 
 #: src/sequencemodel.cpp:665
-#, fuzzy
 msgid "Step"
-msgstr "Zastavit"
+msgstr "Krok"
 
 #: src/sequencemodel.cpp:687 src/sequencemodel.cpp:728
 msgid "Header"
@@ -894,9 +870,8 @@ msgid "Request"
 msgstr "Požadavek"
 
 #: src/sequencemodel.cpp:698
-#, fuzzy
 msgid "Loop Points Send"
-msgstr "Požadavek na body smyčky"
+msgstr "Odeslání bodů smyčky"
 
 #: src/sequencemodel.cpp:700
 msgid "Loop Points Request"
@@ -904,206 +879,185 @@ msgstr "Požadavek na body smyčky"
 
 #: src/sequencemodel.cpp:702
 msgid "Sample Name Send"
-msgstr ""
+msgstr "Odeslání názvu vzorku"
 
 #: src/sequencemodel.cpp:704
 msgid "Sample Name Request"
-msgstr ""
+msgstr "Požadavek na název vzorku"
 
 #: src/sequencemodel.cpp:706
 msgid "Ext.Dump Header"
-msgstr ""
+msgstr "Hlavička vnějšího vyklopení"
 
 #: src/sequencemodel.cpp:708
-#, fuzzy
 msgid "Ext.Loop Points Send"
-msgstr "Požadavek na body smyčky"
+msgstr "Odeslání bodů vnější smyčky"
 
 #: src/sequencemodel.cpp:710
-#, fuzzy
 msgid "Ext.Loop Points Request"
-msgstr "Požadavek na body smyčky"
+msgstr "Požadavek na body vnější smyčky"
 
 #: src/sequencemodel.cpp:718
 msgid "Identity Request"
 msgstr "Požadavek na totožnost"
 
 #: src/sequencemodel.cpp:720
-#, fuzzy
 msgid "Identity Reply"
-msgstr "Požadavek na totožnost"
+msgstr "Odezva na totožnost"
 
 #: src/sequencemodel.cpp:740
-#, fuzzy
 msgid "Dump Request"
-msgstr "Požadavek na výpis obsahu paměti: %1"
+msgstr "Požadavek na vyklopení "
 
 #: src/sequencemodel.cpp:742
-#, fuzzy
 msgid "Bulk Dump"
-msgstr "Hromadný výpis obsahu paměti: %1"
+msgstr "Hromadné vyklopení "
 
 #: src/sequencemodel.cpp:744
-#, fuzzy
 msgid "Note Change"
-msgstr "Změna noty: %1"
+msgstr "Změna noty"
 
 #: src/sequencemodel.cpp:746
-#, fuzzy
 msgid "Tuning Dump Request"
-msgstr "Žádost o naladění"
+msgstr "Žádost o vyklopení ladění"
 
 #: src/sequencemodel.cpp:748
 msgid "Key-based Tuning Dump"
-msgstr ""
+msgstr "Vyklopení ladění založené na tónině"
 
 #: src/sequencemodel.cpp:750
 msgid "Scale/Octave Dump 1b"
-msgstr ""
+msgstr "Vyklopení stupnice/oktávy 1b"
 
 #: src/sequencemodel.cpp:752
 msgid "Scale/Octave Dump 2b"
-msgstr ""
+msgstr "Vyklopení stupnice/oktávy 2b"
 
 #: src/sequencemodel.cpp:754
-#, fuzzy
 msgid "Single Note Change"
-msgstr "Změna noty: %1"
+msgstr "Změna noty"
 
 #: src/sequencemodel.cpp:756
 msgid "Scale/Octave Tuning 1b"
-msgstr ""
+msgstr "Ladění stupnice/oktávy 1b"
 
 #: src/sequencemodel.cpp:758
 msgid "Scale/Octave Tuning 2b"
-msgstr ""
+msgstr "Ladění stupnice/oktávy 2b"
 
 #: src/sequencemodel.cpp:766
 msgid "GM On"
-msgstr "GM zapnuto"
+msgstr "Zapnuto GM"
 
 #: src/sequencemodel.cpp:768
 msgid "GM Off"
-msgstr "GM vypnuto"
+msgstr "Vypnuto GM"
 
 #: src/sequencemodel.cpp:770
-#, fuzzy
 msgid "GM2 On"
-msgstr "GM zapnuto"
+msgstr "Zapnuto GM2"
 
 #: src/sequencemodel.cpp:778
 msgid "DLS On"
-msgstr ""
+msgstr "Zapnuto DLS"
 
 #: src/sequencemodel.cpp:780
-#, fuzzy
 msgid "DLS Off"
-msgstr "GM vypnuto"
+msgstr "Vypnuto DLS"
 
 #: src/sequencemodel.cpp:782
 msgid "DLS Voice Alloc. Off"
-msgstr ""
+msgstr "Vypnuto přiřazení hlasu DLS"
 
 #: src/sequencemodel.cpp:784
 msgid "DLS Voice Alloc. On"
-msgstr ""
+msgstr "DLS přiřazení hlasu zapnuto"
 
 #: src/sequencemodel.cpp:792
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: src/sequencemodel.cpp:794
-#, fuzzy
 msgid "Select Contents"
-msgstr "Smazat body narážek"
+msgstr "Vybrat obsah"
 
 #: src/sequencemodel.cpp:796
-#, fuzzy
 msgid "Open and Select"
-msgstr "Otevřít soubor na disku"
+msgstr "Otevřít a vybrat"
 
 #: src/sequencemodel.cpp:798
-#, fuzzy
 msgid "Close"
-msgstr "Ukazatel času"
+msgstr "Zavřít"
 
 #: src/sequencemodel.cpp:813
-#, fuzzy
 msgid "Full Frame"
-msgstr "Plný snímek: %1 %2 %3 %4"
+msgstr "Plný snímek"
 
 #: src/sequencemodel.cpp:815
 msgid "User Bits"
-msgstr ""
+msgstr "Uživatelské části"
 
 #: src/sequencemodel.cpp:823
 msgid "MSC Extension"
-msgstr ""
+msgstr "Rozšíření MSC"
 
 #: src/sequencemodel.cpp:825
 msgid "MSC Cmd.%1"
-msgstr ""
+msgstr "Příkaz %1 MSC"
 
 #: src/sequencemodel.cpp:831
-#, fuzzy
 msgid "Bar Marker"
-msgstr "Značka taktu: %1"
+msgstr "Značka taktu"
 
 #: src/sequencemodel.cpp:842
-#, fuzzy
 msgctxt "sound volume"
 msgid "Volume"
-msgstr "Hlasitost: %1"
+msgstr "Hlasitost"
 
 #: src/sequencemodel.cpp:844
-#, fuzzy
 msgctxt "sound balance"
 msgid "Balance"
-msgstr "Vyrovnání: %1"
+msgstr "Vyvážení"
 
 #: src/sequencemodel.cpp:846
-#, fuzzy
 msgid "Fine Tuning"
-msgstr "Intonace"
+msgstr "Jemné ladění"
 
 #: src/sequencemodel.cpp:848
-#, fuzzy
 msgid "Coarse Tuning"
-msgstr "Intonace"
+msgstr "Hrubé ladění"
 
 #: src/sequencemodel.cpp:850
 msgid "Global Parameter"
-msgstr ""
+msgstr "Obecný parametr"
 
 #: src/sequencemodel.cpp:860
 msgid "Response %1"
-msgstr ""
+msgstr "Odpověď %1"
 
 #: src/sequencemodel.cpp:864
 msgid "Single Note"
-msgstr ""
+msgstr "Jedna nota"
 
 #: src/sequencemodel.cpp:866
 msgid "Single Note with Bank"
-msgstr ""
+msgstr "Jedna nota s bankou"
 
 #: src/sequencemodel.cpp:868
 msgid "Scale/Octave 1b"
-msgstr ""
+msgstr "Stupnice/Oktáva 1b"
 
 #: src/sequencemodel.cpp:870
 msgid "Scale/Octave 2b"
-msgstr ""
+msgstr "Stupnice/Oktáva 2b"
 
 #: src/sequencemodel.cpp:882
-#, fuzzy
 msgid "Controller"
-msgstr "O&vládání"
+msgstr "Ovládání"
 
 #: src/sequencemodel.cpp:1036
-#, fuzzy
 msgid "Event type %1"
-msgstr "Bod konce události"
+msgstr "Typ události %1"
 
 #: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
 #: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
@@ -1182,7 +1136,7 @@ msgstr "B♭"
 
 #: src/sequencemodel.cpp:1187
 msgid "%1 bpm"
-msgstr ""
+msgstr "%1 úzm"
 
 #: src/sequencemodel.cpp:1209
 msgid "Text:1"
@@ -1215,16 +1169,15 @@ msgstr "Narážka: 7"
 
 #: src/sequencemodel.cpp:1243
 msgid "%1/%2"
-msgstr ""
+msgstr "%1/%2"
 
 #: src/sequencemodel.cpp:1251
-#, fuzzy
 msgid "%1 clocks per click, %2 32nd per quarter"
-msgstr "%1/%2, %3 hodiny na klepnutí %4 32tý na čtvrt"
+msgstr "%1 hodin na klepnutí, %2 32tý na čtvrt"
 
 #: src/sequencemodel.cpp:1260
 msgid "%1%2"
-msgstr ""
+msgstr "%1%2"
 
 #: src/sequencemodel.cpp:1267
 msgid "C flat"
@@ -1286,19 +1239,19 @@ msgstr "%1:%2:%3:%4:%5"
 
 #: src/sequencemodel.cpp:1610
 msgid "SMF type %1"
-msgstr ""
+msgstr "Typ SMF %1"
 
 #: src/sequencemodel.cpp:1846 src/sequencemodel.cpp:2074
 msgid " at offset %1"
-msgstr ""
+msgstr " na posunu %1"
 
 #: src/sequencemodel.cpp:2079
 msgid "WRK file version %1.%2"
-msgstr ""
+msgstr "Verze souboru WRK %1.%2"
 
 #: src/sequencemodel.cpp:2475
 msgid "Overture File"
-msgstr ""
+msgstr "Soubor s předehrou"
 
 #. i18n: file: src/configdialogbase.ui:62
 #. i18n: ectx: attribute (title), widget (QWidget, tabSequencer)
@@ -1348,7 +1301,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, m_requestRealtime)
 #: po/rc.cpp:21
 msgid "Request realtime priority for MIDI input"
-msgstr ""
+msgstr "Požadovat pro vstup MIDI přednost ve skutečném čase"
 
 #. i18n: file: src/configdialogbase.ui:178
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1610,7 +1563,7 @@ msgstr "Kódování textu SMF"
 #. i18n: ectx: property (text), widget (QCheckBox, m_resizeColumns)
 #: po/rc.cpp:156
 msgid "Resize columns automatically while recording events"
-msgstr ""
+msgstr "Změnit velikost sloupců při nahrávání událostí automaticky"
 
 #. i18n: file: src/kmidimonui.rc:7
 #. i18n: ectx: Menu (control)
