@@ -11,12 +11,13 @@ Summary:        KDE MIDI Monitor for ALSA Sequencer
 Group:          Productivity/Multimedia/Sound/Midi
 URL:            http://kmidimon.sourceforge.net
 Source:         %name-%version.tar.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-build
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  cmake
 BuildRequires:  alsa-devel
-BuildRequires:	libkde4-devel
+BuildRequires:  libkde4-devel
 BuildRequires:  libdrumstick-devel
-Requires:       drumstick
+Requires:       libdrumstick-file0
+#the above dependency provides the mime-type definitions that kmidimon handles 
 %kde4_runtime_requires
 
 %description
@@ -69,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/apps/*/*
 
 %changelog
+* Thu Sep 16 2010 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.4
+- Release 0.7.4
 * Tue Mar 9 2010 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.3
 - Release 0.7.3
 * Sun Dec 27 2009 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.2-2
