@@ -9,13 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://sourceforge."
 "net/tracker/?atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2010-09-15 22:29+0200\n"
-"PO-Revision-Date: 2010-09-16 12:07+0200\n"
-"Last-Translator: Pavel Fric <fripohled@blogspot.com>\n"
+"PO-Revision-Date: 2010-09-17 19:36+0200\n"
+"Last-Translator: \n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/configdialog.cpp:31
@@ -1251,7 +1251,7 @@ msgstr "Verze souboru WRK %1.%2"
 
 #: src/sequencemodel.cpp:2475
 msgid "Overture File"
-msgstr "Soubor s předehrou"
+msgstr "Soubor Overture"
 
 #. i18n: file: src/configdialogbase.ui:62
 #. i18n: ectx: attribute (title), widget (QWidget, tabSequencer)
