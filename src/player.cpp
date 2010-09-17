@@ -132,7 +132,7 @@ void Player::run()
                         last_tick = ev->getTick();
                         sendEchoEvent(last_tick);
                     }
-                    if (!m_song->mutedState(ev->getTag())) {
+                    if (!stopRequested() && !m_song->mutedState(ev->getTag())) {
                         SequencerEvent* ev2 = ev->clone();
                         ev2->setSource(m_PortId);
                         sendSongEvent(ev2);
