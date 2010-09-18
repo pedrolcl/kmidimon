@@ -33,6 +33,7 @@ Player::Player(MidiClient *seq, int portId)
 
 Player::~Player()
 {
+    kDebug();
     if (isRunning()) {
         stop();
     }
@@ -121,12 +122,6 @@ void Player::run()
             }
             while (!stopRequested() && hasNext()) {
                 SequencerEvent* ev = nextEvent();
-                /*if (getEchoResolution() > 0) {
-                    while (last_tick < ev->getTick()) {
-                        last_tick += getEchoResolution();
-                        sendEchoEvent(last_tick);
-                    }
-                }*/
                 if (!stopRequested() && !SequencerEvent::isConnectionChange(ev)) {
                     if (last_tick != ev->getTick()) {
                         last_tick = ev->getTick();

@@ -28,6 +28,18 @@
 #include "sequenceradaptor.h"
 #include "slideraction.h"
 
+#include <QMenu>
+#include <QEvent>
+#include <QContextMenuEvent>
+#include <QCursor>
+#include <QTreeView>
+#include <QTextStream>
+#include <QSignalMapper>
+#include <QVariant>
+#include <QToolTip>
+#include <QFileInfo>
+#include <QDropEvent>
+
 #include <KLocale>
 #include <KAction>
 #include <KApplication>
@@ -48,18 +60,7 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KIO/NetAccess>
-
-#include <QMenu>
-#include <QEvent>
-#include <QContextMenuEvent>
-#include <QCursor>
-#include <QTreeView>
-#include <QTextStream>
-#include <QSignalMapper>
-#include <QVariant>
-#include <QToolTip>
-#include <QFileInfo>
-#include <QDropEvent>
+#include <KDebug>
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0),
@@ -92,7 +93,7 @@ KMidimon::KMidimon() :
         connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                           SLOT(modelRowsInserted(QModelIndex,int,int)) );
         connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
-        connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
+        //connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
         m_tabBar = new KTabBar(this);
         m_tabBar->setWhatsThis(i18n("Track view selectors"));
         m_tabBar->setShape(QTabBar::RoundedNorth);
@@ -439,6 +440,8 @@ void KMidimon::fileSave()
 
 bool KMidimon::queryExit()
 {
+    kDebug();
+    stop();
     saveConfiguration();
     return true;
 }
@@ -588,6 +591,7 @@ void KMidimon::stop()
     if ( m_adaptor->isRecording() ||
          m_adaptor->isPlaying() ||
          m_adaptor->isPaused()) {
+        kDebug();
         m_adaptor->stop();
         songFinished();
     }
@@ -595,6 +599,7 @@ void KMidimon::stop()
 
 void KMidimon::songFinished()
 {
+    kDebug();
     updateState("stopped_state", i18nc("player stopped","stopped"));
     updateView();
 }
@@ -609,8 +614,10 @@ void KMidimon::play()
 void KMidimon::pause()
 {
     m_adaptor->pause(m_pause->isChecked());
-    //if (m_adaptor->isPaused())
-    //  updateState("paused_state", i18nc("player paused","paused"));
+    if (m_adaptor->isPaused())
+        updateState("paused_state", i18nc("player paused","paused"));
+    else
+        updateState("playing_state", i18nc("player playing","playing"));
 }
 
 void KMidimon::rewind()
