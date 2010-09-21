@@ -35,7 +35,6 @@
 #include "slideraction.h"
 
 #include <ktoolbar.h>
-#include <kdebug.h>
 
 #include <QtGui/QKeyEvent>
 #include <QtGui/QDesktopWidget>

@@ -60,7 +60,6 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KIO/NetAccess>
-#include <KDebug>
 
 KMidimon::KMidimon() :
     KXmlGuiWindow(0),
@@ -93,7 +92,7 @@ KMidimon::KMidimon() :
         connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
                           SLOT(modelRowsInserted(QModelIndex,int,int)) );
         connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
-        //connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
+        connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
         m_tabBar = new KTabBar(this);
         m_tabBar->setWhatsThis(i18n("Track view selectors"));
         m_tabBar->setShape(QTabBar::RoundedNorth);
@@ -440,7 +439,6 @@ void KMidimon::fileSave()
 
 bool KMidimon::queryExit()
 {
-    kDebug();
     stop();
     saveConfiguration();
     return true;
@@ -591,7 +589,6 @@ void KMidimon::stop()
     if ( m_adaptor->isRecording() ||
          m_adaptor->isPlaying() ||
          m_adaptor->isPaused()) {
-        kDebug();
         m_adaptor->stop();
         songFinished();
     }
@@ -599,7 +596,6 @@ void KMidimon::stop()
 
 void KMidimon::songFinished()
 {
-    kDebug();
     updateState("stopped_state", i18nc("player stopped","stopped"));
     updateView();
 }

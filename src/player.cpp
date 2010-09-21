@@ -19,7 +19,6 @@
 
 #include "player.h"
 #include <alsaqueue.h>
-#include <kdebug.h>
 
 Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),
@@ -33,7 +32,6 @@ Player::Player(MidiClient *seq, int portId)
 
 Player::~Player()
 {
-    kDebug();
     if (isRunning()) {
         stop();
     }

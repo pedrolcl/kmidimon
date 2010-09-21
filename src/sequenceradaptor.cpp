@@ -32,7 +32,6 @@
 #include <QStringList>
 #include <kapplication.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 using namespace std;
 
@@ -76,7 +75,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 
 SequencerAdaptor::~SequencerAdaptor()
 {
-    kDebug();
     m_client->stopSequencerInput();
     m_port->detach();
     m_client->close();
@@ -154,7 +152,6 @@ void SequencerAdaptor::stop()
         m_state == PausedState ||
         m_state == PlayingState ||
         m_player->isRunning()) {
-        kDebug();
         m_player->stop();
         m_queue->stop();
         m_queue->clear();
@@ -309,7 +306,6 @@ void SequencerAdaptor::connect_all_inputs()
 
 void SequencerAdaptor::songFinished()
 {
-    kDebug();
     m_player->resetPosition();
     m_model->setCurrentRow(0);
     emit finished();
@@ -317,7 +313,6 @@ void SequencerAdaptor::songFinished()
 
 void SequencerAdaptor::shutupSound()
 {
-    kDebug();
     int portId = m_port->getPortId();
     for (int channel = 0; channel < 16; ++channel) {
         ControllerEvent ev1(channel, MIDI_CTL_ALL_NOTES_OFF, 0);
