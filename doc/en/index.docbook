@@ -144,81 +144,79 @@ http://kmidimon.sourceforge.net</ulink>にあります。
 <para>データ1: 受け取ったイベントのタイプに依存します。コントロールチェンジイベントか音符の場合、これはコントロール番号か音符番号になります。</para>
 </listitem>
 <listitem>
-<para>データ2: 受け取ったイベントのタイプ新井そんします。コントロールチェンジでは、これは値であり、音符イベントの
-It depends on the type of the received event. For a Control Change it will be the value, and for a Note event it will be the velocity</para>
+<para>データ2: 受け取ったイベントのタイプに依存します。コントロールチェンジでは、これは値であり、音符イベントの場合はベロシティになります。</para>
 </listitem>
 </itemizedlist>
 
 <para>
-You can hide or show any column using the contextual menu. To open this menu, press the secondary mouse button over the event list. You can also use the Configuration dialog to choose the visible columnns.
-</para>
+コンテキストメニューを使って、任意のカラムを表示したりさせなかったりすることが出来ます。このメニューを開くためには、2版目のマウスボタンをイベントリスト上で押します。表示させるカラムを選ぶために、設定ダイアログを使うことも出来ます。</para>
 
-<para>The event list always shows newer recorded events at the bottom of the grid.</para>
+<para>イベントリストは常時グリッドの最下部の新しい記録されたイベントに表示されます。</para>
 
-<para>&kmidimon; can save the recorded events as a text file (in CSV format) or a Standard MIDI File (SMF). </para>
+<para>&kmidimon; はテキストファイル(CSV形式で)か標準MIDIファイル(SMF)のどちらかで記録したイベントを保存出来ます。 </para>
 
 </sect1>
 
 <sect1 id="kmidimon-configuration">
-<title>Configuration Options</title>
+<title>設定オプション</title>
 
 <para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of the Configuration dialog of &kmidimon;</screeninfo>
+<screeninfo>&kmidimon;の設定ダイアログの画面例</screeninfo>
 <mediaobject>
 	<imageobject>
 	<imagedata fileref="kmidimon2.png" format="PNG"/>
 	</imageobject>
 	<textobject>
-	<phrase>Display settings tab</phrase>
+	<phrase>表示設定タブ</phrase>
 	</textobject>
 </mediaobject>
 </screenshot>
 
 <screenshot>
-<screeninfo>Here's another screenshot of the Configuration dialog of &kmidimon;</screeninfo>
+<screeninfo>&kmidimon;の設定ダイアログの他の例</screeninfo>
 <mediaobject>
     <imageobject>
     <imagedata fileref="kmidimon3.png" format="PNG"/>
     </imageobject>
     <textobject>
-    <phrase>Filter settings tab</phrase>
+    <phrase>フィルタ設定タブ</phrase>
     </textobject>
 </mediaobject>
 </screenshot>
 
 </para>
 
-<para>To open the Configuration dialog go to Settings -> Configure &kmidimon; or click on the corresponding icon on the toolbar.
+<para>設定ダイアログを開くためには、設定->&kmidimon;の設定か、ツールバーの対応するアイコンをクリックします。
 </para>
 
 <para>
-This is a list of the configuration options.
+以下は設定オプションの一覧です。
 <itemizedlist>
   <listitem>
     <para>
-	Sequencer tab. The Queue Default Settings affect to the event's time precision.
+      シーケンサータブ。The Queue Default Settings affect to the event's time precision.
     </para>
   </listitem>
   <listitem>
     <para>
-	Filters tab. Here you can check several event families to be displayed in the event list.
+      フィルタタブ。イベントリスト中で表示される、いくつかのいべんと群をチェックすることが出来ます。
     </para>
   </listitem>
   <listitem>
     <para>
-	Display tab. The first group of checkboxes allows to show/hide the corresponding columns of the events list. 
+      表示タブ。最初のチェックボックスのグループは、イベントリストの対応するカラムの表示を制御します。
     </para>
   </listitem>
 
   <listitem>
     <para>
-	Misc. tab. Miscellaneous options include:
+      その他タブ。以下のその他のオプションを含みます。
 	<itemizedlist>
 	  <listitem>
 	    <para>
-		Translate ALSA Client IDs into names. If checked, ALSA client names are used instead of ID numbers in the "Source" column for all king of events, and the data columns for the ALSA events.
+	      ALSAクライアントIDを名前に変換。もしもチェックされると、すべてのイベントに対して(all king of events)、"ソースカラム"中のALSAクライアント名とデータカラムのALSAイベントが、ID番号の代わりに使われます。
 	    </para>
 	  </listitem>
 	  <listitem>
