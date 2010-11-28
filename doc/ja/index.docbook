@@ -221,12 +221,12 @@ http://kmidimon.sourceforge.net</ulink>にあります。
 	  </listitem>
 	  <listitem>
 	    <para>
-		Translate Universal System Exclusive messages. If checked, Universal System Exclusive messages (real time, non real time, MMC, MTC and a few other types) are interpreted and translated. Otherwise, the hexadecimal dump is shown.
+	      Universal System Exclusiveメッセージを変換。チェックした場合、Universal System Exclusiveメッセージ(リアルタイム、非リアルタイム、MMC、MTCと少数のその他のタイプ)は解釈され変換されます。その他の場合、16進ダンプで表示されます。
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-		Use fixed font. By default &kmidimon; uses the system font in the event list. If this option is checked, a fixed font is used instead.
+	      固定幅フォントを使用。既定値では、&kmidimon;はイベントリスト注でシステムフォントを使用します。もしもこのオプションにチェックを付けると、その代わりに固定幅フォントを使用します。
 	    </para>
 	  </listitem>
     </itemizedlist>
@@ -246,7 +246,7 @@ contributors here. The license for your software should then be included below
 the credits with a reference to the appropriate license file included in the KDE
 distribution. -->
 
-<title>Credits and License</title>
+<title>著作権表示およびライセンス</title>
 
 <para>Program copyright 2005-2009 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
 <para>Documentation copyright 2005 Christoph Eckert <email>christeck&#64;users&#46;sourceforge&#46;net</email></para>
@@ -267,13 +267,13 @@ distribution. -->
 </chapter>
 
 <appendix id="installation">
-<title>Installation</title>
+<title>インストール</title>
 
 <sect1 id="getting-kmidimon">
-<title>How to obtain &kmidimon;</title>
+<title>&kmidimon;の入手方法</title>
 
 <para>
-Here you can find the last version:
+最新のバージョンは右記のURLにあります:
 <ulink
 url="http://sourceforge.net/projects/kmidimon">Project home page</ulink>
 </para>
@@ -281,45 +281,47 @@ url="http://sourceforge.net/projects/kmidimon">Project home page</ulink>
 </sect1>
 
 <sect1 id="requirements">
-<title>Requirements</title>
+<title>動作条件</title>
 
 <para>
-In order to successfully use &kmidimon;, you need &kde; 4.X. and ALSA
-drivers and library.
+&kmidimon;を動かすためには、&kde; 4.Xを使う必要があります。また、ALSA
+ドライバとライブラリも必要です。
 </para>
 
 <para>
-The build system requires <ulink url="http://www.cmake.org">CMake</ulink> 
-2.4.4 or newer.
+構築のためには、<ulink url="http://www.cmake.org">CMake</ulink>
+2.4.4 かそれ以降を必要とします。
 </para>
 
 <para>
-ALSA library, drivers and utilities can be found at
-<ulink url="http://www.alsa-project.org">ALSA home page</ulink>.
+ALSAライブラリ、ドライバとユーティリティは
+<ulink url="http://www.alsa-project.org">ALSA home page</ulink>にあります。
 </para>
 
 <para>
-You can find a list of changes at
+変更履歴は
 <ulink
 url="http://kmidimon.sourceforge.net">http://kmidimon.sourceforge.net
 </ulink>
+にあります。
 </para>
 </sect1>
 
 <sect1 id="compilation">
-<title>Compilation and Installation</title>
+<title>コンパイルとインストール</title>
 
 <para>
-In order to compile and install &kmidimon; on your system, type the following 
-in the base directory of the &kmidimon; distribution:
+&kmidimon;を使用するシステムでコンパイルし、インストールするためには、
+&kmidimon;ディストリビューションのベースディレクトリで以下を入力します:
 <screen>
 % cmake .
 % make
 % make install
 </screen>
-Since &kmidimon; uses <command>cmake</command> and <command>make</command> 
-you should have no trouble compiling it. Should you run into problems please 
-report them to the author or the project's bug tracking system.
+&kmidimon;が<command>cmake</command> と <command>make</command>
+を使うので、コンパイル時にエラーが出ないようにしなければなりません。
+何か問題が発生したら、著者か、プロジェクトのバグトラッキングシステム
+で報告してください。
 </para>
 
 </sect1>
@@ -340,4 +342,3 @@ End:
 
 vim:tabstop=2:shiftwidth=2:expandtab 
 -->
-
