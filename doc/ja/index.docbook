@@ -1,0 +1,343 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY kmidimon "<application>KMidimon</application>">
+  <!ENTITY kappname "&kmidimon;"><!-- Do *not* replace kappname-->
+  <!ENTITY package "kmidimon">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+]>
+
+<!-- The language must NOT be changed here. -->
+<book lang="&language;">
+
+<!-- This header contains all of the meta-information for the document such
+as Authors, publish date, the abstract, and Keywords -->
+
+<bookinfo>
+<title>&kmidimon; ハンドブック</title>
+
+<authorgroup>
+<author>
+<firstname></firstname>
+<othername></othername>
+<surname>Pedro Lopez&#45;Cabanillas</surname>
+<affiliation>
+<address><email>plcl&#64;users&#46;sourceforge&#46;net</email></address>
+</affiliation>
+</author>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>2005</year>
+<year>2009</year>
+<holder>Pedro Lopez&#45;Cabanillas</holder>
+</copyright>
+<!-- Translators: put here the copyright notice of the translation -->
+<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
+     and in the FDL itself on how to use it. -->
+<legalnotice>&FDLNotice;</legalnotice>
+
+<!-- Date and version information of the documentation
+Don't forget to include this last date and this last revision number, we
+need them for translation coordination !
+Please respect the format of the date (YYYY-MM-DD) and of the version
+(V.MM.LL), it could be used by automation scripts.
+Do NOT change these in the translation. -->
+
+<date>2009-06-24</date>
+<releaseinfo>0&#46;7&#46;0</releaseinfo>
+
+<abstract>
+<para>
+&kmidimon; はLinuxのALSAシーケンサのための、MIDIモニタで、KDEユーザインタフェースを使います。</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>kmidimon</keyword>
+<keyword>ALSA</keyword>
+<keyword>Monitoring</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title>初めに</title>
+
+<para>
+まだ完璧なドキュメントはできていません。暫定的なホームページは現在
+<ulink url="http://kmidimon.sourceforge.net">
+http://kmidimon.sourceforge.net</ulink>にあります。
+</para>
+
+<para>
+&kmidimon; は、MIDI外部ポーとかALSAシーケンサ経由でのアプリケーションから来るイベントをモニタするか、それを標準MIDIファイルとして格納します。これはMIDIソフトウェアのデバッグか、MIDIのセットアップを行いたい場合、特に便利です。これには快適なグラフィカルユーザインタフェースがあり、カスタマイズ可能なイベントフィルタとシーケンサパラメータがあり、すべてのMIDIメッセージといくつかのALSAメッセージをサポートし、テキストファイルまたはSMFとして記録されたイベントリストを保存します。</para>
+</chapter>
+
+<chapter id="getting-started">
+<title>初めの一歩</title>
+
+<sect1 id="kmidimon-mainwin">
+<title>メインウィンドウ</title>
+
+<para>プログラムは記録状態で開始し、停止ボタンを押すまで、すべての入力されたMIDIイベントを記録します。また、再生、一時停止、巻き戻しと早送りボタンがあり、これらは他のメディアプレーヤと同じような動作をします。</para>
+
+<para>イベントリストグリッド上には一群のタブがあり、それらはSMF中で定義された各トラックになります。それらが単にビューまたはイベントフィルタであるという理由で、記録されたイベントを失うことなく、新しいタブを追加したり、タブをクローズできます。</para>
+
+<para>&kmidimon;の内部から、プログラムとデバイスへのALSAシーケンサMIDI接続を制御できます。これを行うためには、メインメニュー中の"接続"メニュー配下のオプションを使います。そこには、&kmidimon;へのすべての有効な入力ポートを接続/切断するためのオプションがあり、また、モニタし、そこに出力するためのポートを選択する事ができるダイアログボックスもあります。</para>
+
+<para>また、&kmidimon;でモニタするために、アプリケーションかMIDIポートを接続するために、<ulink url="http://qjackctl.sourceforge.net/">QJackCtl</ulink>のようなMIDI接続ツールを使うことも出来ます。</para>
+<para>
+
+<screenshot>
+<screeninfo><command>qjackctl</command>によるMIDI接続ウィンドウの画面例</screeninfo>
+<mediaobject>
+	<imageobject>
+	<imagedata fileref="qjackctl.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+	<phrase>MIDI Connections in qjackctl</phrase>
+	</textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para>記録状態で&kmidimon;の入力ポートにMIDIポートが接続されているとき、すべてが正しい場合、入力されたMIDIイベントを表示します。</para>
+
+<para>
+<screenshot>
+<screeninfo>いくつかのMIDIイベントがある、&kmidimon;のメインウィンドウの画面例</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="kmidimon1.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>MIDI events in the main window of &kmidimon;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para>
+受け取った各MIDIイベントは単一の行として表示されます。その行のカラムは以下の意味があります。
+</para>
+
+<itemizedlist>
+<listitem>
+<para>ティック: The musical time of the event arrival</para>
+</listitem>
+<listitem>
+<para>Time: イベントが到着した時の秒単位の実時間</para>
+</listitem>
+<listitem>
+<para>ソース: イベントを発生させているMIDIデバイスのALSA識別子。もしも同時にいくつか接続させている場合、どのデバイスにイベントが属しているかを認識することができるでしょう。番号の代わりに、ALSAクライアント名を表示する設定オプションがあります。</para>
+</listitem>
+<listitem>
+<para>イベント種類: The event type: note on / off, control change, ALSA, and so on</para>
+</listitem>
+<listitem>
+<para>Chan: イベントのMIDIチャンネル(それがチャンネルイベントの場合)。また、Sysexチャンネルを表示するのにも使われます。</para>
+</listitem>
+<listitem>
+<para>データ1: 受け取ったイベントのタイプに依存します。コントロールチェンジイベントか音符の場合、これはコントロール番号か音符番号になります。</para>
+</listitem>
+<listitem>
+<para>データ2: 受け取ったイベントのタイプに依存します。コントロールチェンジでは、これは値であり、音符イベントの場合はベロシティになります。</para>
+</listitem>
+</itemizedlist>
+
+<para>
+コンテキストメニューを使って、任意のカラムを表示したりさせなかったりすることが出来ます。このメニューを開くためには、2版目のマウスボタンをイベントリスト上で押します。表示させるカラムを選ぶために、設定ダイアログを使うことも出来ます。</para>
+
+<para>イベントリストは常時グリッドの最下部の新しい記録されたイベントに表示されます。</para>
+
+<para>&kmidimon; はテキストファイル(CSV形式で)か標準MIDIファイル(SMF)のどちらかで記録したイベントを保存出来ます。 </para>
+
+</sect1>
+
+<sect1 id="kmidimon-configuration">
+<title>設定オプション</title>
+
+<para>
+
+<screenshot>
+<screeninfo>&kmidimon;の設定ダイアログの画面例</screeninfo>
+<mediaobject>
+	<imageobject>
+	<imagedata fileref="kmidimon2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+	<phrase>表示設定タブ</phrase>
+	</textobject>
+</mediaobject>
+</screenshot>
+
+<screenshot>
+<screeninfo>&kmidimon;の設定ダイアログの他の例</screeninfo>
+<mediaobject>
+    <imageobject>
+    <imagedata fileref="kmidimon3.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+    <phrase>フィルタ設定タブ</phrase>
+    </textobject>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<para>設定ダイアログを開くためには、設定->&kmidimon;の設定か、ツールバーの対応するアイコンをクリックします。
+</para>
+
+<para>
+以下は設定オプションの一覧です。
+<itemizedlist>
+  <listitem>
+    <para>
+      シーケンサータブ。The Queue Default Settings affect to the event's time precision.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      フィルタタブ。イベントリスト中で表示される、いくつかのいべんと群をチェックすることが出来ます。
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      表示タブ。最初のチェックボックスのグループは、イベントリストの対応するカラムの表示を制御します。
+    </para>
+  </listitem>
+
+  <listitem>
+    <para>
+      その他タブ。以下のその他のオプションを含みます。
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      ALSAクライアントIDを名前に変換。もしもチェックされると、すべてのイベントに対して(all king of events)、"ソースカラム"中のALSAクライアント名とデータカラムのALSAイベントが、ID番号の代わりに使われます。
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+		Translate Universal System Exclusive messages. If checked, Universal System Exclusive messages (real time, non real time, MMC, MTC and a few other types) are interpreted and translated. Otherwise, the hexadecimal dump is shown.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+		Use fixed font. By default &kmidimon; uses the system font in the event list. If this option is checked, a fixed font is used instead.
+	    </para>
+	  </listitem>
+    </itemizedlist>
+    </para>
+  </listitem>
+
+</itemizedlist>
+</para>
+
+</sect1>
+</chapter>
+
+<chapter id="credits">
+
+<!-- Include credits for the programmers, documentation writers, and
+contributors here. The license for your software should then be included below
+the credits with a reference to the appropriate license file included in the KDE
+distribution. -->
+
+<title>Credits and License</title>
+
+<para>Program copyright 2005-2009 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
+<para>Documentation copyright 2005 Christoph Eckert <email>christeck&#64;users&#46;sourceforge&#46;net</email></para>
+<para>Documentation copyright 2008-2009 Pedro Lopez&#45;Cabanillas <email>plcl&#64;users&#46;sourceforge&#46;net</email></para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove -->
+
+<!-- Determine which license your application is licensed under, 
+     and delete all the remaining licenses below:
+
+     (NOTE:  All documentation are licensed under the FDL, 
+     regardless of what license the application uses) -->
+
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-kmidimon">
+<title>How to obtain &kmidimon;</title>
+
+<para>
+Here you can find the last version:
+<ulink
+url="http://sourceforge.net/projects/kmidimon">Project home page</ulink>
+</para>
+
+</sect1>
+
+<sect1 id="requirements">
+<title>Requirements</title>
+
+<para>
+In order to successfully use &kmidimon;, you need &kde; 4.X. and ALSA
+drivers and library.
+</para>
+
+<para>
+The build system requires <ulink url="http://www.cmake.org">CMake</ulink> 
+2.4.4 or newer.
+</para>
+
+<para>
+ALSA library, drivers and utilities can be found at
+<ulink url="http://www.alsa-project.org">ALSA home page</ulink>.
+</para>
+
+<para>
+You can find a list of changes at
+<ulink
+url="http://kmidimon.sourceforge.net">http://kmidimon.sourceforge.net
+</ulink>
+</para>
+</sect1>
+
+<sect1 id="compilation">
+<title>Compilation and Installation</title>
+
+<para>
+In order to compile and install &kmidimon; on your system, type the following 
+in the base directory of the &kmidimon; distribution:
+<screen>
+% cmake .
+% make
+% make install
+</screen>
+Since &kmidimon; uses <command>cmake</command> and <command>make</command> 
+you should have no trouble compiling it. Should you run into problems please 
+report them to the author or the project's bug tracking system.
+</para>
+
+</sect1>
+
+</appendix>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->
+
