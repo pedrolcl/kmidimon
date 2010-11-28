@@ -14,7 +14,7 @@
 as Authors, publish date, the abstract, and Keywords -->
 
 <bookinfo>
-<title>&kmidimon; ハンドブック</title>
+<title>The &kmidimon; Handbook</title>
 
 <authorgroup>
 <author>
@@ -51,7 +51,8 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para>
-&kmidimon; はLinuxのALSAシーケンサのための、MIDIモニタで、KDEユーザインタフェースを使います。</para>
+&kmidimon; is a MIDI monitor for Linux using ALSA sequencer and KDE user interface.
+</para>
 </abstract>
 
 <keywordset>
@@ -64,35 +65,35 @@ Do NOT change these in the translation. -->
 </bookinfo>
 
 <chapter id="introduction">
-<title>初めに</title>
+<title>Introduction</title>
 
 <para>
-まだ完璧なドキュメントはできていません。暫定的なホームページは現在
-<ulink url="http://kmidimon.sourceforge.net">
-http://kmidimon.sourceforge.net</ulink>にあります。
+There's no exhaustive documentation yet. The provisional homepage can currently 
+be found at <ulink url="http://kmidimon.sourceforge.net">
+http://kmidimon.sourceforge.net</ulink>.
 </para>
 
 <para>
-&kmidimon; は、MIDI外部ポーとかALSAシーケンサ経由でのアプリケーションから来るイベントをモニタするか、それを標準MIDIファイルとして格納します。これはMIDIソフトウェアのデバッグか、MIDIのセットアップを行いたい場合、特に便利です。これには快適なグラフィカルユーザインタフェースがあり、カスタマイズ可能なイベントフィルタとシーケンサパラメータがあり、すべてのMIDIメッセージといくつかのALSAメッセージをサポートし、テキストファイルまたはSMFとして記録されたイベントリストを保存します。</para>
+&kmidimon; monitors events coming from a MIDI external port or application via the ALSA sequencer, or stored as Standard MIDI Files. It is especially useful if you want to debug MIDI software or your MIDI setup. It features a nice graphical  user interface,  customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file or SMF.</para>
 </chapter>
 
 <chapter id="getting-started">
-<title>初めの一歩</title>
+<title>Getting Started</title>
 
 <sect1 id="kmidimon-mainwin">
-<title>メインウィンドウ</title>
+<title>Main Window</title>
 
-<para>プログラムは記録状態で開始し、停止ボタンを押すまで、すべての入力されたMIDIイベントを記録します。また、再生、一時停止、巻き戻しと早送りボタンがあり、これらは他のメディアプレーヤと同じような動作をします。</para>
+<para>The program starts in recording state, registering all incoming MIDI events until you press the stop button. There are also buttons to play, pause, rewind and forward, with the usual behavior of any other media player.</para>
 
-<para>イベントリストグリッド上には一群のタブがあり、それらはSMF中で定義された各トラックになります。それらが単にビューまたはイベントフィルタであるという理由で、記録されたイベントを失うことなく、新しいタブを追加したり、タブをクローズできます。</para>
+<para>Above the events list grid you can find a set of tabs, one for each track defined in a SMF. You can add new tabs or close tabs without losing the recorded events, because they are only views or event filters.</para>
 
-<para>&kmidimon;の内部から、プログラムとデバイスへのALSAシーケンサMIDI接続を制御できます。これを行うためには、メインメニュー中の"接続"メニュー配下のオプションを使います。そこには、&kmidimon;へのすべての有効な入力ポートを接続/切断するためのオプションがあり、また、モニタし、そこに出力するためのポートを選択する事ができるダイアログボックスもあります。</para>
+<para>You can control the ALSA sequencer MIDI connections to programs and devices from inside &kmidimon;. To do so, use the options under the menu "Connections" in the main menu. There are options to connect and disconnect every available input port to &kmidimon;, and also a dialog box where you can choose the ports to be monitored and the output one.</para>
 
-<para>また、&kmidimon;でモニタするために、アプリケーションかMIDIポートを接続するために、<ulink url="http://qjackctl.sourceforge.net/">QJackCtl</ulink>のようなMIDI接続ツールを使うことも出来ます。</para>
+<para>You can also use a MIDI connection tool like <ulink url="http://qjackctl.sourceforge.net/">QJackCtl</ulink> to connect the application or MIDI port to monitor with &kmidimon;</para>
 <para>
 
 <screenshot>
-<screeninfo><command>qjackctl</command>によるMIDI接続ウィンドウの画面例</screeninfo>
+<screeninfo>Here's a screenshot of the MIDI Connections window in <command>qjackctl</command></screeninfo>
 <mediaobject>
 	<imageobject>
 	<imagedata fileref="qjackctl.png" format="PNG"/>
@@ -104,11 +105,11 @@ http://kmidimon.sourceforge.net</ulink>にあります。
 </screenshot>
 </para>
 
-<para>記録状態で&kmidimon;の入力ポートにMIDIポートが接続されているとき、すべてが正しい場合、入力されたMIDIイベントを表示します。</para>
+<para>When a MIDI OUT port has been connected to the input port of &kmidimon; in recording state, it will show incoming MIDI events if everything is correct.</para>
 
 <para>
 <screenshot>
-<screeninfo>いくつかのMIDIイベントがある、&kmidimon;のメインウィンドウの画面例</screeninfo>
+<screeninfo>Here's a screenshot of the main window of &kmidimon; with some MIDI events in it</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="kmidimon1.png" format="PNG"/>
@@ -121,102 +122,103 @@ http://kmidimon.sourceforge.net</ulink>にあります。
 </para>
 
 <para>
-受け取った各MIDIイベントは単一の行として表示されます。その行のカラムは以下の意味があります。
+Each received MIDI event is shown in a single row. The columns have the following meaning.
 </para>
 
 <itemizedlist>
 <listitem>
-<para>ティック: The musical time of the event arrival</para>
+<para>Ticks: The musical time of the event arrival</para>
 </listitem>
 <listitem>
-<para>Time: イベントが到着した時の秒単位の実時間</para>
+<para>Time: The real time in seconds of the event arrival</para>
 </listitem>
 <listitem>
-<para>ソース: イベントを発生させているMIDIデバイスのALSA識別子。もしも同時にいくつか接続させている場合、どのデバイスにイベントが属しているかを認識することができるでしょう。番号の代わりに、ALSAクライアント名を表示する設定オプションがあります。</para>
+<para>Source: the ALSA identifier of the MIDI device originating the event. You will be able to recognize what event belongs to which device if you have several connected simultaneously. There is a configuration option to show the ALSA client name instead of a number</para>
 </listitem>
 <listitem>
-<para>イベント種類: The event type: note on / off, control change, ALSA, and so on</para>
+<para>Event Kind: The event type: note on / off, control change, ALSA, and so on</para>
 </listitem>
 <listitem>
-<para>Chan: イベントのMIDIチャンネル(それがチャンネルイベントの場合)。また、Sysexチャンネルを表示するのにも使われます。</para>
+<para>Chan: The MIDI channel of the event (if it is a channel event). It is also used to show the Sysex channel.</para>
 </listitem>
 <listitem>
-<para>データ1: 受け取ったイベントのタイプに依存します。コントロールチェンジイベントか音符の場合、これはコントロール番号か音符番号になります。</para>
+<para>Data 1: It depends on the type of the received event. For a Control Change event or a Note, it is the control number, or the note number</para>
 </listitem>
 <listitem>
-<para>データ2: 受け取ったイベントのタイプに依存します。コントロールチェンジでは、これは値であり、音符イベントの場合はベロシティになります。</para>
+<para>Data 2: It depends on the type of the received event. For a Control Change it will be the value, and for a Note event it will be the velocity</para>
 </listitem>
 </itemizedlist>
 
 <para>
-コンテキストメニューを使って、任意のカラムを表示したりさせなかったりすることが出来ます。このメニューを開くためには、2版目のマウスボタンをイベントリスト上で押します。表示させるカラムを選ぶために、設定ダイアログを使うことも出来ます。</para>
+You can hide or show any column using the contextual menu. To open this menu, press the secondary mouse button over the event list. You can also use the Configuration dialog to choose the visible columnns.
+</para>
 
-<para>イベントリストは常時グリッドの最下部の新しい記録されたイベントに表示されます。</para>
+<para>The event list always shows newer recorded events at the bottom of the grid.</para>
 
-<para>&kmidimon; はテキストファイル(CSV形式で)か標準MIDIファイル(SMF)のどちらかで記録したイベントを保存出来ます。 </para>
+<para>&kmidimon; can save the recorded events as a text file (in CSV format) or a Standard MIDI File (SMF). </para>
 
 </sect1>
 
 <sect1 id="kmidimon-configuration">
-<title>設定オプション</title>
+<title>Configuration Options</title>
 
 <para>
 
 <screenshot>
-<screeninfo>&kmidimon;の設定ダイアログの画面例</screeninfo>
+<screeninfo>Here's a screenshot of the Configuration dialog of &kmidimon;</screeninfo>
 <mediaobject>
 	<imageobject>
 	<imagedata fileref="kmidimon2.png" format="PNG"/>
 	</imageobject>
 	<textobject>
-	<phrase>表示設定タブ</phrase>
+	<phrase>Display settings tab</phrase>
 	</textobject>
 </mediaobject>
 </screenshot>
 
 <screenshot>
-<screeninfo>&kmidimon;の設定ダイアログの他の例</screeninfo>
+<screeninfo>Here's another screenshot of the Configuration dialog of &kmidimon;</screeninfo>
 <mediaobject>
     <imageobject>
     <imagedata fileref="kmidimon3.png" format="PNG"/>
     </imageobject>
     <textobject>
-    <phrase>フィルタ設定タブ</phrase>
+    <phrase>Filter settings tab</phrase>
     </textobject>
 </mediaobject>
 </screenshot>
 
 </para>
 
-<para>設定ダイアログを開くためには、設定->&kmidimon;の設定か、ツールバーの対応するアイコンをクリックします。
+<para>To open the Configuration dialog go to Settings -> Configure &kmidimon; or click on the corresponding icon on the toolbar.
 </para>
 
 <para>
-以下は設定オプションの一覧です。
+This is a list of the configuration options.
 <itemizedlist>
   <listitem>
     <para>
-      シーケンサータブ。The Queue Default Settings affect to the event's time precision.
+	Sequencer tab. The Queue Default Settings affect to the event's time precision.
     </para>
   </listitem>
   <listitem>
     <para>
-      フィルタタブ。イベントリスト中で表示される、いくつかのいべんと群をチェックすることが出来ます。
+	Filters tab. Here you can check several event families to be displayed in the event list.
     </para>
   </listitem>
   <listitem>
     <para>
-      表示タブ。最初のチェックボックスのグループは、イベントリストの対応するカラムの表示を制御します。
+	Display tab. The first group of checkboxes allows to show/hide the corresponding columns of the events list. 
     </para>
   </listitem>
 
   <listitem>
     <para>
-      その他タブ。以下のその他のオプションを含みます。
+	Misc. tab. Miscellaneous options include:
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      ALSAクライアントIDを名前に変換。もしもチェックされると、すべてのイベントに対して(all king of events)、"ソースカラム"中のALSAクライアント名とデータカラムのALSAイベントが、ID番号の代わりに使われます。
+		Translate ALSA Client IDs into names. If checked, ALSA client names are used instead of ID numbers in the "Source" column for all king of events, and the data columns for the ALSA events.
 	    </para>
 	  </listitem>
 	  <listitem>

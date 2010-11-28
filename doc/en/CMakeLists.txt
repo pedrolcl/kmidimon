@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA
 
-kde4_create_handbook( index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/ja 
+kde4_create_handbook( index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en 
                                     SUBDIR kmidimon )
 
 kde4_create_manpage( man-kmidimon.1.docbook 1 INSTALL_DESTINATION ${MAN_INSTALL_DIR})
