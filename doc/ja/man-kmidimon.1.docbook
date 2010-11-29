@@ -26,7 +26,7 @@
 <refnamediv>
 <refname>kmidimon</refname>
 <refpurpose>
-MIDI monitor using ALSA sequencer and &kde; user interface
+ALSA シーケンサと &kde; ユーザインタフェースを使うMIDIモニタ
 </refpurpose>
 </refnamediv>
 
@@ -38,81 +38,81 @@ MIDI monitor using ALSA sequencer and &kde; user interface
 </refsynopsisdiv>
 
 <refsect1>
-<title>Description</title>
-<para>KMidimon monitors events coming from a MIDI external port or application via the ALSA sequencer, or stored as Standard MIDI Files. It is especially useful if you want to debug MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file or SMF.</para>
+<title>説明</title>
+<para>KMidimonは、MIDI外部ポートかALSAシーケンサ経由でアプリケーションから来るイベントをモニタするか、それを標準MIDIファイルとして格納します。これはMIDIソフトウェアのデバッグか、MIDIのセットアップを行いたい場合、特に便利です。これには快適なグラフィカルユーザインタフェースがあり、カスタマイズ可能なイベントフィルタとシーケンサパラメータがあり、すべてのMIDIメッセージといくつかのALSAメッセージをサポートし、テキストファイルまたはSMFとして記録されたイベントリストを保存します。</para>
 </refsect1>
 
 <refsect1>
-<title>Options</title>
+<title>オプション</title>
 
-<para>Generic options:</para>
+<para>一般的なオプション:</para>
 
 <variablelist>
 <varlistentry>
 <term><option>--help</option></term>
-<listitem><para>Show help about options</para></listitem>
+<listitem><para>オプションについてのヘルプを表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-qt</option></term>
-<listitem><para>Show &Qt; specific options</para></listitem>
+<listitem><para>&Qt; 固有のオプションを表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-kde</option></term>
-<listitem><para>Show &kde; specific options</para></listitem>
+<listitem><para>&kde; 固有のオプションを表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-all</option></term>
-<listitem><para>Show all options</para></listitem>
+<listitem><para>すべてのオプションを表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--author</option></term>
-<listitem><para>Show author information</para></listitem>
+<listitem><para>著者情報を表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>-v</option>,<option>--version</option></term>
-<listitem><para>Show version information</para></listitem>
+<listitem><para>バージョン情報を表示します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--license</option></term>
-<listitem><para>Show license information</para></listitem>
+<listitem><para>ライセンス情報を表示します。</para></listitem>
 </varlistentry>
 </variablelist>
 
-<para>&kde; options:</para>
+<para>&kde; オプション:</para>
 
 <variablelist>
 <varlistentry>
 <term><option>--caption</option> <parameter>caption</parameter></term>
-<listitem><para>Use <parameter>caption</parameter> as name in the
-titlebar.</para></listitem>
+<listitem><para>タイトルバーの名前に<parameter>caption</parameter>を使用します。 
+</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--icon</option> <parameter>icon</parameter></term>
-<listitem><para>Use <parameter>icon</parameter> as the application icon.</para></listitem>
+<listitem><para>アプリケーションのアイコンとして<parameter>icon</parameter>を使用します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--config</option> <parameter>filename</parameter></term>
-<listitem><para>Use the alternative configuration <parameter>filename</parameter></para></listitem>
+<listitem><para>別の設定ファイルとして<parameter>filename</parameter>を使用します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--nocrashhandler</option></term>
-<listitem><para>Disable the crash handler, to get core dumps.</para></listitem>
+<listitem><para>ダンプを得るためのクラッシュハンドラを無効にします。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--waitforwm</option></term>
-<listitem><para>Waits for a WM_NET compatible windowmanager.</para></listitem>
+<listitem><para>WM_NET互換のウィンドウマネージャのために待ちます。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--style</option> <parameter>style</parameter></term>
-<listitem><para>Sets the application &GUI; style.</para></listitem>
+<listitem><para>アプリケーションの &GUI; スタイルを設定します。</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--geometry</option> <parameter>geometry</parameter></term>
-<listitem><para>Sets the client geometry of the main widget.</para></listitem>
+<listitem><para>メインウイジットのクライアントの位置を設定します。</para></listitem>
 </varlistentry>
 </variablelist>
 
-<para>&Qt; options:</para>
+<para>&Qt; オプション:</para>
 
 <variablelist>
 
@@ -121,8 +121,8 @@ titlebar.</para></listitem>
 <option>--display</option> <parameter>displayname</parameter>
 </term>
 <listitem>
-<para>Use the X-server display
-<parameter>displayname</parameter>.</para>
+<para>X サーバのdisplayとして
+<parameter>displayname</parameter>を使います。</para>
 </listitem>
 </varlistentry>
 
@@ -131,8 +131,8 @@ titlebar.</para></listitem>
 <option>--session</option> <parameter>sessionId</parameter>
 </term>
 <listitem>
-<para>Restore the application for the given
-<parameter>sessionId</parameter>.</para>
+<para>与えられた
+<parameter>sessionId</parameter>でアプリケーションをリストアします。</para>
 </listitem>
 </varlistentry>
 
@@ -141,8 +141,7 @@ titlebar.</para></listitem>
 <option>--cmap</option>
 </term>
 <listitem>
-<para>Causes the application to install a private color map on an
-8-bit display.</para>
+<para>8ビットディスプレイ上で、固有のカラーマップをインストールすることをアプリケーションに対して行います。</para>
 </listitem>
 </varlistentry>
 
@@ -151,10 +150,11 @@ titlebar.</para></listitem>
 <option>--ncols</option> <parameter>count</parameter>
 </term>
 <listitem>
-<para>Limits the number of colors allocated in the color cube on an
-8-bit display, if the application is using the
-<methodname>QApplication::ManyColor</methodname> color
-specification.</para>
+<para>
+もしもアプリケーションが<methodname>QApplication::ManyColor</methodname>
+カラー指定を使っている場合、8ビットディスプレイ上で、カラーキューブ内で
+割り当てられた色の数を制限します。
+</para>
 </listitem>
 </varlistentry>
 
@@ -163,7 +163,7 @@ specification.</para>
 <option>--nograb</option>
 </term>
 <listitem>
-<para>Tells &Qt; to never grab the mouse or the keyboard.</para>
+<para>&Qt; に、マウスかキーボードイベントを決して取らないようにさせます。</para>
 </listitem>
 </varlistentry>
 
@@ -172,9 +172,9 @@ specification.</para>
 <option>--dograb</option>
 </term>
 <listitem>
-<para>Running under a debugger can cause an implicit
-<option>--nograb</option>, use <option>--dograb</option> to
-override.</para>
+<para>デバッガは以下で動かしている時は暗黙で<option>--nograb</option>
+になるので、それを無視する時には<option>--dograb</option>を使います。
+</para>
 </listitem>
 </varlistentry>
 
@@ -183,7 +183,7 @@ override.</para>
 <option>--sync</option>
 </term>
 <listitem>
-<para>Switches to synchronous mode for debugging.</para>
+<para>デバッギングのために同期モードに移行します。</para>
 </listitem>
 </varlistentry>
 
@@ -193,7 +193,7 @@ override.</para>
 <parameter>fontname</parameter>
 </term>
 <listitem>
-<para>Defines the application font.</para>
+<para>アプリケーションフォントを定義します。</para>
 </listitem>
 </varlistentry>
 
@@ -203,8 +203,8 @@ override.</para>
 <parameter>color</parameter>
 </term>
 <listitem>
-<para>Sets the default background color and an application palette
-(light and dark shades are calculated).</para>
+<para>既定値の背景色とアプリケーションパレットを設定します
+(lightとdark shadesが計算されます)。</para>
 </listitem>
 </varlistentry>
 
@@ -214,7 +214,7 @@ override.</para>
 <parameter>color</parameter>
 </term>
 <listitem>
-<para>Sets the default foreground color</para>
+<para>既定値の前景色を指定します。</para>
 </listitem>
 </varlistentry>
 
@@ -224,7 +224,7 @@ override.</para>
 <parameter>color</parameter>
 </term>
 <listitem>
-<para>Sets the default button color.</para>
+<para>既定値のボタンの色を指定します。</para>
 </listitem>
 </varlistentry>
 
@@ -234,7 +234,7 @@ override.</para>
 <option>--name</option> <parameter>name</parameter>
 </term>
 <listitem>
-<para>Sets the application name.</para>
+<para>アプリケーション名を指定します。</para>
 </listitem>
 </varlistentry>
 
@@ -243,7 +243,7 @@ override.</para>
 <option>--title</option> <parameter>title</parameter>
 </term>
 <listitem>
-<para>Sets the application title (caption).</para>
+<para>アプリケーションタイトル(caption)を指定します。</para>
 </listitem>
 </varlistentry>
 
@@ -252,8 +252,8 @@ override.</para>
 <option>--visual</option> <parameter>TrueColor</parameter>
 </term>
 <listitem>
-<para>Forces the application to use a <parameter>TrueColor</parameter>
-visual on an 8-bit display.</para>
+<para>8ビットディスプレイ上で、<parameter>TrueColor</parameter>
+ビジュアルを使うようにアプリケーションに強制します。</para>
 </listitem>
 </varlistentry>
 
@@ -262,10 +262,10 @@ visual on an 8-bit display.</para>
 <option>--inputstyle</option> <parameter>inputstyle</parameter>
 </term>
 <listitem>
-<para>Sets XIM (X Input Method) input style.  Possible values are
+<para>XIM(X Input Method)の入力形式を設定します。取り得る値は、
 <parameter>onthespot</parameter>, <parameter>overthespot</parameter>,
-<parameter>offthespot</parameter> and
-<parameter>root</parameter>.</para>
+<parameter>offthespot</parameter> と
+<parameter>root</parameter>です。</para>
 </listitem>
 </varlistentry>
 
@@ -274,7 +274,7 @@ visual on an 8-bit display.</para>
 <option>--im</option> <parameter>XIM server</parameter>
 </term>
 <listitem>
-<para>Set XIM server.</para>
+<para>XIM サーバを設定します。</para>
 </listitem>
 </varlistentry>
 
@@ -283,7 +283,7 @@ visual on an 8-bit display.</para>
 <option>--noxim</option>
 </term>
 <listitem>
-<para>Disable XIM</para>
+<para>XIMを無効にします。</para>
 </listitem>
 </varlistentry>
 
@@ -292,7 +292,7 @@ visual on an 8-bit display.</para>
 <option>--reverse</option>
 </term>
 <listitem>
-<para>mirrors the whole layout of widgets</para>
+<para>ウイジェットの全体レイアウトをミラーします。</para>
 </listitem>
 </varlistentry>
 
@@ -301,7 +301,7 @@ visual on an 8-bit display.</para>
 <option>--stylesheet</option> <replaceable>file.qss</replaceable>
 </term>
 <listitem>
-<para>applies the &Qt; stylesheet to the application widgets</para>
+<para>アプリケーションウイジェットに &Qt; スタイルシートを適用します。</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -309,14 +309,14 @@ visual on an 8-bit display.</para>
 </refsect1>
 
 <refsect1>
-<title>License</title>
+<title>著作権</title>
 <para>
-This manual page was written by 
+このマニュアルは
 <personname>
 <firstname>Pedro</firstname>
 <surname>Lopez-Cabanillas</surname>
 </personname>
-<email>plcl@users.sourceforge.net</email>
+<email>plcl@users.sourceforge.net</email> によって書かれました。
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <acronym>GNU</acronym> General Public
 License, Version 2 or any later version published by the Free
