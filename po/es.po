@@ -1,6 +1,6 @@
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) 2005-2009, Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+# Copyright (C) 2005-2011, Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>, 2008, 2009.
 # Pedro López-Cabanillas <plcl@users.sourceforge.net>, 2010.

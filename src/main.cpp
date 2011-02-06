@@ -1,6 +1,6 @@
 /***************************************************************************
  *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2010 Pedro Lopez-Cabanillas                        *
+ *   Copyright (C) 2005-2011 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,31 +31,29 @@
 using namespace drumstick;
 
 static const char description[] =
-    I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
+        I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
 
 static const char version[] = VERSION;
 
-int main(int argc, char **argv)
+int main (int argc, char **argv)
 {
-	KAboutData about("kmidimon", 0, ki18n("KMidimon"), version,
-	                 ki18n(description), KAboutData::License_GPL,
-	                 ki18n("(C) 2005-2010 Pedro Lopez-Cabanillas"),
-	                 KLocalizedString(),
-	                 "http://kmidimon.sourceforge.net",
-	                 "plcl@users.sourceforge.net");
-	about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
-	                "plcl@users.sourceforge.net");
-	about.addCredit(ki18n("Christoph Eckert"),
-	                ki18n("Documentation, good ideas and suggestions"));
-	KCmdLineArgs::init(argc, argv, &about);
+    KAboutData about("kmidimon", 0, ki18n("KMidimon"), version, ki18n(
+            description), KAboutData::License_GPL, ki18n(
+            "(C) 2005-2011 Pedro Lopez-Cabanillas"), KLocalizedString(),
+            "http://kmidimon.sourceforge.net", "plcl@users.sourceforge.net");
+    about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
+            "plcl@users.sourceforge.net");
+    about.addCredit(ki18n("Christoph Eckert"), ki18n(
+            "Documentation, good ideas and suggestions"));
+    KCmdLineArgs::init(argc, argv, &about);
     KCmdLineOptions options;
-    options.add("+[URL]", ki18n( "File to open" ));
-	KCmdLineArgs::addCmdLineOptions( options );
-	KApplication app;
+    options.add("+[URL]", ki18n("File to open"));
+    KCmdLineArgs::addCmdLineOptions(options);
+    KApplication app;
 
     // see if we are starting with session management
     if (app.isSessionRestored()) {
-        kRestoreMainWindows<KMidimon>();
+        kRestoreMainWindows<KMidimon> ();
     } else {
         // no session.. just start up normally
         KMidimon *mainWin = new KMidimon;
