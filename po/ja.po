@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?"
 "atid=731542&group_id=134956\n"
 "POT-Creation-Date: 2010-09-15 22:29+0200\n"
-"PO-Revision-Date: 2013-07-27 11:40+09:00\n"
+"PO-Revision-Date: 2013-07-28 08:41+0900\n"
 "Last-Translator: FULL NAME <ribbon@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -58,11 +58,11 @@ msgstr "MIDI システム Exclusive"
 
 #: src/eventfilter.cpp:60
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 #: src/eventfilter.cpp:61
 msgid "SMF"
-msgstr ""
+msgstr "SMF"
 
 #: src/eventfilter.cpp:63
 msgid "Note"
@@ -78,7 +78,7 @@ msgstr "ノートオフ"
 
 #: src/eventfilter.cpp:66 src/sequencemodel.cpp:880
 msgid "Polyphonic aftertouch"
-msgstr ""
+msgstr "ポリフォニックアフタータッチ"
 
 #: src/eventfilter.cpp:67 src/eventfilter.cpp:71
 msgid "Control change"
@@ -90,7 +90,7 @@ msgstr "プログラムチェンジ"
 
 #: src/eventfilter.cpp:69 src/sequencemodel.cpp:878
 msgid "Channel aftertouch"
-msgstr ""
+msgstr "チャンネルアフタータッチ"
 
 #: src/eventfilter.cpp:70
 msgid "Pitch bend"
@@ -106,36 +106,36 @@ msgstr "登録パラメータ"
 
 #: src/eventfilter.cpp:75
 msgid "System exclusive"
-msgstr ""
+msgstr "システム・エクスクルーシブ"
 
 #: src/eventfilter.cpp:77
 msgid "Song Position"
-msgstr ""
+msgstr "ソング・ポジション"
 
 #: src/eventfilter.cpp:78
 msgid "Song Selection"
-msgstr ""
+msgstr "ソング・セレクション"
 
 #: src/eventfilter.cpp:79
 msgid "MTC Quarter Frame"
-msgstr ""
+msgstr "MTCクォーターフレーム"
 
 #: src/eventfilter.cpp:80
 msgid "Tune Request"
-msgstr ""
+msgstr "チューン・リクエスト"
 
 #: src/eventfilter.cpp:82
 msgctxt "player start"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: src/eventfilter.cpp:83
 msgid "Continue"
-msgstr ""
+msgstr "再開"
 
 #: src/eventfilter.cpp:84 src/kmidimon.cpp:230 src/sequencemodel.cpp:623
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: src/eventfilter.cpp:85
 msgid "Clock"
@@ -151,39 +151,39 @@ msgstr "リセット"
 
 #: src/eventfilter.cpp:88
 msgid "Active Sensing"
-msgstr ""
+msgstr "アクティブ・センシング"
 
 #: src/eventfilter.cpp:90
 msgid "ALSA Port start"
-msgstr ""
+msgstr "ALSAポート開始"
 
 #: src/eventfilter.cpp:91
 msgid "ALSA Port exit"
-msgstr ""
+msgstr "ALSAポート終了"
 
 #: src/eventfilter.cpp:92
 msgid "ALSA Port change"
-msgstr ""
+msgstr "ALSA Port変更"
 
 #: src/eventfilter.cpp:93
 msgid "ALSA Client start"
-msgstr ""
+msgstr "ALSA クライアント開始"
 
 #: src/eventfilter.cpp:94
 msgid "ALSA Client exit"
-msgstr ""
+msgstr "ALSA クライアント終了"
 
 #: src/eventfilter.cpp:95
 msgid "ALSA Client change"
-msgstr ""
+msgstr "ALSA クライアント変更"
 
 #: src/eventfilter.cpp:96
 msgid "ALSA Port subscribed"
-msgstr ""
+msgstr "ALSA ポートサブスクライブ"
 
 #: src/eventfilter.cpp:97
 msgid "ALSA Port unsubscribed"
-msgstr ""
+msgstr "ALSA ポートアンサブスクライブ"
 
 #: src/eventfilter.cpp:99
 msgid "Tempo"
@@ -195,11 +195,11 @@ msgstr "SMFテキスト"
 
 #: src/eventfilter.cpp:101 src/sequencemodel.cpp:834
 msgid "Time Signature"
-msgstr ""
+msgstr "Time Signature"
 
 #: src/eventfilter.cpp:102
 msgid "Key Signature"
-msgstr ""
+msgstr "Key Signature"
 
 #: src/eventfilter.cpp:103
 msgid "Sequence Number"
@@ -207,11 +207,11 @@ msgstr "シーケンス番号"
 
 #: src/eventfilter.cpp:104
 msgid "Forced Channel"
-msgstr ""
+msgstr "Forced Channel"
 
 #: src/eventfilter.cpp:105
 msgid "Forced Port"
-msgstr ""
+msgstr "Forced Port"
 
 #: src/eventfilter.cpp:106
 msgid "SMPTE Offset"
@@ -219,11 +219,11 @@ msgstr "SMPTEオフセット"
 
 #: src/eventfilter.cpp:107
 msgid "Sequencer Specific"
-msgstr ""
+msgstr "Sequencer Specific"
 
 #: src/eventfilter.cpp:108
 msgid "Meta (unregistered)"
-msgstr ""
+msgstr "Meta (unregistered)"
 
 #. i18n: file: src/configdialogbase.ui:166
 #. i18n: ectx: attribute (title), widget (QWidget, tabFilters)
@@ -271,7 +271,7 @@ msgstr "ティック"
 
 #: src/kmidimon.cpp:144 src/sequencemodel.cpp:280
 msgid "Time"
-msgstr ""
+msgstr "Time"
 
 #: src/kmidimon.cpp:145 src/sequencemodel.cpp:282
 msgctxt "event origin"
@@ -445,7 +445,7 @@ msgstr "ロードされたシーケンスの情報を表示"
 
 #: src/kmidimon.cpp:296
 msgid "Scale Tempo"
-msgstr ""
+msgstr "Scale Tempo"
 
 #: src/kmidimon.cpp:297
 msgid "Display a slider to scale the tempo between 50% and 200%"
@@ -465,7 +465,7 @@ msgstr "プレイヤーループ"
 
 #: src/kmidimon.cpp:310
 msgid "Start playing again at song ending"
-msgstr ""
+msgstr "終了時に再度再生"
 
 #: src/kmidimon.cpp:315
 msgid "Mute Track"
@@ -527,7 +527,7 @@ msgstr "(ファイルなし)"
 
 #: src/kmidimon.cpp:634
 msgid "%1 [%2]"
-msgstr ""
+msgstr "%1 [%2]"
 
 #: src/kmidimon.cpp:743 src/kmidimon.cpp:784
 msgctxt "song track"
@@ -571,19 +571,19 @@ msgstr "KDE MIDIモニタはALSAシーケンサを使用"
 
 #: src/main.cpp:40
 msgid "KMidimon"
-msgstr ""
+msgstr "KMidimon"
 
 #: src/main.cpp:42
 msgid "(C) 2005-2010 Pedro Lopez-Cabanillas"
-msgstr ""
+msgstr "(C) 2005-2010 Pedro Lopez-Cabanillas"
 
 #: src/main.cpp:46
 msgid "Pedro Lopez-Cabanillas"
-msgstr ""
+msgstr "Pedro Lopez-Cabanillas"
 
 #: src/main.cpp:48
 msgid "Christoph Eckert"
-msgstr ""
+msgstr "Christoph Eckert"
 
 #: src/main.cpp:49
 msgid "Documentation, good ideas and suggestions"
@@ -599,20 +599,20 @@ msgstr "イベント種類"
 
 #: src/sequencemodel.cpp:286
 msgid "Chan"
-msgstr ""
+msgstr "Chan"
 
 #: src/sequencemodel.cpp:463
 msgid "Universal Non Real Time SysEx"
-msgstr ""
+msgstr "Universal Non Real Time SysEx"
 
 #: src/sequencemodel.cpp:465
 msgid "Universal Real Time SysEx"
-msgstr ""
+msgstr "Universal Real Time SysEx"
 
 #: src/sequencemodel.cpp:486
 msgctxt "cast or scattered in all directions"
 msgid "broadcast"
-msgstr ""
+msgstr "broadcast"
 
 #: src/sequencemodel.cpp:488
 msgid "device %1"
@@ -624,12 +624,12 @@ msgstr "サンプルのダンプ"
 
 #: src/sequencemodel.cpp:513 src/sequencemodel.cpp:545
 msgid "MTC"
-msgstr ""
+msgstr "MTC"
 
 #: src/sequencemodel.cpp:517
 msgctxt "General Info"
 msgid "Gen.Info"
-msgstr ""
+msgstr "Gen.Info"
 
 #: src/sequencemodel.cpp:519
 msgid "File Dump"
@@ -637,7 +637,7 @@ msgstr "ファイルダンプ"
 
 #: src/sequencemodel.cpp:521 src/sequencemodel.cpp:559
 msgid "Tuning"
-msgstr ""
+msgstr "Tuning"
 
 #: src/sequencemodel.cpp:523
 msgctxt "General MIDI mode"
@@ -647,7 +647,7 @@ msgstr "GMモード"
 #: src/sequencemodel.cpp:525
 msgctxt "Downloadable Sounds"
 msgid "DLS"
-msgstr ""
+msgstr "DLS"
 
 #: src/sequencemodel.cpp:527
 msgctxt "File Reference"
@@ -656,402 +656,402 @@ msgstr "ファイル参照 "
 
 #: src/sequencemodel.cpp:529
 msgid "End of File"
-msgstr ""
+msgstr "End of File"
 
 #: src/sequencemodel.cpp:531
 msgid "Wait"
-msgstr ""
+msgstr "Wait"
 
 #: src/sequencemodel.cpp:533
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: src/sequencemodel.cpp:535
 msgid "NAK"
-msgstr ""
+msgstr "NAK"
 
 #: src/sequencemodel.cpp:537
 msgid "ACK"
-msgstr ""
+msgstr "ACK"
 
 #: src/sequencemodel.cpp:547
 msgid "Show Control"
-msgstr ""
+msgstr "コントロール表示"
 
 #: src/sequencemodel.cpp:549
 msgid "Notation"
-msgstr ""
+msgstr "Notation"
 
 #: src/sequencemodel.cpp:551
 msgid "Device Control"
-msgstr ""
+msgstr "デバイス制御"
 
 #: src/sequencemodel.cpp:553
 msgid "MTC Cueing"
-msgstr ""
+msgstr "MTC Cueing"
 
 #: src/sequencemodel.cpp:555
 msgid "MMC Command"
-msgstr ""
+msgstr "MMCコマンド"
 
 #: src/sequencemodel.cpp:557
 msgid "MMC Response"
-msgstr ""
+msgstr "MMCレスポンス"
 
 #: src/sequencemodel.cpp:561
 msgctxt "General MIDI 2 Controller Destination"
 msgid "GM2 Destination"
-msgstr ""
+msgstr "GM2 Destination"
 
 #: src/sequencemodel.cpp:563
 msgctxt "Key-based Instrument Control"
 msgid "Instrument"
-msgstr ""
+msgstr "インストゥルメント"
 
 #: src/sequencemodel.cpp:565
 msgctxt "Scalable Polyphony MIDI MIP Message"
 msgid "Polyphony"
-msgstr ""
+msgstr "ポリフォニー"
 
 #: src/sequencemodel.cpp:567
 msgctxt "Mobile Phone Control Message"
 msgid "Mobile Phone"
-msgstr ""
+msgstr "携帯電話"
 
 #: src/sequencemodel.cpp:583
 msgctxt "MTC special setup"
 msgid "Special"
-msgstr ""
+msgstr "スペシャル"
 
 #: src/sequencemodel.cpp:585
 msgid "Punch In Points"
-msgstr ""
+msgstr "パンチイン・ポイント"
 
 #: src/sequencemodel.cpp:587
 msgid "Punch Out Points"
-msgstr ""
+msgstr "パンチアウト・ポイント"
 
 #: src/sequencemodel.cpp:589
 msgid "Delete Punch In Points"
-msgstr ""
+msgstr "パンチイン・ポイントの削除"
 
 #: src/sequencemodel.cpp:591
 msgid "Delete Punch Out Points"
-msgstr ""
+msgstr "パンチアウト・ポイントの削除"
 
 #: src/sequencemodel.cpp:593
 msgid "Event Start Point"
-msgstr ""
+msgstr "イベント開始位置"
 
 #: src/sequencemodel.cpp:595
 msgid "Event Stop Point"
-msgstr ""
+msgstr "イベント終了位置"
 
 #: src/sequencemodel.cpp:597
 msgid "Event Start Point With Info"
-msgstr ""
+msgstr "付加情報付きイベント開始位置"
 
 #: src/sequencemodel.cpp:599
 msgid "Event Stop Point With Info"
-msgstr ""
+msgstr "付加情報付きイベント終了位置"
 
 #: src/sequencemodel.cpp:601
 msgid "Delete Event Start Point"
-msgstr ""
+msgstr "イベント開始位置を削除"
 
 #: src/sequencemodel.cpp:603
 msgid "Delete Event Stop Point"
-msgstr ""
+msgstr "イベント終了位置を削除"
 
 #: src/sequencemodel.cpp:605
 msgid "Cue Points"
-msgstr ""
+msgstr "キュー・ポイント"
 
 #: src/sequencemodel.cpp:607
 msgid "Cue Points With Info"
-msgstr ""
+msgstr "付加情報付きキュー・ポイント"
 
 #: src/sequencemodel.cpp:609
 msgid "Delete Cue Point"
-msgstr ""
+msgstr "キュー・ポイントの削除"
 
 #: src/sequencemodel.cpp:611
 msgid "Event Name"
-msgstr ""
+msgstr "イベント名"
 
 #: src/sequencemodel.cpp:625
 msgid "Play"
-msgstr ""
+msgstr "再生"
 
 #: src/sequencemodel.cpp:627
 msgid "Deferred play"
-msgstr ""
+msgstr "Deferred play"
 
 #: src/sequencemodel.cpp:629
 msgid "Fast forward"
-msgstr ""
+msgstr "早送り"
 
 #: src/sequencemodel.cpp:631
 msgid "Rewind"
-msgstr ""
+msgstr "巻き戻し"
 
 #: src/sequencemodel.cpp:633
 msgid "Punch in"
-msgstr ""
+msgstr "パンチ・イン"
 
 #: src/sequencemodel.cpp:635
 msgid "Punch out"
-msgstr ""
+msgstr "パンチ・アウト"
 
 #: src/sequencemodel.cpp:637
 msgid "Pause recording"
-msgstr ""
+msgstr "録音一時停止"
 
 #: src/sequencemodel.cpp:641
 msgid "Eject"
-msgstr ""
+msgstr "エジェクト"
 
 #: src/sequencemodel.cpp:643
 msgid "Chase"
-msgstr ""
+msgstr "Chase"
 
 #: src/sequencemodel.cpp:645
 msgid "Error reset"
-msgstr ""
+msgstr "エラー・リセット"
 
 #: src/sequencemodel.cpp:649
 msgid "Write"
-msgstr ""
+msgstr "書き込み"
 
 #: src/sequencemodel.cpp:651
 msgid "Masked Write"
-msgstr ""
+msgstr "マスクした書き込み"
 
 #: src/sequencemodel.cpp:653
 msgid "Read"
-msgstr ""
+msgstr "読み取り"
 
 #: src/sequencemodel.cpp:655
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: src/sequencemodel.cpp:657
 msgid "Locate"
-msgstr ""
+msgstr "Locate"
 
 #: src/sequencemodel.cpp:659
 msgid "Variable play"
-msgstr ""
+msgstr "Variable play"
 
 #: src/sequencemodel.cpp:661
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: src/sequencemodel.cpp:663
 msgid "Shuttle"
-msgstr ""
+msgstr "Shuttle"
 
 #: src/sequencemodel.cpp:665
 msgid "Step"
-msgstr ""
+msgstr "ステップ"
 
 #: src/sequencemodel.cpp:687 src/sequencemodel.cpp:728
 msgid "Header"
-msgstr ""
+msgstr "ヘッダ"
 
 #: src/sequencemodel.cpp:689 src/sequencemodel.cpp:730
 msgid "Data Packet"
-msgstr ""
+msgstr "データ・パケット"
 
 #: src/sequencemodel.cpp:691 src/sequencemodel.cpp:732
 msgid "Request"
-msgstr ""
+msgstr "リクエスト"
 
 #: src/sequencemodel.cpp:698
 msgid "Loop Points Send"
-msgstr ""
+msgstr "ループ・ポイント送信"
 
 #: src/sequencemodel.cpp:700
 msgid "Loop Points Request"
-msgstr ""
+msgstr "ループ・ポイント要求"
 
 #: src/sequencemodel.cpp:702
 msgid "Sample Name Send"
-msgstr ""
+msgstr "サンプル名送信"
 
 #: src/sequencemodel.cpp:704
 msgid "Sample Name Request"
-msgstr ""
+msgstr "サンプル名要求"
 
 #: src/sequencemodel.cpp:706
 msgid "Ext.Dump Header"
-msgstr ""
+msgstr "Ext.Dump ヘッダ"
 
 #: src/sequencemodel.cpp:708
 msgid "Ext.Loop Points Send"
-msgstr ""
+msgstr "Ext.Loop ポイント送信"
 
 #: src/sequencemodel.cpp:710
 msgid "Ext.Loop Points Request"
-msgstr ""
+msgstr "Ext.Loop ポイント要求"
 
 #: src/sequencemodel.cpp:718
 msgid "Identity Request"
-msgstr ""
+msgstr "Identity要求"
 
 #: src/sequencemodel.cpp:720
 msgid "Identity Reply"
-msgstr ""
+msgstr "Identity応答"
 
 #: src/sequencemodel.cpp:740
 msgid "Dump Request"
-msgstr ""
+msgstr "ダンプ要求"
 
 #: src/sequencemodel.cpp:742
 msgid "Bulk Dump"
-msgstr ""
+msgstr "バルクダンプ"
 
 #: src/sequencemodel.cpp:744
 msgid "Note Change"
-msgstr ""
+msgstr "ノート・チェンジ"
 
 #: src/sequencemodel.cpp:746
 msgid "Tuning Dump Request"
-msgstr ""
+msgstr "チューニングダンプ要求"
 
 #: src/sequencemodel.cpp:748
 msgid "Key-based Tuning Dump"
-msgstr ""
+msgstr "キーベースのチューニングダンプ"
 
 #: src/sequencemodel.cpp:750
 msgid "Scale/Octave Dump 1b"
-msgstr ""
+msgstr "スケール/オクターブダンプ(1バイト)"
 
 #: src/sequencemodel.cpp:752
 msgid "Scale/Octave Dump 2b"
-msgstr ""
+msgstr "スケール/オクターブダンプ(2バイト)"
 
 #: src/sequencemodel.cpp:754
 msgid "Single Note Change"
-msgstr ""
+msgstr "シングルノートチェンジ"
 
 #: src/sequencemodel.cpp:756
 msgid "Scale/Octave Tuning 1b"
-msgstr ""
+msgstr "スケール/オクターブ・チューニング(1バイト)"
 
 #: src/sequencemodel.cpp:758
 msgid "Scale/Octave Tuning 2b"
-msgstr ""
+msgstr "スケール/オクターブ・チューニング(2バイト)"
 
 #: src/sequencemodel.cpp:766
 msgid "GM On"
-msgstr ""
+msgstr "GMオン"
 
 #: src/sequencemodel.cpp:768
 msgid "GM Off"
-msgstr ""
+msgstr "GMオフ"
 
 #: src/sequencemodel.cpp:770
 msgid "GM2 On"
-msgstr ""
+msgstr "GM2オン"
 
 #: src/sequencemodel.cpp:778
 msgid "DLS On"
-msgstr ""
+msgstr "DLSオン"
 
 #: src/sequencemodel.cpp:780
 msgid "DLS Off"
-msgstr ""
+msgstr "DLSオフ"
 
 #: src/sequencemodel.cpp:782
 msgid "DLS Voice Alloc. Off"
-msgstr ""
+msgstr "DLSボイス割り当てオフ"
 
 #: src/sequencemodel.cpp:784
 msgid "DLS Voice Alloc. On"
-msgstr ""
+msgstr "DLSボイス割り当てオン"
 
 #: src/sequencemodel.cpp:792
 msgid "Open"
-msgstr ""
+msgstr "オープン"
 
 #: src/sequencemodel.cpp:794
 msgid "Select Contents"
-msgstr ""
+msgstr "コンテンツ選択"
 
 #: src/sequencemodel.cpp:796
 msgid "Open and Select"
-msgstr ""
+msgstr "オープンと選択"
 
 #: src/sequencemodel.cpp:798
 msgid "Close"
-msgstr ""
+msgstr "クローズ"
 
 #: src/sequencemodel.cpp:813
 msgid "Full Frame"
-msgstr ""
+msgstr "フルネーム"
 
 #: src/sequencemodel.cpp:815
 msgid "User Bits"
-msgstr ""
+msgstr "User Bits"
 
 #: src/sequencemodel.cpp:823
 msgid "MSC Extension"
-msgstr ""
+msgstr "MSCエクステンション"
 
 #: src/sequencemodel.cpp:825
 msgid "MSC Cmd.%1"
-msgstr ""
+msgstr "MSC Cmd.%1"
 
 #: src/sequencemodel.cpp:831
 msgid "Bar Marker"
-msgstr ""
+msgstr "Bar Marker"
 
 #: src/sequencemodel.cpp:842
 msgctxt "sound volume"
 msgid "Volume"
-msgstr ""
+msgstr "ボリューム"
 
 #: src/sequencemodel.cpp:844
 msgctxt "sound balance"
 msgid "Balance"
-msgstr ""
+msgstr "バランス"
 
 #: src/sequencemodel.cpp:846
 msgid "Fine Tuning"
-msgstr ""
+msgstr "ファイン・チューニング"
 
 #: src/sequencemodel.cpp:848
 msgid "Coarse Tuning"
-msgstr ""
+msgstr "コース・チューニング"
 
 #: src/sequencemodel.cpp:850
 msgid "Global Parameter"
-msgstr ""
+msgstr "グローバル・パラメータ"
 
 #: src/sequencemodel.cpp:860
 msgid "Response %1"
-msgstr ""
+msgstr "レスポンス %1"
 
 #: src/sequencemodel.cpp:864
 msgid "Single Note"
-msgstr ""
+msgstr "シングル・ノート"
 
 #: src/sequencemodel.cpp:866
 msgid "Single Note with Bank"
-msgstr ""
+msgstr "バンク付きのシングル・ノート"
 
 #: src/sequencemodel.cpp:868
 msgid "Scale/Octave 1b"
-msgstr ""
+msgstr "スケール/オクターブ 1バイト"
 
 #: src/sequencemodel.cpp:870
 msgid "Scale/Octave 2b"
-msgstr ""
+msgstr "スケール/オクターブ 2バイト"
 
 #: src/sequencemodel.cpp:882
 msgid "Controller"
-msgstr ""
+msgstr "コントローラ"
 
 #: src/sequencemodel.cpp:1036
 msgid "Event type %1"
@@ -1060,81 +1060,81 @@ msgstr "イベントタイプ:%1"
 #: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
 #: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/sequencemodel.cpp:1056
 msgid "C♯"
-msgstr ""
+msgstr "C#"
 
 #: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
 #: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "D"
-msgstr ""
+msgstr "D"
 
 #: src/sequencemodel.cpp:1056
 msgid "D♯"
-msgstr ""
+msgstr "D#"
 
 #: src/sequencemodel.cpp:1056 src/sequencemodel.cpp:1058
 #: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
 #: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1272
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: src/sequencemodel.cpp:1057
 msgid "F♯"
-msgstr ""
+msgstr "F#"
 
 #: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
 #: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1272
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: src/sequencemodel.cpp:1057
 msgid "G♯"
-msgstr ""
+msgstr "G#"
 
 #: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
 #: src/sequencemodel.cpp:1269 src/sequencemodel.cpp:1273
 msgid "A"
-msgstr ""
+msgstr "A"
 
 #: src/sequencemodel.cpp:1057
 msgid "A♯"
-msgstr ""
+msgstr "A#"
 
 #: src/sequencemodel.cpp:1057 src/sequencemodel.cpp:1059
 #: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: src/sequencemodel.cpp:1058
 msgid "D♭"
-msgstr ""
+msgstr "D♭"
 
 #: src/sequencemodel.cpp:1058
 msgid "E♭"
-msgstr ""
+msgstr "E♭"
 
 #: src/sequencemodel.cpp:1059
 msgid "G♭"
-msgstr ""
+msgstr "G♭"
 
 #: src/sequencemodel.cpp:1059
 msgid "A♭"
-msgstr ""
+msgstr "A♭"
 
 #: src/sequencemodel.cpp:1059
 msgid "B♭"
-msgstr ""
+msgstr "B♭"
 
 #: src/sequencemodel.cpp:1187
 msgid "%1 bpm"
-msgstr ""
+msgstr "%1 bpm"
 
 #: src/sequencemodel.cpp:1209
 msgid "Text:1"
@@ -1142,7 +1142,7 @@ msgstr "テキスト:1"
 
 #: src/sequencemodel.cpp:1211
 msgid "Copyright:2"
-msgstr ""
+msgstr "Copyright:2"
 
 #: src/sequencemodel.cpp:1213
 msgctxt "song or track name"
@@ -1163,111 +1163,111 @@ msgstr "マーカー:6"
 
 #: src/sequencemodel.cpp:1221
 msgid "Cue:7"
-msgstr ""
+msgstr "キュー:7"
 
 #: src/sequencemodel.cpp:1243
 msgid "%1/%2"
-msgstr ""
+msgstr "%1/%2"
 
 #: src/sequencemodel.cpp:1251
 msgid "%1 clocks per click, %2 32nd per quarter"
-msgstr ""
+msgstr "%1 clocks per click, %2 32nd per quarter"
 
 #: src/sequencemodel.cpp:1260
 msgid "%1%2"
-msgstr ""
+msgstr "%1%2"
 
 #: src/sequencemodel.cpp:1267
 msgid "C flat"
-msgstr ""
+msgstr "Cフラット"
 
 #: src/sequencemodel.cpp:1267
 msgid "G flat"
-msgstr ""
+msgstr "Gフラット"
 
 #: src/sequencemodel.cpp:1267
 msgid "D flat"
-msgstr ""
+msgstr "Dフラット"
 
 #: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "A flat"
-msgstr ""
+msgstr "Aフラット"
 
 #: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "E flat"
-msgstr ""
+msgstr "Eフラット"
 
 #: src/sequencemodel.cpp:1268 src/sequencemodel.cpp:1271
 msgid "B flat"
-msgstr ""
+msgstr "Bフラット"
 
 #: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "F sharp"
-msgstr ""
+msgstr "F #"
 
 #: src/sequencemodel.cpp:1270 src/sequencemodel.cpp:1273
 msgid "C sharp"
-msgstr ""
+msgstr "C #"
 
 #: src/sequencemodel.cpp:1274
 msgid "G sharp"
-msgstr ""
+msgstr "G #"
 
 #: src/sequencemodel.cpp:1274
 msgid "D sharp"
-msgstr ""
+msgstr "D #"
 
 #: src/sequencemodel.cpp:1274
 msgid "A sharp"
-msgstr ""
+msgstr "A #"
 
 #: src/sequencemodel.cpp:1279
 msgctxt "major mode scale"
 msgid "major"
-msgstr ""
+msgstr "長調"
 
 #: src/sequencemodel.cpp:1280
 msgctxt "minor mode scale"
 msgid "minor"
-msgstr ""
+msgstr "短調"
 
 #: src/sequencemodel.cpp:1288
 msgid "%1:%2:%3:%4:%5"
-msgstr ""
+msgstr "%1:%2:%3:%4:%5"
 
 #: src/sequencemodel.cpp:1610
 msgid "SMF type %1"
-msgstr ""
+msgstr "SMFタイプ %1"
 
 #: src/sequencemodel.cpp:1846 src/sequencemodel.cpp:2074
 msgid " at offset %1"
-msgstr ""
+msgstr " at offset %1"
 
 #: src/sequencemodel.cpp:2079
 msgid "WRK file version %1.%2"
-msgstr ""
+msgstr "WRKファイルバージョン %1.%2"
 
 #: src/sequencemodel.cpp:2475
 msgid "Overture File"
-msgstr ""
+msgstr "Overture ファイル"
 
 #. i18n: file: src/configdialogbase.ui:62
 #. i18n: ectx: attribute (title), widget (QWidget, tabSequencer)
 #: po/rc.cpp:3
 msgid "Sequencer"
-msgstr ""
+msgstr "シーケンサ"
 
 #. i18n: file: src/configdialogbase.ui:74
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: po/rc.cpp:6
 msgid "Queue Default Settings"
-msgstr ""
+msgstr "Queue Default Settings"
 
 #. i18n: file: src/configdialogbase.ui:81
 #. i18n: ectx: property (text), widget (QLabel, lblTempo)
 #: po/rc.cpp:9
 msgid "Tempo (BPM)"
-msgstr ""
+msgstr "テンポ(BPM)"
 
 #. i18n: file: src/configdialogbase.ui:94
 #. i18n: ectx: property (whatsThis), widget (KIntSpinBox, m_tempo)
@@ -1276,12 +1276,14 @@ msgid ""
 "The number of beats per minute, or music speed. This is a default value; "
 "MIDI files may change this value."
 msgstr ""
+"The number of beats per minute, or music speed. これは既定値です; MIDIファイル\n"
+"はこの値に変更されます。"
 
 #. i18n: file: src/configdialogbase.ui:113
 #. i18n: ectx: property (text), widget (QLabel, lblResolution)
 #: po/rc.cpp:15
 msgid "Resolution"
-msgstr ""
+msgstr "解像度"
 
 #. i18n: file: src/configdialogbase.ui:126
 #. i18n: ectx: property (whatsThis), widget (KIntSpinBox, m_resolution)
@@ -1290,18 +1292,20 @@ msgid ""
 "The number of MIDI ticks per quarter note. This is a default value; a MIDI "
 "file (SMF) may change this value."
 msgstr ""
+"The number of MIDI ticks per quarter note. これは既定値です; MIDIファイル(SMF)\n"
+"はこの値に変更されます。"
 
 #. i18n: file: src/configdialogbase.ui:158
 #. i18n: ectx: property (text), widget (QCheckBox, m_requestRealtime)
 #: po/rc.cpp:21
 msgid "Request realtime priority for MIDI input"
-msgstr ""
+msgstr "Request realtime priority for MIDI input"
 
 #. i18n: file: src/configdialogbase.ui:178
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: po/rc.cpp:27
 msgid "Filter Message Types"
-msgstr ""
+msgstr "Filter Message Types"
 
 #. i18n: file: src/configdialogbase.ui:185
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_channel)
@@ -1309,7 +1313,7 @@ msgstr ""
 msgid ""
 "MIDI Channel messages include: Note On/Off, Control Change, Program Change, "
 "Pitch Wheel, Key and Channel Pressure."
-msgstr ""
+msgstr "MIDI Channel messages include: Note On/Off, Control Change, Program Change, Pitch Wheel, Key and Channel Pressure."
 
 #. i18n: file: src/configdialogbase.ui:188
 #. i18n: ectx: property (text), widget (QCheckBox, m_channel)
@@ -1322,7 +1326,7 @@ msgstr "MIDIチャンネルメッセージ"
 #: po/rc.cpp:36
 msgid ""
 "System common messages are: quarter frame, song position and tune request."
-msgstr ""
+msgstr "システムコモンメッセージは右記の通り: quarter frame, song position and tune request."
 
 #. i18n: file: src/configdialogbase.ui:198
 #. i18n: ectx: property (text), widget (QCheckBox, m_common)
@@ -1336,25 +1340,25 @@ msgstr "MIDIシステムコモンメッセージ"
 msgid ""
 "System realtime messages are: clock, start, continue, stop, active sensing "
 "and reset."
-msgstr ""
+msgstr "システムリアルタイムメッセージは右記の通り: clock, start, continue, stop, active sensing and reset."
 
 #. i18n: file: src/configdialogbase.ui:208
 #. i18n: ectx: property (text), widget (QCheckBox, m_realtime)
 #: po/rc.cpp:45
 msgid "MIDI System Real-Time Messages"
-msgstr ""
+msgstr "MIDI System Real-Time Messages"
 
 #. i18n: file: src/configdialogbase.ui:215
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_sysex)
 #: po/rc.cpp:48
 msgid "System exclusive messages can be: universal and manufacturer defined."
-msgstr ""
+msgstr "System exclusive messages can be: universal and manufacturer defined."
 
 #. i18n: file: src/configdialogbase.ui:218
 #. i18n: ectx: property (text), widget (QCheckBox, m_sysex)
 #: po/rc.cpp:51
 msgid "MIDI System Exclusive Messages"
-msgstr ""
+msgstr "MIDIシステムエクスクルーシブメッセージ"
 
 #. i18n: file: src/configdialogbase.ui:225
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_alsa)
@@ -1404,7 +1408,7 @@ msgstr "カラムを表示"
 #: po/rc.cpp:72
 msgid ""
 "Ticks are the musical time units. It is relative to tempo and resolution."
-msgstr ""
+msgstr "Ticks are the musical time units. It is relative to tempo and resolution."
 
 #. i18n: file: src/configdialogbase.ui:289
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showTimeColumn)
@@ -1422,7 +1426,7 @@ msgstr "時間(秒単位)"
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_showSourceColumn)
 #: po/rc.cpp:84
 msgid "MIDI port originating the messages"
-msgstr ""
+msgstr "MIDI port originating the messages"
 
 #. i18n: file: src/configdialogbase.ui:302
 #. i18n: ectx: property (text), widget (QCheckBox, m_showSourceColumn)
