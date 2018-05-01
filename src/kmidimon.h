@@ -22,15 +22,13 @@
 #ifndef KMIDIMON_H
 #define KMIDIMON_H
 
+#include <QString>
 #include <QPointer>
-#include <kxmlguiwindow.h>
+#include <QMainWindow>
 
-class KAction;
-class KToggleAction;
-class KRecentFilesAction;
-class KTabBar;
-class KProgressDialog;
-class KUrl;
+class QAction;
+class QTabBar;
+class QProgressDialog;
 class EventFilter;
 
 class QEvent;
@@ -43,17 +41,28 @@ class QMenu;
 class SequencerAdaptor;
 class SequenceModel;
 class ProxyModel;
-class KPlayerPopupSliderAction;
+class PlayerPopupSliderAction;
 
 const int COLUMN_COUNT = 8;
 
-class KMidimon : public KXmlGuiWindow
+namespace Ui {
+class KMidimonWin;
+}
+
+enum PlayerState {
+    InvalidState,
+    RecordingState,
+    PlayingState,
+    PausedState,
+    StoppedState
+};
+
+class KMidimon : public QMainWindow
 {
     Q_OBJECT
 public:
     KMidimon();
-    virtual ~KMidimon() {}
-    bool queryExit();
+    virtual ~KMidimon();
 
 public slots:
     void fileNew();
@@ -75,16 +84,14 @@ public slots:
     void changeTrack(int tabIndex);
     void muteTrack(int tabIndex);
     void songFinished();
-    void openURL(const KUrl& url);
+    void open(const QString& fileName);
     void tempoReset();
     void tempoSlider(int value);
     void slotLoop();
 
     void disconnectAll();
     void configConnections();
-    void updateState(const QString newState, const QString stateName);
-    void editToolbars();
-    void contextMenuEvent( QContextMenuEvent *ev );
+    void updateState(PlayerState newState);
     void setColumnStatus(int colNum, bool status);
     void toggleColumn(int colNum);
     void modelRowsInserted(const QModelIndex& parent, int start, int end);
@@ -95,6 +102,8 @@ public slots:
     void slotCurrentChanged(const QModelIndex& curr, const QModelIndex& prev);
     void updateView();
     void songFileInfo();
+    void closeEvent(QCloseEvent *event);
+    void contextMenuEvent( QContextMenuEvent *ev );
     void dropEvent( QDropEvent * event );
     void dragEnterEvent( QDragEnterEvent * event );
 
@@ -109,38 +118,39 @@ protected:
     void updateCaption();
 
 private:
+    PlayerState m_state;
     SequencerAdaptor *m_adaptor;
-    KAction *m_play;
-    KToggleAction *m_pause;
-    KAction *m_forward;
-    KAction *m_rewind;
-    KAction *m_stop;
-    KAction *m_record;
-    KAction *m_prefs;
-    KAction *m_save;
-    KAction *m_connectAll;
-    KAction *m_disconnectAll;
-    KAction *m_configConns;
-    KAction *m_createTrack;
-    KAction *m_deleteTrack;
-    KAction *m_changeTrack;
-    KAction *m_resizeColumns;
-    KAction *m_fileInfo;
-    KPlayerPopupSliderAction *m_tempoSlider;
-    KAction *m_tempo100;
-    KRecentFilesAction *m_recentFiles;
-    KToggleAction *m_popupAction[COLUMN_COUNT];
+    QAction *m_play;
+    QAction *m_pause;
+    QAction *m_forward;
+    QAction *m_rewind;
+    QAction *m_stop;
+    QAction *m_record;
+    QAction *m_prefs;
+    QAction *m_save;
+    QAction *m_connectAll;
+    QAction *m_disconnectAll;
+    QAction *m_configConns;
+    QAction *m_createTrack;
+    QAction *m_deleteTrack;
+    QAction *m_changeTrack;
+    QAction *m_resizeColumns;
+    QAction *m_fileInfo;
+    PlayerPopupSliderAction *m_tempoSlider;
+    QAction *m_tempo100;
+    QMenu *m_recentFiles;
+    QAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;
     SequenceModel* m_model;
     ProxyModel* m_proxy;
     QSignalMapper* m_mapper;
-    KTabBar* m_tabBar;
-    QPointer<KProgressDialog> m_pd;
+    QTabBar* m_tabBar;
+    QPointer<QProgressDialog> m_pd;
     QString m_outputConn;
     EventFilter* m_filter;
-    KToggleAction *m_loop;
-    KToggleAction *m_muteTrack;
+    QAction *m_loop;
+    QAction *m_muteTrack;
 	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;
@@ -148,6 +158,7 @@ private:
     QString m_currentState;
     bool m_autoResizeColumns;
     bool m_requestRealtimePrio;
+    Ui::KMidimonWin *m_ui;
 };
 
 #endif // KMIDIMON_H

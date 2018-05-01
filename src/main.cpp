@@ -20,47 +20,34 @@
  ***************************************************************************/
 
 #include "kmidimon.h"
-#include "drumstickcommon.h"
+#include <QApplication>
+#include <QLocale>
 
-#include <KApplication>
-#include <KAboutData>
-#include <KCmdLineArgs>
-#include <KLocale>
-#include <KUrl>
+//static const char description[] =
+//        I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
 
-using namespace drumstick;
+//static const char version[] = VERSION;
 
-static const char description[] =
-        I18N_NOOP("KDE MIDI monitor using ALSA sequencer");
-
-static const char version[] = VERSION;
+const QString QSTR_DOMAIN("kmidimon.sourceforge.net");
+const QString QSTR_APPNAME("kmidimon");
 
 int main (int argc, char **argv)
 {
-    KAboutData about("kmidimon", 0, ki18n("KMidimon"), version, ki18n(
-            description), KAboutData::License_GPL, ki18n(
-            "(C) 2005-2011 Pedro Lopez-Cabanillas"), KLocalizedString(),
-            "http://kmidimon.sourceforge.net", "plcl@users.sourceforge.net");
-    about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
-            "plcl@users.sourceforge.net");
-    about.addCredit(ki18n("Christoph Eckert"), ki18n(
-            "Documentation, good ideas and suggestions"));
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineOptions options;
-    options.add("+[URL]", ki18n("File to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
-    KApplication app;
-
-    // see if we are starting with session management
-    if (app.isSessionRestored()) {
-        kRestoreMainWindows<KMidimon> ();
-    } else {
-        // no session.. just start up normally
-        KMidimon *mainWin = new KMidimon;
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-        if (args->count() > 0)
-            mainWin->openURL(args->url(0));
-        mainWin->show();
-    }
+//    KAboutData about("kmidimon", 0, ki18n("KMidimon"), version, ki18n(
+//            description), KAboutData::License_GPL, ki18n(
+//            "(C) 2005-2011 Pedro Lopez-Cabanillas"), KLocalizedString(),
+//            "http://kmidimon.sourceforge.net", "plcl@users.sourceforge.net");
+//    about.addAuthor(ki18n("Pedro Lopez-Cabanillas"), KLocalizedString(),
+//            "plcl@users.sourceforge.net");
+//    about.addCredit(ki18n("Christoph Eckert"), ki18n(
+//            "Documentation, good ideas and suggestions"));
+    QCoreApplication::setOrganizationName(QSTR_DOMAIN);
+    QCoreApplication::setOrganizationDomain(QSTR_DOMAIN);
+    QCoreApplication::setApplicationName(QSTR_APPNAME);
+    QApplication app(argc, argv);
+    KMidimon *mainWin = new KMidimon;
+//    if (args->count() > 0)
+//        mainWin->openURL(args->url(0));
+    mainWin->show();
     return app.exec();
 }

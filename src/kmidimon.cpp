@@ -27,6 +27,7 @@
 #include "eventfilter.h"
 #include "sequenceradaptor.h"
 #include "slideraction.h"
+#include "ui_kmidimonwin.h"
 
 #include <QMenu>
 #include <QEvent>
@@ -39,32 +40,24 @@
 #include <QToolTip>
 #include <QFileInfo>
 #include <QDropEvent>
-
-#include <KLocale>
-#include <KAction>
-#include <KApplication>
-#include <KFileDialog>
-#include <KEditToolBar>
-#include <KGlobal>
-#include <KGlobalSettings>
-#include <KToggleAction>
-#include <KStandardAction>
-#include <KActionCollection>
-#include <KXMLGUIFactory>
-#include <KUrl>
-#include <KTabBar>
-#include <KIcon>
-#include <KInputDialog>
-#include <KProgressDialog>
-#include <KRecentFilesAction>
-#include <KMenuBar>
-#include <KMessageBox>
-#include <KIO/NetAccess>
+#include <QMessageBox>
+#include <QMenuBar>
+#include <QMimeData>
+#include <QDateTime>
+#include <QProgressDialog>
+#include <QFileDialog>
+#include <QSettings>
+#include <QInputDialog>
+#include <QFontDatabase>
+#include <QFont>
 
 KMidimon::KMidimon() :
-    KXmlGuiWindow(0),
-    m_adaptor(0)
+    QMainWindow(0),
+    m_state(InvalidState),
+    m_adaptor(0),
+    m_ui(new Ui::KMidimonWin)
 {
+    m_ui->setupUi(this);
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
@@ -75,7 +68,7 @@ KMidimon::KMidimon() :
     m_proxy = new ProxyModel(this);
     m_proxy->setSourceModel(m_model);
     m_view = new QTreeView(this);
-    m_view->setWhatsThis(i18n("The events list"));
+    m_view->setWhatsThis(tr("The events list"));
     m_view->setRootIsDecorated(false);
     m_view->setAlternatingRowColors(true);
     m_view->setModel(m_proxy);
@@ -93,8 +86,8 @@ KMidimon::KMidimon() :
                           SLOT(modelRowsInserted(QModelIndex,int,int)) );
         connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
         connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
-        m_tabBar = new KTabBar(this);
-        m_tabBar->setWhatsThis(i18n("Track view selectors"));
+        m_tabBar = new QTabBar(this);
+        m_tabBar->setWhatsThis(tr("Track view selectors"));
         m_tabBar->setShape(QTabBar::RoundedNorth);
 #if QT_VERSION < 0x040500
         m_tabBar->setTabReorderingEnabled(true);
@@ -110,10 +103,10 @@ KMidimon::KMidimon() :
         connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
                            SLOT(deleteTrack(int)) );
 #endif
-        connect( m_tabBar, SIGNAL(newTabRequest()),
-                           SLOT(addTrack()) );
-        connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
-                           SLOT(changeTrack(int)) );
+//        connect( m_tabBar, SIGNAL(newTabRequest()),
+//                           SLOT(addTrack()) );
+//        connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
+//                           SLOT(changeTrack(int)) );
         connect( m_tabBar, SIGNAL(currentChanged(int)),
                            SLOT(tabIndexChanged(int)) );
         layout->addWidget(m_tabBar);
@@ -121,18 +114,18 @@ KMidimon::KMidimon() :
         vbox->setLayout(layout);
         setCentralWidget(vbox);
         setupActions();
-        setAutoSaveSettings();
+        //setAutoSaveSettings();
         readConfiguration();
         fileNew();
         record();
     } catch (SequencerError& ex) {
-        QString errorstr = i18n("Fatal error from the ALSA sequencer. "
+        QString errorstr = tr("Fatal error from the ALSA sequencer. "
             "This usually happens when the kernel doesn't have ALSA support, "
             "or the device node (/dev/snd/seq) doesn't exists, "
             "or the kernel module (snd_seq) is not loaded. "
-            "Please check your ALSA/MIDI configuration. Returned error was: %1",
-            ex.qstrError());
-        KMessageBox::error(0, errorstr, i18n("Error"));
+            "Please check your ALSA/MIDI configuration. Returned error was: %1")
+                .arg(ex.qstrError());
+        QMessageBox::critical(0, tr("Error"), errorstr);
         close();
     }
 }
@@ -140,14 +133,14 @@ KMidimon::KMidimon() :
 void KMidimon::setupActions()
 {
     const QString columnName[COLUMN_COUNT] = {
-            i18n("Ticks"),
-            i18n("Time"),
-            i18nc("event origin", "Source"),
-            i18nc("type of event", "Event Kind"),
-            i18n("Channel"),
-            i18n("Data 1"),
-            i18n("Data 2"),
-            i18n("Data 3")
+            tr("Ticks"),
+            tr("Time"),
+            tr("event origin", "Source"),
+            tr("type of event", "Event Kind"),
+            tr("Channel"),
+            tr("Data 1"),
+            tr("Data 2"),
+            tr("Data 3")
     };
     const QString actionName[COLUMN_COUNT] = {
             "show_ticks",
@@ -159,21 +152,58 @@ void KMidimon::setupActions()
             "show_data2",
             "show_data3"
     };
-    KAction* a;
 
-    a = KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
-    a->setWhatsThis(i18n("Exit the application"));
-    a = KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
-    a->setWhatsThis(i18n("Open a disk file"));
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
-    a = KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
-    a->setWhatsThis(i18n("Clear the current data and start a new empty session"));
-    m_save = KStandardAction::saveAs(this, SLOT(fileSave()), actionCollection());
-    m_save->setWhatsThis(i18n("Store the session data on a disk file"));
-    m_prefs = KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
-    m_prefs->setWhatsThis(i18n("Configure the program setting several preferences"));
-    a = KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
-    a->setWhatsThis(i18n("Organize the toolbar icons"));
+    QAction* a = new QAction(this);
+    a->setText(tr("&New"));
+    a->setIcon(QIcon::fromTheme("document-new"));
+    a->setWhatsThis(tr("Clear the current data and start a new empty session"));
+    connect(a, SIGNAL(triggered()), SLOT(fileNew()));
+    m_ui->menuFile->addAction(a);
+    m_ui->toolBar->addAction(a);
+
+    a = new QAction(this);
+    a->setText(tr("&Open"));
+    a->setIcon(QIcon::fromTheme("document-open"));
+    a->setWhatsThis(tr("Open a disk file"));
+    connect(a, SIGNAL(triggered()), SLOT(fileOpen()));
+    m_ui->menuFile->addAction(a);
+    m_ui->toolBar->addAction(a);
+
+    m_recentFiles = m_ui->menuFile->addMenu(QIcon::fromTheme("document-open-recent"), "Recent files");
+
+    m_ui->menuFile->addSeparator();
+
+    m_save = new QAction(this);
+    m_save->setText(tr("&Save"));
+    m_save->setIcon(QIcon::fromTheme("document-save"));
+    m_save->setWhatsThis(tr("Store the session data on a disk file"));
+    connect(a, SIGNAL(triggered()), SLOT(fileSave()));
+    m_ui->menuFile->addAction(m_save);
+    m_ui->toolBar->addAction(m_save);
+
+    m_fileInfo = new QAction(this);
+    m_fileInfo->setText(tr("Sequence Info"));
+    m_fileInfo->setWhatsThis(tr("Display information about the loaded sequence"));
+    m_fileInfo->setIcon(QIcon::fromTheme("dialog-information"));
+    connect(m_fileInfo, SIGNAL(triggered()), SLOT(songFileInfo()));
+    m_ui->menuFile->addAction(m_fileInfo);
+    m_ui->menuFile->addSeparator();
+
+    a = new QAction(this);
+    a->setText(tr("Quit"));
+    a->setIcon(QIcon::fromTheme("application-exit"));
+    a->setWhatsThis(tr("Exit the application"));
+    connect(a, SIGNAL(triggered()), SLOT(close()));
+    m_ui->menuFile->addAction(a);
+    m_ui->toolBar->addAction(a);
+
+    m_prefs = new QAction(this);
+    m_prefs->setText(tr("Preferences"));
+    m_prefs->setIcon(QIcon::fromTheme("configure"));
+    m_prefs->setWhatsThis(tr("Configure the program setting several preferences"));
+    connect(m_prefs, SIGNAL(triggered()), SLOT(preferences()));
+    m_ui->menuSettings->addAction(m_prefs);
+    m_ui->toolBar->addAction(m_prefs);
 
     /* Icon naming specification
      * http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
@@ -189,139 +219,148 @@ void KMidimon::setupActions()
      * media-skip-forward       The icon for the skip forward action of a media player.
      */
 
-    m_play = new KAction(this);
-    m_play->setText(i18n("&Play"));
-    m_play->setIcon(KIcon("media-playback-start"));
-    m_play->setShortcut( Qt::Key_MediaPlay );
-    m_play->setWhatsThis(i18n("Start playback of the current session"));
-    connect(m_play, SIGNAL(triggered()), SLOT(play()));
-    actionCollection()->addAction("play", m_play);
-
-    m_pause = new KToggleAction(this);
-    m_pause->setText(i18n("Pause"));
-    m_pause->setIcon(KIcon("media-playback-pause"));
-    m_pause->setWhatsThis(i18n("Pause the playback"));
-    connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
-    actionCollection()->addAction("pause", m_pause);
-
-    m_forward = new KAction(this);
-    m_forward->setText(i18nc("player skip forward", "Forward"));
-    m_forward->setIcon(KIcon("media-skip-forward"));
-    m_forward->setWhatsThis(i18n("Move the playback position to the last event"));
-    connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
-    actionCollection()->addAction("forward", m_forward);
-
-    m_rewind = new KAction(this);
-    m_rewind->setText(i18nc("player skip backward", "Backward"));
-    m_rewind->setIcon(KIcon("media-skip-backward"));
-    m_rewind->setWhatsThis(i18n("Move the playback position to the first event"));
+    m_rewind = new QAction(this);
+    m_rewind->setText(tr("player skip backward", "Backward"));
+    m_rewind->setIcon(QIcon::fromTheme("media-skip-backward"));
+    m_rewind->setWhatsThis(tr("Move the playback position to the first event"));
     connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
-    actionCollection()->addAction("rewind", m_rewind);
+    m_ui->menuControl->addAction(m_rewind);
+    m_ui->toolBar->addAction(m_rewind);
 
-    m_record = new KAction(this);
-    m_record->setText(i18n("Record"));
-    m_record->setIcon(KIcon("media-record"));
+    m_play = new QAction(this);
+    m_play->setText(tr("&Play"));
+    m_play->setIcon(QIcon::fromTheme("media-playback-start"));
+    m_play->setShortcut( Qt::Key_MediaPlay );
+    m_play->setWhatsThis(tr("Start playback of the current session"));
+    connect(m_play, SIGNAL(triggered()), SLOT(play()));
+    m_ui->menuControl->addAction(m_play);
+    m_ui->toolBar->addAction(m_play);
+
+    m_pause = new QAction(this);
+    m_pause->setText(tr("Pause"));
+    m_pause->setIcon(QIcon::fromTheme("media-playback-pause"));
+    m_pause->setWhatsThis(tr("Pause the playback"));
+    connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
+    m_ui->menuControl->addAction(m_pause);
+    m_ui->toolBar->addAction(m_pause);
+
+    m_forward = new QAction(this);
+    m_forward->setText(tr("player skip forward", "Forward"));
+    m_forward->setIcon(QIcon::fromTheme("media-skip-forward"));
+    m_forward->setWhatsThis(tr("Move the playback position to the last event"));
+    connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
+    m_ui->menuControl->addAction(m_forward);
+    m_ui->toolBar->addAction(m_forward);
+
+    m_record = new QAction(this);
+    m_record->setText(tr("Record"));
+    m_record->setIcon(QIcon::fromTheme("media-record"));
     m_record->setShortcut( Qt::Key_MediaRecord );
-    m_record->setWhatsThis(i18n("Append new recorded events to the current session"));
+    m_record->setWhatsThis(tr("Append new recorded events to the current session"));
     connect(m_record, SIGNAL(triggered()), SLOT(record()));
-    actionCollection()->addAction("record", m_record);
+    m_ui->menuControl->addAction(m_record);
+    m_ui->toolBar->addAction(m_record);
 
-    m_stop = new KAction(this);
-    m_stop->setText( i18n("Stop") );
-    m_stop->setIcon(KIcon("media-playback-stop"));
+    m_stop = new QAction(this);
+    m_stop->setText( tr("Stop") );
+    m_stop->setIcon(QIcon::fromTheme("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_MediaStop );
-    m_stop->setWhatsThis(i18n("Stop playback or recording"));
+    m_stop->setWhatsThis(tr("Stop playback or recording"));
     connect(m_stop, SIGNAL(triggered()), SLOT(stop()));
-    actionCollection()->addAction("stop", m_stop);
+    m_ui->menuControl->addAction(m_stop);
+    m_ui->toolBar->addAction(m_stop);
 
-    m_connectAll = new KAction(this);
-    m_connectAll->setText(i18n("Connect All Inputs"));
-    m_connectAll->setWhatsThis(i18n("Connect all readable MIDI ports"));
+    m_ui->menuControl->addSeparator();
+
+    m_loop = new QAction(this);
+    m_loop->setCheckable(true);
+    m_loop->setText(tr("Player Loop"));
+    m_loop->setWhatsThis(tr("Start playing again at song ending"));
+    connect(m_loop, SIGNAL(triggered()), SLOT(slotLoop()));
+    m_ui->menuControl->addAction(m_loop);
+
+    m_tempoSlider = new PlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
+    m_tempoSlider->setText(tr("Scale Tempo"));
+    m_tempoSlider->setWhatsThis(tr("Display a slider to scale the tempo between 50% and 200%"));
+    m_tempoSlider->setIcon(QIcon::fromTheme("chronometer"));
+    m_ui->menuControl->addAction(m_tempoSlider);
+    m_ui->toolBar->addAction(m_tempoSlider);
+
+    m_tempo100 = new QAction(this);
+    m_tempo100->setText(tr("Reset Tempo"));
+    m_tempo100->setWhatsThis(tr("Reset the tempo scale to 100%"));
+    m_tempo100->setIcon(QIcon::fromTheme("player-time"));
+    connect(m_tempo100, SIGNAL(triggered()), this, SLOT(tempoReset()));
+    m_ui->menuControl->addAction(m_tempo100);
+    m_ui->toolBar->addAction(m_tempo100);
+
+    m_connectAll = new QAction(this);
+    m_connectAll->setText(tr("Connect All Inputs"));
+    m_connectAll->setWhatsThis(tr("Connect all readable MIDI ports"));
     connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
-    actionCollection()->addAction("connect_all", m_connectAll);
+    m_ui->menuConnections->addAction(m_connectAll);
 
-    m_disconnectAll = new KAction(this);
-    m_disconnectAll->setText(i18n("Disconnect All Inputs"));
-    m_disconnectAll->setWhatsThis(i18n("Disconnect all input MIDI ports"));
+    m_disconnectAll = new QAction(this);
+    m_disconnectAll->setText(tr("Disconnect All Inputs"));
+    m_disconnectAll->setWhatsThis(tr("Disconnect all input MIDI ports"));
     connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
-    actionCollection()->addAction( "disconnect_all", m_disconnectAll );
+    m_ui->menuConnections->addAction(m_disconnectAll);
 
-    m_configConns = new KAction(this);
-    m_configConns->setText(i18n("Configure Connections"));
-    m_configConns->setWhatsThis(i18n("Open the Connections dialog"));
+    m_ui->menuConnections->addSeparator();
+
+    m_configConns = new QAction(this);
+    m_configConns->setText(tr("Configure Connections"));
+    m_configConns->setWhatsThis(tr("Open the Connections dialog"));
     connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
-    actionCollection()->addAction("connections_dialog", m_configConns );
+    m_ui->menuConnections->addAction(m_configConns);
 
-    m_createTrack = new KAction(this);
-    m_createTrack->setText(i18n("Add Track View"));
-    m_createTrack->setWhatsThis(i18n("Create a new tab/track view"));
+    m_popup = new QMenu(this);
+
+    m_resizeColumns = new QAction(this);
+    m_resizeColumns->setText(tr("Resize columns"));
+    m_resizeColumns->setWhatsThis(tr("Resize the columns width to fit it's contents"));
+    connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
+    m_popup->addAction(m_resizeColumns);
+
+    QMenu* tracks = m_popup->addMenu(tr("Tracks"));
+
+    m_createTrack = new QAction(this);
+    m_createTrack->setText(tr("Add Track View"));
+    m_createTrack->setWhatsThis(tr("Create a new tab/track view"));
     connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
-    actionCollection()->addAction("add_track", m_createTrack );
+    tracks->addAction(m_createTrack);
 
-    m_changeTrack = new KAction(this);
-    m_changeTrack->setText(i18n("Change Track View"));
-    m_changeTrack->setWhatsThis(i18n("Change the track number of the view"));
-    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
-    actionCollection()->addAction("change_track", m_changeTrack );
-
-    m_deleteTrack = new KAction(this);
-    m_deleteTrack->setText(i18n("Delete Track View"));
-    m_deleteTrack->setWhatsThis(i18n("Delete the tab/track view"));
+    m_deleteTrack = new QAction(this);
+    m_deleteTrack->setText(tr("Delete Track View"));
+    m_deleteTrack->setWhatsThis(tr("Delete the tab/track view"));
     connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
-    actionCollection()->addAction("delete_track", m_deleteTrack );
+    tracks->addAction(m_deleteTrack);
+
+    m_changeTrack = new QAction(this);
+    m_changeTrack->setText(tr("Change Track View"));
+    m_changeTrack->setWhatsThis(tr("Change the track number of the view"));
+    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
+    tracks->addAction(m_changeTrack);
+
+    m_muteTrack = new QAction(this);
+    m_muteTrack->setCheckable(true);
+    m_muteTrack->setText(tr("Mute Track"));
+    m_muteTrack->setWhatsThis(tr("Mute (silence) the track"));
+    connect(m_muteTrack, SIGNAL(triggered()), SLOT(muteCurrentTrack()));
+    tracks->addAction(m_muteTrack);
+
+    QMenu* columns = m_popup->addMenu(tr("Show Columns"));
 
     for ( int i = 0; i < COLUMN_COUNT; ++i ) {
-        m_popupAction[i] = new KToggleAction(columnName[i], this);
-        m_popupAction[i]->setWhatsThis(i18n("Toggle the %1 column",columnName[i]));
+        m_popupAction[i] = new QAction(columnName[i], this);
+        m_popupAction[i]->setCheckable(true);
+        m_popupAction[i]->setChecked(true);
+        m_popupAction[i]->setWhatsThis(tr("Toggle the %1 column").arg(columnName[i]));
         connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
         m_mapper->setMapping(m_popupAction[i], i);
-        actionCollection()->addAction(actionName[i], m_popupAction[i]);
+        columns->addAction(m_popupAction[i]);
     }
     connect(m_mapper, SIGNAL(mapped(int)), SLOT(toggleColumn(int)));
-
-    m_resizeColumns = new KAction(this);
-    m_resizeColumns->setText(i18n("Resize columns"));
-    m_resizeColumns->setWhatsThis(i18n("Resize the columns width to fit it's contents"));
-    connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
-    actionCollection()->addAction("resize_columns", m_resizeColumns);
-
-    m_fileInfo = new KAction(this);
-    m_fileInfo->setText(i18n("Sequence Info"));
-    m_fileInfo->setWhatsThis(i18n("Display information about the loaded sequence"));
-    m_fileInfo->setIcon(KIcon("dialog-information"));
-    connect(m_fileInfo, SIGNAL(triggered()), SLOT(songFileInfo()));
-    actionCollection()->addAction("file_info", m_fileInfo);
-
-    m_tempoSlider = new KPlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
-    m_tempoSlider->setText(i18n("Scale Tempo"));
-    m_tempoSlider->setWhatsThis(i18n("Display a slider to scale the tempo between 50% and 200%"));
-    m_tempoSlider->setIcon(KIcon("chronometer"));
-    actionCollection()->addAction("tempo_slider", m_tempoSlider);
-
-    m_tempo100 = new KAction(this);
-    m_tempo100->setText(i18n("Reset Tempo"));
-    m_tempo100->setWhatsThis(i18n("Reset the tempo scale to 100%"));
-    m_tempo100->setIcon(KIcon("player-time"));
-    connect(m_tempo100, SIGNAL(triggered()), this, SLOT(tempoReset()));
-    actionCollection()->addAction("tempo100", m_tempo100);
-
-    m_loop = new KToggleAction(this);
-    m_loop->setText(i18n("Player Loop"));
-    m_loop->setWhatsThis(i18n("Start playing again at song ending"));
-    connect(m_loop, SIGNAL(triggered()), SLOT(slotLoop()));
-    actionCollection()->addAction("loop", m_loop);
-
-    m_muteTrack = new KToggleAction(this);
-    m_muteTrack->setText(i18n("Mute Track"));
-    m_muteTrack->setWhatsThis(i18n("Mute (silence) the track"));
-    connect(m_muteTrack, SIGNAL(triggered()), SLOT(muteCurrentTrack()));
-    actionCollection()->addAction("mute_track", m_muteTrack );
-
-    setStandardToolBarMenuEnabled(true);
-    setupGUI();
-
-    m_popup = static_cast <QMenu*>(guiFactory()->container("popup", this));
-    Q_CHECK_PTR( m_popup );
 
     m_filter = new EventFilter(this);
     QMenu* filtersMenu = m_filter->buildMenu(this);
@@ -353,128 +392,132 @@ void KMidimon::fileNew()
     updateCaption();
 }
 
-void KMidimon::openURL(const KUrl& url)
+void KMidimon::open(const QString& fileName)
 {
-    QString tmpFile;
-    if(KIO::NetAccess::download(url, tmpFile, this)) {
-        try {
-            QFileInfo finfo(tmpFile);
-            m_file = url.toLocalFile();
-            if (m_file.isEmpty())
-                m_file = url.prettyUrl();
-            m_view->blockSignals(true);
-            stop();
-            m_model->clear();
-            for (int i = m_tabBar->count() - 1; i >= 0; i--) {
-                m_tabBar->removeTab(i);
-            }
-            m_pd = new KProgressDialog(this, i18n("Load file"),
-                            i18n("Loading..."));
-            m_pd->setAllowCancel(false);
-            m_pd->setMinimumDuration(500);
-            m_pd->progressBar()->setRange(0, finfo.size());
-            m_pd->progressBar()->setValue(0);
-            connect( m_model, SIGNAL(loadProgress(int)),
-                     m_pd->progressBar(), SLOT(setValue(int)) );
-            m_model->loadFromFile(tmpFile);
-            m_pd->progressBar()->setValue(finfo.size());
-            m_adaptor->setResolution(m_model->getSMFDivision());
-            if (m_model->getInitialTempo() > 0) {
-                m_adaptor->setTempo(m_model->getInitialTempo());
-                m_adaptor->queue_set_tempo();
-            }
-            m_adaptor->rewind();
-            int ntrks = m_model->getSMFTracks();
-            if (ntrks < 1) ntrks = 1;
-            for (int i = 0; i < ntrks; i++)
-                addNewTab(m_model->getTrackForIndex(i));
-            m_tabBar->setCurrentIndex(0);
-            m_proxy->setFilterTrack(0);
-            m_model->setCurrentTrack(0);
-            for (int i = 0; i < COLUMN_COUNT; ++i)
-                m_view->resizeColumnToContents(i);
-            tempoReset();
-        } catch (...) {
-            m_model->clear();
+    try {
+        QFileInfo finfo(fileName);
+        m_file = finfo.absoluteFilePath();
+        m_view->blockSignals(true);
+        stop();
+        m_model->clear();
+        for (int i = m_tabBar->count() - 1; i >= 0; i--) {
+            m_tabBar->removeTab(i);
         }
-        m_view->blockSignals(false);
-        m_recentFiles->addUrl(url);
-        KIO::NetAccess::removeTempFile(tmpFile);
-        updateCaption();
-        delete m_pd;
-        QString loadingMsg = m_model->getLoadingMessages();
-        if (!loadingMsg.isEmpty()) {
-            loadingMsg.insert(0,
-                i18n("Warning, this file may be non-standard or damaged.<br/>"));
-            KMessageBox::sorry(this, loadingMsg, i18n("File parsing error"));
+        m_pd = new QProgressDialog(this);
+        m_pd->setLabelText(tr("Loading..."));
+        m_pd->setWindowTitle(tr("Load file"));
+        m_pd->setCancelButton(0);
+        m_pd->setMinimumDuration(500);
+        m_pd->setRange(0, finfo.size());
+        m_pd->setValue(0);
+        connect( m_model, SIGNAL(loadProgress(int)), m_pd, SLOT(setValue(int)) );
+        m_model->loadFromFile(fileName);
+        m_pd->setValue(finfo.size());
+        m_adaptor->setResolution(m_model->getSMFDivision());
+        if (m_model->getInitialTempo() > 0) {
+            m_adaptor->setTempo(m_model->getInitialTempo());
+            m_adaptor->queue_set_tempo();
         }
+        m_adaptor->rewind();
+        int ntrks = m_model->getSMFTracks();
+        if (ntrks < 1) ntrks = 1;
+        for (int i = 0; i < ntrks; i++)
+            addNewTab(m_model->getTrackForIndex(i));
+        m_tabBar->setCurrentIndex(0);
+        m_proxy->setFilterTrack(0);
+        m_model->setCurrentTrack(0);
+        for (int i = 0; i < COLUMN_COUNT; ++i)
+            m_view->resizeColumnToContents(i);
+        tempoReset();
+    } catch (...) {
+        m_model->clear();
+    }
+    m_view->blockSignals(false);
+    //m_recentFiles->addUrl(url);
+    updateCaption();
+    delete m_pd;
+    QString loadingMsg = m_model->getLoadingMessages();
+    if (!loadingMsg.isEmpty()) {
+        loadingMsg.insert(0, tr("Warning, this file may be non-standard or damaged.<br/>"));
+        QMessageBox::warning(this, tr("File parsing error"), loadingMsg);
     }
 }
 
 void KMidimon::fileOpen()
 {
-    KUrl u = KFileDialog::getOpenUrl(
-            KUrl("kfiledialog:///MIDIMONITOR"),
-            "audio/midi audio/cakewalk audio/overture", this,
-            i18n("Open MIDI file"));
-    if (!u.isEmpty()) openURL(u);
+    QFileDialog fd(this, tr("Open MIDI file"));
+    QStringList filters;
+    filters << "audio/midi" << "audio/cakewalk" << "audio/overture";
+    fd.setMimeTypeFilters(filters);
+    fd.selectMimeTypeFilter(filters[0]);
+    fd.setFileMode(QFileDialog::ExistingFile);
+    fd.setAcceptMode(QFileDialog::AcceptOpen);
+    if (fd.exec()) {
+        QStringList fs = fd.selectedFiles();
+        if (fs.count() >= 1) open(fs[0]);
+    }
 }
 
 void KMidimon::fileSave()
 {
-    KUrl u = KFileDialog::getSaveUrl(
-            KUrl("kfiledialog:///MIDIMONITOR"),
-            i18n("*.txt|Plain text files (*.txt)\n"
-                 "*.mid|MIDI files (*.mid)"),
-            this,
-            i18n("Save MIDI monitor data"));
-    if (!u.isEmpty()) {
-        QString path = u.toLocalFile();
+    QFileDialog fd(this, tr("Save MIDI monitor data"));
+    QString filters = tr("Plain text files (*.txt);;MIDI files (*.mid)");
+    fd.setNameFilter(filters);
+    fd.setFileMode(QFileDialog::AnyFile);
+    fd.setAcceptMode(QFileDialog::AcceptSave);
+    if (fd.exec()) {
+        QString path = fd.selectedFiles().first();
         if (!path.isNull()) {
             m_model->saveToFile(path);
-            m_recentFiles->addUrl(u);
+            //m_recentFiles->addUrl(u);
         }
     }
 }
 
-bool KMidimon::queryExit()
+KMidimon::~KMidimon()
+{
+    delete m_ui;
+}
+
+void KMidimon::closeEvent(QCloseEvent *event)
 {
     stop();
     saveConfiguration();
-    return true;
+    event->accept();
 }
 
 void KMidimon::saveConfiguration()
 {
     int i;
-    KConfigGroup config = KGlobal::config()->group("Settings");
+    QSettings config;
+    config.beginGroup("Settings");
     if (m_adaptor == NULL) return;
-    config.writeEntry("resolution", m_defaultResolution);
-    config.writeEntry("tempo", m_defaultTempo);
-    config.writeEntry("realtime_prio", m_requestRealtimePrio);
-    config.writeEntry("alsa", m_proxy->showAlsaMsg());
-    config.writeEntry("channel", m_proxy->showChannelMsg());
-    config.writeEntry("common", m_proxy->showCommonMsg());
-    config.writeEntry("realtime", m_proxy->showRealTimeMsg());
-    config.writeEntry("sysex", m_proxy->showSysexMsg());
-    config.writeEntry("smf", m_proxy->showSmfMsg());
-    config.writeEntry("client_names", m_model->showClientNames());
-    config.writeEntry("translate_sysex", m_model->translateSysex());
-    config.writeEntry("translate_notes", m_model->translateNotes());
-    config.writeEntry("translate_ctrls", m_model->translateCtrls());
-    config.writeEntry("instrument", m_model->getInstrumentName());
-    config.writeEntry("encoding", m_model->getEncoding());
-    config.writeEntry("fixed_font", getFixedFont());
-    config.writeEntry("auto_resize", m_autoResizeColumns);
+    config.setValue("resolution", m_defaultResolution);
+    config.setValue("tempo", m_defaultTempo);
+    config.setValue("realtime_prio", m_requestRealtimePrio);
+    config.setValue("alsa", m_proxy->showAlsaMsg());
+    config.setValue("channel", m_proxy->showChannelMsg());
+    config.setValue("common", m_proxy->showCommonMsg());
+    config.setValue("realtime", m_proxy->showRealTimeMsg());
+    config.setValue("sysex", m_proxy->showSysexMsg());
+    config.setValue("smf", m_proxy->showSmfMsg());
+    config.setValue("client_names", m_model->showClientNames());
+    config.setValue("translate_sysex", m_model->translateSysex());
+    config.setValue("translate_notes", m_model->translateNotes());
+    config.setValue("translate_ctrls", m_model->translateCtrls());
+    config.setValue("instrument", m_model->getInstrumentName());
+    config.setValue("encoding", m_model->getEncoding());
+    config.setValue("fixed_font", getFixedFont());
+    config.setValue("auto_resize", m_autoResizeColumns);
     for (i = 0; i < COLUMN_COUNT; ++i) {
-        config.writeEntry(QString("show_column_%1").arg(i),
+        config.setValue(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
     }
-    config.writeEntry("output_connection", m_outputConn);
+    config.setValue("output_connection", m_outputConn);
     config.sync();
 
-    config = KGlobal::config()->group("RecentFiles");
-    m_recentFiles->saveEntries(config);
+    config.beginGroup("RecentFiles");
+    //m_recentFiles->saveEntries(config);
     config.sync();
 
     m_filter->saveConfiguration();
@@ -484,37 +527,38 @@ void KMidimon::readConfiguration()
 {
     int i;
     bool status;
-    KConfigGroup config = KGlobal::config()->group("Settings");
-    m_proxy->setFilterAlsaMsg(config.readEntry("alsa", true));
-    m_proxy->setFilterChannelMsg(config.readEntry("channel", true));
-    m_proxy->setFilterCommonMsg(config.readEntry("common", true));
-    m_proxy->setFilterRealTimeMsg(config.readEntry("realtime", true));
-    m_proxy->setFilterSysexMsg(config.readEntry("sysex", true));
-    m_proxy->setFilterSmfMsg(config.readEntry("smf", true));
-    m_model->setShowClientNames(config.readEntry("client_names", false));
-    m_model->setTranslateSysex(config.readEntry("translate_sysex", false));
-    m_model->setTranslateNotes(config.readEntry("translate_notes", false));
-    m_model->setTranslateCtrls(config.readEntry("translate_ctrls", false));
-    m_model->setInstrumentName(config.readEntry("instrument", QString()));
-    m_model->setEncoding(config.readEntry("encoding", QString()));
-    m_autoResizeColumns = config.readEntry("auto_resize", false);
-    m_defaultResolution = config.readEntry("resolution", RESOLUTION);
-    m_defaultTempo = config.readEntry("tempo", TEMPO_BPM);
-    m_requestRealtimePrio = config.readEntry("realtime_prio", false);
+    QSettings config;
+    config.beginGroup("Settings");
+    m_proxy->setFilterAlsaMsg(config.value("alsa", true).toBool());
+    m_proxy->setFilterChannelMsg(config.value("channel", true).toBool());
+    m_proxy->setFilterCommonMsg(config.value("common", true).toBool());
+    m_proxy->setFilterRealTimeMsg(config.value("realtime", true).toBool());
+    m_proxy->setFilterSysexMsg(config.value("sysex", true).toBool());
+    m_proxy->setFilterSmfMsg(config.value("smf", true).toBool());
+    m_model->setShowClientNames(config.value("client_names", false).toBool());
+    m_model->setTranslateSysex(config.value("translate_sysex", false).toBool());
+    m_model->setTranslateNotes(config.value("translate_notes", false).toBool());
+    m_model->setTranslateCtrls(config.value("translate_ctrls", false).toBool());
+    m_model->setInstrumentName(config.value("instrument", QString()).toString());
+    m_model->setEncoding(config.value("encoding", QString()).toString());
+    m_autoResizeColumns = config.value("auto_resize", false).toBool();
+    m_defaultResolution = config.value("resolution", RESOLUTION).toInt();
+    m_defaultTempo = config.value("tempo", TEMPO_BPM).toInt();
+    m_requestRealtimePrio = config.value("realtime_prio", false).toBool();
     m_adaptor->setResolution(m_defaultResolution);
     m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->queue_set_tempo();
     m_adaptor->setRequestRealtime(m_requestRealtimePrio);
-    setFixedFont(config.readEntry("fixed_font", false));
+    setFixedFont(config.value("fixed_font", false).toBool());
     for (i = 0; i < COLUMN_COUNT; ++i) {
-        status = config.readEntry(QString("show_column_%1").arg(i), true);
+        status = config.value(QString("show_column_%1").arg(i), true).toBool();
         setColumnStatus(i, status);
     }
-    m_outputConn = config.readEntry("output_connection", QString());
+    m_outputConn = config.value("output_connection", QString()).toString();
     m_adaptor->connect_output(m_outputConn);
 
-    config = KGlobal::config()->group("RecentFiles");
-    m_recentFiles->loadEntries(config);
+    //config = KGlobal::config()->group("RecentFiles");
+    //m_recentFiles->loadEntries(config);
 
     m_filter->loadConfiguration();
 }
@@ -581,7 +625,7 @@ void KMidimon::record()
     m_adaptor->forward();
     m_adaptor->record();
     if (m_adaptor->isRecording())
-        updateState("recording_state", i18n("recording"));
+        updateState(RecordingState);
 }
 
 void KMidimon::stop()
@@ -596,24 +640,25 @@ void KMidimon::stop()
 
 void KMidimon::songFinished()
 {
-    updateState("stopped_state", i18nc("player stopped","stopped"));
+    updateState(StoppedState);
     updateView();
 }
 
 void KMidimon::play()
 {
     m_adaptor->play();
-    if (m_adaptor->isPlaying())
-        updateState("playing_state", i18nc("player playing","playing"));
+    if (m_adaptor->isPlaying()) {
+        updateState(PlayingState);
+    }
 }
 
 void KMidimon::pause()
 {
     m_adaptor->pause(m_pause->isChecked());
     if (m_adaptor->isPaused())
-        updateState("paused_state", i18nc("player paused","paused"));
+        updateState(PausedState);
     else
-        updateState("playing_state", i18nc("player playing","playing"));
+        updateState(PlayingState);
 }
 
 void KMidimon::rewind()
@@ -633,25 +678,76 @@ void KMidimon::updateCaption()
     QFileInfo finfo(m_file);
     QString name = finfo.fileName();
     if (name.isEmpty())
-        name = i18n("(no file)");
-    setCaption(i18n("%1 [%2]", name, m_currentState));
+        name = tr("(no file)");
+    setWindowTitle(tr("%1 [%2]").arg(name).arg(m_currentState));
 }
 
-void KMidimon::updateState(const QString newState, const QString stateName)
+void KMidimon::updateState(PlayerState newState)
 {
-    m_currentState = stateName;
-    updateCaption();
-    slotStateChanged(newState);
-    m_pause->setChecked(m_adaptor->isPaused());
-}
-
-void KMidimon::editToolbars()
-{
-    QPointer<KEditToolBar> dlg = new KEditToolBar(actionCollection());
-    if (dlg->exec() == QDialog::Accepted) {
-        if (dlg != NULL) setupGUI();
+    if (m_state == newState)
+        return;
+    switch (newState) {
+    case InvalidState:
+        m_rewind->setEnabled(false);
+        m_play->setEnabled(false);
+        m_pause->setEnabled(false);
+        m_forward->setEnabled(false);
+        m_record->setEnabled(false);
+        m_stop->setEnabled(false);
+        m_tempoSlider->setEnabled(false);
+        m_tempo100->setEnabled(false);
+        statusBar()->showMessage(m_currentState = tr("empty"));
+        break;
+    case RecordingState:
+        m_rewind->setEnabled(false);
+        m_play->setEnabled(false);
+        m_pause->setEnabled(false);
+        m_forward->setEnabled(false);
+        m_record->setEnabled(false);
+        m_stop->setEnabled(true);
+        m_tempoSlider->setEnabled(false);
+        m_tempo100->setEnabled(false);
+        statusBar()->showMessage(m_currentState = tr("recording"));
+        break;
+    case PlayingState:
+        m_rewind->setEnabled(false);
+        m_play->setEnabled(false);
+        m_pause->setEnabled(true);
+        m_forward->setEnabled(false);
+        m_record->setEnabled(false);
+        m_stop->setEnabled(true);
+        m_tempoSlider->setEnabled(true);
+        m_tempo100->setEnabled(true);
+        statusBar()->showMessage(m_currentState = tr("playing"));
+        break;
+    case PausedState:
+        m_rewind->setEnabled(false);
+        m_play->setEnabled(false);
+        m_pause->setEnabled(true);
+        m_forward->setEnabled(false);
+        m_record->setEnabled(false);
+        m_stop->setEnabled(true);
+        m_tempoSlider->setEnabled(false);
+        m_tempo100->setEnabled(false);
+        statusBar()->showMessage(m_currentState = tr("paused"));
+        break;
+    case StoppedState:
+        m_rewind->setEnabled(true);
+        m_play->setEnabled(true);
+        m_pause->setEnabled(false);
+        m_forward->setEnabled(true);
+        m_record->setEnabled(true);
+        m_stop->setEnabled(false);
+        m_tempoSlider->setEnabled(true);
+        m_tempo100->setEnabled(true);
+        statusBar()->showMessage(m_currentState = tr("stopped"));
+        break;
+    default:
+        statusBar()->showMessage(m_currentState = tr("uninitialized"));
+        break;
     }
-    delete dlg;
+    updateCaption();
+    m_pause->setChecked(m_adaptor->isPaused());
 }
 
 void KMidimon::connectAll()
@@ -723,8 +819,9 @@ void KMidimon::setFixedFont(bool newValue)
 {
     if (m_useFixedFont != newValue) {
         m_useFixedFont = newValue;
-        m_view->setFont(m_useFixedFont ? KGlobalSettings::fixedFont()
-                : KGlobalSettings::generalFont());
+        m_view->setFont(m_useFixedFont ?
+                        QFontDatabase::systemFont(QFontDatabase::FixedFont) :
+                        QFontDatabase::systemFont(QFontDatabase::GeneralFont));
     }
 }
 
@@ -743,10 +840,10 @@ void KMidimon::resizeAllColumns()
 
 void KMidimon::addNewTab(int data)
 {
-    QString tabName = i18nc("song track", "Track %1", data);
+    QString tabName = tr("song track", "Track %1", data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
-    m_tabBar->setTabWhatsThis(i, i18n("Track %1 View Selector", data));
+    m_tabBar->setTabWhatsThis(i, tr("track selector", "Track %1 View Selector", data));
 }
 
 void KMidimon::tabIndexChanged(int index)
@@ -759,9 +856,9 @@ void KMidimon::tabIndexChanged(int index)
 bool KMidimon::askTrackFilter(int& track)
 {
     bool result;
-    track = KInputDialog::getInteger( i18n("Change track"),
-                i18n("Change the track filter:"),
-                track, 1, 255, 1, 10, &result, this );
+    track = QInputDialog::getInt(this, tr("Change track"),
+                  tr("Change the track filter:"),
+                  track, 1, 255, 1, &result);
     return result;
 }
 
@@ -784,10 +881,10 @@ void KMidimon::changeTrack(int tabIndex)
 {
     int track = m_tabBar->tabData(tabIndex).toInt();
     if (askTrackFilter(track)) {
-        QString tabName = i18nc("song track", "Track %1", track);
+        QString tabName = tr("song track", "Track %1", track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
-        m_tabBar->setTabWhatsThis(tabIndex, i18n("Track %1 View Selector", track));
+        m_tabBar->setTabWhatsThis(tabIndex, tr("track selector", "Track %1 View Selector", track));
         tabIndexChanged(tabIndex);
     }
 }
@@ -846,10 +943,10 @@ KMidimon::songFileInfo()
 {
     QString infostr;
     if (m_file.isEmpty())
-        infostr = i18n("No file loaded");
+        infostr = tr("No file loaded");
     else {
         QFileInfo finfo(m_file);
-        infostr = i18n("File: <b>%1</b><br/>"
+        infostr = tr("File: <b>%1</b><br/>"
                        "Created: <b>%2</b><br/>"
                        "Modified: <b>%3</b><br/>"
                        "Format: <b>%4</b><br/>"
@@ -857,18 +954,18 @@ KMidimon::songFileInfo()
                        "Number of events: <b>%6</b><br/>"
                        "Division: <b>%7 ppq</b><br/>"
                        "Initial tempo: <b>%8 bpm</b><br/>"
-                       "Duration: <b>%9</b>",
-                       finfo.fileName(),
-                       finfo.created().toString(Qt::DefaultLocaleLongDate),
-                       finfo.lastModified().toString(Qt::DefaultLocaleLongDate),
-                       m_model->getFileFormat(),
-                       m_model->getSMFTracks(),
-                       m_model->getSong()->size(),
-                       m_model->getSMFDivision(),
-                       m_model->getInitialTempo(),
-                       m_model->getDuration() );
+                       "Duration: <b>%9</b>")
+                       .arg(finfo.fileName())
+                       .arg(finfo.created().toString(Qt::DefaultLocaleLongDate))
+                       .arg(finfo.lastModified().toString(Qt::DefaultLocaleLongDate))
+                       .arg(m_model->getFileFormat())
+                       .arg(m_model->getSMFTracks())
+                       .arg(m_model->getSong()->size())
+                       .arg(m_model->getSMFDivision())
+                       .arg(m_model->getInitialTempo())
+                       .arg(m_model->getDuration());
     }
-    KMessageBox::information(this, infostr, i18n("Sequence Information"));
+    QMessageBox::information(this, tr("Sequence Information"), infostr);
 }
 
 void KMidimon::tempoReset()
@@ -922,7 +1019,7 @@ void KMidimon::dropEvent( QDropEvent * event )
     if ( event->mimeData()->hasUrls() ) {
         QList<QUrl> urls = event->mimeData()->urls();
         if (!urls.empty())
-            openURL(urls.first());
+            open(urls.first().fileName());
         event->accept();
     }
 }

@@ -20,7 +20,8 @@
  ***************************************************************************/
 
 #include "eventfilter.h"
-#include <kconfiggroup.h>
+#include <QSettings>
+//#include <kconfiggroup.h>
 
 QString CategoryFilter::getName(int t)
 {
@@ -44,8 +45,9 @@ void CategoryFilter::setFilter(int t, bool value)
 
 void CategoryFilter::insert(QObject* parent, snd_seq_event_type_t t, QString s)
 {
-    KToggleAction* a = new KToggleAction(parent);
+    QAction* a = new QAction(parent);
     a->setText(s);
+    a->setCheckable(true);
     a->setChecked(true);
     m_actions.insert((int)t, a);
 }
@@ -53,59 +55,59 @@ void CategoryFilter::insert(QObject* parent, snd_seq_event_type_t t, QString s)
 EventFilter::EventFilter(QObject* parent)
     : QObject(parent), m_menu(NULL)
 {
-    m_cats.insert(ChannelCategory, new CategoryFilter(i18n("MIDI Channel")));
-    m_cats.insert(SysCommonCategory, new CategoryFilter(i18n("MIDI System Common")));
-    m_cats.insert(SysRTCategory, new CategoryFilter(i18n("MIDI System Real-Time")));
-    m_cats.insert(SysExCategory, new CategoryFilter(i18n("MIDI System Exclusive")));
-    m_cats.insert(ALSACategory, new CategoryFilter(i18n("ALSA")));
-    m_cats.insert(SMFCategory, new CategoryFilter(i18n("SMF")));
+    m_cats.insert(ChannelCategory, new CategoryFilter(tr("MIDI Channel")));
+    m_cats.insert(SysCommonCategory, new CategoryFilter(tr("MIDI System Common")));
+    m_cats.insert(SysRTCategory, new CategoryFilter(tr("MIDI System Real-Time")));
+    m_cats.insert(SysExCategory, new CategoryFilter(tr("MIDI System Exclusive")));
+    m_cats.insert(ALSACategory, new CategoryFilter(tr("ALSA")));
+    m_cats.insert(SMFCategory, new CategoryFilter(tr("SMF")));
     /* MIDI Channel events */
-    insert(ChannelCategory, SND_SEQ_EVENT_NOTE, i18n("Note"));
-    insert(ChannelCategory, SND_SEQ_EVENT_NOTEON, i18n("Note on"));
-    insert(ChannelCategory, SND_SEQ_EVENT_NOTEOFF, i18n("Note off"));
-    insert(ChannelCategory, SND_SEQ_EVENT_KEYPRESS, i18n("Polyphonic aftertouch"));
-    insert(ChannelCategory, SND_SEQ_EVENT_CONTROLLER, i18n("Control change"));
-    insert(ChannelCategory, SND_SEQ_EVENT_PGMCHANGE, i18n("Program change"));
-    insert(ChannelCategory, SND_SEQ_EVENT_CHANPRESS, i18n("Channel aftertouch"));
-    insert(ChannelCategory, SND_SEQ_EVENT_PITCHBEND, i18n("Pitch bend"));
-    insert(ChannelCategory, SND_SEQ_EVENT_CONTROL14, i18n("Control change"));
-    insert(ChannelCategory, SND_SEQ_EVENT_NONREGPARAM, i18n("Non-registered parameter"));
-    insert(ChannelCategory, SND_SEQ_EVENT_REGPARAM, i18n("Registered parameter"));
+    insert(ChannelCategory, SND_SEQ_EVENT_NOTE, tr("Note"));
+    insert(ChannelCategory, SND_SEQ_EVENT_NOTEON, tr("Note on"));
+    insert(ChannelCategory, SND_SEQ_EVENT_NOTEOFF, tr("Note off"));
+    insert(ChannelCategory, SND_SEQ_EVENT_KEYPRESS, tr("Polyphonic aftertouch"));
+    insert(ChannelCategory, SND_SEQ_EVENT_CONTROLLER, tr("Control change"));
+    insert(ChannelCategory, SND_SEQ_EVENT_PGMCHANGE, tr("Program change"));
+    insert(ChannelCategory, SND_SEQ_EVENT_CHANPRESS, tr("Channel aftertouch"));
+    insert(ChannelCategory, SND_SEQ_EVENT_PITCHBEND, tr("Pitch bend"));
+    insert(ChannelCategory, SND_SEQ_EVENT_CONTROL14, tr("Control change"));
+    insert(ChannelCategory, SND_SEQ_EVENT_NONREGPARAM, tr("Non-registered parameter"));
+    insert(ChannelCategory, SND_SEQ_EVENT_REGPARAM, tr("Registered parameter"));
     /* MIDI System exclusive events */
-    insert(SysExCategory, SND_SEQ_EVENT_SYSEX, i18n("System exclusive"));
+    insert(SysExCategory, SND_SEQ_EVENT_SYSEX, tr("System exclusive"));
     /* MIDI Common events */
-    insert(SysCommonCategory, SND_SEQ_EVENT_SONGPOS, i18n("Song Position"));
-    insert(SysCommonCategory, SND_SEQ_EVENT_SONGSEL, i18n("Song Selection"));
-    insert(SysCommonCategory, SND_SEQ_EVENT_QFRAME, i18n("MTC Quarter Frame"));
-    insert(SysCommonCategory, SND_SEQ_EVENT_TUNE_REQUEST, i18n("Tune Request"));
+    insert(SysCommonCategory, SND_SEQ_EVENT_SONGPOS, tr("Song Position"));
+    insert(SysCommonCategory, SND_SEQ_EVENT_SONGSEL, tr("Song Selection"));
+    insert(SysCommonCategory, SND_SEQ_EVENT_QFRAME, tr("MTC Quarter Frame"));
+    insert(SysCommonCategory, SND_SEQ_EVENT_TUNE_REQUEST, tr("Tune Request"));
     /* MIDI Realtime Events */
-    insert(SysRTCategory, SND_SEQ_EVENT_START, i18nc("player start","Start"));
-    insert(SysRTCategory, SND_SEQ_EVENT_CONTINUE, i18n("Continue"));
-    insert(SysRTCategory, SND_SEQ_EVENT_STOP, i18n("Stop"));
-    insert(SysRTCategory, SND_SEQ_EVENT_CLOCK, i18n("Clock"));
-    insert(SysRTCategory, SND_SEQ_EVENT_TICK, i18n("Tick"));
-    insert(SysRTCategory, SND_SEQ_EVENT_RESET, i18n("Reset"));
-    insert(SysRTCategory, SND_SEQ_EVENT_SENSING, i18n("Active Sensing"));
+    insert(SysRTCategory, SND_SEQ_EVENT_START, tr("player start","Start"));
+    insert(SysRTCategory, SND_SEQ_EVENT_CONTINUE, tr("Continue"));
+    insert(SysRTCategory, SND_SEQ_EVENT_STOP, tr("Stop"));
+    insert(SysRTCategory, SND_SEQ_EVENT_CLOCK, tr("Clock"));
+    insert(SysRTCategory, SND_SEQ_EVENT_TICK, tr("Tick"));
+    insert(SysRTCategory, SND_SEQ_EVENT_RESET, tr("Reset"));
+    insert(SysRTCategory, SND_SEQ_EVENT_SENSING, tr("Active Sensing"));
     /* ALSA Client/Port events */
-    insert(ALSACategory, SND_SEQ_EVENT_PORT_START, i18n("ALSA Port start"));
-    insert(ALSACategory, SND_SEQ_EVENT_PORT_EXIT, i18n("ALSA Port exit"));
-    insert(ALSACategory, SND_SEQ_EVENT_PORT_CHANGE, i18n("ALSA Port change"));
-    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_START, i18n("ALSA Client start"));
-    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_EXIT, i18n("ALSA Client exit"));
-    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_CHANGE, i18n("ALSA Client change"));
-    insert(ALSACategory, SND_SEQ_EVENT_PORT_SUBSCRIBED, i18n("ALSA Port subscribed"));
-    insert(ALSACategory, SND_SEQ_EVENT_PORT_UNSUBSCRIBED, i18n("ALSA Port unsubscribed"));
+    insert(ALSACategory, SND_SEQ_EVENT_PORT_START, tr("ALSA Port start"));
+    insert(ALSACategory, SND_SEQ_EVENT_PORT_EXIT, tr("ALSA Port exit"));
+    insert(ALSACategory, SND_SEQ_EVENT_PORT_CHANGE, tr("ALSA Port change"));
+    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_START, tr("ALSA Client start"));
+    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_EXIT, tr("ALSA Client exit"));
+    insert(ALSACategory, SND_SEQ_EVENT_CLIENT_CHANGE, tr("ALSA Client change"));
+    insert(ALSACategory, SND_SEQ_EVENT_PORT_SUBSCRIBED, tr("ALSA Port subscribed"));
+    insert(ALSACategory, SND_SEQ_EVENT_PORT_UNSUBSCRIBED, tr("ALSA Port unsubscribed"));
     /* SMF events */
-    insert(SMFCategory, SND_SEQ_EVENT_TEMPO, i18n("Tempo"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR0, i18n("SMF Text"));
-    insert(SMFCategory, SND_SEQ_EVENT_TIMESIGN, i18n("Time Signature"));
-    insert(SMFCategory, SND_SEQ_EVENT_KEYSIGN, i18n("Key Signature"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR1, i18n("Sequence Number"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR2, i18n("Forced Channel"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR3, i18n("Forced Port"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR4, i18n("SMPTE Offset"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1, i18n("Sequencer Specific"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2, i18n("Meta (unregistered)"));
+    insert(SMFCategory, SND_SEQ_EVENT_TEMPO, tr("Tempo"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR0, tr("SMF Text"));
+    insert(SMFCategory, SND_SEQ_EVENT_TIMESIGN, tr("Time Signature"));
+    insert(SMFCategory, SND_SEQ_EVENT_KEYSIGN, tr("Key Signature"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR1, tr("Sequence Number"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR2, tr("Forced Channel"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR3, tr("Forced Port"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR4, tr("SMPTE Offset"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1, tr("Sequencer Specific"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2, tr("Meta (unregistered)"));
 
     m_mapperAll = new QSignalMapper(this);
     m_mapperNone = new QSignalMapper(this);
@@ -116,10 +118,10 @@ EventFilter::EventFilter(QObject* parent)
 void EventFilter::checkGroup(int c)
 {
     EvCategory cat = (EvCategory) c;
-    QHashIterator<int, KToggleAction*> it = m_cats[cat]->getIterator();
+    QHashIterator<int, QAction*> it = m_cats[cat]->getIterator();
     while( it.hasNext() ) {
         it.next();
-        KToggleAction *item = it.value();
+        QAction *item = it.value();
         item->setChecked(true);
     }
     emit filterChanged();
@@ -128,10 +130,10 @@ void EventFilter::checkGroup(int c)
 void EventFilter::uncheckGroup(int c)
 {
     EvCategory cat = (EvCategory) c;
-    QHashIterator<int, KToggleAction*> it = m_cats[cat]->getIterator();
+    QHashIterator<int, QAction*> it = m_cats[cat]->getIterator();
     while( it.hasNext() ) {
         it.next();
-        KToggleAction *item = it.value();
+        QAction *item = it.value();
         item->setChecked(false);
     }
     emit filterChanged();
@@ -189,7 +191,7 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
 {
     if (m_menu == NULL) {
         m_menu = new QMenu(parent);
-        m_menu->setTitle(i18n("Filters"));
+        m_menu->setTitle(tr("Filters"));
         QHashIterator<EvCategory, CategoryFilter*> iter(m_cats);
         while ( iter.hasNext() ) {
             iter.next();
@@ -198,19 +200,19 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
             submenu->setTitle(cf->getName());
             m_menu->addMenu(submenu);
             cf->setMenu(submenu);
-            KAction *actionAll = new KAction(i18nc("check all types","All"), this);
+            QAction *actionAll = new QAction(tr("check all types","All"), this);
             connect(actionAll, SIGNAL(triggered()), m_mapperAll, SLOT(map()));
             m_mapperAll->setMapping(actionAll, (int) iter.key() );
             submenu->addAction( actionAll );
-            KAction *actionNothing = new KAction(i18n("Nothing"), this);
+            QAction *actionNothing = new QAction(tr("Nothing"), this);
             connect(actionNothing, SIGNAL(triggered()), m_mapperNone, SLOT(map()));
             m_mapperNone->setMapping(actionNothing, (int) iter.key() );
             submenu->addAction( actionNothing );
             submenu->addSeparator();
-            QHashIterator<int, KToggleAction*> it = cf->getIterator();
+            QHashIterator<int, QAction*> it = cf->getIterator();
             while( it.hasNext() ) {
                 it.next();
-                KToggleAction *item = it.value();
+                QAction *item = it.value();
                 connect(item, SIGNAL(triggered()), SIGNAL(filterChanged()));
                 submenu->addAction( item );
             }
@@ -235,28 +237,30 @@ void EventFilter::insert(EvCategory category, snd_seq_event_type_t t, QString na
 
 void EventFilter::loadConfiguration()
 {
-    KConfigGroup config = KGlobal::config()->group("Filters");
+    QSettings config;
+    config.beginGroup("Filters");
     foreach( CategoryFilter *cf, m_cats ) {
-        QHashIterator<int, KToggleAction*> it = cf->getIterator();
+        QHashIterator<int, QAction*> it = cf->getIterator();
         while( it.hasNext() ) {
             it.next();
-            KToggleAction *item = it.value();
+            QAction *item = it.value();
             QString fkey = QString("filter_%1").arg(it.key());
-            item->setChecked( config.readEntry(fkey, true) );
+            item->setChecked( config.value(fkey, true).toBool() );
         }
     }
 }
 
 void EventFilter::saveConfiguration()
 {
-    KConfigGroup config = KGlobal::config()->group("Filters");
+    QSettings config;
+    config.beginGroup("Filters");
     foreach( CategoryFilter *cf, m_cats ) {
-        QHashIterator<int, KToggleAction*> it = cf->getIterator();
+        QHashIterator<int, QAction*> it = cf->getIterator();
         while( it.hasNext() ) {
             it.next();
-            KToggleAction *item = it.value();
+            QAction *item = it.value();
             QString fkey = QString("filter_%1").arg(it.key());
-            config.writeEntry( fkey, item->isChecked() );
+            config.setValue( fkey, item->isChecked() );
         }
     }
     config.sync();

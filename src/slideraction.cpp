@@ -34,16 +34,16 @@
 
 #include "slideraction.h"
 
-#include <ktoolbar.h>
-
-#include <QtGui/QKeyEvent>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QApplication>
+#include <QToolBar>
+#include <QKeyEvent>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QWidgetAction>
 
 /**
- * The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
+ * The PlayerPopupFrame constructor. Parameters are passed on to QFrame.
  */
-KPlayerPopupFrame::KPlayerPopupFrame (QWidget* parent)
+PlayerPopupFrame::PlayerPopupFrame (QWidget* parent)
   : QFrame (parent, Qt::Popup)
 {
     setFrameStyle(QFrame::Raised | QFrame::Panel);
@@ -51,16 +51,16 @@ KPlayerPopupFrame::KPlayerPopupFrame (QWidget* parent)
 }
 
 /**
- * The KPlayerPopupFrame destructor. Does nothing.
+ * The PlayerPopupFrame destructor. Does nothing.
  */
-KPlayerPopupFrame::~KPlayerPopupFrame()
+PlayerPopupFrame::~PlayerPopupFrame()
 {
 }
 
 /**
  * Closes the popup frame when Alt, Tab, Esc, Enter or Return is pressed.
  */
-void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
+void PlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
     switch ( ev->key() ) {
     case Qt::Key_Alt:
@@ -73,14 +73,14 @@ void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 }
 
 /**
- * The KPlayerPopupSliderAction constructor. Parameters are passed on to KAction.
+ * The PlayerPopupSliderAction constructor. Parameters are passed on to KAction.
  */
-KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, const char* slot,
+PlayerPopupSliderAction::PlayerPopupSliderAction (const QObject* receiver, const char* slot,
                                                     QObject *parent)
-  : KAction(parent)
+  : QAction(parent)
 {
-    m_frame = new KPlayerPopupFrame;
-    m_slider = new KPlayerSlider(Qt::Vertical, m_frame);
+    m_frame = new PlayerPopupFrame;
+    m_slider = new PlayerSlider(Qt::Vertical, m_frame);
     m_frame->resize (36, m_slider->sizeHint().height() + 4);
     m_slider->setGeometry(m_frame->contentsRect());
     connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
@@ -88,9 +88,9 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, con
 }
 
 /**
- * The KPlayerPopupSliderAction destructor. Deletes the KPlayerPopupFrame.
+ * The PlayerPopupSliderAction destructor. Deletes the PlayerPopupFrame.
  */
-KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
+PlayerPopupSliderAction::~PlayerPopupSliderAction()
 {
     delete m_frame;
     m_frame = 0;
@@ -99,18 +99,18 @@ KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
 /**
  * Pops up the slider.
  */
-void KPlayerPopupSliderAction::slotTriggered()
+void PlayerPopupSliderAction::slotTriggered()
 {
     QPoint point;
 
-    QList<QWidget*> associatedWidgetsList = QWidgetAction::associatedWidgets();
+    QList<QWidget*> associatedWidgetsList = associatedWidgets();
 
     QWidget* associatedWidget = 0;
     QWidget* associatedToolButton = 0;
 
     // find the toolbutton which was clicked on
     foreach(associatedWidget, associatedWidgetsList) {
-      if (KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
+      if (QToolBar* associatedToolBar = dynamic_cast<QToolBar*>(associatedWidget)) {
         associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
         if(associatedToolButton) {
           break;  // found the tool button which was clicked
@@ -143,9 +143,9 @@ void KPlayerPopupSliderAction::slotTriggered()
 }
 
 /**
- * The KPlayerSlider constructor. Parameters are passed on to QSlider.
+ * The PlayerSlider constructor. Parameters are passed on to QSlider.
  */
-KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent)
+PlayerSlider::PlayerSlider (Qt::Orientation orientation, QWidget* parent)
   : QSlider (orientation, parent)
 {
     setup(0, 200, 100, 10);
@@ -155,7 +155,7 @@ KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent)
 /**
  * The size hint.
  */
-QSize KPlayerSlider::sizeHint() const
+QSize PlayerSlider::sizeHint() const
 {
     QSize hint = QSlider::sizeHint();
     int length = 200;
@@ -175,9 +175,9 @@ QSize KPlayerSlider::sizeHint() const
 /**
  * The minimum size hint.
  */
-QSize KPlayerSlider::minimumSizeHint() const
+QSize PlayerSlider::minimumSizeHint() const
 {
-    // uDebug() << "KPlayerSlider minimum size hint\n";
+    // uDebug() << "PlayerSlider minimum size hint\n";
     QSize hint = QSlider::minimumSizeHint();
     int length = 200;
     if ( orientation() == Qt::Horizontal )
@@ -196,7 +196,7 @@ QSize KPlayerSlider::minimumSizeHint() const
 /**
  * Sets the page step.
  */
-void KPlayerSlider::setPageStep (int pageStep)
+void PlayerSlider::setPageStep (int pageStep)
 {
     QSlider::setPageStep (pageStep);
     setTickInterval (pageStep);
@@ -205,7 +205,7 @@ void KPlayerSlider::setPageStep (int pageStep)
 /**
  * Sets up the slider by setting five options in one go.
  */
-void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, int singleStep)
+void PlayerSlider::setup (int minimum, int maximum, int value, int pageStep, int singleStep)
 {
     setMinimum (minimum);
     setMaximum (maximum);

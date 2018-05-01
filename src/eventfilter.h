@@ -26,10 +26,9 @@
 #include <QString>
 #include <QMenu>
 #include <QSignalMapper>
+#include <QAction>
 
-#include <ktoggleaction.h>
-#include <klocale.h>
-#include <alsaevent.h>
+#include <drumstick/alsaevent.h>
 
 enum EvCategory {
     ChannelCategory,
@@ -53,15 +52,15 @@ public:
     bool getFilter(int t) const;
     void setFilter(int t, bool value);
     void insert(QObject* parent, snd_seq_event_type_t t, QString s);
-    QHashIterator<int, KToggleAction*> getIterator() {
-        return QHashIterator<int, KToggleAction*>(m_actions);
+    QHashIterator<int, QAction*> getIterator() {
+        return QHashIterator<int, QAction*>(m_actions);
     }
 
 private:
     QMenu  *m_menu;
     QString m_name;
     bool    m_filter;
-    QHash<int, KToggleAction*> m_actions;
+    QHash<int, QAction*> m_actions;
 };
 
 class EventFilter : public QObject {

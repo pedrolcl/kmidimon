@@ -23,7 +23,7 @@
 #define PROXYMODEL_H
 
 #include <QSortFilterProxyModel>
-#include <alsaevent.h>
+#include <drumstick/alsaevent.h>
 
 class EventFilter;
 

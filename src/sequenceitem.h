@@ -22,7 +22,7 @@
 #ifndef SEQUENCEITEM_H
 #define SEQUENCEITEM_H
 
-#include <alsaevent.h>
+#include <drumstick/alsaevent.h>
 
 using namespace drumstick;
 

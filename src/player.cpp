@@ -18,7 +18,7 @@
 */
 
 #include "player.h"
-#include <alsaqueue.h>
+#include <drumstick/alsaqueue.h>
 
 Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),

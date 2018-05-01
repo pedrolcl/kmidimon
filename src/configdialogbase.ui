@@ -47,7 +47,7 @@ MA 02110-1301, USA
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
-    <widget class="KTabWidget" name="m_tabWidget">
+    <widget class="QTabWidget" name="m_tabWidget">
      <property name="minimumSize">
       <size>
        <width>385</width>
@@ -89,7 +89,7 @@ MA 02110-1301, USA
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="KIntSpinBox" name="m_tempo">
+        <widget class="QSpinBox" name="m_tempo">
          <property name="whatsThis">
           <string>The number of beats per minute, or music speed. This is a default value; MIDI files may change this value.</string>
          </property>
@@ -98,12 +98,6 @@ MA 02110-1301, USA
          </property>
          <property name="maximum">
           <number>480</number>
-         </property>
-         <property name="maxValue" stdset="0">
-          <number>480</number>
-         </property>
-         <property name="minValue" stdset="0">
-          <number>24</number>
          </property>
         </widget>
        </item>
@@ -121,7 +115,7 @@ MA 02110-1301, USA
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="KIntSpinBox" name="m_resolution">
+        <widget class="QSpinBox" name="m_resolution">
          <property name="whatsThis">
           <string>The number of MIDI ticks per quarter note. This is a default value; a MIDI file (SMF) may change this value.</string>
          </property>
@@ -130,12 +124,6 @@ MA 02110-1301, USA
          </property>
          <property name="maximum">
           <number>960</number>
-         </property>
-         <property name="maxValue" stdset="0">
-          <number>960</number>
-         </property>
-         <property name="minValue" stdset="0">
-          <number>48</number>
          </property>
         </widget>
        </item>
@@ -444,7 +432,7 @@ MA 02110-1301, USA
         </widget>
        </item>
        <item row="8" column="1">
-        <widget class="KComboBox" name="m_instruments">
+        <widget class="QComboBox" name="m_instruments">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -471,7 +459,7 @@ MA 02110-1301, USA
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="KComboBox" name="m_codecs"/>
+        <widget class="QComboBox" name="m_codecs"/>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="QCheckBox" name="m_resizeColumns">
@@ -488,27 +476,6 @@ MA 02110-1301, USA
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local">knuminput.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

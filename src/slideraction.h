@@ -28,10 +28,9 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
-#include <kaction.h>
-
-#include <QtGui/QSlider>
-#include <QtGui/QFrame>
+#include <QAction>
+#include <QSlider>
+#include <QFrame>
 
 class QKeyEvent;
 
@@ -43,13 +42,13 @@ class QKeyEvent;
  * Taken from kplayer CVS 2003-09-21 (kplayer > 0.3.1) by Jonathan Riddell
  * @author kiriuja
  */
-class KPlayerSlider : public QSlider
+class PlayerSlider : public QSlider
 {
     Q_OBJECT
 
 public:
-    explicit KPlayerSlider (Qt::Orientation, QWidget* parent = 0);
-    virtual ~KPlayerSlider() {}
+    explicit PlayerSlider (Qt::Orientation, QWidget* parent = 0);
+    virtual ~PlayerSlider() {}
 
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
@@ -57,21 +56,21 @@ public:
     void setup (int minimum, int maximum, int value, int pageStep, int lineStep = 1);
 
 protected:
-    friend class KPlayerSliderAction;
-    friend class KPlayerPopupSliderAction;
+    friend class PlayerSliderAction;
+    friend class PlayerPopupSliderAction;
 };
 
 /**
  * KPlayer popup frame.
  * @author kiriuja
  */
-class KPlayerPopupFrame : public QFrame
+class PlayerPopupFrame : public QFrame
 {
     Q_OBJECT
 
 public:
-    KPlayerPopupFrame (QWidget* parent = 0);
-    virtual ~KPlayerPopupFrame();
+    PlayerPopupFrame (QWidget* parent = 0);
+    virtual ~PlayerPopupFrame();
 
 protected:
     virtual void keyPressEvent (QKeyEvent*);
@@ -81,23 +80,23 @@ protected:
  * Action representing a popup slider activated by a toolbar button.
  * @author kiriuja
  */
-class KPlayerPopupSliderAction : public KAction
+class PlayerPopupSliderAction : public QAction
 {
     Q_OBJECT
 
 public:
-    KPlayerPopupSliderAction (const QObject* receiver, const char* slot, QObject *parent);
-    virtual ~KPlayerPopupSliderAction();
+    PlayerPopupSliderAction (const QObject* receiver, const char* slot, QObject *parent);
+    virtual ~PlayerPopupSliderAction();
 
-    /** Returns a pointer to the KPlayerSlider object. */
-    KPlayerSlider* slider() { return m_slider; }
+    /** Returns a pointer to the PlayerSlider object. */
+    PlayerSlider* slider() { return m_slider; }
 
 protected slots:
     virtual void slotTriggered();
 
 protected:
-    KPlayerSlider*      m_slider;  ///< The slider.
-    KPlayerPopupFrame*  m_frame;   ///< The popup frame.
+    PlayerSlider*      m_slider;  ///< The slider.
+    PlayerPopupFrame*  m_frame;   ///< The popup frame.
 };
 
 #endif

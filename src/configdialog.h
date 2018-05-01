@@ -22,10 +22,10 @@
 #ifndef CONFIGDIALOG_H
 #define CONFIGDIALOG_H
 
-#include <KDE/KDialog>
+#include <QDialog>
 #include "ui_configdialogbase.h"
 
-class ConfigDialog : public KDialog
+class ConfigDialog : public QDialog
 {
     Q_OBJECT
 public:

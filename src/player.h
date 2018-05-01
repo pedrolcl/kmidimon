@@ -20,8 +20,8 @@
 #ifndef INCLUDED_PLAYER_H
 #define INCLUDED_PLAYER_H
 
-#include "playthread.h"
-#include "alsaclient.h"
+#include <drumstick/playthread.h>
+#include <drumstick/alsaclient.h>
 #include "sequencemodel.h"
 
 using namespace drumstick;

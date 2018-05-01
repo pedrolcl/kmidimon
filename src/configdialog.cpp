@@ -20,15 +20,15 @@
  ***************************************************************************/
 
 #include "configdialog.h"
-#include <KCharsets>
+#include <QTextCodec>
 
 ConfigDialog::ConfigDialog(QWidget *parent)
-    : KDialog(parent)
+    : QDialog(parent)
 {
     QWidget *widget = new QWidget( this );
     ui.setupUi(widget);
-    setMainWidget( widget );
-    setCaption( i18nc("@title:window", "KMidimon Configuration") );
+    //setMainWidget( widget );
+    //setCaption( i18nc("@title:window", "KMidimon Configuration") );
     initEncodings();
 }
 
@@ -100,9 +100,9 @@ void ConfigDialog::setInstruments( const QStringList& items )
 void ConfigDialog::initEncodings()
 {
     ui.m_codecs->clear();
-    ui.m_codecs->addItem(i18nc("@item:inlistbox Default MIDI text encoding",
+    ui.m_codecs->addItem(tr("@item:inlistbox Default MIDI text encoding",
                     "Default ( ASCII )"));
-    ui.m_codecs->addItems( KGlobal::charsets()->descriptiveEncodingNames() );
+    //ui.m_codecs->addItems( KGlobal::charsets()->descriptiveEncodingNames() );
 }
 
 QString ConfigDialog::getEncoding()

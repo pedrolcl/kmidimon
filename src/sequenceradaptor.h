@@ -25,9 +25,9 @@
 #include <QEvent>
 #include <QMap>
 
-#include <alsaqueue.h>
-#include <alsaport.h>
-#include <alsaevent.h>
+#include <drumstick/alsaqueue.h>
+#include <drumstick/alsaport.h>
+#include <drumstick/alsaevent.h>
 
 class SequenceModel;
 class Player;

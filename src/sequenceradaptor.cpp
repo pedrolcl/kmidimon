@@ -24,14 +24,14 @@
 #include "sequencemodel.h"
 #include "player.h"
 
-#include <alsaclient.h>
-#include <alsaport.h>
-#include <alsaqueue.h>
-#include <alsaevent.h>
-#include <subscription.h>
+#include <drumstick/alsaclient.h>
+#include <drumstick/alsaport.h>
+#include <drumstick/alsaqueue.h>
+#include <drumstick/alsaevent.h>
+#include <drumstick/subscription.h>
 #include <QStringList>
-#include <kapplication.h>
-#include <klocale.h>
+#include <QApplication>
+//#include <klocale.h>
 
 using namespace std;
 

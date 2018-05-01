@@ -24,18 +24,18 @@
 #include "kmidimon.h"
 #include "eventfilter.h"
 #include <cmath>
-#include <KDE/KLocale>
-#include <KDE/KApplication>
-#include <KDE/KStandardDirs>
-#include <KDE/KCharsets>
-#include <KDE/KMimeType>
-#include <KDE/KDebug>
-#include <QtCore/QFile>
-#include <QtCore/QDataStream>
-#include <QtCore/QListIterator>
-#include <QtCore/QFileInfo>
-#include <QtCore/QTime>
-#include <QtCore/QTextCodec>
+#include <QApplication>
+#include <QTextCodec>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QDataStream>
+#include <QListIterator>
+#include <QTime>
+#include <QTextCodec>
 
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
@@ -249,10 +249,12 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_ove, SIGNAL(signalOVEExpression(int,long,int,const QString&)),
                    SLOT(expression(int,long,int,const QString&)));
 
-
-    QString stdins =  KStandardDirs::locate("appdata", "standards.ins");
-    if (!stdins.isEmpty())
-    	m_insList.load(stdins);
+    //KStandardDirs::locate("appdata", "standards.ins");
+    QDir appDir(qApp->applicationDirPath());
+    QFileInfo insFile(appDir, QStringLiteral("standards.ins"));
+    if (insFile.exists()) {
+        m_insList.load(insFile.absoluteFilePath());
+    }
 }
 
 SequenceModel::~SequenceModel()
@@ -275,21 +277,21 @@ SequenceModel::headerData(int section, Qt::Orientation orientation,
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
         switch(section) {
         case 0:
-            return i18n("Ticks");
+            return tr("Ticks");
         case 1:
-            return i18n("Time");
+            return tr("Time");
         case 2:
-            return i18nc("event origin","Source");
+            return tr("event origin","Source");
         case 3:
-            return i18n("Event kind");
+            return tr("Event kind");
         case 4:
-            return i18n("Chan");
+            return tr("Chan");
         case 5:
-            return i18n("Data 1");
+            return tr("Data 1");
         case 6:
-            return i18n("Data 2");
+            return tr("Data 2");
         case 7:
-            return i18n("Data 3");
+            return tr("Data 3");
         }
     }
     return QVariant();
@@ -460,9 +462,9 @@ SequenceModel::sysex_type(const SequencerEvent *ev) const
             int msgId = ptr[1];
             switch (msgId) {
             case 0x7e:
-                return i18n("Universal Non Real Time SysEx");
+                return tr("Universal Non Real Time SysEx");
             case 0x7f:
-                return i18n("Universal Real Time SysEx");
+                return tr("Universal Real Time SysEx");
             default:
                 break;
             }
@@ -483,9 +485,9 @@ SequenceModel::sysex_chan(const SequencerEvent *ev) const
             if (ptr[0] != 0xf0) return QString();
             unsigned char deviceId = ptr[2];
             if ( deviceId == 0x7f )
-                return i18nc("cast or scattered in all directions","broadcast");
+                return tr("cast or scattered in all directions","broadcast");
             else
-                return i18n("device %1", deviceId);
+                return tr("device %1").arg(deviceId);
         }
         return "-";
     }
@@ -508,33 +510,33 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
                     case 0x01:
                     case 0x02:
                     case 0x03:
-                        return i18n("Sample Dump");
+                        return tr("Sample Dump");
                     case 0x04:
-                        return i18n("MTC");
+                        return tr("MTC");
                     case 0x05:
-                        return i18n("Sample Dump");
+                        return tr("Sample Dump");
                     case 0x06:
-                        return i18nc("General Info", "Gen.Info");
+                        return tr("General Info", "Gen.Info");
                     case 0x07:
-                        return i18n("File Dump");
+                        return tr("File Dump");
                     case 0x08:
-                        return i18n("Tuning");
+                        return tr("Tuning");
                     case 0x09:
-                        return i18nc("General MIDI mode", "GM Mode");
+                        return tr("General MIDI mode", "GM Mode");
                     case 0x0a:
-                        return i18nc("Downloadable Sounds", "DLS");
+                        return tr("Downloadable Sounds", "DLS");
                     case 0x0b:
-                        return i18nc("File Reference", "File Ref.");
+                        return tr("File Reference", "File Ref.");
                     case 0x7b:
-                        return i18n("End of File");
+                        return tr("End of File");
                     case 0x7c:
-                        return i18n("Wait");
+                        return tr("Wait");
                     case 0x7d:
-                        return i18n("Cancel");
+                        return tr("Cancel");
                     case 0x7e:
-                        return i18n("NAK");
+                        return tr("NAK");
                     case 0x7f:
-                        return i18n("ACK");
+                        return tr("ACK");
                     default:
                         break;
                 }
@@ -542,29 +544,29 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
             if (msgId == 0x7f) { // Universal Real Time
                 switch (subId1) {
                     case 0x01:
-                        return i18n("MTC");
+                        return tr("MTC");
                     case 0x02:
-                        return i18n("Show Control");
+                        return tr("Show Control");
                     case 0x03:
-                        return i18n("Notation");
+                        return tr("Notation");
                     case 0x04:
-                        return i18n("Device Control");
+                        return tr("Device Control");
                     case 0x05:
-                        return i18n("MTC Cueing");
+                        return tr("MTC Cueing");
                     case 0x06:
-                        return i18n("MMC Command");
+                        return tr("MMC Command");
                     case 0x07:
-                        return i18n("MMC Response");
+                        return tr("MMC Response");
                     case 0x08:
-                        return i18n("Tuning");
+                        return tr("Tuning");
                     case 0x09:
-                        return i18nc("General MIDI 2 Controller Destination", "GM2 Destination");
+                        return tr("General MIDI 2 Controller Destination", "GM2 Destination");
                     case 0x0a:
-                        return i18nc("Key-based Instrument Control", "Instrument");
+                        return tr("Key-based Instrument Control", "Instrument");
                     case 0x0b:
-                        return i18nc("Scalable Polyphony MIDI MIP Message", "Polyphony");
+                        return tr("Scalable Polyphony MIDI MIP Message", "Polyphony");
                     case 0x0c:
-                        return i18nc("Mobile Phone Control Message", "Mobile Phone");
+                        return tr("Mobile Phone Control Message", "Mobile Phone");
                     default:
                         break;
                 }
@@ -580,35 +582,35 @@ SequenceModel::sysex_mtc(const int id) const
 {
     switch (id) {
         case 0x00:
-            return i18nc("MTC special setup","Special");
+            return tr("MTC special setup","Special");
         case 0x01:
-            return i18n("Punch In Points");
+            return tr("Punch In Points");
         case 0x02:
-            return i18n("Punch Out Points");
+            return tr("Punch Out Points");
         case 0x03:
-            return i18n("Delete Punch In Points");
+            return tr("Delete Punch In Points");
         case 0x04:
-            return i18n("Delete Punch Out Points");
+            return tr("Delete Punch Out Points");
         case 0x05:
-            return i18n("Event Start Point");
+            return tr("Event Start Point");
         case 0x06:
-            return i18n("Event Stop Point");
+            return tr("Event Stop Point");
         case 0x07:
-            return i18n("Event Start Point With Info");
+            return tr("Event Start Point With Info");
         case 0x08:
-            return i18n("Event Stop Point With Info");
+            return tr("Event Stop Point With Info");
         case 0x09:
-            return i18n("Delete Event Start Point");
+            return tr("Delete Event Start Point");
         case 0x0a:
-            return i18n("Delete Event Stop Point");
+            return tr("Delete Event Stop Point");
         case 0x0b:
-            return i18n("Cue Points");
+            return tr("Cue Points");
         case 0x0c:
-            return i18n("Cue Points With Info");
+            return tr("Cue Points With Info");
         case 0x0d:
-            return i18n("Delete Cue Point");
+            return tr("Delete Cue Point");
         case 0x0e:
-            return i18n("Event Name");
+            return tr("Event Name");
         default:
             break;
     }
@@ -620,49 +622,49 @@ SequenceModel::sysex_mmc(const int id) const
 {
     switch (id) {
     case 0x01:
-        return i18n("Stop");
+        return tr("Stop");
     case 0x02:
-        return i18n("Play");
+        return tr("Play");
     case 0x03:
-        return i18n("Deferred play");
+        return tr("Deferred play");
     case 0x04:
-        return i18n("Fast forward");
+        return tr("Fast forward");
     case 0x05:
-        return i18n("Rewind");
+        return tr("Rewind");
     case 0x06:
-        return i18n("Punch in");
+        return tr("Punch in");
     case 0x07:
-        return i18n("Punch out");
+        return tr("Punch out");
     case 0x08:
-        return i18n("Pause recording");
+        return tr("Pause recording");
     case 0x09:
-        return i18n("Pause");
+        return tr("Pause");
     case 0x0a:
-        return i18n("Eject");
+        return tr("Eject");
     case 0x0b:
-        return i18n("Chase");
+        return tr("Chase");
     case 0x0c:
-        return i18n("Error reset");
+        return tr("Error reset");
     case 0x0d:
-        return i18n("Reset");
+        return tr("Reset");
     case 0x40:
-        return i18n("Write");
+        return tr("Write");
     case 0x41:
-        return i18n("Masked Write");
+        return tr("Masked Write");
     case 0x42:
-        return i18n("Read");
+        return tr("Read");
     case 0x43:
-        return i18n("Update");
+        return tr("Update");
     case 0x44:
-        return i18n("Locate");
+        return tr("Locate");
     case 0x45:
-        return i18n("Variable play");
+        return tr("Variable play");
     case 0x46:
-        return i18n("Search");
+        return tr("Search");
     case 0x47:
-        return i18n("Shuttle");
+        return tr("Shuttle");
     case 0x48:
-        return i18n("Step");
+        return tr("Step");
     default:
         break;
     }
@@ -684,30 +686,30 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
             if (msgId == 0x7e) { // Universal Non Real Time
                 switch (subId1) {
                     case 0x01:
-                        return i18n("Header");
+                        return tr("Header");
                     case 0x02:
-                        return i18n("Data Packet");
+                        return tr("Data Packet");
                     case 0x03:
-                        return i18n("Request");
+                        return tr("Request");
                     case 0x04:
                         return sysex_mtc(subId2);
                         break;
                     case 0x05:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Loop Points Send");
+                                return tr("Loop Points Send");
                             case 0x02:
-                                return i18n("Loop Points Request");
+                                return tr("Loop Points Request");
                             case 0x03:
-                                return i18n("Sample Name Send");
+                                return tr("Sample Name Send");
                             case 0x04:
-                                return i18n("Sample Name Request");
+                                return tr("Sample Name Request");
                             case 0x05:
-                                return i18n("Ext.Dump Header");
+                                return tr("Ext.Dump Header");
                             case 0x06:
-                                return i18n("Ext.Loop Points Send");
+                                return tr("Ext.Loop Points Send");
                             case 0x07:
-                                return i18n("Ext.Loop Points Request");
+                                return tr("Ext.Loop Points Request");
                             default:
                                 break;
                         }
@@ -715,9 +717,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x06:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Identity Request");
+                                return tr("Identity Request");
                             case 0x02:
-                                return i18n("Identity Reply");
+                                return tr("Identity Reply");
                             default:
                                 break;
                         }
@@ -725,11 +727,11 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x07:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Header");
+                                return tr("Header");
                             case 0x02:
-                                return i18n("Data Packet");
+                                return tr("Data Packet");
                             case 0x03:
-                                return i18n("Request");
+                                return tr("Request");
                             default:
                                 break;
                         }
@@ -737,25 +739,25 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x08:
                         switch (subId2) {
                             case 0x00:
-                                return i18n("Dump Request");
+                                return tr("Dump Request");
                             case 0x01:
-                                return i18n("Bulk Dump");
+                                return tr("Bulk Dump");
                             case 0x02:
-                                return i18n("Note Change");
+                                return tr("Note Change");
                             case 0x03:
-                                return i18n("Tuning Dump Request");
+                                return tr("Tuning Dump Request");
                             case 0x04:
-                                return i18n("Key-based Tuning Dump");
+                                return tr("Key-based Tuning Dump");
                             case 0x05:
-                                return i18n("Scale/Octave Dump 1b");
+                                return tr("Scale/Octave Dump 1b");
                             case 0x06:
-                                return i18n("Scale/Octave Dump 2b");
+                                return tr("Scale/Octave Dump 2b");
                             case 0x07:
-                                return i18n("Single Note Change");
+                                return tr("Single Note Change");
                             case 0x08:
-                                return i18n("Scale/Octave Tuning 1b");
+                                return tr("Scale/Octave Tuning 1b");
                             case 0x09:
-                                return i18n("Scale/Octave Tuning 2b");
+                                return tr("Scale/Octave Tuning 2b");
                             default:
                                 break;
                         }
@@ -763,11 +765,11 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x09:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("GM On");
+                                return tr("GM On");
                             case 0x02:
-                                return i18n("GM Off");
+                                return tr("GM Off");
                             case 0x03:
-                                return i18n("GM2 On");
+                                return tr("GM2 On");
                             default:
                                 break;
                         }
@@ -775,13 +777,13 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x0a:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("DLS On");
+                                return tr("DLS On");
                             case 0x02:
-                                return i18n("DLS Off");
+                                return tr("DLS Off");
                             case 0x03:
-                                return i18n("DLS Voice Alloc. Off");
+                                return tr("DLS Voice Alloc. Off");
                             case 0x04:
-                                return i18n("DLS Voice Alloc. On");
+                                return tr("DLS Voice Alloc. On");
                             default:
                                 break;
                         }
@@ -789,13 +791,13 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x0b:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Open");
+                                return tr("Open");
                             case 0x02:
-                                return i18n("Select Contents");
+                                return tr("Select Contents");
                             case 0x03:
-                                return i18n("Open and Select");
+                                return tr("Open and Select");
                             case 0x04:
-                                return i18n("Close");
+                                return tr("Close");
                             default:
                                 break;
                         }
@@ -810,9 +812,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x01:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Full Frame");
+                                return tr("Full Frame");
                             case 0x02:
-                                return i18n("User Bits");
+                                return tr("User Bits");
                             default:
                                 break;
                         }
@@ -820,18 +822,18 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x02:
                         switch (subId2) {
                             case 0x00:
-                                return i18n("MSC Extension");
+                                return tr("MSC Extension");
                             default:
-                                return i18n("MSC Cmd.%1", subId2);
+                                return tr("MSC Cmd.%1").arg(subId2);
                         }
                         break;
                     case 0x03:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Bar Marker");
+                                return tr("Bar Marker");
                             case 0x02:
                             case 0x42:
-                                return i18n("Time Signature");
+                                return tr("Time Signature");
                             default:
                                 break;
                         }
@@ -839,15 +841,15 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x04:
                         switch (subId2) {
                             case 0x01:
-                                return i18nc("sound volume","Volume");
+                                return tr("sound volume","Volume");
                             case 0x02:
-                                return i18nc("sound balance","Balance");
+                                return tr("sound balance","Balance");
                             case 0x03:
-                                return i18n("Fine Tuning");
+                                return tr("Fine Tuning");
                             case 0x04:
-                                return i18n("Coarse Tuning");
+                                return tr("Coarse Tuning");
                             case 0x05:
-                                return i18n("Global Parameter");
+                                return tr("Global Parameter");
                             default:
                                 break;
                         }
@@ -857,17 +859,17 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x06:
                         return sysex_mmc(subId2);
                     case 0x07:
-                        return i18n("Response %1", subId2);
+                        return tr("Response %1").arg(subId2);
                     case 0x08:
                         switch (subId2) {
                             case 0x02:
-                                return i18n("Single Note");
+                                return tr("Single Note");
                             case 0x07:
-                                return i18n("Single Note with Bank");
+                                return tr("Single Note with Bank");
                             case 0x08:
-                                return i18n("Scale/Octave 1b");
+                                return tr("Scale/Octave 1b");
                             case 0x09:
-                                return i18n("Scale/Octave 2b");
+                                return tr("Scale/Octave 2b");
                             default:
                                 break;
                         }
@@ -875,11 +877,11 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x09:
                         switch (subId2) {
                             case 0x01:
-                                return i18n("Channel aftertouch");
+                                return tr("Channel aftertouch");
                             case 0x02:
-                                return i18n("Polyphonic aftertouch");
+                                return tr("Polyphonic aftertouch");
                             case 0x03:
-                                return i18n("Controller");
+                                return tr("Controller");
                             default:
                                 break;
                         }
@@ -1033,7 +1035,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
     if (m_filter != NULL)
         res = m_filter->getName(ev->getSequencerType());
     if (res.isEmpty())
-        res = i18n("Event type %1", ev->getSequencerType());
+        res = tr("Event type %1").arg(ev->getSequencerType());
     return res;
 }
 
@@ -1053,10 +1055,10 @@ SequenceModel::event_channel(const SequencerEvent *ev) const
 QString
 SequenceModel::note_name(const int note) const
 {
-    const QString m_names_s[] = {i18n("C"), i18n("C♯"), i18n("D"), i18n("D♯"), i18n("E"),
-    		i18n("F"), i18n("F♯"), i18n("G"), i18n("G♯"), i18n("A"), i18n("A♯"), i18n("B")};
-    const QString m_names_f[] = {i18n("C"), i18n("D♭"), i18n("D"), i18n("E♭"), i18n("E"),
-    		i18n("F"), i18n("G♭"), i18n("G"), i18n("A♭"), i18n("A"), i18n("B♭"), i18n("B")};
+    const QString m_names_s[] = {tr("C"), tr("C♯"), tr("D"), tr("D♯"), tr("E"),
+    		tr("F"), tr("F♯"), tr("G"), tr("G♯"), tr("A"), tr("A♯"), tr("B")};
+    const QString m_names_f[] = {tr("C"), tr("D♭"), tr("D"), tr("E♭"), tr("E"),
+    		tr("F"), tr("G♭"), tr("G"), tr("A♭"), tr("A"), tr("B♭"), tr("B")};
     int num = note % 12;
     int oct = (note / 12) - 1;
     QString name = m_useFlats ? m_names_f[num] : m_names_s[num];
@@ -1184,7 +1186,7 @@ SequenceModel::tempo_bpm(const SequencerEvent *ev) const
 {
     const TempoEvent* te = static_cast<const TempoEvent*>(ev);
     if (te != NULL)
-        return i18n("%1 bpm", QString::number(6e7 / te->getValue(), 'f', 1));
+        return tr("%1 bpm").arg(QString::number(6e7 / te->getValue(), 'f', 1));
     else
         return QString();
 }
@@ -1206,19 +1208,19 @@ SequenceModel::text_type(const SequencerEvent *ev) const
     if (te != NULL) {
         switch ( te->getTextType() ) {
         case 1:
-            return i18n("Text:1");
+            return tr("Text:1");
         case 2:
-            return i18n("Copyright:2");
+            return tr("Copyright:2");
         case 3:
-            return i18nc("song or track name","Name:3");
+            return tr("song or track name","Name:3");
         case 4:
-            return i18n("Instrument:4");
+            return tr("Instrument:4");
         case 5:
-            return i18n("Lyric:5");
+            return tr("Lyric:5");
         case 6:
-            return i18n("Marker:6");
+            return tr("Marker:6");
         case 7:
-            return i18n("Cue:7");
+            return tr("Cue:7");
         default:
             return QString::number( te->getTextType() );
         }
@@ -1240,16 +1242,14 @@ SequenceModel::text_data(const SequencerEvent *ev) const
 QString
 SequenceModel::time_sig1(const SequencerEvent *ev) const
 {
-    return i18n("%1/%2",
-            ev->getRaw8(0),
-            pow(2, ev->getRaw8(1)) );
+    return tr("%1/%2").arg(ev->getRaw8(0)).arg(pow(2, ev->getRaw8(1)));
 }
 
 QString
 SequenceModel::time_sig2(const SequencerEvent *ev) const
 {
-    return i18n("%1 clocks per click, %2 32nd per quarter",
-            ev->getRaw8(2),
+    return tr("%1 clocks per click, %2 32nd per quarter").arg(
+            ev->getRaw8(2)).arg(
             ev->getRaw8(3) );
 }
 
@@ -1257,27 +1257,27 @@ QString
 SequenceModel::key_sig1(const SequencerEvent *ev) const
 {
     signed char s = (signed char) ev->getRaw8(0);
-    return i18n("%1%2", abs(s),
+    return tr("%1%2").arg(abs(s)).arg(
             s < 0 ? QChar(0x266D) : QChar(0x266F)); //s < 0 ? "♭" : "♯"
 }
 
 QString
 SequenceModel::key_sig2(const SequencerEvent *ev) const
 {
-    static QString tmaj[] = {i18n("C flat"), i18n("G flat"), i18n("D flat"),
-            i18n("A flat"), i18n("E flat"), i18n("B flat"),i18n("F"),
-            i18n("C"), i18n("G"), i18n("D"), i18n("A"),
-            i18n("E"), i18n("B"), i18n("F sharp"),i18n("C sharp")};
-    static QString tmin[] = {i18n("A flat"), i18n("E flat"), i18n("B flat"),
-            i18n("F"), i18n("C"), i18n("G"), i18n("D"),
-            i18n("A"), i18n("E"), i18n("B"), i18n("F sharp"), i18n("C sharp"),
-            i18n("G sharp"), i18n("D sharp"), i18n("A sharp")};
+    static QString tmaj[] = {tr("C flat"), tr("G flat"), tr("D flat"),
+            tr("A flat"), tr("E flat"), tr("B flat"),tr("F"),
+            tr("C"), tr("G"), tr("D"), tr("A"),
+            tr("E"), tr("B"), tr("F sharp"),tr("C sharp")};
+    static QString tmin[] = {tr("A flat"), tr("E flat"), tr("B flat"),
+            tr("F"), tr("C"), tr("G"), tr("D"),
+            tr("A"), tr("E"), tr("B"), tr("F sharp"), tr("C sharp"),
+            tr("G sharp"), tr("D sharp"), tr("A sharp")};
     signed char s = (signed char) ev->getRaw8(0);
     QString tone, mode;
     if (abs(s) < 8) {
         tone = ( ev->getRaw8(1) == 0 ? tmaj[s + 7] : tmin[s + 7] );
-        mode = ( ev->getRaw8(1) == 0 ? i18nc("major mode scale","major") :
-                                       i18nc("minor mode scale","minor") );
+        mode = ( ev->getRaw8(1) == 0 ? tr("major mode scale","major") :
+                                       tr("minor mode scale","minor") );
     }
     return tone + ' ' + mode;
 }
@@ -1285,11 +1285,11 @@ SequenceModel::key_sig2(const SequencerEvent *ev) const
 QString
 SequenceModel::smpte(const SequencerEvent *ev) const
 {
-    return i18n( "%1:%2:%3:%4:%5",
-                 ev->getRaw8(0),
-                 ev->getRaw8(1),
-                 ev->getRaw8(2),
-                 ev->getRaw8(3),
+    return tr( "%1:%2:%3:%4:%5").arg(
+                 ev->getRaw8(0)).arg(
+                 ev->getRaw8(1)).arg(
+                 ev->getRaw8(2)).arg(
+                 ev->getRaw8(3)).arg(
                  ev->getRaw8(4));
 }
 
@@ -1490,23 +1490,24 @@ SequenceModel::loadFromFile(const QString& path)
     m_tempSong.clear();
     m_currentTrack = -1;
     m_initialTempo = -1;
-    KMimeType::Ptr type = KMimeType::findByPath(path);
-    if (type->name() == "audio/midi") {
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForFile(path);
+    if (type.name() == "audio/midi") {
         m_appendFunc = &SequenceModel::appendSMFEvent;
         m_reportsFilePos = true;
         m_smf->readFromFile(path);
-    } else if (type->name() == "audio/cakewalk") {
+    } else if (type.name() == "audio/cakewalk") {
         m_appendFunc = &SequenceModel::appendWRKEvent;
         m_reportsFilePos = true;
         m_wrk->readFromFile(path);
-    } else if (type->name() == "audio/overture") {
+    } else if (type.name() == "audio/overture") {
         m_appendFunc = &SequenceModel::appendOVEEvent;
         m_reportsFilePos = false;
         m_ove->readFromFile(path);
     } else {
         m_appendFunc = 0;
         m_reportsFilePos = false;
-        kDebug() << "unrecognized format:" << type->name();
+        qDebug() << "unrecognized format:" << type.name();
         return;
     }
     m_tempSong.sort();
@@ -1598,7 +1599,7 @@ SequenceModel::appendSMFEvent(long, int, SequencerEvent* ev)
     appendEvent(ticks, seconds, m_currentTrack, ev);
     if (m_reportsFilePos)
         emit loadProgress(m_smf->getFilePos());
-    KApplication::processEvents();
+    QApplication::processEvents();
 }
 
 void
@@ -1607,7 +1608,7 @@ SequenceModel::headerEvent(int format, int ntrks, int division)
     m_format = format;
     m_ntrks = ntrks;
     m_division = division;
-    m_fileFormat = i18n("SMF type %1", format);
+    m_fileFormat = tr("SMF type %1").arg(format);
 }
 
 void
@@ -1843,7 +1844,7 @@ SequenceModel::errorHandlerSMF(const QString& errorStr)
     m_loadingMessages.append(errorStr);
     if (m_reportsFilePos)
         m_loadingMessages.append(
-            i18n(" at offset %1",m_smf->getFilePos()));
+            tr(" at offset %1").arg(m_smf->getFilePos()));
 }
 
 void
@@ -2044,8 +2045,8 @@ void
 SequenceModel::setEncoding(const QString& encoding)
 {
     if (m_encoding != encoding) {
-        QString name = KGlobal::charsets()->encodingForName(encoding);
-        QTextCodec* codec = QTextCodec::codecForName(name.toLatin1());
+        //QString name = KGlobal::charsets()->encodingForName(encoding);
+        QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
         m_smf->setTextCodec(codec);
         m_wrk->setTextCodec(codec);
         m_encoding = encoding;
@@ -2063,7 +2064,7 @@ SequenceModel::appendWRKEvent(long ticks, int track, SequencerEvent* ev)
     appendEvent(ticks, seconds, track, ev);
     if (m_reportsFilePos)
         emit loadProgress(m_wrk->getFilePos());
-    KApplication::processEvents();
+    QApplication::processEvents();
 }
 
 void SequenceModel::errorHandlerWRK(const QString& errorStr)
@@ -2071,12 +2072,12 @@ void SequenceModel::errorHandlerWRK(const QString& errorStr)
     m_loadingMessages.append(errorStr);
     if (m_reportsFilePos)
         m_loadingMessages.append(
-            i18n(" at offset %1",m_wrk->getFilePos()));
+            tr(" at offset %1").arg(m_wrk->getFilePos()));
 }
 
 void SequenceModel::fileHeader(int verh, int verl)
 {
-    m_fileFormat = i18n("WRK file version %1.%2", verh, verl);
+    m_fileFormat = tr("WRK file version %1.%2").arg(verh).arg(verl);
     m_format = 1;
     m_ntrks = 0;
     m_division = 120;
@@ -2422,7 +2423,7 @@ void SequenceModel::endOfWrk()
 
 void SequenceModel::unknownChunk(int type, const QByteArray& data)
 {
-    kDebug() << "dec:" << type
+    qDebug() << "dec:" << type
              << "hex:" << hex << type << dec
              << "size:" << data.length();
 }
@@ -2462,7 +2463,7 @@ SequenceModel::appendOVEEvent(long ticks, int track, SequencerEvent* ev)
 {
     double seconds = oveRealTime(ticks);
     appendEvent(ticks, seconds, track, ev);
-    KApplication::processEvents();
+    QApplication::processEvents();
 }
 
 void SequenceModel::oveErrorHandler(const QString& errorStr)
@@ -2472,7 +2473,7 @@ void SequenceModel::oveErrorHandler(const QString& errorStr)
 
 void SequenceModel::oveFileHeader(int quarter, int /*trackCount*/)
 {
-    m_fileFormat = i18n("Overture File");
+    m_fileFormat = tr("Overture File");
     m_format = 1;
     m_ntrks = 0; // dynamically calculated
     m_division = quarter;

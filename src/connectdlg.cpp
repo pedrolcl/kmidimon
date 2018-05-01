@@ -26,23 +26,22 @@
 #include <QCheckBox>
 #include <QStringList>
 #include <QLabel>
-#include <klocale.h>
-#include <kcombobox.h>
+#include <QComboBox>
 
 ConnectDlg::ConnectDlg( QWidget *parent,
                         const QStringList& inputs,
                         const QStringList& subs,
                         const QStringList& outputs,
                         const QString& out ) :
-    KDialog(parent)
+    QDialog(parent)
 {
-    setCaption(i18n("Connections"));
+    setWindowTitle(tr("Connections"));
     setModal(true);
-    setButtons(Ok | Cancel);
-    QWidget* w = mainWidget();
-    w->setMinimumWidth(320);
-    QVBoxLayout* vbl1 = new QVBoxLayout(w);
-    m_group = new QGroupBox(i18n("Available Input Connections:"), w);
+    //setButtons(QDialog::Ok | QDialog::Cancel);
+    //QWidget* w = mainWidget();
+    setMinimumWidth(320);
+    QVBoxLayout* vbl1 = new QVBoxLayout(this);
+    m_group = new QGroupBox(tr("Available Input Connections:"), this);
     vbl1->addWidget(m_group);
     QVBoxLayout* vbl2 = new QVBoxLayout(m_group);
     for (int i = 0; i < inputs.size(); ++i) {
@@ -50,9 +49,9 @@ ConnectDlg::ConnectDlg( QWidget *parent,
         chk->setChecked(subs.contains(inputs[i]) > 0);
         vbl2->addWidget(chk);
     }
-    QLabel* lbl = new QLabel(i18n("<b>Output Connection:</b>"), w);
+    QLabel* lbl = new QLabel(tr("<b>Output Connection:</b>"), this);
     vbl1->addWidget(lbl);
-    m_output = new KComboBox(w);
+    m_output = new QComboBox(this);
     m_output->addItems(outputs);
     m_output->setCurrentIndex(-1);
     for (int i = 0; i < m_output->count(); ++i) {

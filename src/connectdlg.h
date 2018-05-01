@@ -22,13 +22,13 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class QGroupBox;
 class QStringList;
-class KComboBox;
+class QComboBox;
 
- class ConnectDlg : public KDialog
+ class ConnectDlg : public QDialog
 {
     Q_OBJECT
 
@@ -44,7 +44,7 @@ class KComboBox;
 
 private:
     QGroupBox* m_group;
-    KComboBox* m_output;
+    QComboBox* m_output;
 };
 
 #endif

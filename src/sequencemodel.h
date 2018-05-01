@@ -25,10 +25,10 @@
 #include "sequenceitem.h"
 #include "instrument.h"
 
-#include <alsaevent.h>
-#include <qsmf.h>
-#include <qwrk.h>
-#include <qove.h>
+#include <drumstick/alsaevent.h>
+#include <drumstick/qsmf.h>
+#include <drumstick/qwrk.h>
+#include <drumstick/qove.h>
 
 #include <QAbstractItemModel>
 #include <QMap>
