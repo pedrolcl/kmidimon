@@ -27,6 +27,7 @@
 #include <QStringList>
 #include <QLabel>
 #include <QComboBox>
+#include <QDialogButtonBox>
 
 ConnectDlg::ConnectDlg( QWidget *parent,
                         const QStringList& inputs,
@@ -36,9 +37,8 @@ ConnectDlg::ConnectDlg( QWidget *parent,
     QDialog(parent)
 {
     setWindowTitle(tr("Connections"));
+    setWindowIcon(QIcon(QStringLiteral(":/midi/icons/midi/icon16.png")));
     setModal(true);
-    //setButtons(QDialog::Ok | QDialog::Cancel);
-    //QWidget* w = mainWidget();
     setMinimumWidth(320);
     QVBoxLayout* vbl1 = new QVBoxLayout(this);
     m_group = new QGroupBox(tr("Available Input Connections:"), this);
@@ -61,6 +61,10 @@ ConnectDlg::ConnectDlg( QWidget *parent,
         }
     }
     vbl1->addWidget(m_output);
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    vbl1->addWidget(buttonBox);
 }
 
 QStringList ConnectDlg::getSelectedInputs() const

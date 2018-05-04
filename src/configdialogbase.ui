@@ -21,13 +21,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA
 </comment>
  <class>ConfigDialogBase</class>
- <widget class="QWidget" name="ConfigDialogBase">
+ <widget class="QDialog" name="ConfigDialogBase">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>277</height>
+    <width>400</width>
+    <height>340</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,24 +38,22 @@ MA 02110-1301, USA
   </property>
   <property name="minimumSize">
    <size>
-    <width>397</width>
-    <height>277</height>
+    <width>400</width>
+    <height>340</height>
    </size>
   </property>
-  <property name="sizeGripEnabled" stdset="0">
+  <property name="windowIcon">
+   <iconset resource="kmidimon.qrc">
+    <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QTabWidget" name="m_tabWidget">
-     <property name="minimumSize">
-      <size>
-       <width>385</width>
-       <height>0</height>
-      </size>
-     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tabSequencer">
       <attribute name="title">
@@ -472,10 +470,52 @@ MA 02110-1301, USA
      </widget>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <resources/>
- <connections/>
+ <resources>
+  <include location="kmidimon.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConfigDialogBase</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>255</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>198</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConfigDialogBase</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>255</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>198</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

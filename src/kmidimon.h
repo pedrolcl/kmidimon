@@ -25,6 +25,7 @@
 #include <QString>
 #include <QPointer>
 #include <QMainWindow>
+#include <QTranslator>
 
 class QAction;
 class QTabBar;
@@ -88,6 +89,9 @@ public slots:
     void tempoReset();
     void tempoSlider(int value);
     void slotLoop();
+    void about();
+    void help();
+    void slotOpenWebSite();
 
     void disconnectAll();
     void configConnections();
@@ -102,6 +106,7 @@ public slots:
     void slotCurrentChanged(const QModelIndex& curr, const QModelIndex& prev);
     void updateView();
     void songFileInfo();
+    void slotSwitchLanguage(QAction *action);
     void closeEvent(QCloseEvent *event);
     void contextMenuEvent( QContextMenuEvent *ev );
     void dropEvent( QDropEvent * event );
@@ -116,6 +121,9 @@ protected:
     void addNewTab(int data);
     bool askTrackFilter(int& track);
     void updateCaption();
+    void createLanguageMenu();
+    QString configuredLanguage();
+    void retranslateUi();
 
 private:
     PlayerState m_state;
@@ -159,6 +167,10 @@ private:
     bool m_autoResizeColumns;
     bool m_requestRealtimePrio;
     Ui::KMidimonWin *m_ui;
+    QString m_language;
+    QTranslator* m_trp;
+    QTranslator* m_trq;
+    QAction* m_currentLang;
 };
 
 #endif // KMIDIMON_H

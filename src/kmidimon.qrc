@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/midi">
+        <file>icons/midi/icon16.png</file>
+        <file>icons/midi/icon32.png</file>
+        <file>icons/midi/icon64.png</file>
+        <file>icons/midi/icon128.png</file>
+    </qresource>
+</RCC>

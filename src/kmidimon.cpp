@@ -28,6 +28,7 @@
 #include "sequenceradaptor.h"
 #include "slideraction.h"
 #include "ui_kmidimonwin.h"
+#include "about.h"
 
 #include <QMenu>
 #include <QEvent>
@@ -50,13 +51,44 @@
 #include <QInputDialog>
 #include <QFontDatabase>
 #include <QFont>
+#include <QLibraryInfo>
+#include <QStandardPaths>
+#include <QDesktopServices>
+
+static QDir dataDirectory()
+{
+    QDir test(QApplication::applicationDirPath() + "/../share/kmidimon/");
+    if (test.exists())
+        return test;
+    QStringList candidates = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
+    foreach(const QString& d, candidates) {
+        test = QDir(d);
+        if (test.exists())
+            return test;
+    }
+    return QDir();
+}
+
+static QDir localeDirectory()
+{
+    QDir data = dataDirectory();
+    data.cd("locale");
+    return data;
+}
 
 KMidimon::KMidimon() :
     QMainWindow(0),
     m_state(InvalidState),
-    m_adaptor(0),
-    m_ui(new Ui::KMidimonWin)
+    m_adaptor(0)
 {
+    m_trq = new QTranslator(this);
+    m_trp = new QTranslator(this);
+    m_trq->load( "qt_" + configuredLanguage(), QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
+    m_trp->load( configuredLanguage(), localeDirectory().absolutePath() );
+    QApplication::installTranslator(m_trq);
+    QApplication::installTranslator(m_trp);
+
+    m_ui = new Ui::KMidimonWin();
     m_ui->setupUi(this);
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -114,7 +146,7 @@ KMidimon::KMidimon() :
         vbox->setLayout(layout);
         setCentralWidget(vbox);
         setupActions();
-        //setAutoSaveSettings();
+        createLanguageMenu();
         readConfiguration();
         fileNew();
         record();
@@ -369,6 +401,35 @@ void KMidimon::setupActions()
     m_proxy->setFilter(m_filter);
     connect(m_filter, SIGNAL(filterChanged()), m_proxy, SLOT(invalidate()));
     menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
+
+    m_ui->actionAbout_Qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
+    connect( m_ui->actionAbout, SIGNAL(triggered()), SLOT(about()) );
+    connect( m_ui->actionAbout_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
+    connect( m_ui->actionContents, SIGNAL(triggered()), SLOT(help()) );
+    connect( m_ui->actionWeb_Site, SIGNAL(triggered()), SLOT(slotOpenWebSite()) );
+}
+
+void KMidimon::about()
+{
+    About dlg(this);
+    dlg.exec();
+}
+
+void KMidimon::help()
+{
+    QString hlpFile = QLatin1Literal("kmidimon.html");
+    QDir data = dataDirectory();
+    QFileInfo finfo(data.filePath(hlpFile));
+    if (finfo.exists()) {
+        QUrl url = QUrl::fromLocalFile(finfo.absoluteFilePath());
+        QDesktopServices::openUrl(url);
+    }
+}
+
+void KMidimon::slotOpenWebSite()
+{
+    QUrl url(QStringLiteral("http://kmidimon.sourceforge.net"));
+    QDesktopServices::openUrl(url);
 }
 
 void KMidimon::fileNew()
@@ -1022,4 +1083,75 @@ void KMidimon::dropEvent( QDropEvent * event )
             open(urls.first().fileName());
         event->accept();
     }
+}
+
+QString KMidimon::configuredLanguage()
+{
+    if (m_language.isEmpty()) {
+        QSettings settings;
+        QString defLang = QLocale::system().name();
+        settings.beginGroup("Settings");
+        m_language = settings.value("language", defLang).toString();
+        settings.endGroup();
+    }
+    //qDebug() << Q_FUNC_INFO << m_language;
+    return m_language;
+}
+
+void KMidimon::slotSwitchLanguage(QAction *action)
+{
+    QString lang = action->data().toString();
+    QLocale qlocale(lang);
+    QString localeName = qlocale.nativeLanguageName();
+    if ( QMessageBox::question (this, tr("Language Changed"),
+            tr("The language for this application is going to change to %1. "
+               "Do you want to continue?").arg(localeName),
+            QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes )
+    {
+        m_language = lang;
+        retranslateUi();
+    } else {
+        m_currentLang->setChecked(true);
+    }
+}
+
+void KMidimon::createLanguageMenu()
+{
+    QString currentLang = configuredLanguage();
+    QActionGroup *languageGroup = new QActionGroup(this);
+    connect(languageGroup, SIGNAL(triggered(QAction *)),
+            SLOT(slotSwitchLanguage(QAction *)));
+    QDir dir = localeDirectory();
+    QStringList fileNames = dir.entryList(QStringList("*.qm"));
+    QStringList locales;
+    locales << "en";
+    foreach (const QString& fileName, fileNames) {
+        QString locale = fileName;
+        locale.truncate(locale.lastIndexOf('.'));
+        locales << locale;
+    }
+    locales.sort();
+    m_ui->menuLanguage->clear();
+    foreach (const QString& loc, locales) {
+        QLocale qlocale(loc);
+        QString localeName = QLocale::languageToString(qlocale.language()); //qlocale.nativeLanguageName();
+        QAction *action = new QAction(localeName, this);
+        action->setCheckable(true);
+        action->setData(loc);
+        m_ui->menuLanguage->addAction(action);
+        languageGroup->addAction(action);
+        if (currentLang.startsWith(loc)) {
+            action->setChecked(true);
+            m_currentLang = action;
+        }
+    }
+}
+
+void KMidimon::retranslateUi()
+{
+    auto lang = configuredLanguage();
+    m_trq->load( "qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
+    m_trp->load( lang, localeDirectory().absolutePath() );
+    m_ui->retranslateUi(this);
+    createLanguageMenu();
 }

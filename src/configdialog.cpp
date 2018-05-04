@@ -25,10 +25,8 @@
 ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent)
 {
-    QWidget *widget = new QWidget( this );
-    ui.setupUi(widget);
-    //setMainWidget( widget );
-    //setCaption( i18nc("@title:window", "KMidimon Configuration") );
+    ui.setupUi(this);
+    setWindowTitle(tr("KMidimon Configuration", "@title:window"));
     initEncodings();
 }
 
@@ -100,9 +98,19 @@ void ConfigDialog::setInstruments( const QStringList& items )
 void ConfigDialog::initEncodings()
 {
     ui.m_codecs->clear();
-    ui.m_codecs->addItem(tr("@item:inlistbox Default MIDI text encoding",
-                    "Default ( ASCII )"));
-    //ui.m_codecs->addItems( KGlobal::charsets()->descriptiveEncodingNames() );
+    ui.m_codecs->addItem(tr("Default ( ASCII )", "@item:inlistbox Default MIDI text encoding"));
+    QStringList encodings;
+    foreach (auto m,  QTextCodec::availableMibs())
+    {
+        if (QTextCodec* c = QTextCodec::codecForMib(m))
+        {
+            QString name = c->name();
+            if (!encodings.contains(name))
+                encodings.append(name);
+        }
+    }
+    encodings.sort();
+    ui.m_codecs->addItems(encodings);
 }
 
 QString ConfigDialog::getEncoding()

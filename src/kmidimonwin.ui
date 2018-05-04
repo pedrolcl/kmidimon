@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="kmidimon.qrc">
+    <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -50,10 +54,15 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+    </widget>
     <addaction name="actionContents"/>
     <addaction name="actionWeb_Site"/>
     <addaction name="separator"/>
-    <addaction name="actionLanguage"/>
+    <addaction name="menuLanguage"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
@@ -108,11 +117,6 @@
     <string>Web Site</string>
    </property>
   </action>
-  <action name="actionLanguage">
-   <property name="text">
-    <string>Language</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="text">
     <string>About...</string>
@@ -123,8 +127,15 @@
     <string>About Qt</string>
    </property>
   </action>
+  <action name="actionpepe">
+   <property name="text">
+    <string>pepe</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="kmidimon.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionShow_Toolbar</sender>

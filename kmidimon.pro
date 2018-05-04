@@ -33,10 +33,12 @@ HEADERS += src/configdialog.h \
            src/sequenceitem.h \
            src/sequencemodel.h \
            src/sequenceradaptor.h \
-           src/slideraction.h
+           src/slideraction.h \
+           src/about.h
 
 FORMS   += src/configdialogbase.ui \
-           src/kmidimonwin.ui
+           src/kmidimonwin.ui \
+           src/about.ui
 
 SOURCES += src/configdialog.cpp \
            src/connectdlg.cpp \
@@ -49,4 +51,12 @@ SOURCES += src/configdialog.cpp \
            src/sequenceitem.cpp \
            src/sequencemodel.cpp \
            src/sequenceradaptor.cpp \
-           src/slideraction.cpp
+           src/slideraction.cpp \
+           src/about.cpp
+
+RESOURCES += src/kmidimon.qrc
+
+TRANSLATIONS += translations/cs.ts \
+           translations/es.ts \
+           translations/fr.ts \
+           translations/ja.ts
