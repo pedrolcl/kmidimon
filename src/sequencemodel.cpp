@@ -44,7 +44,7 @@ static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 
 void Song::sort()
 {
-    qStableSort(begin(), end(), eventLessThan);
+    std::sort(begin(), end(), eventLessThan);
 }
 
 void Song::clear()
@@ -249,9 +249,7 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_ove, SIGNAL(signalOVEExpression(int,long,int,const QString&)),
                    SLOT(expression(int,long,int,const QString&)));
 
-    //KStandardDirs::locate("appdata", "standards.ins");
-    QDir appDir(qApp->applicationDirPath());
-    QFileInfo insFile(appDir, QStringLiteral("standards.ins"));
+    QFileInfo insFile(KMidimon::dataDirectory(), QStringLiteral("standards.ins"));
     if (insFile.exists()) {
         m_insList.load(insFile.absoluteFilePath());
     }
@@ -281,7 +279,7 @@ SequenceModel::headerData(int section, Qt::Orientation orientation,
         case 1:
             return tr("Time");
         case 2:
-            return tr("event origin","Source");
+            return tr("Source","event origin");
         case 3:
             return tr("Event kind");
         case 4:
@@ -485,7 +483,7 @@ SequenceModel::sysex_chan(const SequencerEvent *ev) const
             if (ptr[0] != 0xf0) return QString();
             unsigned char deviceId = ptr[2];
             if ( deviceId == 0x7f )
-                return tr("cast or scattered in all directions","broadcast");
+                return tr("broadcast","cast or scattered in all directions");
             else
                 return tr("device %1").arg(deviceId);
         }
@@ -516,17 +514,17 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
                     case 0x05:
                         return tr("Sample Dump");
                     case 0x06:
-                        return tr("General Info", "Gen.Info");
+                        return tr("Gen.Info","General Info");
                     case 0x07:
                         return tr("File Dump");
                     case 0x08:
                         return tr("Tuning");
                     case 0x09:
-                        return tr("General MIDI mode", "GM Mode");
+                        return tr("GM Mode","General MIDI mode");
                     case 0x0a:
-                        return tr("Downloadable Sounds", "DLS");
+                        return tr("DLS","Downloadable Sounds");
                     case 0x0b:
-                        return tr("File Reference", "File Ref.");
+                        return tr("File Ref.","File Reference");
                     case 0x7b:
                         return tr("End of File");
                     case 0x7c:
@@ -560,13 +558,13 @@ SequenceModel::sysex_data1(const SequencerEvent *ev) const
                     case 0x08:
                         return tr("Tuning");
                     case 0x09:
-                        return tr("General MIDI 2 Controller Destination", "GM2 Destination");
+                        return tr("GM2 Destination","General MIDI 2 Controller Destination");
                     case 0x0a:
-                        return tr("Key-based Instrument Control", "Instrument");
+                        return tr("Instrument","Key-based Instrument Control");
                     case 0x0b:
-                        return tr("Scalable Polyphony MIDI MIP Message", "Polyphony");
+                        return tr("Polyphony","Scalable Polyphony MIDI MIP Message");
                     case 0x0c:
-                        return tr("Mobile Phone Control Message", "Mobile Phone");
+                        return tr("Mobile Phone","Mobile Phone Control Message");
                     default:
                         break;
                 }
@@ -582,7 +580,7 @@ SequenceModel::sysex_mtc(const int id) const
 {
     switch (id) {
         case 0x00:
-            return tr("MTC special setup","Special");
+            return tr("Special","MTC special setup");
         case 0x01:
             return tr("Punch In Points");
         case 0x02:
@@ -841,9 +839,9 @@ SequenceModel::sysex_data2(const SequencerEvent *ev) const
                     case 0x04:
                         switch (subId2) {
                             case 0x01:
-                                return tr("sound volume","Volume");
+                                return tr("Volume","sound volume");
                             case 0x02:
-                                return tr("sound balance","Balance");
+                                return tr("Balance","sound balance");
                             case 0x03:
                                 return tr("Fine Tuning");
                             case 0x04:
@@ -1212,7 +1210,7 @@ SequenceModel::text_type(const SequencerEvent *ev) const
         case 2:
             return tr("Copyright:2");
         case 3:
-            return tr("song or track name","Name:3");
+            return tr("Name:3","song or track name");
         case 4:
             return tr("Instrument:4");
         case 5:
@@ -1276,8 +1274,8 @@ SequenceModel::key_sig2(const SequencerEvent *ev) const
     QString tone, mode;
     if (abs(s) < 8) {
         tone = ( ev->getRaw8(1) == 0 ? tmaj[s + 7] : tmin[s + 7] );
-        mode = ( ev->getRaw8(1) == 0 ? tr("major mode scale","major") :
-                                       tr("minor mode scale","minor") );
+        mode = ( ev->getRaw8(1) == 0 ? tr("major","major mode scale") :
+                                       tr("minor","minor mode scale"));
     }
     return tone + ' ' + mode;
 }

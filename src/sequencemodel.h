@@ -32,14 +32,13 @@
 
 #include <QAbstractItemModel>
 #include <QMap>
-#include <QHash>
 #include <QList>
 
 using namespace drumstick;
 
 class EventFilter;
 
-typedef QHash<int,QString> ClientsMap;
+typedef QMap<int,QString> ClientsMap;
 
 class Song : public QList<SequenceItem>
 {
@@ -315,7 +314,7 @@ private:
         int pitch;
         int velocity;
     };
-    QHash<int,TrackMapRec> m_trackMap;
+    QMap<int,TrackMapRec> m_trackMap;
 
     struct TimeSigRec {
         int bar;

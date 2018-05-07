@@ -25,7 +25,6 @@
 #include <QHash>
 #include <QString>
 #include <QMenu>
-#include <QSignalMapper>
 #include <QAction>
 
 #include <drumstick/alsaevent.h>
@@ -95,7 +94,6 @@ signals:
 
 private:
     QMenu *m_menu;
-    QSignalMapper *m_mapperAll, *m_mapperNone;
     QHash<EvCategory, CategoryFilter*> m_cats;
     QHash<int, EvCategory> m_aux;
 };

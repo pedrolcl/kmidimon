@@ -36,7 +36,6 @@
 #include <QCursor>
 #include <QTreeView>
 #include <QTextStream>
-#include <QSignalMapper>
 #include <QVariant>
 #include <QToolTip>
 #include <QFileInfo>
@@ -55,7 +54,7 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
-static QDir dataDirectory()
+QDir KMidimon::dataDirectory()
 {
     QDir test(QApplication::applicationDirPath() + "/../share/kmidimon/");
     if (test.exists())
@@ -69,7 +68,7 @@ static QDir dataDirectory()
     return QDir();
 }
 
-static QDir localeDirectory()
+QDir KMidimon::localeDirectory()
 {
     QDir data = dataDirectory();
     data.cd("locale");
@@ -95,7 +94,6 @@ KMidimon::KMidimon() :
     m_useFixedFont = false;
     m_autoResizeColumns = false;
     m_requestRealtimePrio = false;
-    m_mapper = new QSignalMapper(this);
     m_model = new SequenceModel(this);
     m_proxy = new ProxyModel(this);
     m_proxy->setSourceModel(m_model);
@@ -137,8 +135,7 @@ KMidimon::KMidimon() :
 #endif
 //        connect( m_tabBar, SIGNAL(newTabRequest()),
 //                           SLOT(addTrack()) );
-//        connect( m_tabBar, SIGNAL(tabDoubleClicked(int)),
-//                           SLOT(changeTrack(int)) );
+        connect( m_tabBar, &QTabBar::tabBarDoubleClicked, this, &KMidimon::changeTrack );
         connect( m_tabBar, SIGNAL(currentChanged(int)),
                            SLOT(tabIndexChanged(int)) );
         layout->addWidget(m_tabBar);
@@ -167,14 +164,14 @@ void KMidimon::setupActions()
     const QString columnName[COLUMN_COUNT] = {
             tr("Ticks"),
             tr("Time"),
-            tr("event origin", "Source"),
-            tr("type of event", "Event Kind"),
+            tr("Source", "event origin"),
+            tr("Event Kind", "type of event"),
             tr("Channel"),
             tr("Data 1"),
             tr("Data 2"),
             tr("Data 3")
     };
-    const QString actionName[COLUMN_COUNT] = {
+    /*const QString actionName[COLUMN_COUNT] = {
             "show_ticks",
             "show_time",
             "show_source",
@@ -183,7 +180,7 @@ void KMidimon::setupActions()
             "show_data1",
             "show_data2",
             "show_data3"
-    };
+    };*/
 
     QAction* a = new QAction(this);
     a->setText(tr("&New"));
@@ -202,14 +199,22 @@ void KMidimon::setupActions()
     m_ui->toolBar->addAction(a);
 
     m_recentFiles = m_ui->menuFile->addMenu(QIcon::fromTheme("document-open-recent"), "Recent files");
+    connect(m_recentFiles, &QMenu::aboutToShow, this, &KMidimon::updateRecentFileActions);
+    m_recentFileSubMenuAct = m_recentFiles->menuAction();
 
-    m_ui->menuFile->addSeparator();
+    for (int i = 0; i < MaxRecentFiles; ++i) {
+        m_recentFileActs[i] = m_recentFiles->addAction(QString(), this, &KMidimon::openRecentFile);
+        m_recentFileActs[i]->setVisible(false);
+    }
+
+    m_recentFileSeparator = m_ui->menuFile->addSeparator();
+    setRecentFilesVisible(KMidimon::hasRecentFiles());
 
     m_save = new QAction(this);
     m_save->setText(tr("&Save"));
     m_save->setIcon(QIcon::fromTheme("document-save"));
     m_save->setWhatsThis(tr("Store the session data on a disk file"));
-    connect(a, SIGNAL(triggered()), SLOT(fileSave()));
+    connect(m_save, SIGNAL(triggered()), SLOT(fileSave()));
     m_ui->menuFile->addAction(m_save);
     m_ui->toolBar->addAction(m_save);
 
@@ -252,7 +257,7 @@ void KMidimon::setupActions()
      */
 
     m_rewind = new QAction(this);
-    m_rewind->setText(tr("player skip backward", "Backward"));
+    m_rewind->setText(tr("Backward","player skip backward"));
     m_rewind->setIcon(QIcon::fromTheme("media-skip-backward"));
     m_rewind->setWhatsThis(tr("Move the playback position to the first event"));
     connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
@@ -270,6 +275,7 @@ void KMidimon::setupActions()
 
     m_pause = new QAction(this);
     m_pause->setText(tr("Pause"));
+    m_pause->setCheckable(true);
     m_pause->setIcon(QIcon::fromTheme("media-playback-pause"));
     m_pause->setWhatsThis(tr("Pause the playback"));
     connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
@@ -277,7 +283,7 @@ void KMidimon::setupActions()
     m_ui->toolBar->addAction(m_pause);
 
     m_forward = new QAction(this);
-    m_forward->setText(tr("player skip forward", "Forward"));
+    m_forward->setText(tr("Forward","player skip forward"));
     m_forward->setIcon(QIcon::fromTheme("media-skip-forward"));
     m_forward->setWhatsThis(tr("Move the playback position to the last event"));
     connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
@@ -388,11 +394,9 @@ void KMidimon::setupActions()
         m_popupAction[i]->setCheckable(true);
         m_popupAction[i]->setChecked(true);
         m_popupAction[i]->setWhatsThis(tr("Toggle the %1 column").arg(columnName[i]));
-        connect(m_popupAction[i], SIGNAL(triggered()), m_mapper, SLOT(map()));
-        m_mapper->setMapping(m_popupAction[i], i);
+        connect(m_popupAction[i], &QAction::triggered, [=] {toggleColumn(i);});
         columns->addAction(m_popupAction[i]);
     }
-    connect(m_mapper, SIGNAL(mapped(int)), SLOT(toggleColumn(int)));
 
     m_filter = new EventFilter(this);
     QMenu* filtersMenu = m_filter->buildMenu(this);
@@ -417,7 +421,7 @@ void KMidimon::about()
 
 void KMidimon::help()
 {
-    QString hlpFile = QLatin1Literal("kmidimon.html");
+    QString hlpFile = QStringLiteral("kmidimon.html");
     QDir data = dataDirectory();
     QFileInfo finfo(data.filePath(hlpFile));
     if (finfo.exists()) {
@@ -434,7 +438,7 @@ void KMidimon::slotOpenWebSite()
 
 void KMidimon::fileNew()
 {
-    m_file.clear();
+    m_currentFile.clear();
     m_model->clear();
     for (int i = m_tabBar->count() - 1; i >= 0; i--) {
         m_tabBar->removeTab(i);
@@ -457,7 +461,7 @@ void KMidimon::open(const QString& fileName)
 {
     try {
         QFileInfo finfo(fileName);
-        m_file = finfo.absoluteFilePath();
+        m_currentFile = finfo.absoluteFilePath();
         m_view->blockSignals(true);
         stop();
         m_model->clear();
@@ -494,7 +498,7 @@ void KMidimon::open(const QString& fileName)
         m_model->clear();
     }
     m_view->blockSignals(false);
-    //m_recentFiles->addUrl(url);
+    prependToRecentFiles(fileName);
     updateCaption();
     delete m_pd;
     QString loadingMsg = m_model->getLoadingMessages();
@@ -530,7 +534,7 @@ void KMidimon::fileSave()
         QString path = fd.selectedFiles().first();
         if (!path.isNull()) {
             m_model->saveToFile(path);
-            //m_recentFiles->addUrl(u);
+            prependToRecentFiles(path);
         }
     }
 }
@@ -576,11 +580,6 @@ void KMidimon::saveConfiguration()
     }
     config.setValue("output_connection", m_outputConn);
     config.sync();
-
-    config.beginGroup("RecentFiles");
-    //m_recentFiles->saveEntries(config);
-    config.sync();
-
     m_filter->saveConfiguration();
 }
 
@@ -617,10 +616,6 @@ void KMidimon::readConfiguration()
     }
     m_outputConn = config.value("output_connection", QString()).toString();
     m_adaptor->connect_output(m_outputConn);
-
-    //config = KGlobal::config()->group("RecentFiles");
-    //m_recentFiles->loadEntries(config);
-
     m_filter->loadConfiguration();
 }
 
@@ -736,7 +731,7 @@ void KMidimon::forward()
 
 void KMidimon::updateCaption()
 {
-    QFileInfo finfo(m_file);
+    QFileInfo finfo(m_currentFile);
     QString name = finfo.fileName();
     if (name.isEmpty())
         name = tr("(no file)");
@@ -901,10 +896,10 @@ void KMidimon::resizeAllColumns()
 
 void KMidimon::addNewTab(int data)
 {
-    QString tabName = tr("song track", "Track %1", data);
+    QString tabName = tr("Track %1","song track").arg(data);
     int i = m_tabBar->addTab(tabName);
     m_tabBar->setTabData(i, QVariant(data));
-    m_tabBar->setTabWhatsThis(i, tr("track selector", "Track %1 View Selector", data));
+    m_tabBar->setTabWhatsThis(i, tr("Track %1 View Selector","track selector").arg(data));
 }
 
 void KMidimon::tabIndexChanged(int index)
@@ -942,10 +937,10 @@ void KMidimon::changeTrack(int tabIndex)
 {
     int track = m_tabBar->tabData(tabIndex).toInt();
     if (askTrackFilter(track)) {
-        QString tabName = tr("song track", "Track %1", track);
+        QString tabName = tr("Track %1","song track").arg(track);
         m_tabBar->setTabData(tabIndex, track);
         m_tabBar->setTabText(tabIndex, tabName);
-        m_tabBar->setTabWhatsThis(tabIndex, tr("track selector", "Track %1 View Selector", track));
+        m_tabBar->setTabWhatsThis(tabIndex, tr("Track %1 View Selector","track selector").arg(track));
         tabIndexChanged(tabIndex);
     }
 }
@@ -1003,10 +998,10 @@ void
 KMidimon::songFileInfo()
 {
     QString infostr;
-    if (m_file.isEmpty())
+    if (m_currentFile.isEmpty())
         infostr = tr("No file loaded");
     else {
-        QFileInfo finfo(m_file);
+        QFileInfo finfo(m_currentFile);
         infostr = tr("File: <b>%1</b><br/>"
                        "Created: <b>%2</b><br/>"
                        "Modified: <b>%3</b><br/>"
@@ -1154,4 +1149,77 @@ void KMidimon::retranslateUi()
     m_trp->load( lang, localeDirectory().absolutePath() );
     m_ui->retranslateUi(this);
     createLanguageMenu();
+}
+
+void KMidimon::setRecentFilesVisible(bool visible)
+{
+    m_recentFileSubMenuAct->setVisible(visible);
+    m_recentFileSeparator->setVisible(visible);
+}
+
+QStringList KMidimon::readRecentFiles(QSettings &settings)
+{
+    QStringList result;
+    const int count = settings.beginReadArray(QStringLiteral("RecentFiles"));
+    for (int i = 0; i < count; ++i) {
+        settings.setArrayIndex(i);
+        result.append(settings.value(QStringLiteral("file")).toString());
+    }
+    settings.endArray();
+    return result;
+}
+
+void KMidimon::writeRecentFiles(const QStringList &files, QSettings &settings)
+{
+    const int count = files.size();
+    settings.beginWriteArray(QStringLiteral("RecentFiles"));
+    for (int i = 0; i < count; ++i) {
+        settings.setArrayIndex(i);
+        settings.setValue(QStringLiteral("file"), files.at(i));
+    }
+    settings.endArray();
+}
+
+bool KMidimon::hasRecentFiles()
+{
+    QSettings settings;
+    const int count = settings.beginReadArray(QStringLiteral("RecentFiles"));
+    settings.endArray();
+    return count > 0;
+}
+
+void KMidimon::prependToRecentFiles(const QString &fileName)
+{
+    QSettings settings;
+
+    const QStringList oldRecentFiles = readRecentFiles(settings);
+    QStringList recentFiles = oldRecentFiles;
+    recentFiles.removeAll(fileName);
+    recentFiles.prepend(fileName);
+    if (oldRecentFiles != recentFiles)
+        writeRecentFiles(recentFiles, settings);
+
+    setRecentFilesVisible(!recentFiles.isEmpty());
+}
+
+void KMidimon::updateRecentFileActions()
+{
+    QSettings settings;
+    const QStringList recentFiles = readRecentFiles(settings);
+    const int count = qMin(int(MaxRecentFiles), recentFiles.size());
+    int i = 0;
+    for ( ; i < count; ++i) {
+        const QString fileName = QFileInfo(recentFiles.at(i)).fileName();
+        m_recentFileActs[i]->setText(tr("&%1 %2").arg(i + 1).arg(fileName));
+        m_recentFileActs[i]->setData(recentFiles.at(i));
+        m_recentFileActs[i]->setVisible(true);
+    }
+    for ( ; i < MaxRecentFiles; ++i)
+        m_recentFileActs[i]->setVisible(false);
+}
+
+void KMidimon::openRecentFile()
+{
+    if (const QAction *action = qobject_cast<const QAction *>(sender()))
+        open(action->data().toString());
 }

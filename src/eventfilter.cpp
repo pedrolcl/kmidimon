@@ -21,7 +21,6 @@
 
 #include "eventfilter.h"
 #include <QSettings>
-//#include <kconfiggroup.h>
 
 QString CategoryFilter::getName(int t)
 {
@@ -81,7 +80,7 @@ EventFilter::EventFilter(QObject* parent)
     insert(SysCommonCategory, SND_SEQ_EVENT_QFRAME, tr("MTC Quarter Frame"));
     insert(SysCommonCategory, SND_SEQ_EVENT_TUNE_REQUEST, tr("Tune Request"));
     /* MIDI Realtime Events */
-    insert(SysRTCategory, SND_SEQ_EVENT_START, tr("player start","Start"));
+    insert(SysRTCategory, SND_SEQ_EVENT_START, tr("Start", "player start"));
     insert(SysRTCategory, SND_SEQ_EVENT_CONTINUE, tr("Continue"));
     insert(SysRTCategory, SND_SEQ_EVENT_STOP, tr("Stop"));
     insert(SysRTCategory, SND_SEQ_EVENT_CLOCK, tr("Clock"));
@@ -108,11 +107,6 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR4, tr("SMPTE Offset"));
     insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1, tr("Sequencer Specific"));
     insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2, tr("Meta (unregistered)"));
-
-    m_mapperAll = new QSignalMapper(this);
-    m_mapperNone = new QSignalMapper(this);
-    connect(m_mapperAll, SIGNAL(mapped(int)), SLOT(checkGroup(int)));
-    connect(m_mapperNone, SIGNAL(mapped(int)), SLOT(uncheckGroup(int)));
 }
 
 void EventFilter::checkGroup(int c)
@@ -195,18 +189,17 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
         QHashIterator<EvCategory, CategoryFilter*> iter(m_cats);
         while ( iter.hasNext() ) {
             iter.next();
+            int key = (int) iter.key();
             CategoryFilter *cf = iter.value();
             QMenu* submenu = new QMenu(parent);
             submenu->setTitle(cf->getName());
             m_menu->addMenu(submenu);
             cf->setMenu(submenu);
-            QAction *actionAll = new QAction(tr("check all types","All"), this);
-            connect(actionAll, SIGNAL(triggered()), m_mapperAll, SLOT(map()));
-            m_mapperAll->setMapping(actionAll, (int) iter.key() );
+            QAction *actionAll = new QAction(tr("All", "check all types"), this);
+            connect(actionAll, &QAction::triggered, [=] { checkGroup(key); });
             submenu->addAction( actionAll );
             QAction *actionNothing = new QAction(tr("Nothing"), this);
-            connect(actionNothing, SIGNAL(triggered()), m_mapperNone, SLOT(map()));
-            m_mapperNone->setMapping(actionNothing, (int) iter.key() );
+            connect(actionNothing, &QAction::triggered, [=] { uncheckGroup(key); });
             submenu->addAction( actionNothing );
             submenu->addSeparator();
             QHashIterator<int, QAction*> it = cf->getIterator();

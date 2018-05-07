@@ -30,21 +30,22 @@
 class QAction;
 class QTabBar;
 class QProgressDialog;
-class EventFilter;
-
 class QEvent;
 class QContextMenuEvent;
 class QTreeView;
 class QModelIndex;
-class QSignalMapper;
 class QMenu;
+class QSettings;
+class QDir;
 
+class EventFilter;
 class SequencerAdaptor;
 class SequenceModel;
 class ProxyModel;
 class PlayerPopupSliderAction;
 
 const int COLUMN_COUNT = 8;
+const int MaxRecentFiles = 10;
 
 namespace Ui {
 class KMidimonWin;
@@ -64,6 +65,8 @@ class KMidimon : public QMainWindow
 public:
     KMidimon();
     virtual ~KMidimon();
+    static QDir dataDirectory();
+    static QDir localeDirectory();
 
 public slots:
     void fileNew();
@@ -112,6 +115,9 @@ public slots:
     void dropEvent( QDropEvent * event );
     void dragEnterEvent( QDragEnterEvent * event );
 
+    void updateRecentFileActions();
+    void openRecentFile();
+
 protected:
     void saveConfiguration();
     void readConfiguration();
@@ -124,6 +130,12 @@ protected:
     void createLanguageMenu();
     QString configuredLanguage();
     void retranslateUi();
+
+    void prependToRecentFiles(const QString &fileName);
+    void setRecentFilesVisible(bool visible);
+    bool hasRecentFiles();
+    QStringList readRecentFiles(QSettings &settings);
+    void writeRecentFiles(const QStringList &files, QSettings &settings);
 
 private:
     PlayerState m_state;
@@ -146,13 +158,11 @@ private:
     QAction *m_fileInfo;
     PlayerPopupSliderAction *m_tempoSlider;
     QAction *m_tempo100;
-    QMenu *m_recentFiles;
     QAction *m_popupAction[COLUMN_COUNT];
     QMenu* m_popup;
     QTreeView* m_view;
     SequenceModel* m_model;
     ProxyModel* m_proxy;
-    QSignalMapper* m_mapper;
     QTabBar* m_tabBar;
     QPointer<QProgressDialog> m_pd;
     QString m_outputConn;
@@ -162,7 +172,7 @@ private:
 	bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;
-    QString m_file;
+    QString m_currentFile;
     QString m_currentState;
     bool m_autoResizeColumns;
     bool m_requestRealtimePrio;
@@ -171,6 +181,11 @@ private:
     QTranslator* m_trp;
     QTranslator* m_trq;
     QAction* m_currentLang;
+    QMenu *m_recentFiles;
+    QAction *m_recentFileActs[MaxRecentFiles];
+    QAction *m_recentFileSeparator;
+    QAction *m_recentFileSubMenuAct;
+
 };
 
 #endif // KMIDIMON_H
