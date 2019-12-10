@@ -374,10 +374,11 @@ bool InstrumentList::save ( const QString& sFilename )
 {
     // Open and write into real file.
     QFile file(sFilename);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         return false;
+    }
 
-	// A visula separator line.
+    // A visual separator line.
 	const QString sepl = "; -----------------------------"
 		"------------------------------------------------";
 

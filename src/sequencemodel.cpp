@@ -1977,10 +1977,12 @@ SequenceModel::trackHandler(int track)
                         int data = ev->getRaw8(0);
                         m_smf->writeMetaEvent(delta, forced_channel, data);
                     }
+                    break;
                     case SND_SEQ_EVENT_USR3: {
                         int data = ev->getRaw8(0);
                         m_smf->writeMetaEvent(delta, forced_port, data);
                     }
+                    break;
                     case SND_SEQ_EVENT_USR4: {
                         QByteArray data;
                         data.append(ev->getRaw8(0));

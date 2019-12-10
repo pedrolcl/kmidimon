@@ -16,25 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA
 
-IF(NOT KMIDIMON_SOURCE_DIR)
-    MESSAGE(FATAL_ERROR "You need to run cmake or ccmake at the root directory")
-ENDIF(NOT KMIDIMON_SOURCE_DIR)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-IF(USE_PCH)
-    ADD_PRECOMPILED_HEADER(precompiled_headers qt_kde.h)
-ENDIF(USE_PCH)
-
-INCLUDE_DIRECTORIES(
-    ${ALSA_INC_DIR}
-    ${DRUMSTICK_INC_DIR}
-)
-
-LINK_DIRECTORIES(
-    ${ALSA_LIB_DIR}
-    ${DRUMSTICK_LIB_DIR}
-)
-
-SET(kmidimon_SRCS 
+set(kmidimon_SRCS
+    about.cpp
+    about.h
     configdialog.cpp
     configdialog.h
     connectdlg.cpp
@@ -58,25 +44,19 @@ SET(kmidimon_SRCS
     sequencemodel.h
     slideraction.cpp
     slideraction.h
+    about.ui
+    configdialogbase.ui
+    kmidimonwin.ui
+    kmidimon.qrc
 )
 
-SET(kmidimon_UI 
-	configdialogbase.ui
+add_executable(kmidimon ${kmidimon_SRCS})
+
+target_link_libraries( kmidimon PUBLIC
+    Qt5::Widgets
+    Drumstick::ALSA
+    Drumstick::File
 )
 
-KDE4_ADD_UI_FILES(kmidimon_SRCS ${kmidimon_UI})
-KDE4_ADD_EXECUTABLE(kmidimon ${kmidimon_SRCS})
-
-IF(USE_PCH)
-    ADD_DEPENDENCIES(kmidimon precompiled_headers)
-ENDIF(USE_PCH)
-
-TARGET_LINK_LIBRARIES( kmidimon
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${ALSA_LIBS}
-    ${DRUMSTICK_LIBS}
-)
-
-INSTALL(TARGETS kmidimon RUNTIME DESTINATION ${BIN_INSTALL_DIR})
-INSTALL(FILES kmidimonui.rc DESTINATION ${DATA_INSTALL_DIR}/kmidimon)
+install( TARGETS kmidimon
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
