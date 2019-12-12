@@ -38,9 +38,9 @@ if(Qt5_FOUND)
     message(STATUS "Found Qt5 version: ${Qt5Core_VERSION_STRING}")
 endif()
 
-find_package(drumstick 1.1 COMPONENTS ALSA File REQUIRED)
-if(drumstick_FOUND)
-    message("Found Drumstick version: ${drumstick_VERSION}")
+find_package(Drumstick 1.1 COMPONENTS ALSA File REQUIRED)
+if(Drumstick_FOUND)
+    message("Found Drumstick version: ${Drumstick_VERSION}")
 endif()
 
 include(GNUInstallDirs)
