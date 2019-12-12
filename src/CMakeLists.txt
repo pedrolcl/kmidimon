@@ -1,5 +1,5 @@
 # KMidimon - ALSA Sequencer based MIDI Monitor
-# Copyright (C) 2005-2013 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+# Copyright (C) 2005-2019 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 # MA 02110-1301, USA
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 set(kmidimon_SRCS
     about.cpp
@@ -52,10 +55,14 @@ set(kmidimon_SRCS
 
 add_executable(kmidimon ${kmidimon_SRCS})
 
-target_link_libraries( kmidimon PUBLIC
+target_link_libraries( kmidimon
     Qt5::Widgets
     Drumstick::ALSA
     Drumstick::File
+)
+
+target_compile_definitions( kmidimon
+    PRIVATE -DVERSION=${PROJECT_VERSION}
 )
 
 install( TARGETS kmidimon
