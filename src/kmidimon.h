@@ -65,8 +65,7 @@ class KMidimon : public QMainWindow
 public:
     KMidimon();
     virtual ~KMidimon();
-    static QDir dataDirectory();
-    static QDir localeDirectory();
+    static QString dataDirectory();
 
 public slots:
     void fileNew();

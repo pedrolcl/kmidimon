@@ -27,8 +27,6 @@
 
 class EventFilter;
 
-using namespace drumstick;
-
 class ProxyModel : public QSortFilterProxyModel
 {
 public:
@@ -60,7 +58,7 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 private:
-    bool filterSequencerEvent(const SequencerEvent* ev) const;
+    bool filterSequencerEvent(const drumstick::ALSA::SequencerEvent* ev) const;
 
     int m_trackFilter;
     EventFilter* m_filter;

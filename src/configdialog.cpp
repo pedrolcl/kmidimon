@@ -19,13 +19,15 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "configdialog.h"
 #include <QTextCodec>
+#include "configdialog.h"
+#include "iconutils.h"
 
 ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent)
 {
     ui.setupUi(this);
+    IconUtils::SetWindowIcon(this);
     setWindowTitle(tr("KMidimon Configuration", "@title:window"));
     initEncodings();
 }

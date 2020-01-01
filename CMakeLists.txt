@@ -24,27 +24,33 @@ project(kmidimon
     LANGUAGES CXX
 )
 
+option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED Yes)
+
 message(STATUS "kmidimon ${PROJECT_VERSION} install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Build configuration: ${CMAKE_BUILD_TYPE}")
-
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 
 find_package(Qt5 5.12 COMPONENTS Widgets LinguistTools REQUIRED)
 if(Qt5_FOUND)
     message(STATUS "Found Qt5 version: ${Qt5Core_VERSION_STRING}")
 endif()
 
-find_package(Drumstick 1.1.3 COMPONENTS ALSA File REQUIRED)
+find_package(Drumstick 2.0 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message("Found Drumstick version: ${Drumstick_VERSION}")
 endif()
 
 include(GNUInstallDirs)
 
-add_subdirectory(src)
 add_subdirectory(icons)
-add_subdirectory(translations)
+if(NOT EMBED_TRANSLATIONS)
+    add_subdirectory(translations)
+endif()
 add_subdirectory(doc)
+add_subdirectory(src)
 
 configure_file(
     "${CMAKE_SOURCE_DIR}/kmidimon.spec.in"

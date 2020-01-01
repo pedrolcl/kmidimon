@@ -34,8 +34,6 @@
 #include <QMap>
 #include <QList>
 
-using namespace drumstick;
-
 class EventFilter;
 
 typedef QMap<int,QString> ClientsMap;
@@ -83,16 +81,16 @@ public:
     bool isEmpty() { return m_items.isEmpty(); }
     void addItem(SequenceItem& itm);
     const SequenceItem* getItem(const int row) const;
-    const SequencerEvent* getEvent(const int row) const;
+    const drumstick::ALSA::SequencerEvent* getEvent(const int row) const;
     void clear();
     void saveToTextStream(QTextStream& str);
     void saveToFile(const QString& path);
     void loadFromFile(const QString& path);
-    void appendEvent(long ticks, double seconds, int track, SequencerEvent* ev);
+    void appendEvent(long ticks, double seconds, int track, drumstick::ALSA::SequencerEvent* ev);
 
-    void appendSMFEvent(long ticks, int track, SequencerEvent* ev);
-    void appendWRKEvent(long ticks, int track, SequencerEvent* ev);
-    void appendOVEEvent(long ticks, int track, SequencerEvent* ev);
+    void appendSMFEvent(long ticks, int track, drumstick::ALSA::SequencerEvent* ev);
+    void appendWRKEvent(long ticks, int track, drumstick::ALSA::SequencerEvent* ev);
+    void appendOVEEvent(long ticks, int track, drumstick::ALSA::SequencerEvent* ev);
     double oveRealTime(long ticks) const;
 
     bool showClientNames() const { return m_showClientNames; }
@@ -223,46 +221,46 @@ signals:
 private:
     QString client_name(const int client_number) const;
     QString event_time(const SequenceItem& itm) const;
-    QString event_source(const SequencerEvent *ev) const;
-    QString event_ticks(const SequencerEvent *ev) const;
-    QString event_client(const SequencerEvent *ev) const;
-    QString event_addr(const SequencerEvent *ev) const;
-    QString event_sender(const SequencerEvent *ev) const;
-    QString event_dest(const SequencerEvent *ev) const;
-    QString common_param(const SequencerEvent *ev) const;
-    QString event_kind(const SequencerEvent *ev) const;
-    QString event_channel(const SequencerEvent *ev) const;
-    QString event_data1(const SequencerEvent *ev) const;
-    QString event_data2(const SequencerEvent *ev) const;
-    QString event_data3(const SequencerEvent *ev) const;
+    QString event_source(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_ticks(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_client(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_addr(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_sender(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_dest(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString common_param(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_kind(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_channel(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_data1(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_data2(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString event_data3(const drumstick::ALSA::SequencerEvent *ev) const;
     QString note_name(const int note) const;
-    QString note_key(const SequencerEvent* ev) const;
-    QString note_velocity(const SequencerEvent* ev) const;
-    QString note_duration(const SequencerEvent* ev) const;
-    QString control_param(const SequencerEvent* ev) const;
-    QString control_value(const SequencerEvent* ev) const;
-    QString program_number(const SequencerEvent* ev) const;
-    QString pitchbend_value(const SequencerEvent* ev) const;
-    QString chanpress_value(const SequencerEvent* ev) const;
-    QString sysex_type(const SequencerEvent *ev) const;
-    QString sysex_chan(const SequencerEvent *ev) const;
-    QString sysex_data1(const SequencerEvent *ev) const;
-    QString sysex_data2(const SequencerEvent *ev) const;
-    QString sysex_data3(const SequencerEvent *ev) const;
-    int sysex_data_first(const SequencerEvent *ev) const;
+    QString note_key(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString note_velocity(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString note_duration(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString control_param(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString control_value(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString program_number(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString pitchbend_value(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString chanpress_value(const drumstick::ALSA::SequencerEvent* ev) const;
+    QString sysex_type(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString sysex_chan(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString sysex_data1(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString sysex_data2(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString sysex_data3(const drumstick::ALSA::SequencerEvent *ev) const;
+    int sysex_data_first(const drumstick::ALSA::SequencerEvent *ev) const;
     QString sysex_mtc(const int id) const;
     QString sysex_mmc(const int id) const;
-    QString tempo_bpm(const SequencerEvent *ev) const;
-    QString tempo_npt(const SequencerEvent *ev) const;
-    QString text_type(const SequencerEvent *ev) const;
-    QString text_data(const SequencerEvent *ev) const;
-    QString time_sig1(const SequencerEvent *ev) const;
-    QString time_sig2(const SequencerEvent *ev) const;
-    QString key_sig1(const SequencerEvent *ev) const;
-    QString key_sig2(const SequencerEvent *ev) const;
-    QString smpte(const SequencerEvent *ev) const;
-    QString var_event(const SequencerEvent *ev) const;
-    QString meta_misc(const SequencerEvent *ev) const;
+    QString tempo_bpm(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString tempo_npt(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString text_type(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString text_data(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString time_sig1(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString time_sig2(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString key_sig1(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString key_sig2(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString smpte(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString var_event(const drumstick::ALSA::SequencerEvent *ev) const;
+    QString meta_misc(const drumstick::ALSA::SequencerEvent *ev) const;
     void processItems();
 
     bool m_showClientNames;
@@ -294,9 +292,9 @@ private:
     QString m_encoding;
     Song m_items;
     Song m_tempSong;
-    QSmf* m_smf;
-    QWrk* m_wrk;
-    QOve* m_ove;
+    drumstick::File::QSmf* m_smf;
+    drumstick::File::QWrk* m_wrk;
+    drumstick::File::QOve* m_ove;
     Instrument* m_ins;
     Instrument* m_ins2;
     EventFilter* m_filter;
@@ -331,7 +329,7 @@ private:
     };
     QList<TempoRec> m_tempos;
 
-    typedef void (SequenceModel::*AppendFunc)(long,int,SequencerEvent*);
+    typedef void (SequenceModel::*AppendFunc)(long,int,drumstick::ALSA::SequencerEvent*);
     AppendFunc m_appendFunc;
 
     QString m_loadingMessages;

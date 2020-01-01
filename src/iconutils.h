@@ -19,41 +19,21 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCEITEM_H
-#define SEQUENCEITEM_H
+#ifndef ICONUTILS_H
+#define ICONUTILS_H
 
-#include <drumstick/alsaevent.h>
+#include <QPixmap>
+#include <QWidget>
+#include <QLabel>
+#include <QComboBox>
 
-class SequenceItem
+namespace  IconUtils
 {
-public:
-    SequenceItem(double seconds,
-                 unsigned int ticks,
-                 unsigned int track,
-                 drumstick::ALSA::SequencerEvent* ev):
-    m_seconds(seconds),
-    m_ticks(ticks),
-    m_track(track),
-    m_event(ev)
-    {}
+    void PaintPixmap(QPixmap &pixmap, const QColor& color);
+    QPixmap GetPixmap(QWidget* widget, const QString& fileName);
+    void SetLabelIcon(QLabel *label, const QString& fileName);
+    void SetupComboFigures(QComboBox *combo);
+    void SetWindowIcon(QWidget *widget);
+}
 
-    virtual ~SequenceItem()
-    {}
-
-    bool operator==(const SequenceItem& other) const;
-
-    double getSeconds() const { return m_seconds; }
-    unsigned int  getTicks() const { return m_ticks; }
-    drumstick::ALSA::SequencerEvent* getEvent() const { return m_event; }
-    void deleteEvent() { delete m_event; }
-    int getTrack() const { return m_track; }
-    void setTrack(int track) { m_track = track; }
-
-private:
-    double m_seconds;
-    unsigned int m_ticks;
-    unsigned int m_track;
-    drumstick::ALSA::SequencerEvent* m_event;
-};
-
-#endif /* SEQUENCEITEM_H */
+#endif // ICONUTILS_H

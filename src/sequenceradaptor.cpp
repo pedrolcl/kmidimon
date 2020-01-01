@@ -34,6 +34,7 @@
 //#include <klocale.h>
 
 using namespace std;
+using namespace drumstick::ALSA;
 
 SequencerAdaptor::SequencerAdaptor(QObject *parent):
     QObject(parent),
@@ -45,8 +46,8 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_client->open();
     m_client->setPoolOutput(100);
     m_client->setClientName("KMidimon");
-    connect(m_client, SIGNAL(eventReceived(SequencerEvent*)),
-            SLOT(sequencerEvent(SequencerEvent*)));
+    connect(m_client, &MidiClient::eventReceived,
+            this, &SequencerAdaptor::sequencerEvent);
 
     m_queue = m_client->createQueue("KMidimon");
 

@@ -19,8 +19,6 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "connectdlg.h"
-
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QCheckBox>
@@ -28,6 +26,8 @@
 #include <QLabel>
 #include <QComboBox>
 #include <QDialogButtonBox>
+#include "connectdlg.h"
+#include "iconutils.h"
 
 ConnectDlg::ConnectDlg( QWidget *parent,
                         const QStringList& inputs,
@@ -37,7 +37,8 @@ ConnectDlg::ConnectDlg( QWidget *parent,
     QDialog(parent)
 {
     setWindowTitle(tr("Connections"));
-    setWindowIcon(QIcon(QStringLiteral(":/midi/icons/midi/icon16.png")));
+    IconUtils::SetWindowIcon(this);
+
     setModal(true);
     setMinimumWidth(320);
     QVBoxLayout* vbl1 = new QVBoxLayout(this);

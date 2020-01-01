@@ -37,6 +37,10 @@
 #include <QTime>
 #include <QTextCodec>
 
+using namespace drumstick;
+using namespace ALSA;
+using namespace File;
+
 static inline bool eventLessThan(const SequenceItem& s1, const SequenceItem& s2)
 {
     return s1.getTicks() < s2.getTicks();
@@ -249,9 +253,20 @@ SequenceModel::SequenceModel(QObject* parent) :
     connect(m_ove, SIGNAL(signalOVEExpression(int,long,int,const QString&)),
                    SLOT(expression(int,long,int,const QString&)));
 
-    QFileInfo insFile(KMidimon::dataDirectory(), QStringLiteral("standards.ins"));
-    if (insFile.exists()) {
-        m_insList.load(insFile.absoluteFilePath());
+//    QFileInfo insFile(KMidimon::dataDirectory(), QStringLiteral("standards.ins"));
+//    if (insFile.exists()) {
+//        m_insList.load(insFile.absoluteFilePath());
+//    }
+    QString data = KMidimon::dataDirectory();
+    if (data.isEmpty()) {
+        m_insList.load(":/data/standards.ins");
+    } else {
+        QFileInfo f(data, "standards.ins");
+        if (f.exists()) {
+            m_insList.load(f.absoluteFilePath());
+        } else {
+            m_insList.load(":/data/standards.ins");
+        }
     }
 }
 

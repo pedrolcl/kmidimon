@@ -21,6 +21,19 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(EMBED_TRANSLATIONS)
+    set( TRANSLATIONS
+         ../translations/kmidimon_cs.ts
+         ../translations/kmidimon_es.ts
+         ../translations/kmidimon_fr.ts
+         ../translations/kmidimon_ja.ts
+    )
+    qt5_add_translation(QM_FILES ${TRANSLATIONS})
+    include(TranslationUtils)
+    add_app_translations_resource(APP_RES ${QM_FILES})
+    add_qt_translations_resource(QT_RES cs es fr ja)
+endif()
+
 set(kmidimon_SRCS
     about.cpp
     about.h
@@ -30,6 +43,10 @@ set(kmidimon_SRCS
     connectdlg.h
     eventfilter.cpp
     eventfilter.h
+    helpwindow.cpp
+    helpwindow.h
+    iconutils.cpp
+    iconutils.h
     instrument.cpp
     instrument.h
     kmidimon.cpp
@@ -51,6 +68,8 @@ set(kmidimon_SRCS
     configdialogbase.ui
     kmidimonwin.ui
     kmidimon.qrc
+    ${APP_RES}
+    ${QT_RES}
 )
 
 add_executable(kmidimon ${kmidimon_SRCS})
@@ -61,8 +80,9 @@ target_link_libraries( kmidimon
     Drumstick::File
 )
 
-target_compile_definitions( kmidimon
-    PRIVATE -DVERSION=${PROJECT_VERSION}
+target_compile_definitions( kmidimon PRIVATE
+    -DVERSION=${PROJECT_VERSION}
+    -DTRANSLATIONS_PATH=$<IF:$<BOOL:${EMBED_TRANSLATIONS}>,:/,${CMAKE_INSTALL_DATAROOTDIR}/kmidimon/translations/>
 )
 
 install( TARGETS kmidimon

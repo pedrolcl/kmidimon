@@ -19,41 +19,30 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#ifndef SEQUENCEITEM_H
-#define SEQUENCEITEM_H
+#ifndef HELPWINDOW_H
+#define HELPWINDOW_H
 
-#include <drumstick/alsaevent.h>
+#include <QWidget>
+#include <QTextBrowser>
+#include <QPushButton>
 
-class SequenceItem
+class HelpWindow : public QWidget
 {
+    Q_OBJECT
 public:
-    SequenceItem(double seconds,
-                 unsigned int ticks,
-                 unsigned int track,
-                 drumstick::ALSA::SequencerEvent* ev):
-    m_seconds(seconds),
-    m_ticks(ticks),
-    m_track(track),
-    m_event(ev)
-    {}
+    explicit HelpWindow(const QString &path,
+                        const QString &page,
+                        QWidget *parent = nullptr);
+    static void showPage(const QString &page);
 
-    virtual ~SequenceItem()
-    {}
-
-    bool operator==(const SequenceItem& other) const;
-
-    double getSeconds() const { return m_seconds; }
-    unsigned int  getTicks() const { return m_ticks; }
-    drumstick::ALSA::SequencerEvent* getEvent() const { return m_event; }
-    void deleteEvent() { delete m_event; }
-    int getTrack() const { return m_track; }
-    void setTrack(int track) { m_track = track; }
+private slots:
+    void updateWindowTitle();
 
 private:
-    double m_seconds;
-    unsigned int m_ticks;
-    unsigned int m_track;
-    drumstick::ALSA::SequencerEvent* m_event;
+    QTextBrowser *textBrowser;
+    QPushButton *homeButton;
+    QPushButton *backButton;
+    QPushButton *closeButton;
 };
 
-#endif /* SEQUENCEITEM_H */
+#endif // HELPWINDOW_H

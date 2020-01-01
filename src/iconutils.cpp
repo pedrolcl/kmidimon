@@ -20,53 +20,49 @@
  ***************************************************************************/
 
 #include <QApplication>
-#include <QCommandLineParser>
-#include <QCommandLineOption>
-#include <QFileInfo>
-#include <QDebug>
+#include <QPainter>
+#include "iconutils.h"
 
-#include "kmidimon.h"
-
-#define LITERAL(s) #s
-#define STRINGIFY(s) LITERAL(s)
-
-const QString QSTR_DOMAIN("kmidimon.sourceforge.net");
-const QString QSTR_APPNAME("Drumstick MIDI Monitor");
-const QString QSTR_DESCRIPTION("ALSA Sequencer based MIDI Monitor");
-const QString QSTR_VERSION(STRINGIFY(VERSION));
-
-int main (int argc, char **argv)
+namespace IconUtils
 {
-    QCoreApplication::setOrganizationName(QSTR_DOMAIN);
-    QCoreApplication::setOrganizationDomain(QSTR_DOMAIN);
-    QCoreApplication::setApplicationName(QSTR_APPNAME);
-    QCoreApplication::setApplicationVersion(QSTR_VERSION);
-    QApplication app(argc, argv);
-
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QSTR_DESCRIPTION);
-    auto helpOption = parser.addHelpOption();
-    auto versionOption = parser.addVersionOption();
-    parser.addPositionalArgument("file", "Input SMF/KAR/OVE/WRK file name.", "file");
-    parser.process(app);
-
-    if (parser.isSet(versionOption) || parser.isSet(helpOption)) {
-        return 0;
+    void PaintPixmap(QPixmap &pixmap, const QColor& color)
+    {
+        QPainter painter(&pixmap);
+        painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        painter.fillRect(pixmap.rect(), color);
     }
 
-    QStringList fileNames, positionalArgs = parser.positionalArguments();
-    for(const QString& a : positionalArgs) {
-        QFileInfo f(a);
-        if (f.exists())
-            fileNames += f.canonicalFilePath();
-        else
-            qWarning() << "File not found: " << a << endl;
+    QPixmap GetPixmap(QWidget* widget, const QString& fileName)
+    {
+        QPixmap pixmap(fileName);
+        QColor color = widget->palette().color(QPalette::Active, QPalette::Foreground);
+        PaintPixmap(pixmap, color);
+        return pixmap;
     }
 
-    KMidimon mainWin;
-    if (!fileNames.isEmpty()) {
-        mainWin.open(fileNames.first());
+    void SetLabelIcon(QLabel *label, const QString& fileName)
+    {
+        label->setPixmap(GetPixmap(label, fileName));
     }
-    mainWin.show();
-    return app.exec();
+
+    void SetupComboFigures(QComboBox *combo)
+    {
+        QList<QPair<QString,QString>> elements = {
+            {QApplication::tr("Whole"),         ":/icons/1.png" },
+            {QApplication::tr("Half"),          ":/icons/2.png" },
+            {QApplication::tr("Quarter"),       ":/icons/4.png" },
+            {QApplication::tr("Eight"),         ":/icons/8.png" },
+            {QApplication::tr("Sixteenth"),     ":/icons/16.png" },
+            {QApplication::tr("Thirty-Second"), ":/icons/32.png" },
+            {QApplication::tr("Sixty-Fourth"),  ":/icons/64.png" }
+        };
+        for(auto p : elements) {
+            combo->addItem(QIcon(GetPixmap(combo, p.second)), p.first);
+        }
+    }
+
+    void SetWindowIcon(QWidget *widget)
+    {
+        widget->setWindowIcon(QIcon(GetPixmap(widget, ":/icons/midi/icon32.png")));
+    }
 }

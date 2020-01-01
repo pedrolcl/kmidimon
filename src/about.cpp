@@ -18,6 +18,8 @@
 */
 
 #include "about.h"
+#include "iconutils.h"
+
 #define LITERAL(s) #s
 #define STRINGIFY(s) LITERAL(s)
 const QString PGM_VERSION(STRINGIFY(VERSION));
@@ -37,6 +39,8 @@ About::About(QWidget *parent)
 {
     ui.setupUi(this);
     retranslateUi();
+    IconUtils::SetLabelIcon(ui.labelIcon, ":/icons/midi/icon128.png");
+    IconUtils::SetWindowIcon(this);
 #if defined(SMALL_SCREEN)
     setWindowState(Qt::WindowActive | Qt::WindowMaximized);
 #else

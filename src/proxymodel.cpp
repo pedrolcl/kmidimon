@@ -24,6 +24,8 @@
 #include "sequencemodel.h"
 #include "eventfilter.h"
 
+using namespace drumstick::ALSA;
+
 void ProxyModel::setFilterTrack(int track)
 {
     if (track != m_trackFilter) {

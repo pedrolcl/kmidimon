@@ -19,17 +19,6 @@
  *   MA 02110-1301, USA                                                    *
  ***************************************************************************/
 
-#include "kmidimon.h"
-#include "configdialog.h"
-#include "connectdlg.h"
-#include "sequencemodel.h"
-#include "proxymodel.h"
-#include "eventfilter.h"
-#include "sequenceradaptor.h"
-#include "slideraction.h"
-#include "ui_kmidimonwin.h"
-#include "about.h"
-
 #include <QMenu>
 #include <QEvent>
 #include <QContextMenuEvent>
@@ -53,26 +42,59 @@
 #include <QLibraryInfo>
 #include <QStandardPaths>
 #include <QDesktopServices>
+#include <QDirIterator>
 
-QDir KMidimon::dataDirectory()
+#include "kmidimon.h"
+#include "configdialog.h"
+#include "connectdlg.h"
+#include "sequencemodel.h"
+#include "proxymodel.h"
+#include "eventfilter.h"
+#include "sequenceradaptor.h"
+#include "slideraction.h"
+#include "ui_kmidimonwin.h"
+#include "about.h"
+#include "iconutils.h"
+
+QString KMidimon::dataDirectory()
 {
     QDir test(QApplication::applicationDirPath() + "/../share/kmidimon/");
-    if (test.exists())
-        return test;
+    if (test.exists()) {
+        return test.absolutePath();
+    }
     QStringList candidates = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
     foreach(const QString& d, candidates) {
         test = QDir(d);
-        if (test.exists())
-            return test;
+        if (test.exists()) {
+            return d;
+        }
     }
-    return QDir();
+    return QString();
 }
 
-QDir KMidimon::localeDirectory()
+#define LITERAL(s) #s
+#define STRINGIFY(s) LITERAL(s)
+const QString trPath_(STRINGIFY(TRANSLATIONS_PATH));
+
+static QString trDirectory()
 {
-    QDir data = dataDirectory();
-    data.cd("locale");
-    return data;
+    if (trPath_ == ":/" ) {
+        return trPath_;
+    }
+    QDir test(QApplication::applicationDirPath() + "/../" + trPath_);
+    qDebug() << test.absolutePath();
+    if (test.exists()) {
+        return test.absolutePath();
+    }
+    return QString();
+}
+
+static QString trQtDirectory()
+{
+    if (trPath_ == ":/" ) {
+        return trPath_;
+    }
+    return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 }
 
 KMidimon::KMidimon() :
@@ -81,14 +103,21 @@ KMidimon::KMidimon() :
     m_adaptor(0)
 {
     m_trq = new QTranslator(this);
-    m_trp = new QTranslator(this);
-    m_trq->load( "qt_" + configuredLanguage(), QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
-    m_trp->load( configuredLanguage(), localeDirectory().absolutePath() );
     QApplication::installTranslator(m_trq);
+    m_trp = new QTranslator(this);
     QApplication::installTranslator(m_trp);
-
+    QLocale locale(configuredLanguage());
+    qDebug() << "locale:" << locale << "path:" << trDirectory();
+    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+        qWarning() << "Failure loading Qt5 translations for" << configuredLanguage();
+    }
+    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+        qWarning() << "Failure loading program translations for" << configuredLanguage();
+    }
+    QLocale::setDefault(locale);
     m_ui = new Ui::KMidimonWin();
     m_ui->setupUi(this);
+    IconUtils::SetWindowIcon(this);
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
@@ -130,14 +159,12 @@ KMidimon::KMidimon() :
         m_tabBar->setExpanding(false);
         m_tabBar->setMovable(true);
         m_tabBar->setTabsClosable(true);
-        connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
-                           SLOT(deleteTrack(int)) );
+        connect( m_tabBar, &QTabBar::tabCloseRequested, this, &KMidimon::deleteTrack );
 #endif
 //        connect( m_tabBar, SIGNAL(newTabRequest()),
 //                           SLOT(addTrack()) );
         connect( m_tabBar, &QTabBar::tabBarDoubleClicked, this, &KMidimon::changeTrack );
-        connect( m_tabBar, SIGNAL(currentChanged(int)),
-                           SLOT(tabIndexChanged(int)) );
+        connect( m_tabBar, &QTabBar::currentChanged, this, &KMidimon::tabIndexChanged );
         layout->addWidget(m_tabBar);
         layout->addWidget(m_view);
         vbox->setLayout(layout);
@@ -147,7 +174,7 @@ KMidimon::KMidimon() :
         readConfiguration();
         fileNew();
         record();
-    } catch (SequencerError& ex) {
+    } catch (drumstick::ALSA::SequencerError& ex) {
         QString errorstr = tr("Fatal error from the ALSA sequencer. "
             "This usually happens when the kernel doesn't have ALSA support, "
             "or the device node (/dev/snd/seq) doesn't exists, "
@@ -1012,7 +1039,7 @@ KMidimon::songFileInfo()
                        "Initial tempo: <b>%8 bpm</b><br/>"
                        "Duration: <b>%9</b>")
                        .arg(finfo.fileName())
-                       .arg(finfo.created().toString(Qt::DefaultLocaleLongDate))
+                       .arg(finfo.birthTime().toString(Qt::DefaultLocaleLongDate))
                        .arg(finfo.lastModified().toString(Qt::DefaultLocaleLongDate))
                        .arg(m_model->getFileFormat())
                        .arg(m_model->getSMFTracks())
@@ -1089,7 +1116,7 @@ QString KMidimon::configuredLanguage()
         m_language = settings.value("language", defLang).toString();
         settings.endGroup();
     }
-    //qDebug() << Q_FUNC_INFO << m_language;
+    qDebug() << Q_FUNC_INFO << m_language;
     return m_language;
 }
 
@@ -1116,20 +1143,22 @@ void KMidimon::createLanguageMenu()
     QActionGroup *languageGroup = new QActionGroup(this);
     connect(languageGroup, SIGNAL(triggered(QAction *)),
             SLOT(slotSwitchLanguage(QAction *)));
-    QDir dir = localeDirectory();
-    QStringList fileNames = dir.entryList(QStringList("*.qm"));
     QStringList locales;
     locales << "en";
-    foreach (const QString& fileName, fileNames) {
-        QString locale = fileName;
-        locale.truncate(locale.lastIndexOf('.'));
-        locales << locale;
+    QDirIterator it(trDirectory(), {"*.qm"}, QDir::NoFilter, QDirIterator::NoIteratorFlags);
+    while (it.hasNext()) {
+        QFileInfo f(it.next());
+        QString locale = f.fileName();
+        if (locale.startsWith("kmidimon_")) {
+            locale.remove(0, 9).truncate(locale.lastIndexOf('.'));
+            locales << locale;
+        }
     }
     locales.sort();
     m_ui->menuLanguage->clear();
     foreach (const QString& loc, locales) {
         QLocale qlocale(loc);
-        QString localeName = QLocale::languageToString(qlocale.language()); //qlocale.nativeLanguageName();
+        QString localeName = loc == "en" ? QLocale::languageToString(qlocale.language()) : qlocale.nativeLanguageName();
         QAction *action = new QAction(localeName, this);
         action->setCheckable(true);
         action->setData(loc);
@@ -1145,8 +1174,13 @@ void KMidimon::createLanguageMenu()
 void KMidimon::retranslateUi()
 {
     auto lang = configuredLanguage();
-    m_trq->load( "qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
-    m_trp->load( lang, localeDirectory().absolutePath() );
+    QLocale locale(configuredLanguage());
+    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+        qWarning() << "Failure loading Qt5 translations for" << configuredLanguage();
+    }
+    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+        qWarning() << "Failure loading program translations for" << configuredLanguage();
+    }
     m_ui->retranslateUi(this);
     createLanguageMenu();
 }

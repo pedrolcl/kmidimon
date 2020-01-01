@@ -32,8 +32,6 @@
 class SequenceModel;
 class Player;
 
-using namespace drumstick;
-
 const int TEMPO_BPM(120);
 const int RESOLUTION(240);
 
@@ -92,7 +90,7 @@ public:
 
 public slots:
     /* handler for the sequencer events */
-    void sequencerEvent( SequencerEvent* ev );
+    void sequencerEvent( drumstick::ALSA::SequencerEvent* ev );
     void songFinished();
     void shutupSound();
     void setLoop(bool enable);
@@ -102,15 +100,15 @@ signals:
     void finished();
 
 private:
-    QStringList list_ports(PortInfoList& refs);
+    QStringList list_ports(drumstick::ALSA::PortInfoList& refs);
 
     State m_state;
     int m_resolution;
     int m_tempo;
 
-    MidiClient* m_client;
-    MidiQueue* m_queue;
-    MidiPort* m_port;
+    drumstick::ALSA::MidiClient* m_client;
+    drumstick::ALSA::MidiQueue* m_queue;
+    drumstick::ALSA::MidiPort* m_port;
     SequenceModel* m_model;
     Player* m_player;
 };
