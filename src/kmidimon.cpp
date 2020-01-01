@@ -486,6 +486,7 @@ void KMidimon::fileNew()
 
 void KMidimon::open(const QString& fileName)
 {
+    qDebug() << Q_FUNC_INFO << fileName;
     try {
         QFileInfo finfo(fileName);
         m_currentFile = finfo.absoluteFilePath();
@@ -1102,7 +1103,7 @@ void KMidimon::dropEvent( QDropEvent * event )
     if ( event->mimeData()->hasUrls() ) {
         QList<QUrl> urls = event->mimeData()->urls();
         if (!urls.empty())
-            open(urls.first().fileName());
+            open(urls.first().toLocalFile());
         event->accept();
     }
 }
