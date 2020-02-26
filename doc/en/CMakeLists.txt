@@ -1,5 +1,5 @@
 # KMidimon - ALSA Sequencer based MIDI Monitor
-# Copyright (C) 2005-2013 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+# Copyright (C) 2005-2020 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,13 +12,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-# MA 02110-1301, USA
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-kde4_create_handbook( index.docbook 
-                      INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en 
-                      SUBDIR kmidimon )
+install( FILES kmidimon.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
 
-kde4_create_manpage( man-kmidimon.1.docbook 1 
-                     INSTALL_DESTINATION ${MAN_INSTALL_DIR} )
+install( FILES kmidimon.html kmidimon1.png kmidimon2.png kmidimon3.png qjackctl.png
+    DESTINATION ${CMAKE_INSTALL_DOCDIR} )

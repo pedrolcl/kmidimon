@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/help">
+        <file>kmidimon1.png</file>
+        <file>kmidimon2.png</file>
+        <file>kmidimon3.png</file>
+        <file>qjackctl.png</file>
+        <file>kmidimon.html</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,69 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>The Drumstick MIDI Monitor Handbook</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><meta name="description" content="Drumstick MIDI Monitor is a MIDI monitor for Linux using ALSA sequencer and KDE user interface."><meta name="keywords" content="KDE, kmidimon, ALSA, Monitoring"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="book"><div class="titlepage"><div><div><h1 class="title"><a name="id1337"></a>The <span class="application">Drumstick MIDI Monitor</span> Handbook</h1></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname"></span> <span class="othername"></span> <span class="surname">Pedro Lopez-Cabanillas</span></h3><div class="affiliation"><div class="address"><p><code class="email">&lt;<a class="email" href="mailto:plcl@users.sourceforge.net">plcl@users.sourceforge.net</a>&gt;</code></p></div></div></div></div></div><div><p class="releaseinfo">0.7.0</p></div><div><p class="copyright">Copyright © 2005, 2009 Pedro Lopez-Cabanillas</p></div><div><div class="legalnotice"><a name="id1339"></a></div></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>
+<span class="application">Drumstick MIDI Monitor</span> is a MIDI monitor for Linux using ALSA sequencer and KDE user interface.
+</p></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="chapter"><a href="#introduction">1. Introduction</a></span></dt><dt><span class="chapter"><a href="#getting-started">2. Getting Started</a></span></dt><dd><dl><dt><span class="sect1"><a href="#kmidimon-mainwin">Main Window</a></span></dt><dt><span class="sect1"><a href="#kmidimon-configuration">Configuration Options</a></span></dt></dl></dd><dt><span class="chapter"><a href="#credits">3. Credits and License</a></span></dt><dt><span class="appendix"><a href="#installation">A. Installation</a></span></dt><dd><dl><dt><span class="sect1"><a href="#getting-kmidimon">How to obtain <span class="application">Drumstick MIDI Monitor</span></a></span></dt><dt><span class="sect1"><a href="#requirements">Requirements</a></span></dt><dt><span class="sect1"><a href="#compilation">Compilation and Installation</a></span></dt></dl></dd></dl></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="introduction"></a>Chapter 1. Introduction</h1></div></div></div><p>
+There's no exhaustive documentation yet. The provisional homepage can currently 
+be found at <a class="ulink" href="http://kmidimon.sourceforge.net" target="_top">
+http://kmidimon.sourceforge.net</a>.
+</p><p>
+<span class="application">Drumstick MIDI Monitor</span> monitors events coming from a MIDI external port or application via the ALSA sequencer, or stored as Standard MIDI Files. It is especially useful if you want to debug MIDI software or your MIDI setup. It features a nice graphical  user interface,  customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file or SMF.</p></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="getting-started"></a>Chapter 2. Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="#kmidimon-mainwin">Main Window</a></span></dt><dt><span class="sect1"><a href="#kmidimon-configuration">Configuration Options</a></span></dt></dl></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="kmidimon-mainwin"></a>Main Window</h2></div></div></div><p>The program starts in recording state, registering all incoming MIDI events until you press the stop button. There are also buttons to play, pause, rewind and forward, with the usual behavior of any other media player.</p><p>Above the events list grid you can find a set of tabs, one for each track defined in a SMF. You can add new tabs or close tabs without losing the recorded events, because they are only views or event filters.</p><p>You can control the ALSA sequencer MIDI connections to programs and devices from inside <span class="application">Drumstick MIDI Monitor</span>. To do so, use the options under the menu "Connections" in the main menu. There are options to connect and disconnect every available input port to <span class="application">Drumstick MIDI Monitor</span>, and also a dialog box where you can choose the ports to be monitored and the output one.</p><p>You can also use a MIDI connection tool like <a class="ulink" href="http://qjackctl.sourceforge.net/" target="_top">QJackCtl</a> to connect the application or MIDI port to monitor with <span class="application">Drumstick MIDI Monitor</span></p><p>
+
+</p><div class="screenshot"><div class="mediaobject"><img src="qjackctl.png" alt="MIDI Connections in qjackctl"></div></div><p>
+</p><p>When a MIDI OUT port has been connected to the input port of <span class="application">Drumstick MIDI Monitor</span> in recording state, it will show incoming MIDI events if everything is correct.</p><p>
+</p><div class="screenshot"><div class="mediaobject"><img src="kmidimon1.png" alt="MIDI events in the main window of Drumstick MIDI Monitor"></div></div><p>
+</p><p>
+Each received MIDI event is shown in a single row. The columns have the following meaning.
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Ticks: The musical time of the event arrival</p></li><li class="listitem"><p>Time: The real time in seconds of the event arrival</p></li><li class="listitem"><p>Source: the ALSA identifier of the MIDI device originating the event. You will be able to recognize what event belongs to which device if you have several connected simultaneously. There is a configuration option to show the ALSA client name instead of a number</p></li><li class="listitem"><p>Event Kind: The event type: note on / off, control change, ALSA, and so on</p></li><li class="listitem"><p>Chan: The MIDI channel of the event (if it is a channel event). It is also used to show the Sysex channel.</p></li><li class="listitem"><p>Data 1: It depends on the type of the received event. For a Control Change event or a Note, it is the control number, or the note number</p></li><li class="listitem"><p>Data 2: It depends on the type of the received event. For a Control Change it will be the value, and for a Note event it will be the velocity</p></li></ul></div><p>
+You can hide or show any column using the contextual menu. To open this menu, press the secondary mouse button over the event list. You can also use the Configuration dialog to choose the visible columnns.
+</p><p>The event list always shows newer recorded events at the bottom of the grid.</p><p><span class="application">Drumstick MIDI Monitor</span> can save the recorded events as a text file (in CSV format) or a Standard MIDI File (SMF). </p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="kmidimon-configuration"></a>Configuration Options</h2></div></div></div><p>
+
+</p><div class="screenshot"><div class="mediaobject"><img src="kmidimon2.png" alt="Display settings tab"></div></div><p>
+
+</p><div class="screenshot"><div class="mediaobject"><img src="kmidimon3.png" alt="Filter settings tab"></div></div><p>
+
+</p><p>To open the Configuration dialog go to Settings -&gt; Configure <span class="application">Drumstick MIDI Monitor</span> or click on the corresponding icon on the toolbar.
+</p><p>
+This is a list of the configuration options.
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+	Sequencer tab. The Queue Default Settings affect to the event's time precision.
+    </p></li><li class="listitem"><p>
+	Filters tab. Here you can check several event families to be displayed in the event list.
+    </p></li><li class="listitem"><p>
+	Display tab. The first group of checkboxes allows to show/hide the corresponding columns of the events list. 
+    </p></li><li class="listitem"><p>
+	Misc. tab. Miscellaneous options include:
+	</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+		Translate ALSA Client IDs into names. If checked, ALSA client names are used instead of ID numbers in the "Source" column for all king of events, and the data columns for the ALSA events.
+	    </p></li><li class="listitem"><p>
+		Translate Universal System Exclusive messages. If checked, Universal System Exclusive messages (real time, non real time, MMC, MTC and a few other types) are interpreted and translated. Otherwise, the hexadecimal dump is shown.
+	    </p></li><li class="listitem"><p>
+		Use fixed font. By default <span class="application">Drumstick MIDI Monitor</span> uses the system font in the event list. If this option is checked, a fixed font is used instead.
+	    </p></li></ul></div><p>
+    </p></li></ul></div><p>
+</p></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="credits"></a>Chapter 3. Credits and License</h1></div></div></div><p>Program copyright 2005-2009 Pedro Lopez-Cabanillas <code class="email">&lt;<a class="email" href="mailto:plcl@users.sourceforge.net">plcl@users.sourceforge.net</a>&gt;</code></p><p>Documentation copyright 2005 Christoph Eckert <code class="email">&lt;<a class="email" href="mailto:christeck@users.sourceforge.net">christeck@users.sourceforge.net</a>&gt;</code></p><p>Documentation copyright 2008-2009 Pedro Lopez-Cabanillas <code class="email">&lt;<a class="email" href="mailto:plcl@users.sourceforge.net">plcl@users.sourceforge.net</a>&gt;</code></p></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a name="installation"></a>Appendix A. Installation</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="#getting-kmidimon">How to obtain <span class="application">Drumstick MIDI Monitor</span></a></span></dt><dt><span class="sect1"><a href="#requirements">Requirements</a></span></dt><dt><span class="sect1"><a href="#compilation">Compilation and Installation</a></span></dt></dl></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="getting-kmidimon"></a>How to obtain <span class="application">Drumstick MIDI Monitor</span></h2></div></div></div><p>
+Here you can find the last version:
+<a class="ulink" href="http://sourceforge.net/projects/kmidimon" target="_top">Project home page</a>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="requirements"></a>Requirements</h2></div></div></div><p>
+In order to successfully use <span class="application">Drumstick MIDI Monitor</span>, you need  4.X. and ALSA
+drivers and library.
+</p><p>
+The build system requires <a class="ulink" href="http://www.cmake.org" target="_top">CMake</a> 
+2.4.4 or newer.
+</p><p>
+ALSA library, drivers and utilities can be found at
+<a class="ulink" href="http://www.alsa-project.org" target="_top">ALSA home page</a>.
+</p><p>
+You can find a list of changes at
+<a class="ulink" href="http://kmidimon.sourceforge.net" target="_top">http://kmidimon.sourceforge.net
+</a>
+</p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="compilation"></a>Compilation and Installation</h2></div></div></div><p>
+In order to compile and install <span class="application">Drumstick MIDI Monitor</span> on your system, type the following 
+in the base directory of the <span class="application">Drumstick MIDI Monitor</span> distribution:
+</p><pre class="screen">
+% cmake .
+% make
+% make install
+</pre><p>
+Since <span class="application">Drumstick MIDI Monitor</span> uses <span class="command"><strong>cmake</strong></span> and <span class="command"><strong>make</strong></span> 
+you should have no trouble compiling it. Should you run into problems please 
+report them to the author or the project's bug tracking system.
+</p></div></div></div></body></html>

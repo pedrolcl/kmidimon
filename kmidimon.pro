@@ -4,10 +4,15 @@ DEPENDPATH += . src
 INCLUDEPATH += . src
 VERSION = 1.0.0
 QT += core gui widgets
+CONFIG += c++11 link_pkgconfig lrelease embed_translations
+DEFINES += VERSION=$$VERSION \
+    TRANSLATIONS_PATH=':/'
+LRELEASE_DIR='.'
+QM_FILES_RESOURCE_PREFIX='/'
 
-DEFINES += VERSION=$$VERSION
-CONFIG += link_pkgconfig
-PKGCONFIG += alsa
+packagesExist(alsa) {
+    PKGCONFIG += alsa
+}
 
 packagesExist(drumstick-alsa drumstick-file) {
     PKGCONFIG += drumstick-alsa drumstick-file
@@ -22,6 +27,8 @@ HEADERS += \
     src/configdialog.h \
     src/connectdlg.h \
     src/eventfilter.h \
+    src/helpwindow.h \
+    src/iconutils.h \
     src/instrument.h \
     src/kmidimon.h \
     src/player.h \
@@ -41,6 +48,8 @@ SOURCES += \
     src/configdialog.cpp \
     src/connectdlg.cpp \
     src/eventfilter.cpp \
+    src/helpwindow.cpp \
+    src/iconutils.cpp \
     src/instrument.cpp \
     src/kmidimon.cpp \
     src/main.cpp \
@@ -52,10 +61,16 @@ SOURCES += \
     src/slideraction.cpp \
     src/about.cpp
 
-RESOURCES += src/kmidimon.qrc
+RESOURCES += \
+    datafiles.qrc \
+    doc/docs.qrc \
+    src/kmidimon.qrc
 
 TRANSLATIONS += \
-    translations/cs.ts \
-    translations/es.ts \
-    translations/fr.ts \
-    translations/ja.ts
+    translations/kmidimon_cs.ts \
+    translations/kmidimon_es.ts \
+    translations/kmidimon_fr.ts \
+    translations/kmidimon_ja.ts
+
+LCONVERT_LANGS=cs es fr ja
+include(lconvert.pri)

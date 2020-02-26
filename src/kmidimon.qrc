@@ -1,11 +1,9 @@
-<RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource prefix="/">
         <file>icons/midi/icon16.png</file>
         <file>icons/midi/icon32.png</file>
         <file>icons/midi/icon64.png</file>
         <file>icons/midi/icon128.png</file>
-    </qresource>
-    <qresource prefix="/data">
-        <file>../standards.ins</file>
     </qresource>
 </RCC>

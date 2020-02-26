@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include <QApplication>
+#include <QWindow>
+#include <QScreen>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "helpwindow.h"
@@ -31,11 +33,11 @@ HelpWindow::HelpWindow(const QString &path, const QString &page, QWidget *parent
     IconUtils::SetWindowIcon(this);
 
     textBrowser = new QTextBrowser(this);
-    homeButton = new QPushButton(this); //tr("&Home"));
+    homeButton = new QPushButton(tr("&Home"), this);
     homeButton->setIcon(QIcon::fromTheme("go-home"));
-    backButton = new QPushButton(this); //tr("&Back"));
+    backButton = new QPushButton(tr("&Back"), this);
     backButton->setIcon(QIcon::fromTheme("go-previous"));
-    closeButton = new QPushButton(this); //tr("Close"));
+    closeButton = new QPushButton(tr("Close"), this);
     closeButton->setShortcut(tr("Esc"));
     closeButton->setIcon(QIcon::fromTheme("window-close"));
 
@@ -60,7 +62,7 @@ HelpWindow::HelpWindow(const QString &path, const QString &page, QWidget *parent
     p.setColor(QPalette::Text, Qt::black);
     textBrowser->setPalette(p);
 
-    textBrowser->setSearchPaths(QStringList() << path << ":/help");
+    textBrowser->setSearchPaths(QStringList({path,":/help",":/help/en"}));
     textBrowser->setSource(page);
     textBrowser->setOpenExternalLinks(true);
 }
@@ -70,9 +72,13 @@ void HelpWindow::updateWindowTitle()
     setWindowTitle(tr("Help: %1").arg(textBrowser->documentTitle()));
 }
 
-void HelpWindow::showPage(const QString &page)
+void HelpWindow::showPage(QWidget *parent, const QString &page)
 {
     HelpWindow *browser = new HelpWindow(QLatin1String(":/"), page);
-    browser->resize(500, 400);
+    browser->resize(640, 480);
+    QScreen *screen = parent->window()->windowHandle()->screen();
+    browser->setGeometry(QStyle::alignedRect(
+        Qt::LeftToRight, Qt::AlignCenter, browser->size(),
+        screen->availableGeometry()));
     browser->show();
 }

@@ -31,7 +31,7 @@ public:
     explicit HelpWindow(const QString &path,
                         const QString &page,
                         QWidget *parent = nullptr);
-    static void showPage(const QString &page);
+    static void showPage(QWidget *parent, const QString &page);
 
 private slots:
     void updateWindowTitle();

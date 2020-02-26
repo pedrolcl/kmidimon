@@ -1,0 +1,195 @@
+'\" t
+.\"     Title: kmidimon
+.\"    Author: Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
+.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
+.\"      Date: 2009-06-23
+.\"    Manual: KMidimon User's Manual
+.\"    Source: KMidimon
+.\"  Language: English
+.\"
+.TH "KMIDIMON" "1" "2009\-06\-23" "KMidimon" "KMidimon User's Manual"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+kmidimon \- MIDI monitor using ALSA sequencer and Qt5 user interface
+.SH "SYNOPSIS"
+.HP \w'\fB\fIkmidimon\fR\fR\ 'u
+\fB\fIkmidimon\fR\fR [Standard\ options\&.\&.\&.]
+.SH "DESCRIPTION"
+.PP
+KMidimon monitors events coming from a MIDI external port or application via the ALSA sequencer, or stored as Standard MIDI Files\&. It is especially useful if you want to debug MIDI software or your MIDI setup\&. It features a nice graphical user interface, customizable event filters and sequencer parameters, support for all MIDI messages and some ALSA messages, and saving the recorded event list to a text file or SMF\&.
+.SH "OPTIONS"
+.PP
+Generic options:
+.PP
+\fB\-\-help\fR
+.RS 4
+Show help about options
+.RE
+.PP
+\fB\-\-help\-qt\fR
+.RS 4
+Show Qt5 specific options
+.RE
+.PP
+\fB\-\-help\-all\fR
+.RS 4
+Show all options
+.RE
+.PP
+\fB\-\-author\fR
+.RS 4
+Show author information
+.RE
+.PP
+\fB\-v\fR,\fB\-\-version\fR
+.RS 4
+Show version information
+.RE
+.PP
+\fB\-\-license\fR
+.RS 4
+Show license information
+.RE
+.PP
+Qt5 options:
+.PP
+\fB\-\-display\fR \fIdisplayname\fR
+.RS 4
+Use the X\-server display
+\fIdisplayname\fR\&.
+.RE
+.PP
+\fB\-\-session\fR \fIsessionId\fR
+.RS 4
+Restore the application for the given
+\fIsessionId\fR\&.
+.RE
+.PP
+\fB\-\-cmap\fR
+.RS 4
+Causes the application to install a private color map on an 8\-bit display\&.
+.RE
+.PP
+\fB\-\-ncols\fR \fIcount\fR
+.RS 4
+Limits the number of colors allocated in the color cube on an 8\-bit display, if the application is using the
+QApplication::ManyColor
+color specification\&.
+.RE
+.PP
+\fB\-\-nograb\fR
+.RS 4
+Tells Qt5 to never grab the mouse or the keyboard\&.
+.RE
+.PP
+\fB\-\-dograb\fR
+.RS 4
+Running under a debugger can cause an implicit
+\fB\-\-nograb\fR, use
+\fB\-\-dograb\fR
+to override\&.
+.RE
+.PP
+\fB\-\-sync\fR
+.RS 4
+Switches to synchronous mode for debugging\&.
+.RE
+.PP
+\fB\-\-fn\fR,\fB\-\-font\fR \fIfontname\fR
+.RS 4
+Defines the application font\&.
+.RE
+.PP
+\fB\-\-bg\fR,\fB\-\-background\fR \fIcolor\fR
+.RS 4
+Sets the default background color and an application palette (light and dark shades are calculated)\&.
+.RE
+.PP
+\fB\-\-fg\fR,\fB\-\-foreground\fR \fIcolor\fR
+.RS 4
+Sets the default foreground color
+.RE
+.PP
+\fB\-\-btn\fR,\fB\-\-button\fR \fIcolor\fR
+.RS 4
+Sets the default button color\&.
+.RE
+.PP
+\fB\-\-name\fR \fIname\fR
+.RS 4
+Sets the application name\&.
+.RE
+.PP
+\fB\-\-title\fR \fItitle\fR
+.RS 4
+Sets the application title (caption)\&.
+.RE
+.PP
+\fB\-\-visual\fR \fITrueColor\fR
+.RS 4
+Forces the application to use a
+\fITrueColor\fR
+visual on an 8\-bit display\&.
+.RE
+.PP
+\fB\-\-inputstyle\fR \fIinputstyle\fR
+.RS 4
+Sets XIM (X Input Method) input style\&. Possible values are
+\fIonthespot\fR,
+\fIoverthespot\fR,
+\fIoffthespot\fR
+and
+\fIroot\fR\&.
+.RE
+.PP
+\fB\-\-im\fR \fIXIM server\fR
+.RS 4
+Set XIM server\&.
+.RE
+.PP
+\fB\-\-noxim\fR
+.RS 4
+Disable XIM
+.RE
+.PP
+\fB\-\-reverse\fR
+.RS 4
+mirrors the whole layout of widgets
+.RE
+.PP
+\fB\-\-stylesheet\fR \fIfile\&.qss\fR
+.RS 4
+applies the Qt5 stylesheet to the application widgets
+.RE
+.SH "LICENSE"
+.PP
+This manual page was written by
+Pedro Lopez\-Cabanillas
+<plcl@users\&.sourceforge\&.net>
+Permission is granted to copy, distribute and/or modify this document under the terms of the
+GNU
+General Public License, Version 2 or any later version published by the Free Software Foundation; considering as source code all the file that enable the production of this manpage\&.
+.SH "AUTHOR"
+.PP
+\fBPedro Lopez\-Cabanillas\fR <\&plcl@users\&.sourceforge\&.net\&>
+.RS 4
+Author.
+.RE

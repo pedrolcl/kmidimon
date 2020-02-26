@@ -41,6 +41,7 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 #include <QDirIterator>
+#include <QDebug>
 
 #include "kmidimon.h"
 #include "configdialog.h"
@@ -53,6 +54,7 @@
 #include "ui_kmidimonwin.h"
 #include "about.h"
 #include "iconutils.h"
+#include "helpwindow.h"
 
 QString KMidimon::dataDirectory()
 {
@@ -432,6 +434,8 @@ void KMidimon::setupActions()
     menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
 
     m_ui->actionAbout_Qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
+    m_ui->actionAbout->setIcon(QIcon(IconUtils::GetPixmap(this, ":/icons/midi/icon32.png")));
+    m_ui->actionContents->setIcon(QIcon::fromTheme("help-contents"));
     connect( m_ui->actionAbout, SIGNAL(triggered()), SLOT(about()) );
     connect( m_ui->actionAbout_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
     connect( m_ui->actionContents, SIGNAL(triggered()), SLOT(help()) );
@@ -446,13 +450,19 @@ void KMidimon::about()
 
 void KMidimon::help()
 {
-    QString hlpFile = QStringLiteral("kmidimon.html");
-    QDir data = dataDirectory();
-    QFileInfo finfo(data.filePath(hlpFile));
-    if (finfo.exists()) {
-        QUrl url = QUrl::fromLocalFile(finfo.absoluteFilePath());
-        QDesktopServices::openUrl(url);
+    QDir hdir(":/help");
+    QString hname = QStringLiteral("%1/kmidimon.html").arg(m_language);
+    QFileInfo finfo(hdir, hname);
+    if (!finfo.exists()) {
+        hname = "en/kmidimon.html";
     }
+    HelpWindow::showPage(this, hname);
+//#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+//    "kmidimon.md"
+//#else
+//    "kmidimon.html"
+//#endif
+//    ));
 }
 
 void KMidimon::slotOpenWebSite()
@@ -581,8 +591,10 @@ void KMidimon::saveConfiguration()
 {
     int i;
     QSettings config;
-    config.beginGroup("Settings");
     if (m_adaptor == NULL) return;
+    config.beginGroup("Settings");
+    config.setValue("geometry", saveGeometry());
+    config.setValue("windowState", saveState());
     config.setValue("resolution", m_defaultResolution);
     config.setValue("tempo", m_defaultTempo);
     config.setValue("realtime_prio", m_requestRealtimePrio);
@@ -615,6 +627,8 @@ void KMidimon::readConfiguration()
     bool status;
     QSettings config;
     config.beginGroup("Settings");
+    restoreGeometry(config.value("geometry").toByteArray());
+    restoreState(config.value("windowState").toByteArray());
     m_proxy->setFilterAlsaMsg(config.value("alsa", true).toBool());
     m_proxy->setFilterChannelMsg(config.value("channel", true).toBool());
     m_proxy->setFilterCommonMsg(config.value("common", true).toBool());
@@ -1110,7 +1124,7 @@ QString KMidimon::configuredLanguage()
 {
     if (m_language.isEmpty()) {
         QSettings settings;
-        QString defLang = QLocale::system().name();
+        QString defLang = QLocale::system().name().left(2);
         settings.beginGroup("Settings");
         m_language = settings.value("language", defLang).toString();
         settings.endGroup();

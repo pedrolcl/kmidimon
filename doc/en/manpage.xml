@@ -1,6 +1,8 @@
 <?xml version="1.0" ?>
-<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
-<!ENTITY % English "INCLUDE">
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" 
+"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+  <!ENTITY language "en">
+  <!ENTITY Qt "Qt5">
 ]>
 
 <refentry lang="&language;">
@@ -26,7 +28,7 @@
 <refnamediv>
 <refname>kmidimon</refname>
 <refpurpose>
-MIDI monitor using ALSA sequencer and &kde; user interface
+MIDI monitor using ALSA sequencer and Qt5 user interface
 </refpurpose>
 </refnamediv>
 
@@ -57,10 +59,6 @@ MIDI monitor using ALSA sequencer and &kde; user interface
 <listitem><para>Show &Qt; specific options</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><option>--help-kde</option></term>
-<listitem><para>Show &kde; specific options</para></listitem>
-</varlistentry>
-<varlistentry>
 <term><option>--help-all</option></term>
 <listitem><para>Show all options</para></listitem>
 </varlistentry>
@@ -75,40 +73,6 @@ MIDI monitor using ALSA sequencer and &kde; user interface
 <varlistentry>
 <term><option>--license</option></term>
 <listitem><para>Show license information</para></listitem>
-</varlistentry>
-</variablelist>
-
-<para>&kde; options:</para>
-
-<variablelist>
-<varlistentry>
-<term><option>--caption</option> <parameter>caption</parameter></term>
-<listitem><para>Use <parameter>caption</parameter> as name in the
-titlebar.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--icon</option> <parameter>icon</parameter></term>
-<listitem><para>Use <parameter>icon</parameter> as the application icon.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--config</option> <parameter>filename</parameter></term>
-<listitem><para>Use the alternative configuration <parameter>filename</parameter></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--nocrashhandler</option></term>
-<listitem><para>Disable the crash handler, to get core dumps.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--waitforwm</option></term>
-<listitem><para>Waits for a WM_NET compatible windowmanager.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--style</option> <parameter>style</parameter></term>
-<listitem><para>Sets the application &GUI; style.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--geometry</option> <parameter>geometry</parameter></term>
-<listitem><para>Sets the client geometry of the main widget.</para></listitem>
 </varlistentry>
 </variablelist>
 

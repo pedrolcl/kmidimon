@@ -19,9 +19,7 @@
 #include "about.h"
 #include "iconutils.h"
 
-#define LITERAL(s) #s
-#define STRINGIFY(s) LITERAL(s)
-const QString PGM_VERSION(STRINGIFY(VERSION));
+const QString PGM_VERSION(QT_STRINGIFY(VERSION));
 
 const QString BLD_DATE(__DATE__);
 const QString BLD_TIME(__TIME__);
