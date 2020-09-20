@@ -38,16 +38,16 @@ endif()
 
 find_package(Drumstick 2.0 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
-    message("Found Drumstick version: ${Drumstick_VERSION}")
+    message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()
 
 include(GNUInstallDirs)
 
 add_subdirectory(icons)
+add_subdirectory(doc/en)
 if(NOT EMBED_TRANSLATIONS)
     add_subdirectory(translations)
 endif()
-add_subdirectory(doc)
 add_subdirectory(src)
 
 configure_file(

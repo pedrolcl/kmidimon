@@ -72,9 +72,7 @@ QString KMidimon::dataDirectory()
     return QString();
 }
 
-#define LITERAL(s) #s
-#define STRINGIFY(s) LITERAL(s)
-const QString trPath_(STRINGIFY(TRANSLATIONS_PATH));
+const QString trPath_(QT_STRINGIFY(TRANSLATIONS_PATH));
 
 static QString trDirectory()
 {
@@ -467,7 +465,7 @@ void KMidimon::help()
 
 void KMidimon::slotOpenWebSite()
 {
-    QUrl url(QStringLiteral("http://kmidimon.sourceforge.net"));
+    QUrl url(QStringLiteral("https://kmidimon.sourceforge.io"));
     QDesktopServices::openUrl(url);
 }
 

@@ -26,7 +26,6 @@
 #include <drumstick/alsaevent.h>
 #include <drumstick/qsmf.h>
 #include <drumstick/qwrk.h>
-#include <drumstick/qove.h>
 
 #include <QAbstractItemModel>
 #include <QMap>
@@ -200,19 +199,6 @@ public slots:
     void chord(int track, long time, const QString& name, const QByteArray& data);
     void expression(int track, long time, int code, const QString& text);
 
-    /* OVE slots */
-    void oveErrorHandler(const QString& errorStr);
-    void oveFileHeader(int quarter, int trackCount);
-    void oveNoteOnEvent(int track, long tick, int channel, int pitch, int vol);
-    void oveNoteOffEvent(int track, long tick, int channel, int pitch, int vol);
-    void oveTrackPatch(int track, int channel, int patch);
-    void oveTrackVol(int track, int channel, int vol);
-    void oveTrackBank(int track, int channel, int bank);
-    void oveTextEvent(int track, long tick, const QString& data);
-    void oveTimeSigEvent(int bar, long tick, int num, int den);
-    void oveKeySigEvent(int bar, long tick, int alt);
-    void oveTempoEvent(long time, int tempo);
-
 signals:
     void loadProgress(int);
 
@@ -292,7 +278,6 @@ private:
     Song m_tempSong;
     drumstick::File::QSmf* m_smf;
     drumstick::File::QWrk* m_wrk;
-    drumstick::File::QOve* m_ove;
     Instrument* m_ins;
     Instrument* m_ins2;
     EventFilter* m_filter;

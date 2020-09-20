@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/help">
+    <qresource prefix="/help/en">
         <file>kmidimon1.png</file>
         <file>kmidimon2.png</file>
         <file>kmidimon3.png</file>

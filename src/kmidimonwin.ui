@@ -28,10 +28,10 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Drumstick MIDI Monitor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="kmidimon.qrc">
+   <iconset>
     <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
@@ -41,7 +41,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -150,9 +150,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </property>
   </action>
  </widget>
- <resources>
-  <include location="kmidimon.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionShow_Toolbar</sender>

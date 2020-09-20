@@ -66,6 +66,7 @@ set(kmidimon_SRCS
     configdialogbase.ui
     kmidimonwin.ui
     kmidimon.qrc
+    ../datafiles.qrc
     ../doc/en/docs.qrc
     ${APP_RES}
     ${QT_RES}
