@@ -16,6 +16,10 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+extern "C" {
+    #include <alsa/asoundlib.h>
+}
+
 #include "player.h"
 #include <drumstick/alsaqueue.h>
 

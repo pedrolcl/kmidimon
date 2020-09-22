@@ -42,7 +42,7 @@
 #include <QDesktopServices>
 #include <QDirIterator>
 #include <QDebug>
-
+#include <drumstick/sequencererror.h>
 #include "kmidimon.h"
 #include "configdialog.h"
 #include "connectdlg.h"
@@ -72,27 +72,27 @@ QString KMidimon::dataDirectory()
     return QString();
 }
 
-const QString trPath_(QT_STRINGIFY(TRANSLATIONS_PATH));
-
 static QString trDirectory()
 {
-    if (trPath_ == ":/" ) {
-        return trPath_;
-    }
-    QDir test(QApplication::applicationDirPath() + "/../" + trPath_);
+#if defined(TRANSLATIONS_EMBEDDED)
+    return QLatin1String(":/");
+#else
+    QDir test(KMidimon::dataDirectory() + "translations/" );
     qDebug() << test.absolutePath();
     if (test.exists()) {
         return test.absolutePath();
     }
     return QString();
+#endif
 }
 
 static QString trQtDirectory()
 {
-    if (trPath_ == ":/" ) {
-        return trPath_;
-    }
+#if defined(TRANSLATIONS_EMBEDDED)
+    return QLatin1String(":/");
+#else
     return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+#endif
 }
 
 KMidimon::KMidimon() :
@@ -1170,7 +1170,7 @@ void KMidimon::createLanguageMenu()
     foreach (const QString& loc, locales) {
         QLocale qlocale(loc);
         QString localeName = loc == "en" ? QLocale::languageToString(qlocale.language()) : qlocale.nativeLanguageName();
-        QAction *action = new QAction(localeName, this);
+        QAction *action = new QAction(localeName.section(" ", 0, 0), this);
         action->setCheckable(true);
         action->setData(loc);
         m_ui->menuLanguage->addAction(action);

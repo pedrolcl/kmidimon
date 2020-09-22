@@ -28,9 +28,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED Yes)
 
-message(STATUS "kmidimon ${PROJECT_VERSION} install prefix: ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "Build configuration: ${CMAKE_BUILD_TYPE}")
-
 find_package(Qt5 5.12 COMPONENTS Widgets LinguistTools REQUIRED)
 if(Qt5_FOUND)
     message(STATUS "Found Qt5 version: ${Qt5Core_VERSION_STRING}")
@@ -40,6 +37,14 @@ find_package(Drumstick 2.0 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()
+
+message (STATUS "${PROJECT_NAME} v${PROJECT_VERSION}
+    install prefix: ${CMAKE_INSTALL_PREFIX}
+    Build configuration: ${CMAKE_BUILD_TYPE}
+    Processor: ${CMAKE_SYSTEM_PROCESSOR}
+    Qt5: ${Qt5_VERSION}
+    Drumstick: ${Drumstick_VERSION}
+    Embed translations: ${EMBED_TRANSLATIONS}")
 
 include(GNUInstallDirs)
 

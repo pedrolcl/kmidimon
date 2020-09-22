@@ -32,6 +32,9 @@ if(EMBED_TRANSLATIONS)
     add_qt_translations_resource(QT_RES cs es fr ja)
 endif()
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ALSA REQUIRED IMPORTED_TARGET alsa>=1.0.0)
+
 set(kmidimon_SRCS
     about.cpp
     about.h
@@ -76,13 +79,14 @@ add_executable(kmidimon ${kmidimon_SRCS})
 
 target_link_libraries( kmidimon
     Qt5::Widgets
-    Drumstick::ALSA
     Drumstick::File
+    Drumstick::ALSA
+    PkgConfig::ALSA
 )
 
 target_compile_definitions( kmidimon PRIVATE
-    -DVERSION=${PROJECT_VERSION}
-    -DTRANSLATIONS_PATH=$<IF:$<BOOL:${EMBED_TRANSLATIONS}>,:/,${CMAKE_INSTALL_DATAROOTDIR}/kmidimon/translations/>
+    VERSION=${PROJECT_VERSION}
+    $<$<BOOL:${EMBED_TRANSLATIONS}>:TRANSLATIONS_EMBEDDED>
 )
 
 install( TARGETS kmidimon
