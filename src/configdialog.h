@@ -27,7 +27,7 @@ class ConfigDialog : public QDialog
 {
     Q_OBJECT
 public:
-    ConfigDialog(QWidget *parent = 0);
+    ConfigDialog(QWidget *parent = nullptr);
     virtual ~ConfigDialog() {}
 
     int getTempo() { return ui.m_tempo->value(); }

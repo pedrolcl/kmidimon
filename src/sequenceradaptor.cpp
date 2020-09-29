@@ -161,7 +161,7 @@ void SequencerAdaptor::stop()
 
 void SequencerAdaptor::rewind()
 {
-    if (m_player != NULL) m_player->resetPosition();
+    if (m_player != nullptr) m_player->resetPosition();
     m_model->setCurrentRow(0);
     m_queue->setTickPosition(0);
 }
@@ -187,9 +187,9 @@ void SequencerAdaptor::record()
 void SequencerAdaptor::setPosition(const int pos)
 {
     const SequencerEvent* ev = m_model->getEvent(pos);
-    if (ev != NULL) {
+    if (ev != nullptr) {
         int t = ev->getTick();
-        if (m_player != NULL) m_player->setPosition(t);
+        if (m_player != nullptr) m_player->setPosition(t);
         m_model->setCurrentRow(pos);
         m_queue->setTickPosition(t);
     }
@@ -330,7 +330,7 @@ void SequencerAdaptor::shutupSound()
 
 bool SequencerAdaptor::isPlaying()
 {
-    if (m_player != NULL)
+    if (m_player != nullptr)
         return m_player->isRunning();
     return false;
 }

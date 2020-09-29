@@ -38,7 +38,7 @@ enum EvCategory {
 
 class CategoryFilter {
 public:
-    CategoryFilter(QString name = QString()) : m_menu(NULL), m_name(name), m_filter(true) {}
+    CategoryFilter(QString name = QString()) : m_menu(nullptr), m_name(name), m_filter(true) {}
     virtual ~CategoryFilter() {}
     QString getName() const { return m_name; }
     QString getName(int t);

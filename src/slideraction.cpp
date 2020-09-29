@@ -91,7 +91,7 @@ PlayerPopupSliderAction::PlayerPopupSliderAction (const QObject* receiver, const
 PlayerPopupSliderAction::~PlayerPopupSliderAction()
 {
     delete m_frame;
-    m_frame = 0;
+    m_frame = nullptr;
 }
 
 /**
@@ -103,8 +103,8 @@ void PlayerPopupSliderAction::slotTriggered()
 
     QList<QWidget*> associatedWidgetsList = associatedWidgets();
 
-    QWidget* associatedWidget = 0;
-    QWidget* associatedToolButton = 0;
+    QWidget* associatedWidget = nullptr;
+    QWidget* associatedToolButton = nullptr;
 
     // find the toolbutton which was clicked on
     foreach(associatedWidget, associatedWidgetsList) {

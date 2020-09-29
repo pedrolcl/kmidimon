@@ -88,7 +88,7 @@ void ProxyModel::setFilterSmfMsg(bool newValue)
 
 bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 {
-    if (m_filter != NULL)
+    if (m_filter != nullptr)
         return m_filter->getFilter(ev->getSequencerType());
     return true;
 }
@@ -98,9 +98,9 @@ bool ProxyModel::filterAcceptsRow(int sourceRow,
 {
     SequenceModel* sModel = static_cast<SequenceModel*>(sourceModel());
     const SequenceItem* itm = sModel->getItem(sourceRow);
-    if (itm != NULL) {
+    if (itm != nullptr) {
         const SequencerEvent* ev = itm->getEvent();
-        if (ev != NULL) return (itm->getTrack() == m_trackFilter) &&
+        if (ev != nullptr) return (itm->getTrack() == m_trackFilter) &&
                                 filterSequencerEvent(ev);
     }
     return false;

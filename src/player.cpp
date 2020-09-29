@@ -27,8 +27,8 @@ using namespace drumstick::ALSA;
 
 Player::Player(MidiClient *seq, int portId)
     : SequencerOutputThread(seq, portId),
-    m_song(0),
-    m_songIterator(0),
+    m_song(nullptr),
+    m_songIterator(nullptr),
     m_songPosition(0),
     m_lastIndex(0),
     m_echoResolution(0),
@@ -40,7 +40,7 @@ Player::~Player()
     if (isRunning()) {
         stop();
     }
-    if (m_songIterator != NULL) {
+    if (m_songIterator != nullptr) {
         delete m_songIterator;
     }
 }
@@ -48,10 +48,10 @@ Player::~Player()
 void Player::setSong(Song* s, unsigned int /*division*/)
 {
     m_song = s;
-    if (m_songIterator != NULL) {
+    if (m_songIterator != nullptr) {
         delete m_songIterator;
     }
-    if (m_song != NULL) {
+    if (m_song != nullptr) {
         m_songIterator = new SongIterator(*m_song);
         //m_echoResolution = division / 24;
         resetPosition();
@@ -60,7 +60,7 @@ void Player::setSong(Song* s, unsigned int /*division*/)
 
 void Player::resetPosition()
 {
-    if ((m_song != NULL) && (m_songIterator != NULL)) {
+    if ((m_song != nullptr) && (m_songIterator != nullptr)) {
         m_songIterator->toFront();
         m_songPosition = 0;
         m_lastIndex = 0;
@@ -69,7 +69,7 @@ void Player::resetPosition()
 
 void Player::setPosition(unsigned int pos)
 {
-    if (m_songIterator != NULL) {
+    if (m_songIterator != nullptr) {
         m_songPosition = pos;
         m_songIterator->toFront();
         while (m_songIterator->hasNext() &&
@@ -81,15 +81,15 @@ void Player::setPosition(unsigned int pos)
 
 bool Player::hasNext()
 {
-    if (m_songIterator == NULL)
+    if (m_songIterator == nullptr)
         return false;
     return m_songIterator->hasNext();
 }
 
 SequencerEvent* Player::nextEvent()
 {
-    if (m_songIterator == NULL)
-        return NULL;
+    if (m_songIterator == nullptr)
+        return nullptr;
     SequenceItem itm = m_songIterator->next();
     m_lastIndex = m_song->indexOf(itm);
     return itm.getEvent();
@@ -98,7 +98,7 @@ SequencerEvent* Player::nextEvent()
 void
 Player::sendEchoEvent(int tick)
 {
-    if (!stopRequested() && m_MidiClient != NULL) {
+    if (!stopRequested() && m_MidiClient != nullptr) {
         SystemEvent ev(SND_SEQ_EVENT_USR0);
         ev.setRaw32(0, m_lastIndex);
         ev.setSource(m_PortId);
@@ -111,7 +111,7 @@ Player::sendEchoEvent(int tick)
 void Player::run()
 {
     unsigned int last_tick, final_tick = m_song->getLast();
-    if (m_MidiClient != NULL) {
+    if (m_MidiClient != nullptr) {
         try  {
             m_npfds = snd_seq_poll_descriptors_count(m_MidiClient->getHandle(), POLLOUT);
             m_pfds = (pollfd*) alloca(m_npfds * sizeof(pollfd));
@@ -165,7 +165,7 @@ void Player::run()
             qWarning("exception in output thread");
         }
         m_npfds = 0;
-        m_pfds = 0;
+        m_pfds = nullptr;
     }
 }
 

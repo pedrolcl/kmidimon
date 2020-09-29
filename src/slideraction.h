@@ -45,11 +45,11 @@ class PlayerSlider : public QSlider
     Q_OBJECT
 
 public:
-    explicit PlayerSlider (Qt::Orientation, QWidget* parent = 0);
+    explicit PlayerSlider (Qt::Orientation, QWidget* parent = nullptr);
     virtual ~PlayerSlider() {}
 
-    virtual QSize sizeHint() const;
-    virtual QSize minimumSizeHint() const;
+    virtual QSize sizeHint() const override;
+    virtual QSize minimumSizeHint() const override;
     void setPageStep (int);
     void setup (int minimum, int maximum, int value, int pageStep, int lineStep = 1);
 
@@ -67,11 +67,11 @@ class PlayerPopupFrame : public QFrame
     Q_OBJECT
 
 public:
-    PlayerPopupFrame (QWidget* parent = 0);
+    PlayerPopupFrame (QWidget* parent = nullptr);
     virtual ~PlayerPopupFrame();
 
 protected:
-    virtual void keyPressEvent (QKeyEvent*);
+    virtual void keyPressEvent (QKeyEvent*) override;
 };
 
 /**

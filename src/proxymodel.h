@@ -28,10 +28,10 @@ class EventFilter;
 class ProxyModel : public QSortFilterProxyModel
 {
 public:
-    ProxyModel(QObject *parent = 0)
+    ProxyModel(QObject *parent = nullptr)
         : QSortFilterProxyModel(parent),
         m_trackFilter(-1),
-        m_filter(NULL)
+        m_filter(nullptr)
     {}
     virtual ~ProxyModel() {}
 
@@ -53,7 +53,7 @@ public:
     void setFilter(EventFilter* value) { m_filter = value; }
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
     bool filterSequencerEvent(const drumstick::ALSA::SequencerEvent* ev) const;

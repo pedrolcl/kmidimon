@@ -48,6 +48,10 @@ message (STATUS "${PROJECT_NAME} v${PROJECT_VERSION}
 
 include(GNUInstallDirs)
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wzero-as-null-pointer-constant -Wsuggest-override")
+endif()
+
 add_subdirectory(icons)
 add_subdirectory(doc/en)
 if(NOT EMBED_TRANSLATIONS)

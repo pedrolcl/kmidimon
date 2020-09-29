@@ -86,10 +86,10 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_division(RESOLUTION),
         m_initialTempo(TEMPO_BPM),
         m_duration(0),
-        m_ins(0),
-        m_ins2(0),
-        m_filter(0),
-        m_appendFunc(0)
+        m_ins(nullptr),
+        m_ins2(nullptr),
+        m_filter(nullptr),
+        m_appendFunc(nullptr)
 {
     m_smf = new QSmf(this);
     connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
@@ -229,7 +229,7 @@ Qt::ItemFlags
 SequenceModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
-        return 0;
+        return Qt::ItemFlags();
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
@@ -310,7 +310,7 @@ SequenceModel::data(const QModelIndex &index, int role) const
         if ( role == Qt::DisplayRole ) {
             SequenceItem itm = m_items[index.row()];
             const SequencerEvent* ev = itm.getEvent();
-            if (ev != NULL) {
+            if (ev != nullptr) {
                 switch (index.column()) {
                 case 0:
                     return event_ticks(ev);
@@ -400,7 +400,7 @@ SequenceModel::saveToTextStream(QTextStream& str)
 {
     foreach ( const SequenceItem& itm, m_items ) {
         const SequencerEvent* ev = itm.getEvent();
-        if (ev != NULL) {
+        if (ev != nullptr) {
             str << event_ticks(ev).trimmed() << ","
                 << event_time(itm).trimmed() << ","
                 << event_source(ev).trimmed() << ","
@@ -417,7 +417,7 @@ QString
 SequenceModel::sysex_type(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
-    if (sev != NULL) {
+    if (sev != nullptr) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
             if (sev->getLength() < 6) return QString();
@@ -441,7 +441,7 @@ QString
 SequenceModel::sysex_chan(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
-    if (sev != NULL) {
+    if (sev != nullptr) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
             if (sev->getLength() < 6) return QString();
@@ -461,7 +461,7 @@ QString
 SequenceModel::sysex_data1(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
-    if (sev != NULL) {
+    if (sev != nullptr) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
             if (sev->getLength() < 6) return QString();
@@ -638,7 +638,7 @@ QString
 SequenceModel::sysex_data2(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
-    if (sev != NULL) {
+    if (sev != nullptr) {
         if (m_translateSysex) {
             unsigned char *ptr = (unsigned char *) sev->getData();
             if (sev->getLength() < 6) return QString();
@@ -864,7 +864,7 @@ SequenceModel::sysex_data_first(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
     int result = 0;
-    if (sev != NULL) {
+    if (sev != nullptr) {
         unsigned char *ptr = (unsigned char *) sev->getData();
         if (sev->getLength() < 6) return result;
         if (ptr[0] != 0xf0) return result;
@@ -886,7 +886,7 @@ QString
 SequenceModel::sysex_data3(const SequencerEvent *ev) const
 {
     const SysExEvent *sev = static_cast<const SysExEvent*>(ev);
-    if (sev != NULL) {
+    if (sev != nullptr) {
         QString text;
         unsigned char *data = (unsigned char *) sev->getData();
         unsigned int i, first = 0, last = sev->getLength();
@@ -940,7 +940,7 @@ QString
 SequenceModel::event_addr(const SequencerEvent *ev) const
 {
     const PortEvent* pe = static_cast<const PortEvent*>(ev);
-    if (pe != NULL)
+    if (pe != nullptr)
         return QString("%1:%2").arg(client_name(pe->getClient()))
                                .arg(pe->getPort());
     else
@@ -951,7 +951,7 @@ QString
 SequenceModel::event_client(const SequencerEvent *ev) const
 {
     const ClientEvent* ce = static_cast<const ClientEvent*>(ev);
-    if (ce != NULL)
+    if (ce != nullptr)
         return client_name(ce->getClient());
     else
         return QString();
@@ -961,7 +961,7 @@ QString
 SequenceModel::event_sender(const SequencerEvent *ev) const
 {
     const SubscriptionEvent* se = static_cast<const SubscriptionEvent*>(ev);
-    if (se != NULL)
+    if (se != nullptr)
         return QString("%1:%2").arg(client_name(se->getSenderClient()))
                                .arg(se->getSenderPort());
     else
@@ -972,7 +972,7 @@ QString
 SequenceModel::event_dest(const SequencerEvent *ev) const
 {
     const SubscriptionEvent* se = static_cast<const SubscriptionEvent*>(ev);
-    if (se != NULL)
+    if (se != nullptr)
         return QString("%1:%2").arg(client_name(se->getDestClient()))
                                .arg(se->getDestPort());
     else
@@ -983,7 +983,7 @@ QString
 SequenceModel::common_param(const SequencerEvent *ev) const
 {
     const ValueEvent* ve = static_cast<const ValueEvent*>(ev);
-    if (ve != NULL)
+    if (ve != nullptr)
         return QString::number(ve->getValue());
     else
         return QString();
@@ -995,7 +995,7 @@ SequenceModel::event_kind(const SequencerEvent *ev) const
     QString res;
     if (ev->getSequencerType() == SND_SEQ_EVENT_SYSEX)
         return sysex_type(ev);
-    if (m_filter != NULL)
+    if (m_filter != nullptr)
         res = m_filter->getName(ev->getSequencerType());
     if (res.isEmpty())
         res = tr("Event type %1").arg(ev->getSequencerType());
@@ -1007,7 +1007,7 @@ SequenceModel::event_channel(const SequencerEvent *ev) const
 {
     if (SequencerEvent::isChannel(ev)) {
         const ChannelEvent* che = static_cast<const ChannelEvent*>(ev);
-        if (che != NULL)
+        if (che != nullptr)
             return QString::number(che->getChannel()+1);
     } else
         if (ev->getSequencerType() == SND_SEQ_EVENT_SYSEX)
@@ -1032,9 +1032,9 @@ QString
 SequenceModel::note_key(const SequencerEvent* ev) const
 {
     const KeyEvent* ke = static_cast<const KeyEvent*>(ev);
-    if (ke != NULL)
+    if (ke != nullptr)
     	if (m_translateNotes)
-            if ((ke->getChannel() == MIDI_GM_DRUM_CHANNEL) && (m_ins2 != NULL)) {
+            if ((ke->getChannel() == MIDI_GM_DRUM_CHANNEL) && (m_ins2 != nullptr)) {
                 int b = m_lastBank[ke->getChannel()];
                 int p = m_lastPatch[ke->getChannel()];
                 const InstrumentData& notes = m_ins2->notes(b, p);
@@ -1054,14 +1054,14 @@ QString
 SequenceModel::program_number(const SequencerEvent* ev) const
 {
     const ProgramChangeEvent* pc = static_cast<const ProgramChangeEvent*>(ev);
-    if (pc != NULL) {
+    if (pc != nullptr) {
         if (m_translateCtrls) {
-            if (pc->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != NULL) {
+            if (pc->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != nullptr) {
                 const InstrumentData& patch = m_ins2->patch(m_lastBank[pc->getChannel()]);
                 if (patch.contains(pc->getValue()))
                     return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
             }
-            if (pc->getChannel() != MIDI_GM_DRUM_CHANNEL && m_ins != NULL) {
+            if (pc->getChannel() != MIDI_GM_DRUM_CHANNEL && m_ins != nullptr) {
                 const InstrumentData& patch = m_ins->patch(m_lastBank[pc->getChannel()]);
                 if (patch.contains(pc->getValue()))
                     return QString("%1:%2").arg(patch[pc->getValue()]).arg(pc->getValue());
@@ -1076,7 +1076,7 @@ QString
 SequenceModel::note_velocity(const SequencerEvent* ev) const
 {
     const KeyEvent* ke = static_cast<const KeyEvent*>(ev);
-    if (ke != NULL)
+    if (ke != nullptr)
         return QString::number(ke->getVelocity());
     else
         return QString();
@@ -1086,7 +1086,7 @@ QString
 SequenceModel::note_duration(const SequencerEvent* ev) const
 {
     const NoteEvent* ne = static_cast<const NoteEvent*>(ev);
-    if (ne != NULL)
+    if (ne != nullptr)
         return QString::number(ne->getDuration());
     else
         return QString();
@@ -1096,14 +1096,14 @@ QString
 SequenceModel::control_param(const SequencerEvent* ev) const
 {
     const ControllerEvent* ce = static_cast<const ControllerEvent*>(ev);
-    if (ce != NULL) {
+    if (ce != nullptr) {
         if (m_translateCtrls) {
-            Instrument* ins = NULL;
-            if (ce->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != NULL)
+            Instrument* ins = nullptr;
+            if (ce->getChannel() == MIDI_GM_DRUM_CHANNEL && m_ins2 != nullptr)
                 ins = m_ins2;
-            if (m_ins != NULL)
+            if (m_ins != nullptr)
                 ins = m_ins;
-            if (ins != NULL) {
+            if (ins != nullptr) {
                 const InstrumentData& ctls = ins->control();
                 if (ctls.contains(ce->getParam()))
                     return QString("%1:%2").arg(ctls[ce->getParam()]).arg(ce->getParam());
@@ -1118,7 +1118,7 @@ QString
 SequenceModel::control_value(const SequencerEvent* ev) const
 {
     const ControllerEvent* ce = static_cast<const ControllerEvent*>(ev);
-    if (ce != NULL)
+    if (ce != nullptr)
         return QString::number(ce->getValue());
     else
         return QString();
@@ -1128,7 +1128,7 @@ QString
 SequenceModel::pitchbend_value(const SequencerEvent* ev) const
 {
     const PitchBendEvent* pe = static_cast<const PitchBendEvent*>(ev);
-    if (pe != NULL)
+    if (pe != nullptr)
         return QString::number(pe->getValue());
     else
         return QString();
@@ -1138,7 +1138,7 @@ QString
 SequenceModel::chanpress_value(const SequencerEvent* ev) const
 {
     const ChanPressEvent* cp = static_cast<const ChanPressEvent*>(ev);
-    if (cp != NULL)
+    if (cp != nullptr)
         return QString::number(cp->getValue());
     else
         return QString();
@@ -1148,7 +1148,7 @@ QString
 SequenceModel::tempo_bpm(const SequencerEvent *ev) const
 {
     const TempoEvent* te = static_cast<const TempoEvent*>(ev);
-    if (te != NULL)
+    if (te != nullptr)
         return tr("%1 bpm").arg(QString::number(6e7 / te->getValue(), 'f', 1));
     else
         return QString();
@@ -1158,7 +1158,7 @@ QString
 SequenceModel::tempo_npt(const SequencerEvent *ev) const
 {
     const TempoEvent* te = static_cast<const TempoEvent*>(ev);
-    if (te != NULL)
+    if (te != nullptr)
         return QString::number(te->getValue());
     else
         return QString();
@@ -1168,7 +1168,7 @@ QString
 SequenceModel::text_type(const SequencerEvent *ev) const
 {
     const TextEvent* te = static_cast<const TextEvent*>(ev);
-    if (te != NULL) {
+    if (te != nullptr) {
         switch ( te->getTextType() ) {
         case 1:
             return tr("Text:1");
@@ -1196,7 +1196,7 @@ QString
 SequenceModel::text_data(const SequencerEvent *ev) const
 {
     const TextEvent* te = static_cast<const TextEvent*>(ev);
-    if (te != NULL)
+    if (te != nullptr)
         return te->getText();
     else
         return QString();
@@ -1260,7 +1260,7 @@ QString
 SequenceModel::var_event(const SequencerEvent *ev) const
 {
     const VariableEvent* ve = static_cast<const VariableEvent*>(ev);
-    if (ve != NULL) {
+    if (ve != nullptr) {
         unsigned int i = 0;
         const unsigned char *data = reinterpret_cast<const unsigned char *>(ve->getData());
         QString text;
@@ -1280,7 +1280,7 @@ QString
 SequenceModel::meta_misc(const SequencerEvent *ev) const
 {
     const VariableEvent* ve = static_cast<const VariableEvent*>(ev);
-    if (ve != NULL) {
+    if (ve != nullptr) {
         int type = ve->getData()[0];
         return QString::number(type);
     }
@@ -1435,7 +1435,7 @@ SequenceModel::getItem(const int row) const
 {
     if (!m_items.isEmpty() && (row >= 0) && (row < m_items.size()))
         return &m_items[row];
-    return NULL;
+    return nullptr;
 }
 
 const SequencerEvent*
@@ -1443,7 +1443,7 @@ SequenceModel::getEvent(const int row) const
 {
     if (!m_items.isEmpty() && (row >= 0) && (row < m_items.size()))
         return m_items[row].getEvent();
-    return NULL;
+    return nullptr;
 }
 
 void
@@ -1464,7 +1464,7 @@ SequenceModel::loadFromFile(const QString& path)
         m_reportsFilePos = true;
         m_wrk->readFromFile(path);
     } else {
-        m_appendFunc = 0;
+        m_appendFunc = nullptr;
         m_reportsFilePos = false;
         qDebug() << "unrecognized format:" << type.name();
         return;
@@ -1486,7 +1486,7 @@ SequenceModel::processItems()
         double seconds = 0;
         long ticks = itm.getTicks();
         int track = itm.getTrack();
-        if ( ev != NULL && ev->getSequencerType() == SND_SEQ_EVENT_NOTE ) {
+        if ( ev != nullptr && ev->getSequencerType() == SND_SEQ_EVENT_NOTE ) {
             NoteEvent* note = static_cast<NoteEvent*>(ev);
             NoteOnEvent* noteon = new NoteOnEvent( note->getChannel(),
                                                    note->getKey(),
@@ -1631,9 +1631,9 @@ SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
         ctl == MIDI_CTL_LSB_BANK ) {
 
         int bsm = 0;
-        if (chan == 9 && m_ins2 != NULL)
+        if (chan == 9 && m_ins2 != nullptr)
             bsm = m_ins2->bankSelMethod();
-        else if (m_ins != NULL)
+        else if (m_ins != nullptr)
             bsm = m_ins->bankSelMethod();
 
         if (ctl == MIDI_CTL_MSB_BANK) {
@@ -1813,26 +1813,26 @@ SequenceModel::trackHandler(int track)
     foreach ( const SequenceItem& itm, m_tempSong ) {
         if (itm.getTrack() == track) {
             const SequencerEvent* ev = itm.getEvent();
-            if (ev != NULL) {
+            if (ev != nullptr) {
                 delta = ev->getTick() - last_tick;
                 last_tick = ev->getTick();
                 switch(ev->getSequencerType()) {
                     case SND_SEQ_EVENT_TEMPO: {
                         const TempoEvent* e = static_cast<const TempoEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeTempo(delta, e->getValue());
                     }
                     break;
                     case SND_SEQ_EVENT_USR_VAR0: {
                         const TextEvent* e = static_cast<const TextEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMetaEvent(delta, e->getTextType(),
                                                   e->getText());
                     }
                     break;
                     case SND_SEQ_EVENT_USR_VAR1: {
                         const VariableEvent* e = static_cast<const VariableEvent*>(ev);
-                        if (e != NULL) {
+                        if (e != nullptr) {
                             QByteArray b(e->getData(), e->getLength());
                             m_smf->writeMetaEvent(delta, sequencer_specific, b);
                         }
@@ -1840,7 +1840,7 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_USR_VAR2: {
                         const VariableEvent* e = static_cast<const VariableEvent*>(ev);
-                        if (e != NULL) {
+                        if (e != nullptr) {
                             QByteArray b(e->getData(), e->getLength());
                             int type = b.at(0);
                             b.remove(0, 1);
@@ -1850,7 +1850,7 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_SYSEX: {
                         const SysExEvent* e = static_cast<const SysExEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, system_exclusive,
                                     (long) e->getLength(),
                                     (char *) e->getData());
@@ -1858,7 +1858,7 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_NOTEON: {
                         const KeyEvent* e = static_cast<const KeyEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, note_on,
                                     e->getChannel(),
                                     e->getKey(),
@@ -1867,7 +1867,7 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_NOTEOFF: {
                         const KeyEvent* e = static_cast<const KeyEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, note_off,
                                     e->getChannel(),
                                     e->getKey(),
@@ -1876,7 +1876,7 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_KEYPRESS: {
                         const KeyEvent* e = static_cast<const KeyEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, poly_aftertouch,
                                     e->getChannel(),
                                     e->getKey(),
@@ -1888,7 +1888,7 @@ SequenceModel::trackHandler(int track)
                     case SND_SEQ_EVENT_NONREGPARAM:
                     case SND_SEQ_EVENT_REGPARAM: {
                         const ControllerEvent* e = static_cast<const ControllerEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, control_change,
                                     e->getChannel(),
                                     e->getParam(),
@@ -1897,21 +1897,21 @@ SequenceModel::trackHandler(int track)
                     break;
                     case SND_SEQ_EVENT_PGMCHANGE: {
                         const ProgramChangeEvent* e = static_cast<const ProgramChangeEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, program_chng,
                                     e->getChannel(), e->getValue());
                     }
                     break;
                     case SND_SEQ_EVENT_CHANPRESS: {
                         const ChanPressEvent* e = static_cast<const ChanPressEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, channel_aftertouch,
                                     e->getChannel(), e->getValue());
                     }
                     break;
                     case SND_SEQ_EVENT_PITCHBEND: {
                         const PitchBendEvent* e = static_cast<const PitchBendEvent*>(ev);
-                        if (e != NULL)
+                        if (e != nullptr)
                             m_smf->writeMidiEvent(delta, pitch_wheel,
                                     e->getChannel(), e->getValue());
                     }
@@ -1985,12 +1985,12 @@ SequenceModel::setInstrumentName(const QString name)
     if (m_insList.contains(name))
         m_ins = &m_insList[name];
     else
-        m_ins = NULL;
+        m_ins = nullptr;
 
     if (m_insList.contains(drmName))
         m_ins2 = &m_insList[drmName];
     else
-        m_ins2 = NULL;
+        m_ins2 = nullptr;
 }
 
 QString
@@ -2258,14 +2258,14 @@ void SequenceModel::comments(const QString& cmt)
 
 void SequenceModel::variableRecord(const QString& name, const QByteArray& data)
 {
-    SequencerEvent* ev = NULL;
+    SequencerEvent* ev = nullptr;
     QString s;
     bool isReadable = ( name == "Title" || name == "Author" ||
                        name == "Copyright" || name == "Subtitle" ||
                        name == "Instructions" || name == "Keywords" );
     if (isReadable) {
         QByteArray b2 = data.left(qstrlen(data));
-        if (m_wrk->getTextCodec() == 0)
+        if (m_wrk->getTextCodec() == nullptr)
             s = QString(b2);
         else
             s = m_wrk->getTextCodec()->toUnicode(b2);
@@ -2329,9 +2329,9 @@ void SequenceModel::trackBank(int track, int bank)
     TrackMapRec rec = m_trackMap[track];
     if (rec.channel > -1)
         channel = rec.channel;
-    if (channel == 9 && m_ins2 != NULL)
+    if (channel == 9 && m_ins2 != nullptr)
         method = m_ins2->bankSelMethod();
-    else if (m_ins != NULL)
+    else if (m_ins != nullptr)
         method = m_ins->bankSelMethod();
     switch (method) {
     case 0:

@@ -30,11 +30,11 @@ class Player : public drumstick::ALSA::SequencerOutputThread
 public:
     Player(drumstick::ALSA::MidiClient *seq, int portId);
 	virtual ~Player();
-    virtual void run();
-    virtual bool hasNext();
-    virtual drumstick::ALSA::SequencerEvent* nextEvent();
-    virtual unsigned int getInitialPosition() { return m_songPosition; }
-    virtual unsigned int getEchoResolution() { return m_echoResolution; }
+    virtual void run() override;
+    virtual bool hasNext() override;
+    virtual drumstick::ALSA::SequencerEvent* nextEvent() override;
+    virtual unsigned int getInitialPosition() override { return m_songPosition; }
+    virtual unsigned int getEchoResolution() override { return m_echoResolution; }
     void setSong(Song* s, unsigned int division);
     void resetPosition();
     void setPosition(unsigned int pos);
@@ -43,7 +43,7 @@ public:
     void setLoop(bool enabled);
 
 protected:
-    virtual void sendEchoEvent(int tick);
+    virtual void sendEchoEvent(int tick) override;
 
 private:
     Song* m_song;

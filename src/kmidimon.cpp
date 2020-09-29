@@ -96,9 +96,9 @@ static QString trQtDirectory()
 }
 
 KMidimon::KMidimon() :
-    QMainWindow(0),
+    QMainWindow(nullptr),
     m_state(InvalidState),
-    m_adaptor(0)
+    m_adaptor(nullptr)
 {
     m_trq = new QTranslator(this);
     QApplication::installTranslator(m_trq);
@@ -179,7 +179,7 @@ KMidimon::KMidimon() :
             "or the kernel module (snd_seq) is not loaded. "
             "Please check your ALSA/MIDI configuration. Returned error was: %1")
                 .arg(ex.qstrError());
-        QMessageBox::critical(0, tr("Error"), errorstr);
+        QMessageBox::critical(nullptr, tr("Error"), errorstr);
         close();
     }
 }
@@ -505,7 +505,7 @@ void KMidimon::open(const QString& fileName)
         m_pd = new QProgressDialog(this);
         m_pd->setLabelText(tr("Loading..."));
         m_pd->setWindowTitle(tr("Load file"));
-        m_pd->setCancelButton(0);
+        m_pd->setCancelButton(nullptr);
         m_pd->setMinimumDuration(500);
         m_pd->setRange(0, finfo.size());
         m_pd->setValue(0);
@@ -589,7 +589,7 @@ void KMidimon::saveConfiguration()
 {
     int i;
     QSettings config;
-    if (m_adaptor == NULL) return;
+    if (m_adaptor == nullptr) return;
     config.beginGroup("Settings");
     config.setValue("geometry", saveGeometry());
     config.setValue("windowState", saveState());
@@ -684,7 +684,7 @@ void KMidimon::preferences()
         dlg->setShowColumn(i, m_popupAction[i]->isChecked());
     }
     if (dlg->exec() == QDialog::Accepted) {
-        if (dlg != NULL) {
+        if (dlg != nullptr) {
             was_running = m_adaptor->isRecording();
             if (was_running) stop();
             m_proxy->setFilterAlsaMsg(dlg->isRegAlsaMsg());
@@ -862,7 +862,7 @@ void KMidimon::configConnections()
     m_outputConn = m_adaptor->output_subscriber();
     QPointer<ConnectDlg> dlg = new ConnectDlg(this, inputs, subs, outputs, m_outputConn);
     if (dlg->exec() == QDialog::Accepted) {
-        if (dlg != NULL) {
+        if (dlg != nullptr) {
             QStringList desired = dlg->getSelectedInputs();
             subs = m_adaptor->list_subscribers();
             QStringList::ConstIterator i;
@@ -1084,7 +1084,7 @@ void KMidimon::muteTrack(int tabIndex)
     QVariant data = m_tabBar->tabData(tabIndex);
     int track = data.toInt() - 1;
     Song* song = m_model->getSong();
-    if (song != NULL) {
+    if (song != nullptr) {
         bool newState = !song->mutedState(track);
         song->setMutedState(track, newState);
         if (newState) m_adaptor->removeTrackEvents(track);

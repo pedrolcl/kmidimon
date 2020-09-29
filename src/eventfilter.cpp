@@ -50,7 +50,7 @@ void CategoryFilter::insert(QObject* parent, snd_seq_event_type_t t, QString s)
 }
 
 EventFilter::EventFilter(QObject* parent)
-    : QObject(parent), m_menu(NULL)
+    : QObject(parent), m_menu(nullptr)
 {
     m_cats.insert(ChannelCategory, new CategoryFilter(tr("MIDI Channel")));
     m_cats.insert(SysCommonCategory, new CategoryFilter(tr("MIDI System Common")));
@@ -151,7 +151,7 @@ void EventFilter::setFilter(EvCategory c, bool value)
 {
     if (m_cats.contains(c)) {
         m_cats[c]->setFilter(value);
-        if (m_cats[c]->getMenu() != NULL)
+        if (m_cats[c]->getMenu() != nullptr)
             m_cats[c]->getMenu()->setEnabled(value);
     }
 }
@@ -181,7 +181,7 @@ bool EventFilter::contains(snd_seq_event_type_t t) const
 
 QMenu* EventFilter::buildMenu(QWidget* parent)
 {
-    if (m_menu == NULL) {
+    if (m_menu == nullptr) {
         m_menu = new QMenu(parent);
         m_menu->setTitle(tr("Filters"));
         QHashIterator<EvCategory, CategoryFilter*> iter(m_cats);

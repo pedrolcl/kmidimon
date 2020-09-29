@@ -107,10 +107,10 @@ public slots:
     void updateView();
     void songFileInfo();
     void slotSwitchLanguage(QAction *action);
-    void closeEvent(QCloseEvent *event);
-    void contextMenuEvent( QContextMenuEvent *ev );
-    void dropEvent( QDropEvent * event );
-    void dragEnterEvent( QDragEnterEvent * event );
+    void closeEvent(QCloseEvent *event) override;
+    void contextMenuEvent( QContextMenuEvent *ev ) override;
+    void dropEvent( QDropEvent * event ) override;
+    void dragEnterEvent( QDragEnterEvent * event ) override;
 
     void updateRecentFileActions();
     void openRecentFile();
