@@ -65,8 +65,8 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_port->subscribeFromAnnounce();
 
     m_player = new Player(m_client, m_port->getPortId());
-    connect(m_player, SIGNAL(stopped()), SLOT(shutupSound()));
-    connect(m_player, SIGNAL(finished()), SLOT(songFinished()));
+    connect(m_player, &Player::playbackStopped, this, &SequencerAdaptor::shutupSound);
+    connect(m_player, &Player::playbackFinished, this, &SequencerAdaptor::songFinished);
     m_client->setRealTimeInput(false);
     m_client->startSequencerInput();
     m_state = StoppedState;

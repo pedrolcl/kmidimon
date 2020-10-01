@@ -114,7 +114,7 @@ void Player::run()
     if (m_MidiClient != nullptr) {
         try  {
             m_npfds = snd_seq_poll_descriptors_count(m_MidiClient->getHandle(), POLLOUT);
-            m_pfds = (pollfd*) alloca(m_npfds * sizeof(pollfd));
+            m_pfds = (pollfd*) calloc(m_npfds, sizeof(pollfd));
             snd_seq_poll_descriptors(m_MidiClient->getHandle(), m_pfds, m_npfds, POLLOUT);
             last_tick = getInitialPosition();
             if (last_tick == 0) {
@@ -151,20 +151,21 @@ void Player::run()
             }
             if (stopRequested()) {
                 m_Queue->clear();
-                emit stopped();
+                emit playbackStopped();
             } else {
                 drainOutput();
                 syncOutput();
                 if (stopRequested())
-                    emit stopped();
+                    emit playbackStopped();
                 else
-                    emit finished();
+                    emit playbackFinished();
             }
             m_Queue->stop();
         } catch (...) {
             qWarning("exception in output thread");
         }
         m_npfds = 0;
+        free(m_pfds);
         m_pfds = nullptr;
     }
 }

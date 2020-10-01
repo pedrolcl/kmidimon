@@ -78,7 +78,7 @@ static QString trDirectory()
     return QLatin1String(":/");
 #else
     QDir test(KMidimon::dataDirectory() + "translations/" );
-    qDebug() << test.absolutePath();
+    //qDebug() << test.absolutePath();
     if (test.exists()) {
         return test.absolutePath();
     }
@@ -492,7 +492,7 @@ void KMidimon::fileNew()
 
 void KMidimon::open(const QString& fileName)
 {
-    qDebug() << Q_FUNC_INFO << fileName;
+    //qDebug() << Q_FUNC_INFO << fileName;
     try {
         QFileInfo finfo(fileName);
         m_currentFile = finfo.absoluteFilePath();
@@ -1127,7 +1127,7 @@ QString KMidimon::configuredLanguage()
         m_language = settings.value("language", defLang).toString();
         settings.endGroup();
     }
-    qDebug() << Q_FUNC_INFO << m_language;
+    //qDebug() << Q_FUNC_INFO << m_language;
     return m_language;
 }
 
