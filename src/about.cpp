@@ -16,6 +16,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <drumstick/alsaclient.h>
 #include "about.h"
 #include "iconutils.h"
 
@@ -56,10 +57,13 @@ void About::retranslateUi()
             "<body style=\"font-family:'Sans Serif'; font-size:12pt; font-style:normal;\">"
               "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
                 "Version: %1<br/>"
+                "Qt version: %5<br/>"
+                "Drumstick version: %6<br/>"
                 "Build date: %2<br/>"
                 "Build time: %3<br/>"
                 "Compiler: %4"
               "</p>"
             "</body>"
-            "</html>").arg(PGM_VERSION, BLD_DATE, BLD_TIME, CMP_VERSION));
+            "</html>").arg(PGM_VERSION, BLD_DATE, BLD_TIME, CMP_VERSION,
+                           qVersion(), drumstick::ALSA::getDrumstickLibraryVersion()));
 }
