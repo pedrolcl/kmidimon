@@ -22,19 +22,15 @@
 #include <QCommandLineOption>
 #include <QFileInfo>
 #include <QDebug>
-
 #include "kmidimon.h"
-
-#define LITERAL(s) #s
-#define STRINGIFY(s) LITERAL(s)
-
-const QString QSTR_DOMAIN("kmidimon.sourceforge.net");
-const QString QSTR_APPNAME("Drumstick MIDI Monitor");
-const QString QSTR_DESCRIPTION("ALSA Sequencer based MIDI Monitor");
-const QString QSTR_VERSION(STRINGIFY(VERSION));
 
 int main (int argc, char **argv)
 {
+    const QString QSTR_DOMAIN("kmidimon.sourceforge.net");
+    const QString QSTR_APPNAME("Drumstick MIDI Monitor");
+    const QString QSTR_DESCRIPTION("ALSA Sequencer based MIDI Monitor");
+    const QString QSTR_VERSION(QT_STRINGIFY(VERSION));
+
     QCoreApplication::setOrganizationName(QSTR_DOMAIN);
     QCoreApplication::setOrganizationDomain(QSTR_DOMAIN);
     QCoreApplication::setApplicationName(QSTR_APPNAME);
@@ -45,7 +41,7 @@ int main (int argc, char **argv)
     parser.setApplicationDescription(QSTR_DESCRIPTION);
     auto helpOption = parser.addHelpOption();
     auto versionOption = parser.addVersionOption();
-    parser.addPositionalArgument("file", "Input SMF/KAR/OVE/WRK file name.", "file");
+    parser.addPositionalArgument("file", "Input SMF/KAR/WRK file name.", "file");
     parser.process(app);
 
     if (parser.isSet(versionOption) || parser.isSet(helpOption)) {
@@ -53,7 +49,7 @@ int main (int argc, char **argv)
     }
 
     QStringList fileNames, positionalArgs = parser.positionalArguments();
-    for(const QString& a : positionalArgs) {
+    for(const QString& a : qAsConst(positionalArgs)) {
         QFileInfo f(a);
         if (f.exists())
             fileNames += f.canonicalFilePath();

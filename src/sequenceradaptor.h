@@ -91,7 +91,6 @@ public slots:
     void sequencerEvent( drumstick::ALSA::SequencerEvent* ev );
     void songFinished();
     void shutupSound();
-    void setLoop(bool enable);
 
 signals:
     void signalTicks(int tick);

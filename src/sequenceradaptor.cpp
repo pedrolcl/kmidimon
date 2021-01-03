@@ -151,9 +151,9 @@ void SequencerAdaptor::stop()
         m_state == PausedState ||
         m_state == PlayingState ||
         m_player->isRunning()) {
-        m_player->stop();
         m_queue->stop();
         m_queue->clear();
+        m_player->stop();
         m_state = StoppedState;
         songFinished();
     }
@@ -333,11 +333,6 @@ bool SequencerAdaptor::isPlaying()
     if (m_player != nullptr)
         return m_player->isRunning();
     return false;
-}
-
-void SequencerAdaptor::setLoop(bool enable)
-{
-    m_player->setLoop(enable);
 }
 
 void SequencerAdaptor::removeTrackEvents(int track)

@@ -88,7 +88,6 @@ public slots:
     void open(const QString& fileName);
     void tempoReset();
     void tempoSlider(int value);
-    void slotLoop();
     void about();
     void help();
     void slotOpenWebSite();
@@ -164,7 +163,6 @@ private:
     QPointer<QProgressDialog> m_pd;
     QString m_outputConn;
     EventFilter* m_filter;
-    QAction *m_loop;
     QAction *m_muteTrack;
 	bool m_useFixedFont;
     int m_defaultTempo;

@@ -194,17 +194,17 @@ QMenu* EventFilter::buildMenu(QWidget* parent)
             m_menu->addMenu(submenu);
             cf->setMenu(submenu);
             QAction *actionAll = new QAction(tr("All", "check all types"), this);
-            connect(actionAll, &QAction::triggered, [=] { checkGroup(key); });
+            connect(actionAll, &QAction::triggered, this, [=] { checkGroup(key); });
             submenu->addAction( actionAll );
             QAction *actionNothing = new QAction(tr("Nothing"), this);
-            connect(actionNothing, &QAction::triggered, [=] { uncheckGroup(key); });
+            connect(actionNothing, &QAction::triggered, this, [=] { uncheckGroup(key); });
             submenu->addAction( actionNothing );
             submenu->addSeparator();
             QHashIterator<int, QAction*> it = cf->getIterator();
             while( it.hasNext() ) {
                 it.next();
                 QAction *item = it.value();
-                connect(item, SIGNAL(triggered()), SIGNAL(filterChanged()));
+                connect(item, &QAction::triggered, this, &EventFilter::filterChanged);
                 submenu->addAction( item );
             }
         }

@@ -77,7 +77,7 @@ static QString trDirectory()
 #if defined(TRANSLATIONS_EMBEDDED)
     return QLatin1String(":/");
 #else
-    QDir test(KMidimon::dataDirectory() + "translations/" );
+    QDir test(KMidimon::dataDirectory() + "/translations/" );
     //qDebug() << test.absolutePath();
     if (test.exists()) {
         return test.absolutePath();
@@ -133,16 +133,16 @@ KMidimon::KMidimon() :
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     setAcceptDrops(true);
     connect( m_view->selectionModel(),
-             SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
-             SLOT(slotCurrentChanged(const QModelIndex&, const QModelIndex&)) );
+             &QItemSelectionModel::currentChanged,
+             this, &KMidimon::slotCurrentChanged );
     try {
         m_adaptor = new SequencerAdaptor(this);
         m_adaptor->setModel(m_model);
         m_adaptor->updateModelClients();
-        connect( m_model, SIGNAL(rowsInserted(QModelIndex,int,int)),
-                          SLOT(modelRowsInserted(QModelIndex,int,int)) );
-        connect( m_adaptor, SIGNAL(signalTicks(int)), SLOT(slotTicks(int)));
-        connect( m_adaptor, SIGNAL(finished()), SLOT(songFinished()));
+        connect( m_model, &QAbstractItemModel::rowsInserted,
+                          this, &KMidimon::modelRowsInserted );
+        connect( m_adaptor, &SequencerAdaptor::signalTicks, this, &KMidimon::slotTicks);
+        connect( m_adaptor, &SequencerAdaptor::finished, this, &KMidimon::songFinished);
         m_tabBar = new QTabBar(this);
         m_tabBar->setWhatsThis(tr("Track view selectors"));
         m_tabBar->setShape(QTabBar::RoundedNorth);
@@ -211,7 +211,7 @@ void KMidimon::setupActions()
     a->setText(tr("&New"));
     a->setIcon(QIcon::fromTheme("document-new"));
     a->setWhatsThis(tr("Clear the current data and start a new empty session"));
-    connect(a, SIGNAL(triggered()), SLOT(fileNew()));
+    connect(a, &QAction::triggered, this, &KMidimon::fileNew);
     m_ui->menuFile->addAction(a);
     m_ui->toolBar->addAction(a);
 
@@ -219,7 +219,7 @@ void KMidimon::setupActions()
     a->setText(tr("&Open"));
     a->setIcon(QIcon::fromTheme("document-open"));
     a->setWhatsThis(tr("Open a disk file"));
-    connect(a, SIGNAL(triggered()), SLOT(fileOpen()));
+    connect(a, &QAction::triggered, this, &KMidimon::fileOpen);
     m_ui->menuFile->addAction(a);
     m_ui->toolBar->addAction(a);
 
@@ -239,7 +239,7 @@ void KMidimon::setupActions()
     m_save->setText(tr("&Save"));
     m_save->setIcon(QIcon::fromTheme("document-save"));
     m_save->setWhatsThis(tr("Store the session data on a disk file"));
-    connect(m_save, SIGNAL(triggered()), SLOT(fileSave()));
+    connect(m_save, &QAction::triggered, this, &KMidimon::fileSave);
     m_ui->menuFile->addAction(m_save);
     m_ui->toolBar->addAction(m_save);
 
@@ -247,7 +247,7 @@ void KMidimon::setupActions()
     m_fileInfo->setText(tr("Sequence Info"));
     m_fileInfo->setWhatsThis(tr("Display information about the loaded sequence"));
     m_fileInfo->setIcon(QIcon::fromTheme("dialog-information"));
-    connect(m_fileInfo, SIGNAL(triggered()), SLOT(songFileInfo()));
+    connect(m_fileInfo, &QAction::triggered, this, &KMidimon::songFileInfo);
     m_ui->menuFile->addAction(m_fileInfo);
     m_ui->menuFile->addSeparator();
 
@@ -255,7 +255,7 @@ void KMidimon::setupActions()
     a->setText(tr("Quit"));
     a->setIcon(QIcon::fromTheme("application-exit"));
     a->setWhatsThis(tr("Exit the application"));
-    connect(a, SIGNAL(triggered()), SLOT(close()));
+    connect(a, &QAction::triggered, this, &QWidget::close);
     m_ui->menuFile->addAction(a);
     m_ui->toolBar->addAction(a);
 
@@ -263,7 +263,7 @@ void KMidimon::setupActions()
     m_prefs->setText(tr("Preferences"));
     m_prefs->setIcon(QIcon::fromTheme("configure"));
     m_prefs->setWhatsThis(tr("Configure the program setting several preferences"));
-    connect(m_prefs, SIGNAL(triggered()), SLOT(preferences()));
+    connect(m_prefs, &QAction::triggered, this, &KMidimon::preferences);
     m_ui->menuSettings->addAction(m_prefs);
     m_ui->toolBar->addAction(m_prefs);
 
@@ -285,7 +285,7 @@ void KMidimon::setupActions()
     m_rewind->setText(tr("Backward","player skip backward"));
     m_rewind->setIcon(QIcon::fromTheme("media-skip-backward"));
     m_rewind->setWhatsThis(tr("Move the playback position to the first event"));
-    connect(m_rewind, SIGNAL(triggered()), SLOT(rewind()));
+    connect(m_rewind, &QAction::triggered, this, &KMidimon::rewind);
     m_ui->menuControl->addAction(m_rewind);
     m_ui->toolBar->addAction(m_rewind);
 
@@ -294,7 +294,7 @@ void KMidimon::setupActions()
     m_play->setIcon(QIcon::fromTheme("media-playback-start"));
     m_play->setShortcut( Qt::Key_MediaPlay );
     m_play->setWhatsThis(tr("Start playback of the current session"));
-    connect(m_play, SIGNAL(triggered()), SLOT(play()));
+    connect(m_play, &QAction::triggered, this, &KMidimon::play);
     m_ui->menuControl->addAction(m_play);
     m_ui->toolBar->addAction(m_play);
 
@@ -303,7 +303,7 @@ void KMidimon::setupActions()
     m_pause->setCheckable(true);
     m_pause->setIcon(QIcon::fromTheme("media-playback-pause"));
     m_pause->setWhatsThis(tr("Pause the playback"));
-    connect(m_pause, SIGNAL(triggered()), SLOT(pause()));
+    connect(m_pause, &QAction::triggered, this, &KMidimon::pause);
     m_ui->menuControl->addAction(m_pause);
     m_ui->toolBar->addAction(m_pause);
 
@@ -311,7 +311,7 @@ void KMidimon::setupActions()
     m_forward->setText(tr("Forward","player skip forward"));
     m_forward->setIcon(QIcon::fromTheme("media-skip-forward"));
     m_forward->setWhatsThis(tr("Move the playback position to the last event"));
-    connect(m_forward, SIGNAL(triggered()), SLOT(forward()));
+    connect(m_forward, &QAction::triggered, this, &KMidimon::forward);
     m_ui->menuControl->addAction(m_forward);
     m_ui->toolBar->addAction(m_forward);
 
@@ -320,7 +320,7 @@ void KMidimon::setupActions()
     m_record->setIcon(QIcon::fromTheme("media-record"));
     m_record->setShortcut( Qt::Key_MediaRecord );
     m_record->setWhatsThis(tr("Append new recorded events to the current session"));
-    connect(m_record, SIGNAL(triggered()), SLOT(record()));
+    connect(m_record, &QAction::triggered, this, &KMidimon::record);
     m_ui->menuControl->addAction(m_record);
     m_ui->toolBar->addAction(m_record);
 
@@ -329,18 +329,11 @@ void KMidimon::setupActions()
     m_stop->setIcon(QIcon::fromTheme("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_MediaStop );
     m_stop->setWhatsThis(tr("Stop playback or recording"));
-    connect(m_stop, SIGNAL(triggered()), SLOT(stop()));
+    connect(m_stop, &QAction::triggered, this, &KMidimon::stop);
     m_ui->menuControl->addAction(m_stop);
     m_ui->toolBar->addAction(m_stop);
 
     m_ui->menuControl->addSeparator();
-
-    m_loop = new QAction(this);
-    m_loop->setCheckable(true);
-    m_loop->setText(tr("Player Loop"));
-    m_loop->setWhatsThis(tr("Start playing again at song ending"));
-    connect(m_loop, SIGNAL(triggered()), SLOT(slotLoop()));
-    m_ui->menuControl->addAction(m_loop);
 
     m_tempoSlider = new PlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
     m_tempoSlider->setText(tr("Scale Tempo"));
@@ -353,20 +346,20 @@ void KMidimon::setupActions()
     m_tempo100->setText(tr("Reset Tempo"));
     m_tempo100->setWhatsThis(tr("Reset the tempo scale to 100%"));
     m_tempo100->setIcon(QIcon::fromTheme("player-time"));
-    connect(m_tempo100, SIGNAL(triggered()), this, SLOT(tempoReset()));
+    connect(m_tempo100, &QAction::triggered, this, &KMidimon::tempoReset);
     m_ui->menuControl->addAction(m_tempo100);
     m_ui->toolBar->addAction(m_tempo100);
 
     m_connectAll = new QAction(this);
     m_connectAll->setText(tr("Connect All Inputs"));
     m_connectAll->setWhatsThis(tr("Connect all readable MIDI ports"));
-    connect(m_connectAll, SIGNAL(triggered()), SLOT(connectAll()));
+    connect(m_connectAll, &QAction::triggered, this, &KMidimon::connectAll);
     m_ui->menuConnections->addAction(m_connectAll);
 
     m_disconnectAll = new QAction(this);
     m_disconnectAll->setText(tr("Disconnect All Inputs"));
     m_disconnectAll->setWhatsThis(tr("Disconnect all input MIDI ports"));
-    connect(m_disconnectAll, SIGNAL(triggered()), SLOT(disconnectAll()));
+    connect(m_disconnectAll, &QAction::triggered, this, &KMidimon::disconnectAll);
     m_ui->menuConnections->addAction(m_disconnectAll);
 
     m_ui->menuConnections->addSeparator();
@@ -374,7 +367,7 @@ void KMidimon::setupActions()
     m_configConns = new QAction(this);
     m_configConns->setText(tr("Configure Connections"));
     m_configConns->setWhatsThis(tr("Open the Connections dialog"));
-    connect(m_configConns, SIGNAL(triggered()), SLOT(configConnections()));
+    connect(m_configConns, &QAction::triggered, this, &KMidimon::configConnections);
     m_ui->menuConnections->addAction(m_configConns);
 
     m_popup = new QMenu(this);
@@ -382,7 +375,7 @@ void KMidimon::setupActions()
     m_resizeColumns = new QAction(this);
     m_resizeColumns->setText(tr("Resize columns"));
     m_resizeColumns->setWhatsThis(tr("Resize the columns width to fit it's contents"));
-    connect(m_resizeColumns, SIGNAL(triggered()), SLOT(resizeAllColumns()));
+    connect(m_resizeColumns, &QAction::triggered, this, &KMidimon::resizeAllColumns);
     m_popup->addAction(m_resizeColumns);
 
     QMenu* tracks = m_popup->addMenu(tr("Tracks"));
@@ -390,26 +383,26 @@ void KMidimon::setupActions()
     m_createTrack = new QAction(this);
     m_createTrack->setText(tr("Add Track View"));
     m_createTrack->setWhatsThis(tr("Create a new tab/track view"));
-    connect(m_createTrack, SIGNAL(triggered()), SLOT(addTrack()));
+    connect(m_createTrack, &QAction::triggered, this, &KMidimon::addTrack);
     tracks->addAction(m_createTrack);
 
     m_deleteTrack = new QAction(this);
     m_deleteTrack->setText(tr("Delete Track View"));
     m_deleteTrack->setWhatsThis(tr("Delete the tab/track view"));
-    connect(m_deleteTrack, SIGNAL(triggered()), SLOT(deleteCurrentTrack()));
+    connect(m_deleteTrack, &QAction::triggered, this, &KMidimon::deleteCurrentTrack);
     tracks->addAction(m_deleteTrack);
 
     m_changeTrack = new QAction(this);
     m_changeTrack->setText(tr("Change Track View"));
     m_changeTrack->setWhatsThis(tr("Change the track number of the view"));
-    connect(m_changeTrack, SIGNAL(triggered()), SLOT(changeCurrentTrack()));
+    connect(m_changeTrack, &QAction::triggered, this, &KMidimon::changeCurrentTrack);
     tracks->addAction(m_changeTrack);
 
     m_muteTrack = new QAction(this);
     m_muteTrack->setCheckable(true);
     m_muteTrack->setText(tr("Mute Track"));
     m_muteTrack->setWhatsThis(tr("Mute (silence) the track"));
-    connect(m_muteTrack, SIGNAL(triggered()), SLOT(muteCurrentTrack()));
+    connect(m_muteTrack, &QAction::triggered, this, &KMidimon::muteCurrentTrack);
     tracks->addAction(m_muteTrack);
 
     QMenu* columns = m_popup->addMenu(tr("Show Columns"));
@@ -419,7 +412,7 @@ void KMidimon::setupActions()
         m_popupAction[i]->setCheckable(true);
         m_popupAction[i]->setChecked(true);
         m_popupAction[i]->setWhatsThis(tr("Toggle the %1 column").arg(columnName[i]));
-        connect(m_popupAction[i], &QAction::triggered, [=] {toggleColumn(i);});
+        connect(m_popupAction[i], &QAction::triggered, this, [=] {toggleColumn(i);});
         columns->addAction(m_popupAction[i]);
     }
 
@@ -428,16 +421,16 @@ void KMidimon::setupActions()
     m_popup->addMenu( filtersMenu );
     m_model->setFilter(m_filter);
     m_proxy->setFilter(m_filter);
-    connect(m_filter, SIGNAL(filterChanged()), m_proxy, SLOT(invalidate()));
+    connect(m_filter, &EventFilter::filterChanged, m_proxy, &QSortFilterProxyModel::invalidate);
     menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
 
     m_ui->actionAbout_Qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
     m_ui->actionAbout->setIcon(QIcon(IconUtils::GetPixmap(this, ":/icons/midi/icon32.png")));
     m_ui->actionContents->setIcon(QIcon::fromTheme("help-contents"));
-    connect( m_ui->actionAbout, SIGNAL(triggered()), SLOT(about()) );
-    connect( m_ui->actionAbout_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
-    connect( m_ui->actionContents, SIGNAL(triggered()), SLOT(help()) );
-    connect( m_ui->actionWeb_Site, SIGNAL(triggered()), SLOT(slotOpenWebSite()) );
+    connect( m_ui->actionAbout, &QAction::triggered, this, &KMidimon::about );
+    connect( m_ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt );
+    connect( m_ui->actionContents, &QAction::triggered, this, &KMidimon::help );
+    connect( m_ui->actionWeb_Site, &QAction::triggered, this, &KMidimon::slotOpenWebSite );
 }
 
 void KMidimon::about()
@@ -509,7 +502,7 @@ void KMidimon::open(const QString& fileName)
         m_pd->setMinimumDuration(500);
         m_pd->setRange(0, finfo.size());
         m_pd->setValue(0);
-        connect( m_model, SIGNAL(loadProgress(int)), m_pd, SLOT(setValue(int)) );
+        connect( m_model, &SequenceModel::loadProgress, m_pd.data(), &QProgressDialog::setValue );
         m_model->loadFromFile(fileName);
         m_pd->setValue(finfo.size());
         m_adaptor->setResolution(m_model->getSMFDivision());
@@ -546,7 +539,7 @@ void KMidimon::fileOpen()
 {
     QFileDialog fd(this, tr("Open MIDI file"));
     QStringList filters;
-    filters << "audio/midi" << "audio/cakewalk" << "audio/overture";
+    filters << "audio/midi" << "audio/cakewalk";
     fd.setMimeTypeFilters(filters);
     fd.selectMimeTypeFilter(filters[0]);
     fd.setFileMode(QFileDialog::ExistingFile);
@@ -565,7 +558,7 @@ void KMidimon::fileSave()
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setAcceptMode(QFileDialog::AcceptSave);
     if (fd.exec()) {
-        QString path = fd.selectedFiles().first();
+        auto path = fd.selectedFiles().constFirst();
         if (!path.isNull()) {
             m_model->saveToFile(path);
             prependToRecentFiles(path);
@@ -610,6 +603,7 @@ void KMidimon::saveConfiguration()
     config.setValue("encoding", m_model->getEncoding());
     config.setValue("fixed_font", getFixedFont());
     config.setValue("auto_resize", m_autoResizeColumns);
+    config.setValue("language", m_language);
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.setValue(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
@@ -773,7 +767,7 @@ void KMidimon::updateCaption()
     QString name = finfo.fileName();
     if (name.isEmpty())
         name = tr("(no file)");
-    setWindowTitle(tr("%1 [%2]").arg(name).arg(m_currentState));
+    setWindowTitle(tr("%1 [%2]").arg(name, m_currentState));
 }
 
 void KMidimon::updateState(PlayerState newState)
@@ -1096,11 +1090,6 @@ void KMidimon::muteCurrentTrack()
     muteTrack(m_tabBar->currentIndex());
 }
 
-void KMidimon::slotLoop()
-{
-    m_adaptor->setLoop(m_loop->isChecked());
-}
-
 void KMidimon::dragEnterEvent( QDragEnterEvent * event )
 {
     if (event->mimeData()->hasUrls()) {
@@ -1127,7 +1116,7 @@ QString KMidimon::configuredLanguage()
         m_language = settings.value("language", defLang).toString();
         settings.endGroup();
     }
-    //qDebug() << Q_FUNC_INFO << m_language;
+    qDebug() << Q_FUNC_INFO << m_language;
     return m_language;
 }
 
@@ -1144,6 +1133,9 @@ void KMidimon::slotSwitchLanguage(QAction *action)
         m_language = lang;
         retranslateUi();
     } else {
+        if (m_currentLang == nullptr) {
+            m_currentLang = action;
+        }
         m_currentLang->setChecked(true);
     }
 }
@@ -1152,8 +1144,8 @@ void KMidimon::createLanguageMenu()
 {
     QString currentLang = configuredLanguage();
     QActionGroup *languageGroup = new QActionGroup(this);
-    connect(languageGroup, SIGNAL(triggered(QAction *)),
-            SLOT(slotSwitchLanguage(QAction *)));
+    connect(languageGroup, &QActionGroup::triggered,
+            this, &KMidimon::slotSwitchLanguage);
     QStringList locales;
     locales << "en";
     QDirIterator it(trDirectory(), {"*.qm"}, QDir::NoFilter, QDirIterator::NoIteratorFlags);
@@ -1185,12 +1177,12 @@ void KMidimon::createLanguageMenu()
 void KMidimon::retranslateUi()
 {
     auto lang = configuredLanguage();
-    QLocale locale(configuredLanguage());
+    QLocale locale(lang);
     if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
-        qWarning() << "Failure loading Qt5 translations for" << configuredLanguage();
+        qWarning() << "Failure loading Qt5 translations for" << lang;
     }
     if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
-        qWarning() << "Failure loading program translations for" << configuredLanguage();
+        qWarning() << "Failure loading program translations for" << lang;
     }
     m_ui->retranslateUi(this);
     createLanguageMenu();

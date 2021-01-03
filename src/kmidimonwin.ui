@@ -144,11 +144,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <string>About Qt</string>
    </property>
   </action>
-  <action name="actionpepe">
-   <property name="text">
-    <string>pepe</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections>

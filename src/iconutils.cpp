@@ -54,7 +54,7 @@ namespace IconUtils
             {QApplication::tr("Thirty-Second"), ":/icons/32.png" },
             {QApplication::tr("Sixty-Fourth"),  ":/icons/64.png" }
         };
-        for(auto p : elements) {
+        for(const auto &p : elements) {
             combo->addItem(QIcon(GetPixmap(combo, p.second)), p.first);
         }
     }

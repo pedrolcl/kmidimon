@@ -52,10 +52,10 @@ HelpWindow::HelpWindow(const QString &path, const QString &page, QWidget *parent
     mainLayout->addWidget(textBrowser);
     setLayout(mainLayout);
 
-    connect(homeButton, SIGNAL(clicked()), textBrowser, SLOT(home()));
-    connect(backButton, SIGNAL(clicked()), textBrowser, SLOT(backward()));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
-    connect(textBrowser, SIGNAL(sourceChanged(const QUrl &)), this, SLOT(updateWindowTitle()));
+    connect(homeButton, &QAbstractButton::clicked, textBrowser, &QTextBrowser::home);
+    connect(backButton, &QAbstractButton::clicked, textBrowser, &QTextBrowser::backward);
+    connect(closeButton, &QAbstractButton::clicked, this, &QWidget::close);
+    connect(textBrowser, &QTextBrowser::sourceChanged, this, &HelpWindow::updateWindowTitle);
 
     QPalette p = textBrowser->palette();
     p.setColor(QPalette::Base, Qt::white);

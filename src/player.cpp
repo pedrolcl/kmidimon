@@ -31,8 +31,7 @@ Player::Player(MidiClient *seq, int portId)
     m_songIterator(nullptr),
     m_songPosition(0),
     m_lastIndex(0),
-    m_echoResolution(0),
-    m_loop(false)
+    m_echoResolution(0)
 { }
 
 Player::~Player()
@@ -45,7 +44,7 @@ Player::~Player()
     }
 }
 
-void Player::setSong(Song* s, unsigned int /*division*/)
+void Player::setSong(Song* s, unsigned int division)
 {
     m_song = s;
     if (m_songIterator != nullptr) {
@@ -53,7 +52,7 @@ void Player::setSong(Song* s, unsigned int /*division*/)
     }
     if (m_song != nullptr) {
         m_songIterator = new SongIterator(*m_song);
-        //m_echoResolution = division / 24;
+        m_echoResolution = division / 24;
         resetPosition();
     }
 }
@@ -106,71 +105,4 @@ Player::sendEchoEvent(int tick)
         ev.scheduleTick(m_QueueId, tick, false);
         sendSongEvent(&ev);
     }
-}
-
-void Player::run()
-{
-    unsigned int last_tick, final_tick = m_song->getLast();
-    if (m_MidiClient != nullptr) {
-        try  {
-            m_npfds = snd_seq_poll_descriptors_count(m_MidiClient->getHandle(), POLLOUT);
-            m_pfds = (pollfd*) calloc(m_npfds, sizeof(pollfd));
-            snd_seq_poll_descriptors(m_MidiClient->getHandle(), m_pfds, m_npfds, POLLOUT);
-            last_tick = getInitialPosition();
-            if (last_tick == 0) {
-                m_Queue->start();
-            } else {
-                m_Queue->setTickPosition(last_tick);
-                m_Queue->continueRunning();
-            }
-            while (!stopRequested() && hasNext()) {
-                SequencerEvent* ev = nextEvent();
-                if (!stopRequested() && !SequencerEvent::isConnectionChange(ev)) {
-                    if (last_tick != ev->getTick()) {
-                        last_tick = ev->getTick();
-                        sendEchoEvent(last_tick);
-                    }
-                    if (!stopRequested() && !m_song->mutedState(ev->getTag())) {
-                        SequencerEvent* ev2 = ev->clone();
-                        ev2->setSource(m_PortId);
-                        sendSongEvent(ev2);
-                        delete ev2;
-                    }
-                }
-                if (!stopRequested() && !hasNext()) {
-                    if (final_tick > last_tick)
-                        sendEchoEvent(final_tick);
-                    if (!stopRequested() && m_loop) {
-                        drainOutput();
-                        syncOutput();
-                        resetPosition();
-                        last_tick = 0;
-                        m_Queue->setTickPosition(0);
-                    }
-                }
-            }
-            if (stopRequested()) {
-                m_Queue->clear();
-                emit playbackStopped();
-            } else {
-                drainOutput();
-                syncOutput();
-                if (stopRequested())
-                    emit playbackStopped();
-                else
-                    emit playbackFinished();
-            }
-            m_Queue->stop();
-        } catch (...) {
-            qWarning("exception in output thread");
-        }
-        m_npfds = 0;
-        free(m_pfds);
-        m_pfds = nullptr;
-    }
-}
-
-void Player::setLoop(bool enabled)
-{
-    m_loop = enabled;
 }

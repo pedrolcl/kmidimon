@@ -92,121 +92,117 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_appendFunc(nullptr)
 {
     m_smf = new QSmf(this);
-    connect(m_smf, SIGNAL(signalSMFHeader(int,int,int)),
-                   SLOT(headerEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFTrackStart()),
-                   SLOT(trackStartEvent()));
-    connect(m_smf, SIGNAL(signalSMFTrackEnd()),
-                   SLOT(trackEndEvent()));
-    connect(m_smf, SIGNAL(signalSMFNoteOn(int,int,int)),
-                   SLOT(noteOnEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFNoteOff(int,int,int)),
-                   SLOT(noteOffEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFKeyPress(int,int,int)),
-                   SLOT(keyPressEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFCtlChange(int,int,int)),
-                   SLOT(smfCtlChangeEvent(int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFPitchBend(int,int)),
-                   SLOT(pitchBendEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFProgram(int,int)),
-                   SLOT(programEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFChanPress(int,int)),
-                   SLOT(chanPressEvent(int,int)));
-    connect(m_smf, SIGNAL(signalSMFSysex(const QByteArray&)),
-                   SLOT(sysexEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFMetaUnregistered(int, const QByteArray&)),
-                   SLOT(metaMiscEvent(int, const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFSeqSpecific(const QByteArray&)),
-                   SLOT(seqSpecificEvent(const QByteArray&)));
-    connect(m_smf, SIGNAL(signalSMFText(int,const QString&)),
-                   SLOT(textEvent(int,const QString&)));
-    connect(m_smf, SIGNAL(signalSMFendOfTrack()),
-                   SLOT(endOfTrackEvent()));
-    connect(m_smf, SIGNAL(signalSMFTempo(int)),
-                   SLOT(tempoEvent(int)));
-    connect(m_smf, SIGNAL(signalSMFTimeSig(int,int,int,int)),
-                   SLOT(timeSigEvent(int,int,int,int)));
-    connect(m_smf, SIGNAL(signalSMFKeySig(int,int)),
-                   SLOT(keySigEventSMF(int,int)));
-    connect(m_smf, SIGNAL(signalSMFError(const QString&)),
-                   SLOT(errorHandlerSMF(const QString&)));
-    connect(m_smf, SIGNAL(signalSMFWriteTrack(int)),
-                   SLOT(trackHandler(int)));
-    connect(m_smf, SIGNAL(signalSMFSequenceNum(int)),
-                   SLOT(seqNum(int)));
-    connect(m_smf, SIGNAL(signalSMFforcedChannel(int)),
-                   SLOT(forcedChannel(int)));
-    connect(m_smf, SIGNAL(signalSMFforcedPort(int)),
-                   SLOT(forcedPort(int)));
-    connect(m_smf, SIGNAL(signalSMFSmpte(int,int,int,int,int)),
-                   SLOT(smpteEvent(int,int,int,int,int)));
+    connect(m_smf, &QSmf::signalSMFHeader,
+                   this, &SequenceModel::headerEvent);
+    connect(m_smf, &QSmf::signalSMFTrackStart,
+                   this, &SequenceModel::trackStartEvent);
+    connect(m_smf, &QSmf::signalSMFTrackEnd,
+                   this, &SequenceModel::trackEndEvent);
+    connect(m_smf, &QSmf::signalSMFNoteOn,
+                   this, &SequenceModel::noteOnEvent);
+    connect(m_smf, &QSmf::signalSMFNoteOff,
+                   this, &SequenceModel::noteOffEvent);
+    connect(m_smf, &QSmf::signalSMFKeyPress,
+                   this, &SequenceModel::keyPressEvent);
+    connect(m_smf, &QSmf::signalSMFCtlChange,
+                   this, &SequenceModel::smfCtlChangeEvent);
+    connect(m_smf, &QSmf::signalSMFPitchBend,
+                   this, &SequenceModel::pitchBendEvent);
+    connect(m_smf, &QSmf::signalSMFProgram,
+                   this, &SequenceModel::programEvent);
+    connect(m_smf, &QSmf::signalSMFChanPress,
+                   this, &SequenceModel::chanPressEvent);
+    connect(m_smf, &QSmf::signalSMFSysex,
+                   this, &SequenceModel::sysexEvent);
+    connect(m_smf, &QSmf::signalSMFMetaUnregistered,
+                   this, &SequenceModel::metaMiscEvent);
+    connect(m_smf, &QSmf::signalSMFSeqSpecific,
+                   this, &SequenceModel::seqSpecificEvent);
+    connect(m_smf, &QSmf::signalSMFText,
+                   this, &SequenceModel::textEvent);
+    connect(m_smf, &QSmf::signalSMFendOfTrack,
+                   this, &SequenceModel::endOfTrackEvent);
+    connect(m_smf, &QSmf::signalSMFTempo,
+                   this, &SequenceModel::tempoEvent);
+    connect(m_smf, &QSmf::signalSMFTimeSig,
+                   this, &SequenceModel::timeSigEvent);
+    connect(m_smf, &QSmf::signalSMFKeySig,
+                   this, &SequenceModel::keySigEventSMF);
+    connect(m_smf, &QSmf::signalSMFError,
+                   this, &SequenceModel::errorHandlerSMF);
+    connect(m_smf, &QSmf::signalSMFWriteTrack,
+                   this, &SequenceModel::trackHandler);
+    connect(m_smf, &QSmf::signalSMFSequenceNum,
+                   this, &SequenceModel::seqNum);
+    connect(m_smf, &QSmf::signalSMFforcedChannel,
+                   this, &SequenceModel::forcedChannel);
+    connect(m_smf, &QSmf::signalSMFforcedPort,
+                   this, &SequenceModel::forcedPort);
+    connect(m_smf, &QSmf::signalSMFSmpte,
+                   this, &SequenceModel::smpteEvent);
 
     m_wrk = new QWrk(this);
-    connect(m_wrk, SIGNAL(signalWRKError(const QString&)),
-                   SLOT(errorHandlerWRK(const QString&)));
-    connect(m_wrk, SIGNAL(signalWRKUnknownChunk(int,const QByteArray&)),
-                   SLOT(unknownChunk(int,const QByteArray&)));
-    connect(m_wrk, SIGNAL(signalWRKHeader(int,int)),
-                   SLOT(fileHeader(int,int)));
-    connect(m_wrk, SIGNAL(signalWRKEnd()),
-                   SLOT(endOfWrk()));
-    connect(m_wrk, SIGNAL(signalWRKStreamEnd(long)),
-                   SLOT(streamEndEvent(long)));
-    connect(m_wrk, SIGNAL(signalWRKGlobalVars()),
-                   SLOT(globalVars()));
-    connect(m_wrk, SIGNAL(signalWRKTrack(const QString&, const QString&, int,int,int,int,int,bool,bool,bool)),
-                   SLOT(trackHeader(const QString&, const QString&, int,int,int,int,int,bool,bool,bool)));
-    connect(m_wrk, SIGNAL(signalWRKTimeBase(int)),
-                   SLOT(timeBase(int)));
-    connect(m_wrk, SIGNAL(signalWRKNote(int,long,int,int,int,int)),
-                   SLOT(noteEvent(int,long,int,int,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKKeyPress(int,long,int,int,int)),
-                   SLOT(keyPressEvent(int,long,int,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKCtlChange(int,long,int,int,int)),
-                   SLOT(wrkCtlChangeEvent(int,long,int,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKPitchBend(int,long,int,int)),
-                   SLOT(pitchBendEvent(int,long,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKProgram(int,long,int,int)),
-                   SLOT(programEvent(int,long,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKChanPress(int,long,int,int)),
-                   SLOT(chanPressEvent(int,long,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKSysexEvent(int,long,int)),
-                   SLOT(sysexEvent(int,long,int)));
-    connect(m_wrk, SIGNAL(signalWRKSysex(int,const QString&,bool,int,const QByteArray&)),
-                   SLOT(sysexEventBank(int,const QString&,bool,int,const QByteArray&)));
-    connect(m_wrk, SIGNAL(signalWRKText(int,long,int,const QString&)),
-                   SLOT(textEvent(int,long,int,const QString&)));
-    connect(m_wrk, SIGNAL(signalWRKTimeSig(int,int,int)),
-                   SLOT(timeSigEvent(int,int,int)));
-    connect(m_wrk, SIGNAL(signalWRKKeySig(int,int)),
-                   SLOT(keySigEventWRK(int,int)));
-    connect(m_wrk, SIGNAL(signalWRKTempo(long,int)),
-                   SLOT(tempoEvent(long,int)));
-    connect(m_wrk, SIGNAL(signalWRKTrackPatch(int,int)),
-                   SLOT(trackPatch(int,int)));
-    connect(m_wrk, SIGNAL(signalWRKComments(const QString&)),
-                   SLOT(comments(const QString&)));
-    connect(m_wrk, SIGNAL(signalWRKVariableRecord(const QString&,const QByteArray&)),
-                   SLOT(variableRecord(const QString&,const QByteArray&)));
-    connect(m_wrk, SIGNAL(signalWRKNewTrack(const QString&,int,int,int,int,int,bool,bool,bool)),
-                   SLOT(newTrackHeader(const QString&,int,int,int,int,int,bool,bool,bool)));
-    connect(m_wrk, SIGNAL(signalWRKTrackName(int,const QString&)),
-                   SLOT(trackName(int,const QString&)));
-    connect(m_wrk, SIGNAL(signalWRKTrackVol(int,int)),
-                   SLOT(trackVol(int,int)));
-    connect(m_wrk, SIGNAL(signalWRKTrackBank(int,int)),
-                   SLOT(trackBank(int,int)));
-    connect(m_wrk, SIGNAL(signalWRKSegment(int,long,const QString&)),
-                   SLOT(segment(int,long,const QString&)));
-    connect(m_wrk, SIGNAL(signalWRKChord(int,long,const QString&,const QByteArray&)),
-                   SLOT(chord(int,long,const QString&,const QByteArray&)));
-    connect(m_wrk, SIGNAL(signalWRKExpression(int,long,int,const QString&)),
-                   SLOT(expression(int,long,int,const QString&)));
+    connect(m_wrk, &QWrk::signalWRKError,
+                   this, &SequenceModel::errorHandlerWRK);
+    connect(m_wrk, &QWrk::signalWRKUnknownChunk,
+                   this, &SequenceModel::unknownChunk);
+    connect(m_wrk, &QWrk::signalWRKHeader,
+                   this, &SequenceModel::fileHeader);
+    connect(m_wrk, &QWrk::signalWRKEnd,
+                   this, &SequenceModel::endOfWrk);
+    connect(m_wrk, &QWrk::signalWRKStreamEnd,
+                   this, &SequenceModel::streamEndEvent);
+    connect(m_wrk, &QWrk::signalWRKGlobalVars,
+                   this, &SequenceModel::globalVars);
+    connect(m_wrk, &QWrk::signalWRKTrack,
+                   this, &SequenceModel::trackHeader);
+    connect(m_wrk, &QWrk::signalWRKTimeBase,
+                   this, &SequenceModel::timeBase);
+    connect(m_wrk, &QWrk::signalWRKNote,
+                   this, &SequenceModel::noteEvent);
+    connect(m_wrk, &QWrk::signalWRKKeyPress,
+                   this, &SequenceModel::keyPressEventWRK);
+    connect(m_wrk, &QWrk::signalWRKCtlChange,
+                   this, &SequenceModel::wrkCtlChangeEvent);
+    connect(m_wrk, &QWrk::signalWRKPitchBend,
+                   this, &SequenceModel::pitchBendEventWRK);
+    connect(m_wrk, &QWrk::signalWRKProgram,
+                   this, &SequenceModel::programEventWRK);
+    connect(m_wrk, &QWrk::signalWRKChanPress,
+                   this, &SequenceModel::chanPressEventWRK);
+    connect(m_wrk, &QWrk::signalWRKSysexEvent,
+                   this, &SequenceModel::sysexEventWRK);
+    connect(m_wrk, &QWrk::signalWRKSysex,
+                   this, &SequenceModel::sysexEventBank);
+    connect(m_wrk, &QWrk::signalWRKText,
+                   this, &SequenceModel::textEventWRK);
+    connect(m_wrk, &QWrk::signalWRKTimeSig,
+                   this, &SequenceModel::timeSigEventWRK);
+    connect(m_wrk, &QWrk::signalWRKKeySig,
+                   this, &SequenceModel::keySigEventWRK);
+    connect(m_wrk, &QWrk::signalWRKTempo,
+                   this, &SequenceModel::tempoEventWRK);
+    connect(m_wrk, &QWrk::signalWRKTrackPatch,
+                   this, &SequenceModel::trackPatch);
+    connect(m_wrk, &QWrk::signalWRKComments,
+                   this, &SequenceModel::comments);
+    connect(m_wrk, &QWrk::signalWRKVariableRecord,
+                   this, &SequenceModel::variableRecord);
+    connect(m_wrk, &QWrk::signalWRKNewTrack,
+                   this, &SequenceModel::newTrackHeader);
+    connect(m_wrk, &QWrk::signalWRKTrackName,
+                   this, &SequenceModel::trackName);
+    connect(m_wrk, &QWrk::signalWRKTrackVol,
+                   this, &SequenceModel::trackVol);
+    connect(m_wrk, &QWrk::signalWRKTrackBank,
+                   this, &SequenceModel::trackBank);
+    connect(m_wrk, &QWrk::signalWRKSegment,
+                   this, &SequenceModel::segment);
+    connect(m_wrk, &QWrk::signalWRKChord,
+                   this, &SequenceModel::chord);
+    connect(m_wrk, &QWrk::signalWRKExpression,
+                   this, &SequenceModel::expression);
 
-//    QFileInfo insFile(KMidimon::dataDirectory(), QStringLiteral("standards.ins"));
-//    if (insFile.exists()) {
-//        m_insList.load(insFile.absoluteFilePath());
-//    }
     QString data = KMidimon::dataDirectory();
     if (data.isEmpty()) {
         m_insList.load(":/data/standards.ins");
@@ -2051,7 +2047,7 @@ void SequenceModel::timeBase(int timebase)
 
 void SequenceModel::globalVars()
 {
-    emit keySigEventWRK(0, m_wrk->getKeySig());
+    keySigEventWRK(0, m_wrk->getKeySig());
     m_tempSong.setLast( m_wrk->getEndAllTime() );
     if (m_reportsFilePos)
         emit loadProgress(m_wrk->getFilePos());
@@ -2098,7 +2094,7 @@ void SequenceModel::noteEvent(int track, long time, int chan, int pitch, int vol
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::keyPressEvent(int track, long time, int chan, int pitch, int press)
+void SequenceModel::keyPressEventWRK(int track, long time, int chan, int pitch, int press)
 {
     int channel = chan;
     TrackMapRec rec = m_trackMap[track];
@@ -2120,7 +2116,7 @@ void SequenceModel::wrkCtlChangeEvent(int track, long time, int chan, int ctl, i
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::pitchBendEvent(int track, long time, int chan, int value)
+void SequenceModel::pitchBendEventWRK(int track, long time, int chan, int value)
 {
     int channel = chan;
     TrackMapRec rec = m_trackMap[track];
@@ -2130,7 +2126,7 @@ void SequenceModel::pitchBendEvent(int track, long time, int chan, int value)
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::programEvent(int track, long time, int chan, int patch)
+void SequenceModel::programEventWRK(int track, long time, int chan, int patch)
 {
     int channel = chan;
     TrackMapRec rec = m_trackMap[track];
@@ -2140,7 +2136,7 @@ void SequenceModel::programEvent(int track, long time, int chan, int patch)
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::chanPressEvent(int track, long time, int chan, int press)
+void SequenceModel::chanPressEventWRK(int track, long time, int chan, int press)
 {
     int channel = chan;
     TrackMapRec rec = m_trackMap[track];
@@ -2150,7 +2146,7 @@ void SequenceModel::chanPressEvent(int track, long time, int chan, int press)
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::sysexEvent(int track, long time, int bank)
+void SequenceModel::sysexEventWRK(int track, long time, int bank)
 {
     SysexEventRec rec;
     rec.track = track;
@@ -2171,13 +2167,13 @@ void SequenceModel::sysexEventBank(int bank, const QString& /*name*/, bool autos
     delete ev;
 }
 
-void SequenceModel::textEvent(int track, long time, int /*type*/, const QString& data)
+void SequenceModel::textEventWRK(int track, long time, int /*type*/, const QString& data)
 {
     SequencerEvent* ev = new TextEvent(data, 1);
     (this->*m_appendFunc)(time, track, ev);
 }
 
-void SequenceModel::timeSigEvent(int bar, int num, int den)
+void SequenceModel::timeSigEventWRK(int bar, int num, int den)
 {
     SequencerEvent* ev = new SequencerEvent();
     ev->setSequencerType(SND_SEQ_EVENT_TIMESIGN);
@@ -2230,7 +2226,7 @@ void SequenceModel::keySigEventWRK(int bar, int alt)
     (this->*m_appendFunc)(time, 0, ev);
 }
 
-void SequenceModel::tempoEvent(long time, int tempo)
+void SequenceModel::tempoEventWRK(long time, int tempo)
 {
     double bpm = tempo / 100.0;
     if ( m_initialTempo < 0 )
@@ -2247,7 +2243,7 @@ void SequenceModel::trackPatch(int track, int patch)
     TrackMapRec rec = m_trackMap[track];
     if (rec.channel > -1)
         channel = rec.channel;
-    programEvent(track, 0, channel, patch);
+    programEventWRK(track, 0, channel, patch);
 }
 
 void SequenceModel::comments(const QString& cmt)
@@ -2293,7 +2289,7 @@ void SequenceModel::newTrackHeader( const QString& name,
     m_ntrks++;
     m_tempSong.setMutedState(m_currentTrack, muted);
     if (!name.isEmpty())
-        textEvent(trackno, 0, 3, name);
+        textEventWRK(trackno, 0, 3, name);
     if (m_reportsFilePos)
         emit loadProgress(m_wrk->getFilePos());
 }

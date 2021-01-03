@@ -81,7 +81,7 @@ PlayerPopupSliderAction::PlayerPopupSliderAction (const QObject* receiver, const
     m_slider = new PlayerSlider(Qt::Vertical, m_frame);
     m_frame->resize (36, m_slider->sizeHint().height() + 4);
     m_slider->setGeometry(m_frame->contentsRect());
-    connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
+    connect (this, &QAction::triggered, this , &PlayerPopupSliderAction::slotTriggered);
     connect (m_slider, SIGNAL(valueChanged(int)), receiver, slot);
 }
 
