@@ -48,10 +48,11 @@ public:
     void setFilter(bool value) { m_filter = value; }
     bool getFilter(int t) const;
     void setFilter(int t, bool value);
-    void insert(QObject* parent, snd_seq_event_type_t t, QString s);
+    void insert(QObject* parent, snd_seq_event_type_t t);
     QHashIterator<int, QAction*> getIterator() {
         return QHashIterator<int, QAction*>(m_actions);
     }
+    static QString nameOfEvent(int t);
 
 private:
     QMenu  *m_menu;
@@ -76,6 +77,7 @@ public:
 
     bool contains(snd_seq_event_type_t t) const;
     QMenu* buildMenu(QWidget* parent);
+    void retranslateMenu();
 
     void loadConfiguration();
     void saveConfiguration();
@@ -85,7 +87,7 @@ public slots:
     void uncheckGroup(int c);
 
 protected:
-    void insert(EvCategory category, snd_seq_event_type_t t, QString name);
+    void insert(EvCategory category, snd_seq_event_type_t t);
 
 signals:
     void filterChanged();

@@ -118,6 +118,7 @@ protected:
     void saveConfiguration();
     void readConfiguration();
     void setupActions();
+    void translateActions();
     void setFixedFont(bool newValue);
     bool getFixedFont() const { return m_useFixedFont; }
     void addNewTab(int data);
@@ -136,6 +137,10 @@ protected:
 private:
     PlayerState m_state;
     SequencerAdaptor *m_adaptor;
+    QAction *m_new;
+    QAction *m_open;
+    QAction *m_save;
+    QAction *m_quit;
     QAction *m_play;
     QAction *m_pause;
     QAction *m_forward;
@@ -143,7 +148,6 @@ private:
     QAction *m_stop;
     QAction *m_record;
     QAction *m_prefs;
-    QAction *m_save;
     QAction *m_connectAll;
     QAction *m_disconnectAll;
     QAction *m_configConns;

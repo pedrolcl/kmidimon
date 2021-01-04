@@ -170,6 +170,7 @@ KMidimon::KMidimon() :
         setupActions();
         createLanguageMenu();
         readConfiguration();
+        translateActions();
         fileNew();
         record();
     } catch (drumstick::ALSA::SequencerError& ex) {
@@ -182,6 +183,55 @@ KMidimon::KMidimon() :
         QMessageBox::critical(nullptr, tr("Error"), errorstr);
         close();
     }
+}
+
+void KMidimon::translateActions()
+{
+    m_new->setText(tr("&New"));
+    m_new->setWhatsThis(tr("Clear the current data and start a new empty session"));
+    m_open->setText(tr("&Open"));
+    m_open->setWhatsThis(tr("Open a disk file"));
+    m_save->setText(tr("&Save"));
+    m_save->setWhatsThis(tr("Store the session data on a disk file"));
+    m_quit->setText(tr("Quit"));
+    m_quit->setWhatsThis(tr("Exit the application"));
+    m_fileInfo->setText(tr("Sequence Info"));
+    m_fileInfo->setWhatsThis(tr("Display information about the loaded sequence"));
+    m_prefs->setText(tr("Preferences"));
+    m_prefs->setWhatsThis(tr("Configure the program setting several preferences"));
+    m_rewind->setText(tr("Backward","player skip backward"));
+    m_rewind->setWhatsThis(tr("Move the playback position to the first event"));
+    m_play->setText(tr("&Play"));
+    m_play->setWhatsThis(tr("Start playback of the current session"));
+    m_pause->setText(tr("Pause"));
+    m_pause->setWhatsThis(tr("Pause the playback"));
+    m_forward->setText(tr("Forward","player skip forward"));
+    m_forward->setWhatsThis(tr("Move the playback position to the last event"));
+    m_record->setText(tr("Record"));
+    m_record->setWhatsThis(tr("Append new recorded events to the current session"));
+    m_stop->setText( tr("Stop") );
+    m_stop->setWhatsThis(tr("Stop playback or recording"));
+    m_tempoSlider->setText(tr("Scale Tempo"));
+    m_tempoSlider->setWhatsThis(tr("Display a slider to scale the tempo between 50% and 200%"));
+    m_tempo100->setText(tr("Reset Tempo"));
+    m_tempo100->setWhatsThis(tr("Reset the tempo scale to 100%"));
+    m_connectAll->setText(tr("Connect All Inputs"));
+    m_connectAll->setWhatsThis(tr("Connect all readable MIDI ports"));
+    m_disconnectAll->setText(tr("Disconnect All Inputs"));
+    m_disconnectAll->setWhatsThis(tr("Disconnect all input MIDI ports"));
+    m_configConns->setText(tr("Configure Connections"));
+    m_configConns->setWhatsThis(tr("Open the Connections dialog"));
+    m_resizeColumns->setText(tr("Resize columns"));
+    m_resizeColumns->setWhatsThis(tr("Resize the columns width to fit it's contents"));
+    m_createTrack->setText(tr("Add Track View"));
+    m_createTrack->setWhatsThis(tr("Create a new tab/track view"));
+    m_deleteTrack->setText(tr("Delete Track View"));
+    m_deleteTrack->setWhatsThis(tr("Delete the tab/track view"));
+    m_changeTrack->setText(tr("Change Track View"));
+    m_changeTrack->setWhatsThis(tr("Change the track number of the view"));
+    m_muteTrack->setText(tr("Mute Track"));
+    m_muteTrack->setWhatsThis(tr("Mute (silence) the track"));
+    m_recentFiles->setTitle(tr("Recent files"));
 }
 
 void KMidimon::setupActions()
@@ -207,23 +257,19 @@ void KMidimon::setupActions()
             "show_data3"
     };*/
 
-    QAction* a = new QAction(this);
-    a->setText(tr("&New"));
-    a->setIcon(QIcon::fromTheme("document-new"));
-    a->setWhatsThis(tr("Clear the current data and start a new empty session"));
-    connect(a, &QAction::triggered, this, &KMidimon::fileNew);
-    m_ui->menuFile->addAction(a);
-    m_ui->toolBar->addAction(a);
+    m_new = new QAction(this);
+    m_new->setIcon(QIcon::fromTheme("document-new"));
+    connect(m_new, &QAction::triggered, this, &KMidimon::fileNew);
+    m_ui->menuFile->addAction(m_new);
+    m_ui->toolBar->addAction(m_new);
 
-    a = new QAction(this);
-    a->setText(tr("&Open"));
-    a->setIcon(QIcon::fromTheme("document-open"));
-    a->setWhatsThis(tr("Open a disk file"));
-    connect(a, &QAction::triggered, this, &KMidimon::fileOpen);
-    m_ui->menuFile->addAction(a);
-    m_ui->toolBar->addAction(a);
+    m_open = new QAction(this);
+    m_open->setIcon(QIcon::fromTheme("document-open"));
+    connect(m_open, &QAction::triggered, this, &KMidimon::fileOpen);
+    m_ui->menuFile->addAction(m_open);
+    m_ui->toolBar->addAction(m_open);
 
-    m_recentFiles = m_ui->menuFile->addMenu(QIcon::fromTheme("document-open-recent"), "Recent files");
+    m_recentFiles = m_ui->menuFile->addMenu(QIcon::fromTheme("document-open-recent"), tr("Recent files"));
     connect(m_recentFiles, &QMenu::aboutToShow, this, &KMidimon::updateRecentFileActions);
     m_recentFileSubMenuAct = m_recentFiles->menuAction();
 
@@ -236,33 +282,25 @@ void KMidimon::setupActions()
     setRecentFilesVisible(KMidimon::hasRecentFiles());
 
     m_save = new QAction(this);
-    m_save->setText(tr("&Save"));
     m_save->setIcon(QIcon::fromTheme("document-save"));
-    m_save->setWhatsThis(tr("Store the session data on a disk file"));
     connect(m_save, &QAction::triggered, this, &KMidimon::fileSave);
     m_ui->menuFile->addAction(m_save);
     m_ui->toolBar->addAction(m_save);
 
     m_fileInfo = new QAction(this);
-    m_fileInfo->setText(tr("Sequence Info"));
-    m_fileInfo->setWhatsThis(tr("Display information about the loaded sequence"));
     m_fileInfo->setIcon(QIcon::fromTheme("dialog-information"));
     connect(m_fileInfo, &QAction::triggered, this, &KMidimon::songFileInfo);
     m_ui->menuFile->addAction(m_fileInfo);
     m_ui->menuFile->addSeparator();
 
-    a = new QAction(this);
-    a->setText(tr("Quit"));
-    a->setIcon(QIcon::fromTheme("application-exit"));
-    a->setWhatsThis(tr("Exit the application"));
-    connect(a, &QAction::triggered, this, &QWidget::close);
-    m_ui->menuFile->addAction(a);
-    m_ui->toolBar->addAction(a);
+    m_quit = new QAction(this);
+    m_quit->setIcon(QIcon::fromTheme("application-exit"));
+    connect(m_quit, &QAction::triggered, this, &QWidget::close);
+    m_ui->menuFile->addAction(m_quit);
+    m_ui->toolBar->addAction(m_quit);
 
     m_prefs = new QAction(this);
-    m_prefs->setText(tr("Preferences"));
     m_prefs->setIcon(QIcon::fromTheme("configure"));
-    m_prefs->setWhatsThis(tr("Configure the program setting several preferences"));
     connect(m_prefs, &QAction::triggered, this, &KMidimon::preferences);
     m_ui->menuSettings->addAction(m_prefs);
     m_ui->toolBar->addAction(m_prefs);
@@ -282,53 +320,41 @@ void KMidimon::setupActions()
      */
 
     m_rewind = new QAction(this);
-    m_rewind->setText(tr("Backward","player skip backward"));
     m_rewind->setIcon(QIcon::fromTheme("media-skip-backward"));
-    m_rewind->setWhatsThis(tr("Move the playback position to the first event"));
     connect(m_rewind, &QAction::triggered, this, &KMidimon::rewind);
     m_ui->menuControl->addAction(m_rewind);
     m_ui->toolBar->addAction(m_rewind);
 
     m_play = new QAction(this);
-    m_play->setText(tr("&Play"));
-    m_play->setIcon(QIcon::fromTheme("media-playback-start"));
     m_play->setShortcut( Qt::Key_MediaPlay );
-    m_play->setWhatsThis(tr("Start playback of the current session"));
+    m_play->setIcon(QIcon::fromTheme("media-playback-start"));
     connect(m_play, &QAction::triggered, this, &KMidimon::play);
     m_ui->menuControl->addAction(m_play);
     m_ui->toolBar->addAction(m_play);
 
     m_pause = new QAction(this);
-    m_pause->setText(tr("Pause"));
     m_pause->setCheckable(true);
     m_pause->setIcon(QIcon::fromTheme("media-playback-pause"));
-    m_pause->setWhatsThis(tr("Pause the playback"));
     connect(m_pause, &QAction::triggered, this, &KMidimon::pause);
     m_ui->menuControl->addAction(m_pause);
     m_ui->toolBar->addAction(m_pause);
 
     m_forward = new QAction(this);
-    m_forward->setText(tr("Forward","player skip forward"));
     m_forward->setIcon(QIcon::fromTheme("media-skip-forward"));
-    m_forward->setWhatsThis(tr("Move the playback position to the last event"));
     connect(m_forward, &QAction::triggered, this, &KMidimon::forward);
     m_ui->menuControl->addAction(m_forward);
     m_ui->toolBar->addAction(m_forward);
 
     m_record = new QAction(this);
-    m_record->setText(tr("Record"));
     m_record->setIcon(QIcon::fromTheme("media-record"));
     m_record->setShortcut( Qt::Key_MediaRecord );
-    m_record->setWhatsThis(tr("Append new recorded events to the current session"));
     connect(m_record, &QAction::triggered, this, &KMidimon::record);
     m_ui->menuControl->addAction(m_record);
     m_ui->toolBar->addAction(m_record);
 
     m_stop = new QAction(this);
-    m_stop->setText( tr("Stop") );
     m_stop->setIcon(QIcon::fromTheme("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_MediaStop );
-    m_stop->setWhatsThis(tr("Stop playback or recording"));
     connect(m_stop, &QAction::triggered, this, &KMidimon::stop);
     m_ui->menuControl->addAction(m_stop);
     m_ui->toolBar->addAction(m_stop);
@@ -336,72 +362,52 @@ void KMidimon::setupActions()
     m_ui->menuControl->addSeparator();
 
     m_tempoSlider = new PlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
-    m_tempoSlider->setText(tr("Scale Tempo"));
-    m_tempoSlider->setWhatsThis(tr("Display a slider to scale the tempo between 50% and 200%"));
     m_tempoSlider->setIcon(QIcon::fromTheme("chronometer"));
     m_ui->menuControl->addAction(m_tempoSlider);
     m_ui->toolBar->addAction(m_tempoSlider);
 
     m_tempo100 = new QAction(this);
-    m_tempo100->setText(tr("Reset Tempo"));
-    m_tempo100->setWhatsThis(tr("Reset the tempo scale to 100%"));
     m_tempo100->setIcon(QIcon::fromTheme("player-time"));
     connect(m_tempo100, &QAction::triggered, this, &KMidimon::tempoReset);
     m_ui->menuControl->addAction(m_tempo100);
     m_ui->toolBar->addAction(m_tempo100);
 
     m_connectAll = new QAction(this);
-    m_connectAll->setText(tr("Connect All Inputs"));
-    m_connectAll->setWhatsThis(tr("Connect all readable MIDI ports"));
     connect(m_connectAll, &QAction::triggered, this, &KMidimon::connectAll);
     m_ui->menuConnections->addAction(m_connectAll);
 
     m_disconnectAll = new QAction(this);
-    m_disconnectAll->setText(tr("Disconnect All Inputs"));
-    m_disconnectAll->setWhatsThis(tr("Disconnect all input MIDI ports"));
     connect(m_disconnectAll, &QAction::triggered, this, &KMidimon::disconnectAll);
     m_ui->menuConnections->addAction(m_disconnectAll);
 
     m_ui->menuConnections->addSeparator();
 
     m_configConns = new QAction(this);
-    m_configConns->setText(tr("Configure Connections"));
-    m_configConns->setWhatsThis(tr("Open the Connections dialog"));
     connect(m_configConns, &QAction::triggered, this, &KMidimon::configConnections);
     m_ui->menuConnections->addAction(m_configConns);
 
     m_popup = new QMenu(this);
 
     m_resizeColumns = new QAction(this);
-    m_resizeColumns->setText(tr("Resize columns"));
-    m_resizeColumns->setWhatsThis(tr("Resize the columns width to fit it's contents"));
     connect(m_resizeColumns, &QAction::triggered, this, &KMidimon::resizeAllColumns);
     m_popup->addAction(m_resizeColumns);
 
     QMenu* tracks = m_popup->addMenu(tr("Tracks"));
 
     m_createTrack = new QAction(this);
-    m_createTrack->setText(tr("Add Track View"));
-    m_createTrack->setWhatsThis(tr("Create a new tab/track view"));
     connect(m_createTrack, &QAction::triggered, this, &KMidimon::addTrack);
     tracks->addAction(m_createTrack);
 
     m_deleteTrack = new QAction(this);
-    m_deleteTrack->setText(tr("Delete Track View"));
-    m_deleteTrack->setWhatsThis(tr("Delete the tab/track view"));
     connect(m_deleteTrack, &QAction::triggered, this, &KMidimon::deleteCurrentTrack);
     tracks->addAction(m_deleteTrack);
 
     m_changeTrack = new QAction(this);
-    m_changeTrack->setText(tr("Change Track View"));
-    m_changeTrack->setWhatsThis(tr("Change the track number of the view"));
     connect(m_changeTrack, &QAction::triggered, this, &KMidimon::changeCurrentTrack);
     tracks->addAction(m_changeTrack);
 
     m_muteTrack = new QAction(this);
     m_muteTrack->setCheckable(true);
-    m_muteTrack->setText(tr("Mute Track"));
-    m_muteTrack->setWhatsThis(tr("Mute (silence) the track"));
     connect(m_muteTrack, &QAction::triggered, this, &KMidimon::muteCurrentTrack);
     tracks->addAction(m_muteTrack);
 
@@ -1186,6 +1192,8 @@ void KMidimon::retranslateUi()
     }
     m_ui->retranslateUi(this);
     createLanguageMenu();
+    translateActions();
+    m_filter->retranslateMenu();
 }
 
 void KMidimon::setRecentFilesVisible(bool visible)

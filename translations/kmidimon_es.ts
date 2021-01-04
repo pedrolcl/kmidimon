@@ -5,7 +5,7 @@
     <name>About</name>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
 </context>
@@ -13,7 +13,7 @@ p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;
     <name>AboutClass</name>
     <message>
         <source>About</source>
-        <translation></translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -21,27 +21,34 @@ p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Drumstick MIDI Monitor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Drumstick MIDI Monitor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kmidimon.sourceforge.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://kmidimon.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright © 2002-2020, &lt;a href=&quot;mailto:plcl@users.sf.net?subject=VMPK&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Pedro Lopez-Cabanillas &amp;lt;plcl@users.sf.net&amp;gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Copyright © 2002-2020, &lt;/span&gt;&lt;a href=&quot;mailto:plcl@users.sf.net?subject=VMPK&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Pedro Lopez-Cabanillas &amp;lt;plcl@users.sf.net&amp;gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -137,7 +144,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Standard MIDI file (SMF) messages include: key/time signature and text messages</source>
-        <translation>Los mensajes de archivos MIDI estándar (SMF) incluyen: armadura de tono, medida del compás y mensajes de texto.</translation>
+        <translation>Los mensajes de archivos MIDI estándar (SMF) incluyen: armadura de tono, medida del compás y mensajes de texto</translation>
     </message>
     <message>
         <source>SMF Messages</source>
@@ -306,6 +313,650 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Note</source>
+        <translation type="vanished">Nota</translation>
+    </message>
+    <message>
+        <source>Note on</source>
+        <translation type="vanished">Nota activada</translation>
+    </message>
+    <message>
+        <source>Note off</source>
+        <translation type="vanished">Nota desactivada</translation>
+    </message>
+    <message>
+        <source>Polyphonic aftertouch</source>
+        <translation type="vanished">Post-pulsación polifónica</translation>
+    </message>
+    <message>
+        <source>Control change</source>
+        <translation type="vanished">Cambio de controlador</translation>
+    </message>
+    <message>
+        <source>Program change</source>
+        <translation type="vanished">Cambio de programa</translation>
+    </message>
+    <message>
+        <source>Channel aftertouch</source>
+        <translation type="vanished">Post-pulsación de canal</translation>
+    </message>
+    <message>
+        <source>Pitch bend</source>
+        <translation type="vanished">Inflexión de tono</translation>
+    </message>
+    <message>
+        <source>Non-registered parameter</source>
+        <translation type="vanished">Parámetro no registrado</translation>
+    </message>
+    <message>
+        <source>Registered parameter</source>
+        <translation type="vanished">Parámetro registrado</translation>
+    </message>
+    <message>
+        <source>System exclusive</source>
+        <translation type="vanished">Sistema exclusivo</translation>
+    </message>
+    <message>
+        <source>Song Position</source>
+        <translation type="vanished">Posición de canción</translation>
+    </message>
+    <message>
+        <source>Song Selection</source>
+        <translation type="vanished">Selección de canción</translation>
+    </message>
+    <message>
+        <source>MTC Quarter Frame</source>
+        <translation type="vanished">MTC Cuarto de fotograma</translation>
+    </message>
+    <message>
+        <source>Tune Request</source>
+        <translation type="vanished">Solicitud de afinación</translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation type="vanished">Continuar</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="vanished">Detener</translation>
+    </message>
+    <message>
+        <source>Clock</source>
+        <translation type="vanished">Reloj</translation>
+    </message>
+    <message>
+        <source>Tick</source>
+        <translation type="vanished">Tic</translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="vanished">Restablecer</translation>
+    </message>
+    <message>
+        <source>Active Sensing</source>
+        <translation type="vanished">Sensor de actividad</translation>
+    </message>
+    <message>
+        <source>ALSA Port start</source>
+        <translation type="vanished">Puerto ALSA iniciado</translation>
+    </message>
+    <message>
+        <source>ALSA Port exit</source>
+        <translation type="vanished">Puerto ALSA finalizado</translation>
+    </message>
+    <message>
+        <source>ALSA Port change</source>
+        <translation type="vanished">Puerto ALSA cambiado</translation>
+    </message>
+    <message>
+        <source>ALSA Client start</source>
+        <translation type="vanished">Cliente ALSA iniciado</translation>
+    </message>
+    <message>
+        <source>ALSA Client exit</source>
+        <translation type="vanished">Cliente ALSA finalizado</translation>
+    </message>
+    <message>
+        <source>ALSA Client change</source>
+        <translation type="vanished">Cliente ALSA cambiado</translation>
+    </message>
+    <message>
+        <source>ALSA Port subscribed</source>
+        <translation type="vanished">Subscripción de puerto ALSA</translation>
+    </message>
+    <message>
+        <source>ALSA Port unsubscribed</source>
+        <translation type="vanished">Subscripción terminada de puerto ALSA</translation>
+    </message>
+    <message>
+        <source>Tempo</source>
+        <translation type="vanished">Tempo</translation>
+    </message>
+    <message>
+        <source>SMF Text</source>
+        <translation type="vanished">Texto SMF</translation>
+    </message>
+    <message>
+        <source>Time Signature</source>
+        <translation type="vanished">Medida del compás</translation>
+    </message>
+    <message>
+        <source>Key Signature</source>
+        <translation type="vanished">Armadura de tonalidad</translation>
+    </message>
+    <message>
+        <source>Sequence Number</source>
+        <translation type="vanished">Número de secuencia</translation>
+    </message>
+    <message>
+        <source>Forced Channel</source>
+        <translation type="vanished">Canal forzado</translation>
+    </message>
+    <message>
+        <source>Forced Port</source>
+        <translation type="vanished">Puerto forzado</translation>
+    </message>
+    <message>
+        <source>SMPTE Offset</source>
+        <translation type="vanished">Desplazamiento SMPTE</translation>
+    </message>
+    <message>
+        <source>Sequencer Specific</source>
+        <translation type="vanished">Específico del secuenciador</translation>
+    </message>
+    <message>
+        <source>Meta (unregistered)</source>
+        <translation type="vanished">Meta (no registrado)</translation>
+    </message>
+    <message>
+        <source>Filters</source>
+        <translation>Filtros</translation>
+    </message>
+    <message>
+        <source>Nothing</source>
+        <translation>Ninguno</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <comment>player start</comment>
+        <translation type="vanished">Iniciar</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <comment>check all types</comment>
+        <translation>Todos</translation>
+    </message>
+</context>
+<context>
+    <name>HelpWindow</name>
+    <message>
+        <source>&amp;Home</source>
+        <translation>&amp;Inicio</translation>
+    </message>
+    <message>
+        <source>&amp;Back</source>
+        <translation>&amp;Atrás</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Cerrar</translation>
+    </message>
+    <message>
+        <source>Esc</source>
+        <translation>Esc</translation>
+    </message>
+    <message>
+        <source>Help: %1</source>
+        <translation>Ayuda: %1</translation>
+    </message>
+</context>
+<context>
+    <name>KMidimon</name>
+    <message>
+        <source>The events list</source>
+        <translation>La lista de eventos</translation>
+    </message>
+    <message>
+        <source>Track view selectors</source>
+        <translation>Selectores de vista de pistas</translation>
+    </message>
+    <message>
+        <source>Fatal error from the ALSA sequencer. This usually happens when the kernel doesn&apos;t have ALSA support, or the device node (/dev/snd/seq) doesn&apos;t exists, or the kernel module (snd_seq) is not loaded. Please check your ALSA/MIDI configuration. Returned error was: %1</source>
+        <translation>Error fatal abriendo el secuenciador ALSA. Esto ocurre normalmente cuando el núcleo no tiene soporte ALSA, o el nodo de dispositivo (/dev/snd/seq) no existe, o bien el módulo del núcleo (snd_seq) no ha sido cargado.Por favor, compruebe la configuración de ALSA y MIDI. El error devuelto ha sido %1</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Ticks</source>
+        <translation>Tics</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tiempo</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation>Canal</translation>
+    </message>
+    <message>
+        <source>Data 1</source>
+        <translation>Datos 1</translation>
+    </message>
+    <message>
+        <source>Data 2</source>
+        <translation>Datos 2</translation>
+    </message>
+    <message>
+        <source>Data 3</source>
+        <translation>Datos 3</translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation>&amp;Nuevo</translation>
+    </message>
+    <message>
+        <source>Clear the current data and start a new empty session</source>
+        <translation>Limpiar los datos actuales e iniciar una nueva sesión vacía</translation>
+    </message>
+    <message>
+        <source>&amp;Open</source>
+        <translation>&amp;Abrir</translation>
+    </message>
+    <message>
+        <source>Open a disk file</source>
+        <translation>Abrir archivo del disco</translation>
+    </message>
+    <message>
+        <source>&amp;Save</source>
+        <translation>&amp;Guardar</translation>
+    </message>
+    <message>
+        <source>Store the session data on a disk file</source>
+        <translation>Almacenar los datos de la sesión en un archivo en disco</translation>
+    </message>
+    <message>
+        <source>Sequence Info</source>
+        <translation>Información de secuencia</translation>
+    </message>
+    <message>
+        <source>Display information about the loaded sequence</source>
+        <translation>Mostrar información acerca de la secuencia cargada</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation>Terminar</translation>
+    </message>
+    <message>
+        <source>Exit the application</source>
+        <translation>Terminar la aplicación</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Preferencias</translation>
+    </message>
+    <message>
+        <source>Configure the program setting several preferences</source>
+        <translation>Configurar el programa estableciendo varias preferencias</translation>
+    </message>
+    <message>
+        <source>Move the playback position to the first event</source>
+        <translation>Mover la posición de reproducción al primer evento</translation>
+    </message>
+    <message>
+        <source>&amp;Play</source>
+        <translation>&amp;Reproducir</translation>
+    </message>
+    <message>
+        <source>Start playback of the current session</source>
+        <translation>Iniciar la reproducción de la sesión actual</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausa</translation>
+    </message>
+    <message>
+        <source>Pause the playback</source>
+        <translation>Interrumpir la reproducción</translation>
+    </message>
+    <message>
+        <source>Move the playback position to the last event</source>
+        <translation>Mover la posición de reproducción al último evento</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Grabar</translation>
+    </message>
+    <message>
+        <source>Append new recorded events to the current session</source>
+        <translation>Añadir nuevos eventos grabados a la sesión actual</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Detener</translation>
+    </message>
+    <message>
+        <source>Stop playback or recording</source>
+        <translation>Detener la reproducción o grabación</translation>
+    </message>
+    <message>
+        <source>Player Loop</source>
+        <translation type="vanished">Bucle de reproducción</translation>
+    </message>
+    <message>
+        <source>Start playing again at song ending</source>
+        <translation type="vanished">Iniciar de nuevo la reproducción al final de la canción</translation>
+    </message>
+    <message>
+        <source>Scale Tempo</source>
+        <translation>Escalado de Tempo</translation>
+    </message>
+    <message>
+        <source>Display a slider to scale the tempo between 50% and 200%</source>
+        <translation>Mostrar un control deslizante para escalar el tempo entre un 50% y un 200%</translation>
+    </message>
+    <message>
+        <source>Reset Tempo</source>
+        <translation>Restablecer Tempo</translation>
+    </message>
+    <message>
+        <source>Reset the tempo scale to 100%</source>
+        <translation>Restablecer la escala del tempo al 100%</translation>
+    </message>
+    <message>
+        <source>Connect All Inputs</source>
+        <translation>Conectar todas las entradas</translation>
+    </message>
+    <message>
+        <source>Connect all readable MIDI ports</source>
+        <translation>Conectar todas las entradas MIDI</translation>
+    </message>
+    <message>
+        <source>Disconnect All Inputs</source>
+        <translation>Desconectar todas las entradas</translation>
+    </message>
+    <message>
+        <source>Disconnect all input MIDI ports</source>
+        <translation>Desconectar todas las entradas MIDI</translation>
+    </message>
+    <message>
+        <source>Configure Connections</source>
+        <translation>Configurar conexiones</translation>
+    </message>
+    <message>
+        <source>Open the Connections dialog</source>
+        <translation>Abrir el diálogo de conexiones</translation>
+    </message>
+    <message>
+        <source>Resize columns</source>
+        <translation>Redimensionar columnas</translation>
+    </message>
+    <message>
+        <source>Resize the columns width to fit it&apos;s contents</source>
+        <translation>Redimensionar el ancho de las columnas para encajar sus contenidos</translation>
+    </message>
+    <message>
+        <source>Tracks</source>
+        <translation>Pistas</translation>
+    </message>
+    <message>
+        <source>Add Track View</source>
+        <translation>Añadir vista de pista</translation>
+    </message>
+    <message>
+        <source>Create a new tab/track view</source>
+        <translation>Crear una nueva pestaña/vista de pistas</translation>
+    </message>
+    <message>
+        <source>Delete Track View</source>
+        <translation>Eliminar vista de pista</translation>
+    </message>
+    <message>
+        <source>Delete the tab/track view</source>
+        <translation>Eliminar pestaña/vista de pista</translation>
+    </message>
+    <message>
+        <source>Change Track View</source>
+        <translation>Cambiar vista de pista</translation>
+    </message>
+    <message>
+        <source>Change the track number of the view</source>
+        <translation>Cambiar el número de pista de la vista</translation>
+    </message>
+    <message>
+        <source>Mute Track</source>
+        <translation>Silenciar pista</translation>
+    </message>
+    <message>
+        <source>Mute (silence) the track</source>
+        <translation>Enmudecer (silenciar) la pista</translation>
+    </message>
+    <message>
+        <source>Show Columns</source>
+        <translation>Mostrar columnas</translation>
+    </message>
+    <message>
+        <source>Toggle the %1 column</source>
+        <translation>Conmutar la columna %1</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation>Cargando...</translation>
+    </message>
+    <message>
+        <source>Load file</source>
+        <translation>Cargar archivo</translation>
+    </message>
+    <message>
+        <source>Warning, this file may be non-standard or damaged.&lt;br/&gt;</source>
+        <translation>Advertencia, este archivo puede no ser estándar o estar dañado.&lt;br/&gt;</translation>
+    </message>
+    <message>
+        <source>File parsing error</source>
+        <translation>Error de proceso de archivo</translation>
+    </message>
+    <message>
+        <source>Open MIDI file</source>
+        <translation>Abrir archivo MIDI</translation>
+    </message>
+    <message>
+        <source>Save MIDI monitor data</source>
+        <translation>Guardar datos MIDI registrados</translation>
+    </message>
+    <message>
+        <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
+        <translation>Texto simple (*.txt);;Archivos MIDI (*.mid)</translation>
+    </message>
+    <message>
+        <source>(no file)</source>
+        <translation>(ningún archivo)</translation>
+    </message>
+    <message>
+        <source>%1 [%2]</source>
+        <translation>%1 [%2]</translation>
+    </message>
+    <message>
+        <source>empty</source>
+        <translation>vacío</translation>
+    </message>
+    <message>
+        <source>recording</source>
+        <translation>grabando</translation>
+    </message>
+    <message>
+        <source>playing</source>
+        <translation>reproduciendo</translation>
+    </message>
+    <message>
+        <source>paused</source>
+        <translation>en pausa</translation>
+    </message>
+    <message>
+        <source>stopped</source>
+        <translation>detenido</translation>
+    </message>
+    <message>
+        <source>uninitialized</source>
+        <translation>sin inicializar</translation>
+    </message>
+    <message>
+        <source>Change track</source>
+        <translation>Cambiar pista</translation>
+    </message>
+    <message>
+        <source>Change the track filter:</source>
+        <translation>Cambiar el filtro de la pista:</translation>
+    </message>
+    <message>
+        <source>No file loaded</source>
+        <translation>No hay archivo cargado</translation>
+    </message>
+    <message>
+        <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
+        <translation>Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Creado: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modificado: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%7 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%8 npm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%9&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Sequence Information</source>
+        <translation>Información de la secuencia</translation>
+    </message>
+    <message>
+        <source>Language Changed</source>
+        <translation>Cambio de idioma</translation>
+    </message>
+    <message>
+        <source>The language for this application is going to change to %1. Do you want to continue?</source>
+        <translation>El idioma de esta aplicación está a punto de cambiar a %1. ¿Desea continuar?</translation>
+    </message>
+    <message>
+        <source>Backward</source>
+        <comment>player skip backward</comment>
+        <translation>Retroceder</translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <comment>player skip forward</comment>
+        <translation>Avanzar</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>event origin</comment>
+        <translation>Origen</translation>
+    </message>
+    <message>
+        <source>Event Kind</source>
+        <comment>type of event</comment>
+        <translation>Tipo de evento</translation>
+    </message>
+    <message>
+        <source>Track %1</source>
+        <comment>song track</comment>
+        <translation>Pista: %1</translation>
+    </message>
+    <message>
+        <source>Track %1 View Selector</source>
+        <comment>track selector</comment>
+        <translation>Selector de vista de pista %1</translation>
+    </message>
+    <message>
+        <source>&amp;%1 %2</source>
+        <translation>&amp;%1 %2</translation>
+    </message>
+    <message>
+        <source>Recent files</source>
+        <translation>Archivos recientes</translation>
+    </message>
+</context>
+<context>
+    <name>KMidimonWin</name>
+    <message>
+        <source>File</source>
+        <translation>Archivo</translation>
+    </message>
+    <message>
+        <source>Control</source>
+        <translation>Control</translation>
+    </message>
+    <message>
+        <source>Connections</source>
+        <translation>Conexiones</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Ajustes</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Idioma</translation>
+    </message>
+    <message>
+        <source>toolBar</source>
+        <translation>Barra de herramientas</translation>
+    </message>
+    <message>
+        <source>Show Toolbar</source>
+        <translation>Mostrar barra de herramientas</translation>
+    </message>
+    <message>
+        <source>Show Statusbar</source>
+        <translation>Mostrar barra de estado</translation>
+    </message>
+    <message>
+        <source>Contents</source>
+        <translation>Contenido</translation>
+    </message>
+    <message>
+        <source>Web Site</source>
+        <translation>Sitio web</translation>
+    </message>
+    <message>
+        <source>About...</source>
+        <translation>Acerca de...</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>Acerca de Qt</translation>
+    </message>
+    <message>
+        <source>Drumstick MIDI Monitor</source>
+        <translation>Monitor MIDI Drumstick</translation>
+    </message>
+</context>
+<context>
+    <name>QApplication</name>
+    <message>
+        <source>Whole</source>
+        <translation>Redonda</translation>
+    </message>
+    <message>
+        <source>Half</source>
+        <translation>Blanca</translation>
+    </message>
+    <message>
+        <source>Quarter</source>
+        <translation>Negra</translation>
+    </message>
+    <message>
+        <source>Eight</source>
+        <translation>Corchea</translation>
+    </message>
+    <message>
+        <source>Sixteenth</source>
+        <translation>Semicorchea</translation>
+    </message>
+    <message>
+        <source>Thirty-Second</source>
+        <translation>Fusa</translation>
+    </message>
+    <message>
+        <source>Sixty-Fourth</source>
+        <translation>Semifusa</translation>
+    </message>
+    <message>
+        <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
@@ -365,9 +1016,9 @@ p, li { white-space: pre-wrap; }
         <translation>Solicitud de afinación</translation>
     </message>
     <message>
-        <source>player start</source>
-        <comment>Start</comment>
-        <translation></translation>
+        <source>Start</source>
+        <comment>player start</comment>
+        <translation>Iniciar</translation>
     </message>
     <message>
         <source>Continue</source>
@@ -465,451 +1116,20 @@ p, li { white-space: pre-wrap; }
         <source>Meta (unregistered)</source>
         <translation>Meta (no registrado)</translation>
     </message>
-    <message>
-        <source>Filters</source>
-        <translation>Filtros</translation>
-    </message>
-    <message>
-        <source>check all types</source>
-        <comment>All</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Nothing</source>
-        <translation>Ninguno</translation>
-    </message>
-</context>
-<context>
-    <name>KMidimon</name>
-    <message>
-        <source>The events list</source>
-        <translation>La lista de eventos</translation>
-    </message>
-    <message>
-        <source>Track view selectors</source>
-        <translation>Selectores de vista de pistas</translation>
-    </message>
-    <message>
-        <source>Fatal error from the ALSA sequencer. This usually happens when the kernel doesn&apos;t have ALSA support, or the device node (/dev/snd/seq) doesn&apos;t exists, or the kernel module (snd_seq) is not loaded. Please check your ALSA/MIDI configuration. Returned error was: %1</source>
-        <translation>Error fatal abriendo el secuenciador ALSA. Esto ocurre normalmente cuando el núcleo no tiene soporte ALSA, o el nodo de dispositivo (/dev/snd/seq) no existe, o bien el módulo del núcleo (snd_seq) no ha sido cargado.Por favor, compruebe la configuración de ALSA y MIDI. El error devuelto ha sido %1</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <source>Ticks</source>
-        <translation>Tics</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation>Tiempo</translation>
-    </message>
-    <message>
-        <source>event origin</source>
-        <comment>Source</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>type of event</source>
-        <comment>Event Kind</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation>Canal</translation>
-    </message>
-    <message>
-        <source>Data 1</source>
-        <translation>Datos 1</translation>
-    </message>
-    <message>
-        <source>Data 2</source>
-        <translation>Datos 2</translation>
-    </message>
-    <message>
-        <source>Data 3</source>
-        <translation>Datos 3</translation>
-    </message>
-    <message>
-        <source>&amp;New</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Clear the current data and start a new empty session</source>
-        <translation>Limpiar los datos actuales e iniciar una nueva sesión vacía</translation>
-    </message>
-    <message>
-        <source>&amp;Open</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Open a disk file</source>
-        <translation>Abrir archivo del disco</translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Store the session data on a disk file</source>
-        <translation>Almacenar los datos de la sesión en un archivo en disco</translation>
-    </message>
-    <message>
-        <source>Sequence Info</source>
-        <translation>Información de secuencia</translation>
-    </message>
-    <message>
-        <source>Display information about the loaded sequence</source>
-        <translation>Mostrar información acerca de la secuencia cargada</translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Exit the application</source>
-        <translation>Terminar la aplicación</translation>
-    </message>
-    <message>
-        <source>Preferences</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Configure the program setting several preferences</source>
-        <translation>Configurar el programa estableciendo varias preferencias</translation>
-    </message>
-    <message>
-        <source>player skip backward</source>
-        <comment>Backward</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Move the playback position to the first event</source>
-        <translation>Mover la posición de reproducción al primer evento</translation>
-    </message>
-    <message>
-        <source>&amp;Play</source>
-        <translation>&amp;Reproducir</translation>
-    </message>
-    <message>
-        <source>Start playback of the current session</source>
-        <translation>Iniciar la reproducción de la sesión actual</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Pausa</translation>
-    </message>
-    <message>
-        <source>Pause the playback</source>
-        <translation>Interrumpir la reproducción</translation>
-    </message>
-    <message>
-        <source>player skip forward</source>
-        <comment>Forward</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Move the playback position to the last event</source>
-        <translation>Mover la posición de reproducción al último evento</translation>
-    </message>
-    <message>
-        <source>Record</source>
-        <translation>Grabar</translation>
-    </message>
-    <message>
-        <source>Append new recorded events to the current session</source>
-        <translation>Añadir nuevos eventos grabados a la sesión actual</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation>Detener</translation>
-    </message>
-    <message>
-        <source>Stop playback or recording</source>
-        <translation>Detener la reproducción o grabación</translation>
-    </message>
-    <message>
-        <source>Player Loop</source>
-        <translation>Bucle de reproducción</translation>
-    </message>
-    <message>
-        <source>Start playing again at song ending</source>
-        <translation>Iniciar de nuevo la reproducción al final de la canción</translation>
-    </message>
-    <message>
-        <source>Scale Tempo</source>
-        <translation>Escalado de Tempo</translation>
-    </message>
-    <message>
-        <source>Display a slider to scale the tempo between 50% and 200%</source>
-        <translation>Mostrar un control deslizante para escalar el tempo entre un 50% y un 200%</translation>
-    </message>
-    <message>
-        <source>Reset Tempo</source>
-        <translation>Restablecer Tempo</translation>
-    </message>
-    <message>
-        <source>Reset the tempo scale to 100%</source>
-        <translation>Restablecer la escala del tempo al 100%</translation>
-    </message>
-    <message>
-        <source>Connect All Inputs</source>
-        <translation>Conectar todas las entradas</translation>
-    </message>
-    <message>
-        <source>Connect all readable MIDI ports</source>
-        <translation>&amp;Conectar todas las entradas MIDI</translation>
-    </message>
-    <message>
-        <source>Disconnect All Inputs</source>
-        <translation>Desconectar todas las entradas</translation>
-    </message>
-    <message>
-        <source>Disconnect all input MIDI ports</source>
-        <translation>&amp;Desconectar todas las entradas MIDI</translation>
-    </message>
-    <message>
-        <source>Configure Connections</source>
-        <translation>Configurar conexiones</translation>
-    </message>
-    <message>
-        <source>Open the Connections dialog</source>
-        <translation>Abrir el diálogo de conexiones</translation>
-    </message>
-    <message>
-        <source>Resize columns</source>
-        <translation>Redimensionar columnas</translation>
-    </message>
-    <message>
-        <source>Resize the columns width to fit it&apos;s contents</source>
-        <translation>Redimensionar el ancho de las columnas para encajar sus contenidos</translation>
-    </message>
-    <message>
-        <source>Tracks</source>
-        <translation>Pistas</translation>
-    </message>
-    <message>
-        <source>Add Track View</source>
-        <translation>Añadir vista de pista</translation>
-    </message>
-    <message>
-        <source>Create a new tab/track view</source>
-        <translation>Crear una nueva pestaña/vista de pistas</translation>
-    </message>
-    <message>
-        <source>Delete Track View</source>
-        <translation>Eliminar vista de pista</translation>
-    </message>
-    <message>
-        <source>Delete the tab/track view</source>
-        <translation>&amp;Eliminar pestaña/vista de pista</translation>
-    </message>
-    <message>
-        <source>Change Track View</source>
-        <translation>Cambiar vista de pista</translation>
-    </message>
-    <message>
-        <source>Change the track number of the view</source>
-        <translation>Cambiar el número de pista de la vista</translation>
-    </message>
-    <message>
-        <source>Mute Track</source>
-        <translation>Silenciar pista</translation>
-    </message>
-    <message>
-        <source>Mute (silence) the track</source>
-        <translation>Enmudecer (silenciar) la pista</translation>
-    </message>
-    <message>
-        <source>Show Columns</source>
-        <translation>Mostrar columnas</translation>
-    </message>
-    <message>
-        <source>Toggle the %1 column</source>
-        <translation>Conmutar la columna %1</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation>Cargando...</translation>
-    </message>
-    <message>
-        <source>Load file</source>
-        <translation>Cargar archivo</translation>
-    </message>
-    <message>
-        <source>Warning, this file may be non-standard or damaged.&lt;br/&gt;</source>
-        <translation>Advertencia, este archivo puede no ser estándar o estar dañado.&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <source>File parsing error</source>
-        <translation>Error de proceso de archivo</translation>
-    </message>
-    <message>
-        <source>Open MIDI file</source>
-        <translation>Abrir archivo MIDI</translation>
-    </message>
-    <message>
-        <source>Save MIDI monitor data</source>
-        <translation>Guardar datos MIDI registrados</translation>
-    </message>
-    <message>
-        <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>(no file)</source>
-        <translation>(ningún archivo)</translation>
-    </message>
-    <message>
-        <source>%1 [%2]</source>
-        <translation>%1 [%2]</translation>
-    </message>
-    <message>
-        <source>empty</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>recording</source>
-        <translation>grabando</translation>
-    </message>
-    <message>
-        <source>playing</source>
-        <translation>reproduciendo</translation>
-    </message>
-    <message>
-        <source>paused</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>stopped</source>
-        <translation>detenido</translation>
-    </message>
-    <message>
-        <source>uninitialized</source>
-        <translation></translation>
-    </message>
-    <message numerus="yes">
-        <source>song track</source>
-        <comment>Track %1</comment>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>track selector</source>
-        <comment>Track %1 View Selector</comment>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Change track</source>
-        <translation>Cambiar pista</translation>
-    </message>
-    <message>
-        <source>Change the track filter:</source>
-        <translation>Cambiar el filtro de la pista:</translation>
-    </message>
-    <message>
-        <source>No file loaded</source>
-        <translation>No hay archivo cargado</translation>
-    </message>
-    <message>
-        <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
-        <translation>Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Creado: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modificado: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%7 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%8 npm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%9&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Sequence Information</source>
-        <translation>Información de la secuencia</translation>
-    </message>
-    <message>
-        <source>Language Changed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>The language for this application is going to change to %1. Do you want to continue?</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>KMidimonWin</name>
-    <message>
-        <source>MainWindow</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Control</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connections</source>
-        <translation>Conexiones</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Language</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>toolBar</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Show Toolbar</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Show Statusbar</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Contents</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Web Site</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>About...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>About Qt</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>pepe</source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Cakewalk Instrument Definition File</source>
-        <translation></translation>
+        <translation>Archivo de definición de instrumento de Cakewalk</translation>
     </message>
     <message>
         <source>File</source>
-        <translation></translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>Fecha</translation>
     </message>
 </context>
 <context>
@@ -921,11 +1141,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Time</source>
         <translation>Tiempo</translation>
-    </message>
-    <message>
-        <source>event origin</source>
-        <comment>Source</comment>
-        <translation></translation>
     </message>
     <message>
         <source>Event kind</source>
@@ -956,11 +1171,6 @@ p, li { white-space: pre-wrap; }
         <translation>Sistema exclusivo universal de tiempo real</translation>
     </message>
     <message>
-        <source>cast or scattered in all directions</source>
-        <comment>broadcast</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>device %1</source>
         <translation>dispositivo %1</translation>
     </message>
@@ -973,32 +1183,12 @@ p, li { white-space: pre-wrap; }
         <translation>MTC</translation>
     </message>
     <message>
-        <source>General Info</source>
-        <comment>Gen.Info</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>File Dump</source>
         <translation>Volcado de archivo</translation>
     </message>
     <message>
         <source>Tuning</source>
         <translation>Afinación</translation>
-    </message>
-    <message>
-        <source>General MIDI mode</source>
-        <comment>GM Mode</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Downloadable Sounds</source>
-        <comment>DLS</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>File Reference</source>
-        <comment>File Ref.</comment>
-        <translation></translation>
     </message>
     <message>
         <source>End of File</source>
@@ -1043,31 +1233,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>MMC Response</source>
         <translation>Respuesta MMC</translation>
-    </message>
-    <message>
-        <source>General MIDI 2 Controller Destination</source>
-        <comment>GM2 Destination</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Key-based Instrument Control</source>
-        <comment>Instrument</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Scalable Polyphony MIDI MIP Message</source>
-        <comment>Polyphony</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Mobile Phone Control Message</source>
-        <comment>Mobile Phone</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>MTC special setup</source>
-        <comment>Special</comment>
-        <translation></translation>
     </message>
     <message>
         <source>Punch In Points</source>
@@ -1323,7 +1488,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>DLS Voice Alloc. Off</source>
-        <translation>DLS reserva voz desact.</translation>
+        <translation>DLS reserva voz desactivada</translation>
     </message>
     <message>
         <source>DLS Voice Alloc. On</source>
@@ -1368,16 +1533,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Time Signature</source>
         <translation>Medida del compás</translation>
-    </message>
-    <message>
-        <source>sound volume</source>
-        <comment>Volume</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>sound balance</source>
-        <comment>Balance</comment>
-        <translation></translation>
     </message>
     <message>
         <source>Fine Tuning</source>
@@ -1508,11 +1663,6 @@ p, li { white-space: pre-wrap; }
         <translation>Copyright:2</translation>
     </message>
     <message>
-        <source>song or track name</source>
-        <comment>Name:3</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>Instrument:4</source>
         <translation>Instrumento:4</translation>
     </message>
@@ -1585,16 +1735,6 @@ p, li { white-space: pre-wrap; }
         <translation>La sostenido</translation>
     </message>
     <message>
-        <source>major mode scale</source>
-        <comment>major</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source>minor mode scale</source>
-        <comment>minor</comment>
-        <translation></translation>
-    </message>
-    <message>
         <source>%1:%2:%3:%4:%5</source>
         <translation>%1:%2:%3:%4:%5</translation>
     </message>
@@ -1612,7 +1752,87 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Overture File</source>
-        <translation>Archivo de Overture</translation>
+        <translation type="vanished">Archivo de Overture</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>event origin</comment>
+        <translation>Origen</translation>
+    </message>
+    <message>
+        <source>broadcast</source>
+        <comment>cast or scattered in all directions</comment>
+        <translation>difusión</translation>
+    </message>
+    <message>
+        <source>Gen.Info</source>
+        <comment>General Info</comment>
+        <translation>Info.general</translation>
+    </message>
+    <message>
+        <source>GM Mode</source>
+        <comment>General MIDI mode</comment>
+        <translation>Modo GM</translation>
+    </message>
+    <message>
+        <source>DLS</source>
+        <comment>Downloadable Sounds</comment>
+        <translation>DLS</translation>
+    </message>
+    <message>
+        <source>File Ref.</source>
+        <comment>File Reference</comment>
+        <translation>Ref.archivo.</translation>
+    </message>
+    <message>
+        <source>GM2 Destination</source>
+        <comment>General MIDI 2 Controller Destination</comment>
+        <translation>Destino GM2</translation>
+    </message>
+    <message>
+        <source>Instrument</source>
+        <comment>Key-based Instrument Control</comment>
+        <translation>Instrumento</translation>
+    </message>
+    <message>
+        <source>Polyphony</source>
+        <comment>Scalable Polyphony MIDI MIP Message</comment>
+        <translation>Polifonía</translation>
+    </message>
+    <message>
+        <source>Mobile Phone</source>
+        <comment>Mobile Phone Control Message</comment>
+        <translation>Teléfono móvil</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <comment>MTC special setup</comment>
+        <translation>Especial</translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <comment>sound volume</comment>
+        <translation>Volumen</translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <comment>sound balance</comment>
+        <translation>Balance</translation>
+    </message>
+    <message>
+        <source>Name:3</source>
+        <comment>song or track name</comment>
+        <translation>Nombre:3</translation>
+    </message>
+    <message>
+        <source>major</source>
+        <comment>major mode scale</comment>
+        <translation>mayor</translation>
+    </message>
+    <message>
+        <source>minor</source>
+        <comment>minor mode scale</comment>
+        <translation>menor</translation>
     </message>
 </context>
 <context>
