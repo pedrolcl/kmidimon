@@ -6,7 +6,8 @@
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -21,7 +22,11 @@ p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Drumstick MIDI Monitor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Drumstick MIDI Monitor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -29,7 +34,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -40,7 +49,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Copyright © 2002-2021, &lt;/span&gt;&lt;a href=&quot;mailto:plcl@users.sf.net?subject=VMPK&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Pedro Lopez-Cabanillas &amp;lt;plcl@users.sf.net&amp;gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -477,30 +493,30 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>All</source>
         <comment>check all types</comment>
-        <translation type="unfinished">すべて</translation>
+        <translation>すべて</translation>
     </message>
 </context>
 <context>
     <name>HelpWindow</name>
     <message>
         <source>&amp;Home</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Home</translation>
     </message>
     <message>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Back</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">クローズ</translation>
+        <translation>クローズ</translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Help: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Help: %1</translation>
     </message>
 </context>
 <context>
@@ -515,7 +531,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Fatal error from the ALSA sequencer. This usually happens when the kernel doesn&apos;t have ALSA support, or the device node (/dev/snd/seq) doesn&apos;t exists, or the kernel module (snd_seq) is not loaded. Please check your ALSA/MIDI configuration. Returned error was: %1</source>
-        <translation>ALSAシーケンサからの致命的エラー。これは通常カーネルがALSAをサポートしていないか、デバイスノード (/dev/snd/seq) が存在しないか、カーネルモジュール (snd_seq) がロードされていないかの時に起きます。ALSA/MIDI設定を確認してください。エラーコードは %1 です。</translation>
+        <translation>ALSAシーケンサからの致命的エラー。これは通常カーネルがALSAをサポートしていないか、デバイスノード (/dev/snd/seq) が存在しないか、カーネルモジュール (snd_seq) がロードされていないかの時に起きます。ALSA/MIDI設定を確認してください。エラーコードは %1 です</translation>
     </message>
     <message>
         <source>Error</source>
@@ -824,40 +840,40 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Backward</source>
         <comment>player skip backward</comment>
-        <translation type="unfinished">戻る</translation>
+        <translation>戻る</translation>
     </message>
     <message>
         <source>Forward</source>
         <comment>player skip forward</comment>
-        <translation type="unfinished">進む</translation>
+        <translation>進む</translation>
     </message>
     <message>
         <source>Source</source>
         <comment>event origin</comment>
-        <translation type="unfinished">ソース</translation>
+        <translation>ソース</translation>
     </message>
     <message>
         <source>Event Kind</source>
         <comment>type of event</comment>
-        <translation type="unfinished">イベント種類</translation>
+        <translation>イベント種類</translation>
     </message>
     <message>
         <source>Track %1</source>
         <comment>song track</comment>
-        <translation type="unfinished">トラック %1</translation>
+        <translation>トラック %1</translation>
     </message>
     <message>
         <source>Track %1 View Selector</source>
         <comment>track selector</comment>
-        <translation type="unfinished">トラック%1 ビューセレクタ</translation>
+        <translation>トラック%1 ビューセレクタ</translation>
     </message>
     <message>
         <source>&amp;%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1 %2</translation>
     </message>
     <message>
         <source>Recent files</source>
-        <translation type="unfinished"></translation>
+        <translation>最近使ったファイル</translation>
     </message>
 </context>
 <context>
@@ -916,199 +932,199 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Drumstick MIDI Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Drumstick MIDI Monitor</translation>
     </message>
 </context>
 <context>
     <name>QApplication</name>
     <message>
         <source>Whole</source>
-        <translation type="unfinished"></translation>
+        <translation>Whole</translation>
     </message>
     <message>
         <source>Half</source>
-        <translation type="unfinished"></translation>
+        <translation>Half</translation>
     </message>
     <message>
         <source>Quarter</source>
-        <translation type="unfinished"></translation>
+        <translation>Quarter</translation>
     </message>
     <message>
         <source>Eight</source>
-        <translation type="unfinished"></translation>
+        <translation>Eight</translation>
     </message>
     <message>
         <source>Sixteenth</source>
-        <translation type="unfinished"></translation>
+        <translation>Sixteenth</translation>
     </message>
     <message>
         <source>Thirty-Second</source>
-        <translation type="unfinished"></translation>
+        <translation>Thirty-Second</translation>
     </message>
     <message>
         <source>Sixty-Fourth</source>
-        <translation type="unfinished"></translation>
+        <translation>Sixty-Fourth</translation>
     </message>
     <message>
         <source>Note</source>
-        <translation type="unfinished">ノート</translation>
+        <translation>ノート</translation>
     </message>
     <message>
         <source>Note on</source>
-        <translation type="unfinished">ノートオン</translation>
+        <translation>ノートオン</translation>
     </message>
     <message>
         <source>Note off</source>
-        <translation type="unfinished">ノートオフ</translation>
+        <translation>ノートオフ</translation>
     </message>
     <message>
         <source>Polyphonic aftertouch</source>
-        <translation type="unfinished">ポリフォニックアフタータッチ</translation>
+        <translation>ポリフォニックアフタータッチ</translation>
     </message>
     <message>
         <source>Control change</source>
-        <translation type="unfinished">コントロールチェンジ</translation>
+        <translation>コントロールチェンジ</translation>
     </message>
     <message>
         <source>Program change</source>
-        <translation type="unfinished">プログラムチェンジ</translation>
+        <translation>プログラムチェンジ</translation>
     </message>
     <message>
         <source>Channel aftertouch</source>
-        <translation type="unfinished">チャンネルアフタータッチ</translation>
+        <translation>チャンネルアフタータッチ</translation>
     </message>
     <message>
         <source>Pitch bend</source>
-        <translation type="unfinished">ピッチベンド</translation>
+        <translation>ピッチベンド</translation>
     </message>
     <message>
         <source>Non-registered parameter</source>
-        <translation type="unfinished">非登録パラメータ</translation>
+        <translation>非登録パラメータ</translation>
     </message>
     <message>
         <source>Registered parameter</source>
-        <translation type="unfinished">登録パラメータ</translation>
+        <translation>登録パラメータ</translation>
     </message>
     <message>
         <source>System exclusive</source>
-        <translation type="unfinished">システム・エクスクルーシブ</translation>
+        <translation>システム・エクスクルーシブ</translation>
     </message>
     <message>
         <source>Song Position</source>
-        <translation type="unfinished">ソング・ポジション</translation>
+        <translation>ソング・ポジション</translation>
     </message>
     <message>
         <source>Song Selection</source>
-        <translation type="unfinished">ソング・セレクション</translation>
+        <translation>ソング・セレクション</translation>
     </message>
     <message>
         <source>MTC Quarter Frame</source>
-        <translation type="unfinished">MTCクォーターフレーム</translation>
+        <translation>MTCクォーターフレーム</translation>
     </message>
     <message>
         <source>Tune Request</source>
-        <translation type="unfinished">チューン・リクエスト</translation>
+        <translation>チューン・リクエスト</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>player start</comment>
-        <translation type="unfinished">開始</translation>
+        <translation>開始</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished">再開</translation>
+        <translation>再開</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="unfinished">停止</translation>
+        <translation>停止</translation>
     </message>
     <message>
         <source>Clock</source>
-        <translation type="unfinished">クロック</translation>
+        <translation>クロック</translation>
     </message>
     <message>
         <source>Tick</source>
-        <translation type="unfinished">ティック</translation>
+        <translation>ティック</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished">リセット</translation>
+        <translation>リセット</translation>
     </message>
     <message>
         <source>Active Sensing</source>
-        <translation type="unfinished">アクティブ・センシング</translation>
+        <translation>アクティブ・センシング</translation>
     </message>
     <message>
         <source>ALSA Port start</source>
-        <translation type="unfinished">ALSAポート開始</translation>
+        <translation>ALSAポート開始</translation>
     </message>
     <message>
         <source>ALSA Port exit</source>
-        <translation type="unfinished">ALSAポート終了</translation>
+        <translation>ALSAポート終了</translation>
     </message>
     <message>
         <source>ALSA Port change</source>
-        <translation type="unfinished">ALSA Port変更</translation>
+        <translation>ALSAポート変更</translation>
     </message>
     <message>
         <source>ALSA Client start</source>
-        <translation type="unfinished">ALSA クライアント開始</translation>
+        <translation>ALSA クライアント開始</translation>
     </message>
     <message>
         <source>ALSA Client exit</source>
-        <translation type="unfinished">ALSA クライアント終了</translation>
+        <translation>ALSA クライアント終了</translation>
     </message>
     <message>
         <source>ALSA Client change</source>
-        <translation type="unfinished">ALSA クライアント変更</translation>
+        <translation>ALSA クライアント変更</translation>
     </message>
     <message>
         <source>ALSA Port subscribed</source>
-        <translation type="unfinished">ALSA ポートサブスクライブ</translation>
+        <translation>ALSA ポートサブスクライブ</translation>
     </message>
     <message>
         <source>ALSA Port unsubscribed</source>
-        <translation type="unfinished">ALSA ポートアンサブスクライブ</translation>
+        <translation>ALSA ポートアンサブスクライブ</translation>
     </message>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished">テンポ</translation>
+        <translation>テンポ</translation>
     </message>
     <message>
         <source>SMF Text</source>
-        <translation type="unfinished">SMFテキスト</translation>
+        <translation>SMFテキスト</translation>
     </message>
     <message>
         <source>Time Signature</source>
-        <translation type="unfinished">Time Signature</translation>
+        <translation>Time Signature</translation>
     </message>
     <message>
         <source>Key Signature</source>
-        <translation type="unfinished">Key Signature</translation>
+        <translation>Key Signature</translation>
     </message>
     <message>
         <source>Sequence Number</source>
-        <translation type="unfinished">シーケンス番号</translation>
+        <translation>シーケンス番号</translation>
     </message>
     <message>
         <source>Forced Channel</source>
-        <translation type="unfinished">Forced Channel</translation>
+        <translation>Forced Channel</translation>
     </message>
     <message>
         <source>Forced Port</source>
-        <translation type="unfinished">Forced Port</translation>
+        <translation>Forced Port</translation>
     </message>
     <message>
         <source>SMPTE Offset</source>
-        <translation type="unfinished">SMPTEオフセット</translation>
+        <translation>SMPTEオフセット</translation>
     </message>
     <message>
         <source>Sequencer Specific</source>
-        <translation type="unfinished">Sequencer Specific</translation>
+        <translation>Sequencer Specific</translation>
     </message>
     <message>
         <source>Meta (unregistered)</source>
-        <translation type="unfinished">Meta (unregistered)</translation>
+        <translation>Meta (unregistered)</translation>
     </message>
 </context>
 <context>
@@ -1751,82 +1767,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Source</source>
         <comment>event origin</comment>
-        <translation type="unfinished">ソース</translation>
+        <translation>ソース</translation>
     </message>
     <message>
         <source>broadcast</source>
         <comment>cast or scattered in all directions</comment>
-        <translation type="unfinished">broadcast</translation>
+        <translation>broadcast</translation>
     </message>
     <message>
         <source>Gen.Info</source>
         <comment>General Info</comment>
-        <translation type="unfinished">Gen.Info</translation>
+        <translation>Gen.Info</translation>
     </message>
     <message>
         <source>GM Mode</source>
         <comment>General MIDI mode</comment>
-        <translation type="unfinished">GMモード</translation>
+        <translation>GMモード</translation>
     </message>
     <message>
         <source>DLS</source>
         <comment>Downloadable Sounds</comment>
-        <translation type="unfinished">DLS</translation>
+        <translation>DLS</translation>
     </message>
     <message>
         <source>File Ref.</source>
         <comment>File Reference</comment>
-        <translation type="unfinished">ファイル参照 </translation>
+        <translation>ファイル参照.</translation>
     </message>
     <message>
         <source>GM2 Destination</source>
         <comment>General MIDI 2 Controller Destination</comment>
-        <translation type="unfinished">GM2 Destination</translation>
+        <translation>GM2 Destination</translation>
     </message>
     <message>
         <source>Instrument</source>
         <comment>Key-based Instrument Control</comment>
-        <translation type="unfinished">インストゥルメント</translation>
+        <translation>インストゥルメント</translation>
     </message>
     <message>
         <source>Polyphony</source>
         <comment>Scalable Polyphony MIDI MIP Message</comment>
-        <translation type="unfinished">ポリフォニー</translation>
+        <translation>ポリフォニー</translation>
     </message>
     <message>
         <source>Mobile Phone</source>
         <comment>Mobile Phone Control Message</comment>
-        <translation type="unfinished">携帯電話</translation>
+        <translation>携帯電話</translation>
     </message>
     <message>
         <source>Special</source>
         <comment>MTC special setup</comment>
-        <translation type="unfinished">スペシャル</translation>
+        <translation>スペシャル</translation>
     </message>
     <message>
         <source>Volume</source>
         <comment>sound volume</comment>
-        <translation type="unfinished">ボリューム</translation>
+        <translation>ボリューム</translation>
     </message>
     <message>
         <source>Balance</source>
         <comment>sound balance</comment>
-        <translation type="unfinished">バランス</translation>
+        <translation>バランス</translation>
     </message>
     <message>
         <source>Name:3</source>
         <comment>song or track name</comment>
-        <translation type="unfinished">名前:3</translation>
+        <translation>名前:3</translation>
     </message>
     <message>
         <source>major</source>
         <comment>major mode scale</comment>
-        <translation type="unfinished">長調</translation>
+        <translation>長調</translation>
     </message>
     <message>
         <source>minor</source>
         <comment>minor mode scale</comment>
-        <translation type="unfinished">短調</translation>
+        <translation>短調</translation>
     </message>
 </context>
 <context>
