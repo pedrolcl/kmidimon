@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "eventfilter.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QSettings>
 #include <QApplication>
 
@@ -241,7 +241,7 @@ bool EventFilter::contains(snd_seq_event_type_t t) const
 
 void EventFilter::retranslateMenu()
 {
-    qDebug() << Q_FUNC_INFO;
+    //qDebug() << Q_FUNC_INFO;
     if (m_menu != nullptr) {
         m_menu->setTitle(tr("Filters"));
         m_cats[ChannelCategory]->getMenu()->setTitle(tr("MIDI Channel"));
@@ -256,7 +256,7 @@ void EventFilter::retranslateMenu()
             ac[1]->setText(tr("Nothing"));
             for(int i=3; i<ac.length(); ++i) {
                 auto t = ac[i]->data().toInt();
-                qDebug() << i << ac[i]->text() << t;
+                //qDebug() << i << ac[i]->text() << t;
                 ac[i]->setText(CategoryFilter::nameOfEvent(t));
             }
         }

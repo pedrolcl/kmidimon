@@ -105,7 +105,7 @@ KMidimon::KMidimon() :
     m_trp = new QTranslator(this);
     QApplication::installTranslator(m_trp);
     QLocale locale(configuredLanguage());
-    qDebug() << "locale:" << locale << "path:" << trDirectory();
+    //qDebug() << "locale:" << locale << "path:" << trDirectory();
     if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
         qWarning() << "Failure loading Qt5 translations for" << configuredLanguage();
     }
@@ -1122,7 +1122,7 @@ QString KMidimon::configuredLanguage()
         m_language = settings.value("language", defLang).toString();
         settings.endGroup();
     }
-    qDebug() << Q_FUNC_INFO << m_language;
+    //qDebug() << Q_FUNC_INFO << m_language;
     return m_language;
 }
 

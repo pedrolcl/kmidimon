@@ -7,18 +7,16 @@ Name:           kmidimon
 Version:        @VERSION@
 Release:        0
 License:        GPL v2 or later
-Summary:        KDE MIDI Monitor for ALSA Sequencer
+Summary:        MIDI Monitor for ALSA Sequencer
 Group:          Productivity/Multimedia/Sound/Midi
-URL:            http://kmidimon.sourceforge.net
+URL:            https://kmidimon.sourceforge.io
 Source:         %name-%version.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  cmake
 BuildRequires:  alsa-devel
-BuildRequires:  libkde4-devel
-BuildRequires:  libdrumstick-devel
-Requires:       libdrumstick-file0
+BuildRequires:  libqt5-devel
+BuildRequires:  libdrumstick-devel >= 2.0
 #the above dependency provides the mime-type definitions that kmidimon handles 
-%kde4_runtime_requires
 
 %description
 ALSA sequencer based MIDI monitor for Linux
@@ -33,23 +31,20 @@ Authors:
 %setup -q
 
 %build
-%cmake_kde4 -- -DSTATIC_DRUMSTIC=NO
-%make_jobs
+CXXFLAGS="$RPM_OPT_FLAGS -g -fexceptions" cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+make %{?jobs:-j %jobs} VERBOSE=0
 
 %install
-%makeinstall
-%suse_update_desktop_file -G "MIDI Monitor" %name AudioVideo Music
-%find_lang %{name}
-%kde_post_install
+make install DESTDIR=$RPM_BUILD_ROOT
+%suse_update_desktop_file -G "MIDI Monitor" %name AudioVideo Midi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %name.lang
+%files
 %defattr(-, root, root)
 %doc NEWS INSTALL README ChangeLog AUTHORS TODO
 %doc %{_mandir}/man1/*
-%dir %{_datadir}/kde4/apps/%name
 %dir %{_datadir}/icons/hicolor/16x16
 %dir %{_datadir}/icons/hicolor/16x16/apps
 %dir %{_datadir}/icons/hicolor/24x24
@@ -67,9 +62,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%name
 %{_datadir}/applications/*/*
 %{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/kde4/apps/*/*
 
 %changelog
+* Sun Jan 10 2020 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 1.0.0
+- Release 1.0.0
 * Thu Sep 16 2010 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.4
 - Release 0.7.4
 * Tue Mar 9 2010 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net> 0.7.3

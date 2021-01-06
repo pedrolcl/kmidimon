@@ -1,22 +1,19 @@
-You will need CMake 2.6.0 or newer.  If your Linux distribution
+You will need CMake 3.9 or newer.  If your Linux distribution
 doesn't provide CMake, or if it provides an older version, you can get
 it here:
 
-    http://www.cmake.org/HTML/Download.html
+    https://cmake.org/download/
 
 There are ready to use binary packages available for Linux from
-that page.  If you must build it from source, please read the instructions
+that page. If you must build it from source, please read the instructions
 supplied here:
 
-    http://www.cmake.org/HTML/install.html
+    https://cmake.org/install/
 
 This program needs the Drumstick libraries. You should install the development
-package before trying to compile KMidimon. You can alternatively build
-KMidimon statically linked to Drumstick, see the advanced build options.
+package before trying to compile kmidimon. Drumstick is available here:
 
-Drumstick is available here:
-
-    http://drumstick.sourceforge.net 
+    https://drumstick.sourceforge.net
     
 Building with CMake
 -------------------
@@ -61,17 +58,17 @@ $ make install DESTDIR=~/rpmroot
 Some variables you may want to set:
 
     * CMAKE_INSTALL_PREFIX:
-      cmake .. -DCMAKE_INSTALL_PREFIX=/opt/kde is the equivalent to
-      ./configure --prefix=/opt/kde for programs that use autotools
+      cmake .. -DCMAKE_INSTALL_PREFIX=/opt is the equivalent to
+      ./configure --prefix=/opt for programs that use autotools
 
-    * there are some options available:  
-    STATIC_DRUMSTICK  Statically linked Drumstick (default OFF)
-    ENABLE_PCH        Use precompiled headers (default OFF)
+    * CMAKE_PREFIX_PATH (location of alternative Qt5 libs):
+    cmake .. -DCMAKE_PREFIX_PATH=~/Qt/5.15.2/gcc_64
 
-The above options can take any of the following values: 0, 1, OFF, ON,
-TRUE, FALSE, YES, NO (case insensitive). For example:
+    * EMBED_TRANSLATIONS (instead of installing translations):
+    cmake .. -DEMBED_TRANSLATIONS=Yes
 
-$ cmake .. -ENABLE_PCH=YES -DCMAKE_INSTALL_PREFIX=/usr
+    * Drumstick_DIR (location of the custom Drumstick build):
+    cmake .. -DDrumstick_DIR=~/drumstick/build
 
 If you would prefer to avoid all this typing, you can use ccmake to
 view and change these options using a friendly curses-based interface:
@@ -87,12 +84,12 @@ Dealing with Configuration Problems
 
 First, look for an answer in CMake FAQ:
 
-    http://www.cmake.org/Wiki/CMake_FAQ
+    https://gitlab.kitware.com/cmake/community/-/wikis/FAQ
 
 You may want to read the documentation at:
 
-    http://www.cmake.org/cmake/help/cmake2.6docs.html
+    https://cmake.org/cmake/help/v3.9/
 
 If you can't solve your problem, open a request for support at the project site:
 
-    http://sourceforge.net/projects/kmidimon/
+    https://sourceforge.net/projects/kmidimon/

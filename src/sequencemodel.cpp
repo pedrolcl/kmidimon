@@ -1462,7 +1462,7 @@ SequenceModel::loadFromFile(const QString& path)
     } else {
         m_appendFunc = nullptr;
         m_reportsFilePos = false;
-        qDebug() << "unrecognized format:" << type.name();
+        qWarning() << "unrecognized format:" << type.name();
         return;
     }
     m_tempSong.sort();

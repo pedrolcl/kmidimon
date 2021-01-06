@@ -1,4 +1,4 @@
-KMidimon:
+Drumstick MIDI Monitor:
 Copyright (C) 2005-2021 Pedro Lopez-Cabanillas  <plcl@users.sourceforge.net>
 
 Instrument definitions (.INS files) support:
@@ -9,3 +9,6 @@ Pavel Fric <pavelfric@seznam.cz>
 
 Japanese translation:
 Oota Toshiya <ribbon@users.sourceforge.net>
+
+French translation:
+Olivier Humbert <trebmuh@tuxfamily.org>

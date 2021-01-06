@@ -1,14 +1,14 @@
 Begin4
-Title:          KMidimon
-Version:        0.7.0
+Title:          Drumstick MIDI Monitor
+Version:        1.0.0
 Entered-date:   2009-06-24
 Description:    ALSA Sequencer MIDI monitor
 Keywords:       MIDI Qt ALSA KDE monitor
 Author:         plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
 Maintained-by:  plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)
-Primary-site:   http://sourceforge.net/projects/kmidimon
-Alternate-site: http://kmidimon.sourceforge.net
-Original-site:  http://sourceforge.net/projects/kmidimon
-Platform:       Linux, requires KDE4 and ALSA
+Primary-site:   https://sourceforge.net/projects/kmidimon
+Alternate-site: https://kmidimon.sourceforge.io
+Original-site:  https://sourceforge.net/projects/kmidimon
+Platform:       Linux, requires Qt5 and ALSA
 Copying-policy: GPL
 End

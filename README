@@ -5,30 +5,10 @@ Developers environment
 
 You need the following software:
 
-* CMake
-    Debian: "cmake"
-    http://packages.debian.org/sid/cmake
-    
-* pkg-config
-    Debian: "pkg-config"
-    http://packages.debian.org/sid/pkg-config
-    
-* Qt4 libraries
-    Debian: "libqt4-dev"
-    http://packages.debian.org/sid/libqt4-dev
-    
-* KDE4 SDK and libraries
-    Debian: "kdesdk", "kdelibs5-dev"
-    http://packages.debian.org/sid/kdesdk
-    http://packages.debian.org/sid/kdelibs5-dev
-
+* CMake 3.9
+* Qt5 libraries
 * ALSA library
-    Debian package: "libasound2-dev"
-    http://packages.debian.org/sid/libasound2-dev
-
-* DBus-1 library
-    Debian package: "libdbus-1-dev"
-    http://packages.debian.org/sid/libdbus-1-dev
+* Drumstick 2.0
 
 Getting the development sources
 ===============================
@@ -41,31 +21,24 @@ documentation for SourceForge users is available at:
         http://p.sf.net/sourceforge/svn
 
 1. Check out the module Drumstick from the SVN repository.
-        Host: drumstick.svn.sourceforge.net
-        Path: /svnroot/drumstick/trunk
-        Module: drumstick
+        Host: drumstick.svn.sourceforge.net
+        Path: /svnroot/drumstick/trunk
+        Module: drumstick
 
 example:
 $ svn co https://drumstick.svn.sourceforge.net/svnroot/drumstick/trunk drumstick 
 
 2. Check out the module kmidimon from the SVN repository.
-        Host: kmidimon.svn.sourceforge.net
-        Path: /svnroot/kmidimon/trunk
-        Module: kmidimon
+        Host: kmidimon.svn.sourceforge.net
+        Path: /svnroot/kmidimon/trunk
+        Module: kmidimon
 
 example:
 $ svn co https://kmidimon.svn.sourceforge.net/svnroot/kmidimon/trunk kmidimon 
 
-3. Create the links for 'drumstick' in the kmidimon directory.
-$ cd kmidimon
-$ ./link-drumstick
+3. Configure and compile
 
-The module 'drumstick' is also used by other projects in a similar way. 
-It will become an independent shared library some future day.
-
-4. Configure and compile
-
-$ cmake . -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix`
+$ cmake . -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=/usr/local
 $ make VERBOSE=1
 
-5. Hack and enjoy!
+4. Hack and enjoy!

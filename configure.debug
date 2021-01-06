@@ -3,7 +3,7 @@
 mkdir -p build
 cd build
 cmake .. \
-    -DCMAKE_PREFIX_PATH=$HOME/Qt/5.12.6/gcc_64 \
+    -DCMAKE_PREFIX_PATH=$HOME/Qt/5.12.10/gcc_64 \
     -DDrumstick_DIR=$HOME/Projects/drumstick/build \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_INSTALL_PREFIX=/usr
