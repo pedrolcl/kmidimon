@@ -6,7 +6,8 @@
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Verze Qt: %5&lt;br/&gt;Verze paličky na buben: %6&lt;br/&gt;Datum sestavení: %2&lt;br/&gt;Čas sestavení: %3&lt;br/&gt;Překladač: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -29,7 +30,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -68,11 +73,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Tempo (BPM)</source>
-        <translation>Tempo (ÚZM)</translation>
+        <translation>Tempo (M.M.)</translation>
     </message>
     <message>
         <source>The number of beats per minute, or music speed. This is a default value; MIDI files may change this value.</source>
-        <translation>Počet úderů za minutu, nebo rychlost hudby. Jedná se o výchozí hodnotu; tuto hodnotu mohou změnit soubory MIDI.</translation>
+        <translation>Počet úderů za minutu (Maelstrův metronom), nebo rychlost hudby. Jedná se o výchozí hodnotu; tuto hodnotu mohou změnit soubory MIDI.</translation>
     </message>
     <message>
         <source>Resolution</source>
@@ -153,15 +158,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ticks are the musical time units. It is relative to tempo and resolution.</source>
-        <translation>Jednotky jsou hudebními jednotkami času. Jsou v poměru k tempu a rozlišení.</translation>
+        <translation>Tiky jsou hudebními jednotkami času. Jsou v poměru k tempu a rozlišení.</translation>
     </message>
     <message>
         <source>Ticks</source>
-        <translation>Jednotky</translation>
+        <translation>Tiky</translation>
     </message>
     <message>
         <source>Seconds are absolute time units</source>
-        <translation>Sekundy jsou jednotkami času</translation>
+        <translation>Sekundy jsou absolutními jednotkami času</translation>
     </message>
     <message>
         <source>Time (in seconds)</source>
@@ -475,30 +480,30 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>All</source>
         <comment>check all types</comment>
-        <translation type="unfinished">Vše</translation>
+        <translation>Vše</translation>
     </message>
 </context>
 <context>
     <name>HelpWindow</name>
     <message>
         <source>&amp;Home</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Home</translation>
     </message>
     <message>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zpět</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Zavřít</translation>
+        <translation>Zavřít</translation>
     </message>
     <message>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Help: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda: %1</translation>
     </message>
 </context>
 <context>
@@ -509,11 +514,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Track view selectors</source>
-        <translation>Přepínače pohledu na stopu</translation>
+        <translation>Přepínače zobrazení stopy</translation>
     </message>
     <message>
         <source>Fatal error from the ALSA sequencer. This usually happens when the kernel doesn&apos;t have ALSA support, or the device node (/dev/snd/seq) doesn&apos;t exists, or the kernel module (snd_seq) is not loaded. Please check your ALSA/MIDI configuration. Returned error was: %1</source>
-        <translation>Neblahá chyba v ALSA sekvenceru. Obyčejně se to stává, když v jádru není podpora pro ALSA, nebo neexistuje uzel zařízení (/dev/snd/seq), nebo když není nahrán modul jádra (snd_seq). Ověřte, prosím, své nastavení ALSA/MIDI. Vrácenou chybou bylo: %1</translation>
+        <translation>Vážná chyba v ALSA sekvenceru. Obyčejně se to stává, když v jádru není podpora pro ALSA, nebo neexistuje uzel zařízení (/dev/snd/seq), nebo když není nahrán modul jádra (snd_seq). Ověřte, prosím, své nastavení ALSA/MIDI. Vrácenou chybou bylo: %1</translation>
     </message>
     <message>
         <source>Error</source>
@@ -521,7 +526,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ticks</source>
-        <translation>Jednotky</translation>
+        <translation>Tiky</translation>
     </message>
     <message>
         <source>Time</source>
@@ -545,7 +550,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;New</source>
-        <translation></translation>
+        <translation>&amp;Nový</translation>
     </message>
     <message>
         <source>Clear the current data and start a new empty session</source>
@@ -553,7 +558,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Open</source>
-        <translation></translation>
+        <translation>&amp;Otevřít</translation>
     </message>
     <message>
         <source>Open a disk file</source>
@@ -561,7 +566,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Save</source>
-        <translation></translation>
+        <translation>&amp;Uložit</translation>
     </message>
     <message>
         <source>Store the session data on a disk file</source>
@@ -569,23 +574,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Sequence Info</source>
-        <translation>Informace sekvenci</translation>
+        <translation>Informace o sekvenci</translation>
     </message>
     <message>
         <source>Display information about the loaded sequence</source>
-        <translation>Zobrazit informace o nahraném úryvku</translation>
+        <translation>Zobrazit informace o nahrané sekvenci</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation></translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <source>Exit the application</source>
-        <translation>Ukončit aplikaci</translation>
+        <translation>Ukončit program</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>Configure the program setting several preferences</source>
@@ -597,7 +602,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Play</source>
-        <translation>&amp;Přehrát</translation>
+        <translation>&amp;Přehrávat</translation>
     </message>
     <message>
         <source>Start playback of the current session</source>
@@ -617,7 +622,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Record</source>
-        <translation>Nahrát</translation>
+        <translation>Nahrávat</translation>
     </message>
     <message>
         <source>Append new recorded events to the current session</source>
@@ -645,15 +650,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Display a slider to scale the tempo between 50% and 200%</source>
-        <translation>Zobrazit posuvník kvůli změně tempa mezi 50% a 200%</translation>
+        <translation>Zobrazit posuvník kvůli změně tempa mezi 50 % a 200 %</translation>
     </message>
     <message>
         <source>Reset Tempo</source>
-        <translation>Nastavit znovu tempo</translation>
+        <translation>Obnovit výchozí tempo</translation>
     </message>
     <message>
         <source>Reset the tempo scale to 100%</source>
-        <translation>Přenastavit velikost tempa na 100%</translation>
+        <translation>Obnovit výchozí nastavení tempa na 100 %</translation>
     </message>
     <message>
         <source>Connect All Inputs</source>
@@ -685,7 +690,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Resize the columns width to fit it&apos;s contents</source>
-        <translation>Změnit šířku sloupců, aby se do ní vešel její obsah</translation>
+        <translation>Změnit šířku sloupců, aby se do ní vešel obsah</translation>
     </message>
     <message>
         <source>Tracks</source>
@@ -693,27 +698,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Add Track View</source>
-        <translation>Přidat pohled na stopu</translation>
+        <translation>Přidat zobrazení stopy</translation>
     </message>
     <message>
         <source>Create a new tab/track view</source>
-        <translation>Vytvořit novou kartu/nový pohled na stopu</translation>
+        <translation>Vytvořit novou kartu/nové zobrazení stopy</translation>
     </message>
     <message>
         <source>Delete Track View</source>
-        <translation>Smazat pohled na stopu</translation>
+        <translation>Smazat zobrazení stopy</translation>
     </message>
     <message>
         <source>Delete the tab/track view</source>
-        <translation>Smazat kartu/pohled na stopu</translation>
+        <translation>Smazat kartu/zobrazení stopy</translation>
     </message>
     <message>
         <source>Change Track View</source>
-        <translation>Změnit pohled na stopu</translation>
+        <translation>Změnit zobrazení stopy</translation>
     </message>
     <message>
         <source>Change the track number of the view</source>
-        <translation>Změnit číslo stopy v pohledu</translation>
+        <translation>Změnit číslo stopy v zobrazení</translation>
     </message>
     <message>
         <source>Mute Track</source>
@@ -757,7 +762,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
-        <translation></translation>
+        <translation>Soubory s prostým textem (*.txt);;Soubory MIDI (*.mid)</translation>
     </message>
     <message>
         <source>(no file)</source>
@@ -769,7 +774,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>empty</source>
-        <translation></translation>
+        <translation>Prázdný</translation>
     </message>
     <message>
         <source>recording</source>
@@ -781,7 +786,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>paused</source>
-        <translation></translation>
+        <translation>Pozastaveno</translation>
     </message>
     <message>
         <source>stopped</source>
@@ -789,7 +794,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>uninitialized</source>
-        <translation></translation>
+        <translation>Zrušeno spuštění</translation>
     </message>
     <message>
         <source>Change track</source>
@@ -805,68 +810,68 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
-        <translation>Soubor: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Vytvořeno: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Upraveno: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt; Formát: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Počet skladeb: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Počet událostí: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Rozdělení: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Počáteční tempo: &lt;b&gt;%8 úzm&lt;/b&gt;&lt;br/&gt;Doba trvání: &lt;b&gt;%9&lt;/b&gt;</translation>
+        <translation>Soubor: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Vytvořeno: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Upraveno: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt; Formát: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Počet stop: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Počet událostí: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Rozdělení: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Počáteční tempo: &lt;b&gt;%8 M.M.&lt;/b&gt;&lt;br/&gt;Doba trvání: &lt;b&gt;%9&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Sequence Information</source>
-        <translation>Informace o pořadí</translation>
+        <translation>Informace o sekvenci</translation>
     </message>
     <message>
         <source>Language Changed</source>
-        <translation></translation>
+        <translation>Jazyk změněn</translation>
     </message>
     <message>
         <source>The language for this application is going to change to %1. Do you want to continue?</source>
-        <translation></translation>
+        <translation>Jazyk této aplikace se změní na %1. Chcete pokračovat?</translation>
     </message>
     <message>
         <source>Backward</source>
         <comment>player skip backward</comment>
-        <translation type="unfinished">Zpět</translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <source>Forward</source>
         <comment>player skip forward</comment>
-        <translation type="unfinished">Vpřed</translation>
+        <translation>Vpřed</translation>
     </message>
     <message>
         <source>Source</source>
         <comment>event origin</comment>
-        <translation type="unfinished">Zdroj</translation>
+        <translation>Zdroj</translation>
     </message>
     <message>
         <source>Event Kind</source>
         <comment>type of event</comment>
-        <translation type="unfinished">Druh události</translation>
+        <translation>Druh události</translation>
     </message>
     <message>
         <source>Track %1</source>
         <comment>song track</comment>
-        <translation type="unfinished">Stopa %1</translation>
+        <translation>Stopa %1</translation>
     </message>
     <message>
         <source>Track %1 View Selector</source>
         <comment>track selector</comment>
-        <translation type="unfinished">Přepínač pohledu pro stopu %1</translation>
+        <translation>Přepínač zobrazení stopy %1</translation>
     </message>
     <message>
         <source>&amp;%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1 %2</translation>
     </message>
     <message>
         <source>Recent files</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedávné soubory</translation>
     </message>
 </context>
 <context>
     <name>KMidimonWin</name>
     <message>
         <source>File</source>
-        <translation></translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <source>Control</source>
-        <translation></translation>
+        <translation>Ovládání</translation>
     </message>
     <message>
         <source>Connections</source>
@@ -874,239 +879,239 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation></translation>
+        <translation>Jazyk</translation>
     </message>
     <message>
         <source>toolBar</source>
-        <translation></translation>
+        <translation>Pruh s nástroji</translation>
     </message>
     <message>
         <source>Show Toolbar</source>
-        <translation></translation>
+        <translation>Ukázat nástrojový pruh</translation>
     </message>
     <message>
         <source>Show Statusbar</source>
-        <translation></translation>
+        <translation>Ukázat stavový řádek</translation>
     </message>
     <message>
         <source>Contents</source>
-        <translation></translation>
+        <translation>Obsah</translation>
     </message>
     <message>
         <source>Web Site</source>
-        <translation></translation>
+        <translation>Internetové stránky</translation>
     </message>
     <message>
         <source>About...</source>
-        <translation></translation>
+        <translation>O programu...</translation>
     </message>
     <message>
         <source>About Qt</source>
-        <translation></translation>
+        <translation>О Qt</translation>
     </message>
     <message>
         <source>Drumstick MIDI Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Paličkový monitor MIDI</translation>
     </message>
 </context>
 <context>
     <name>QApplication</name>
     <message>
         <source>Whole</source>
-        <translation type="unfinished"></translation>
+        <translation>Celá</translation>
     </message>
     <message>
         <source>Half</source>
-        <translation type="unfinished"></translation>
+        <translation>Půlová</translation>
     </message>
     <message>
         <source>Quarter</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtvrtinová</translation>
     </message>
     <message>
         <source>Eight</source>
-        <translation type="unfinished"></translation>
+        <translation>Osminová</translation>
     </message>
     <message>
         <source>Sixteenth</source>
-        <translation type="unfinished"></translation>
+        <translation>Šestnáctinová</translation>
     </message>
     <message>
         <source>Thirty-Second</source>
-        <translation type="unfinished"></translation>
+        <translation>Dvaatřicetinová</translation>
     </message>
     <message>
         <source>Sixty-Fourth</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtyřiašedesátinová</translation>
     </message>
     <message>
         <source>Note</source>
-        <translation type="unfinished">Nota</translation>
+        <translation>Nota</translation>
     </message>
     <message>
         <source>Note on</source>
-        <translation type="unfinished">Nota zapnuta</translation>
+        <translation>Nota zapnuta</translation>
     </message>
     <message>
         <source>Note off</source>
-        <translation type="unfinished">Nota vypnuta</translation>
+        <translation>Nota vypnuta</translation>
     </message>
     <message>
         <source>Polyphonic aftertouch</source>
-        <translation type="unfinished">Polyfonní úhoz</translation>
+        <translation>Vícehlasý úhoz</translation>
     </message>
     <message>
         <source>Control change</source>
-        <translation type="unfinished">Změna ovládání</translation>
+        <translation>Změna ovládání</translation>
     </message>
     <message>
         <source>Program change</source>
-        <translation type="unfinished">Změna programu</translation>
+        <translation>Změna programu</translation>
     </message>
     <message>
         <source>Channel aftertouch</source>
-        <translation type="unfinished">Kanálový úhoz</translation>
+        <translation>Kanálový úhoz</translation>
     </message>
     <message>
         <source>Pitch bend</source>
-        <translation type="unfinished">Změna výšky tónu</translation>
+        <translation>Změna výšky tónu</translation>
     </message>
     <message>
         <source>Non-registered parameter</source>
-        <translation type="unfinished">Ne-zanesený parametr</translation>
+        <translation>Ne-zanesený parametr</translation>
     </message>
     <message>
         <source>Registered parameter</source>
-        <translation type="unfinished">Zanesený parametr</translation>
+        <translation>Zanesený parametr</translation>
     </message>
     <message>
         <source>System exclusive</source>
-        <translation type="unfinished">Výhradní systému</translation>
+        <translation>Výhradní pro systém</translation>
     </message>
     <message>
         <source>Song Position</source>
-        <translation type="unfinished">Poloha písně</translation>
+        <translation>Poloha písně</translation>
     </message>
     <message>
         <source>Song Selection</source>
-        <translation type="unfinished">Výběr písně</translation>
+        <translation>Výběr písně</translation>
     </message>
     <message>
         <source>MTC Quarter Frame</source>
-        <translation type="unfinished">Čtvrtinový snímek MTC</translation>
+        <translation>Čtvrtinový snímek MTC</translation>
     </message>
     <message>
         <source>Tune Request</source>
-        <translation type="unfinished">Žádost o naladění</translation>
+        <translation>Žádost o naladění</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>player start</comment>
-        <translation type="unfinished">Spustit</translation>
+        <translation>Spustit</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished">Pokračovat</translation>
+        <translation>Pokračovat</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="unfinished">Zastavit</translation>
+        <translation>Zastavit</translation>
     </message>
     <message>
         <source>Clock</source>
-        <translation type="unfinished">Ukazatel času</translation>
+        <translation>Ukazatel času</translation>
     </message>
     <message>
         <source>Tick</source>
-        <translation type="unfinished">Jednotka</translation>
+        <translation>Tik</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished">Nastavit znovu</translation>
+        <translation>Obnovit výchozí</translation>
     </message>
     <message>
         <source>Active Sensing</source>
-        <translation type="unfinished">Zjišťování v činnosti</translation>
+        <translation>Aktivní snímání</translation>
     </message>
     <message>
         <source>ALSA Port start</source>
-        <translation type="unfinished">Spuštění přípojky ALSA</translation>
+        <translation>Spuštění přípojky ALSA</translation>
     </message>
     <message>
         <source>ALSA Port exit</source>
-        <translation type="unfinished">Ukončení přípojky ALSA</translation>
+        <translation>Ukončení přípojky ALSA</translation>
     </message>
     <message>
         <source>ALSA Port change</source>
-        <translation type="unfinished">Změna přípojky ALSA</translation>
+        <translation>Změna přípojky ALSA</translation>
     </message>
     <message>
         <source>ALSA Client start</source>
-        <translation type="unfinished">Spuštění klienta ALSA</translation>
+        <translation>Spuštění klienta ALSA</translation>
     </message>
     <message>
         <source>ALSA Client exit</source>
-        <translation type="unfinished">Ukončení klienta ALSA</translation>
+        <translation>Ukončení klienta ALSA</translation>
     </message>
     <message>
         <source>ALSA Client change</source>
-        <translation type="unfinished">Změna klienta ALSA</translation>
+        <translation>Změna klienta ALSA</translation>
     </message>
     <message>
         <source>ALSA Port subscribed</source>
-        <translation type="unfinished">Přípojka ALSA odebírána</translation>
+        <translation>Přípojka ALSA odebírána</translation>
     </message>
     <message>
         <source>ALSA Port unsubscribed</source>
-        <translation type="unfinished">Přípojka ALSA neodebírána</translation>
+        <translation>Přípojka ALSA neodebírána</translation>
     </message>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished">Tempo</translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <source>SMF Text</source>
-        <translation type="unfinished">Text SMF</translation>
+        <translation>Text SMF</translation>
     </message>
     <message>
         <source>Time Signature</source>
-        <translation type="unfinished">Taktové označení</translation>
+        <translation>Taktové označení</translation>
     </message>
     <message>
         <source>Key Signature</source>
-        <translation type="unfinished">Předznamenání</translation>
+        <translation>Předznamenání</translation>
     </message>
     <message>
         <source>Sequence Number</source>
-        <translation type="unfinished">Číslo sekvence</translation>
+        <translation>Číslo sekvence</translation>
     </message>
     <message>
         <source>Forced Channel</source>
-        <translation type="unfinished">Vynucený kanál</translation>
+        <translation>Vynucený kanál</translation>
     </message>
     <message>
         <source>Forced Port</source>
-        <translation type="unfinished">Vynucená přípojka</translation>
+        <translation>Vynucená přípojka</translation>
     </message>
     <message>
         <source>SMPTE Offset</source>
-        <translation type="unfinished">Posun SMPTE</translation>
+        <translation>Posun SMPTE</translation>
     </message>
     <message>
         <source>Sequencer Specific</source>
-        <translation type="unfinished">Přesně stanovené pro sekvencer</translation>
+        <translation>Přesně stanovené pro sekvencer</translation>
     </message>
     <message>
         <source>Meta (unregistered)</source>
-        <translation type="unfinished">Meta (nezapsaný)</translation>
+        <translation>Meta (nezapsaný)</translation>
     </message>
 </context>
 <context>
@@ -1749,82 +1754,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Source</source>
         <comment>event origin</comment>
-        <translation type="unfinished">Zdroj</translation>
+        <translation>Zdroj</translation>
     </message>
     <message>
         <source>broadcast</source>
         <comment>cast or scattered in all directions</comment>
-        <translation type="unfinished">Vysílání</translation>
+        <translation>Vysílání</translation>
     </message>
     <message>
         <source>Gen.Info</source>
         <comment>General Info</comment>
-        <translation type="unfinished">Gen.Info</translation>
+        <translation>Obecné údaje</translation>
     </message>
     <message>
         <source>GM Mode</source>
         <comment>General MIDI mode</comment>
-        <translation type="unfinished">Režim GM</translation>
+        <translation>Režim GM</translation>
     </message>
     <message>
         <source>DLS</source>
         <comment>Downloadable Sounds</comment>
-        <translation type="unfinished">DLS</translation>
+        <translation>Stáhnutelné zvuky</translation>
     </message>
     <message>
         <source>File Ref.</source>
         <comment>File Reference</comment>
-        <translation type="unfinished">Dop. souboru</translation>
+        <translation>Odkaz na soubor</translation>
     </message>
     <message>
         <source>GM2 Destination</source>
         <comment>General MIDI 2 Controller Destination</comment>
-        <translation type="unfinished">Cíl GM2</translation>
+        <translation>Cíl GM2</translation>
     </message>
     <message>
         <source>Instrument</source>
         <comment>Key-based Instrument Control</comment>
-        <translation type="unfinished">Nástroj</translation>
+        <translation>Nástroj</translation>
     </message>
     <message>
         <source>Polyphony</source>
         <comment>Scalable Polyphony MIDI MIP Message</comment>
-        <translation type="unfinished">Polyfonie</translation>
+        <translation>Vícehlas</translation>
     </message>
     <message>
         <source>Mobile Phone</source>
         <comment>Mobile Phone Control Message</comment>
-        <translation type="unfinished">Přenosný telefon</translation>
+        <translation>Přenosný telefon</translation>
     </message>
     <message>
         <source>Special</source>
         <comment>MTC special setup</comment>
-        <translation type="unfinished">Zvláštní</translation>
+        <translation>Zvláštní</translation>
     </message>
     <message>
         <source>Volume</source>
         <comment>sound volume</comment>
-        <translation type="unfinished">Hlasitost</translation>
+        <translation>Hlasitost</translation>
     </message>
     <message>
         <source>Balance</source>
         <comment>sound balance</comment>
-        <translation type="unfinished">Vyvážení</translation>
+        <translation>Vyvážení</translation>
     </message>
     <message>
         <source>Name:3</source>
         <comment>song or track name</comment>
-        <translation type="unfinished">Název: 3</translation>
+        <translation>Název: 3</translation>
     </message>
     <message>
         <source>major</source>
         <comment>major mode scale</comment>
-        <translation type="unfinished">Dur</translation>
+        <translation>Dur</translation>
     </message>
     <message>
         <source>minor</source>
         <comment>minor mode scale</comment>
-        <translation type="unfinished">Moll</translation>
+        <translation>Moll</translation>
     </message>
 </context>
 <context>
