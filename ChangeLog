@@ -1,3 +1,12 @@
+2021-01-10 00:00 plcl
+    * Dropped KDE dependency. It only depends on Qt5 now
+    * Using Drumstick 2.0 for ALSA sequencer and File (MID/WRK) support
+    * Code and build systems modernization
+    * Czech translation updated, by Pavel Fric
+    * Japanese translation updated, by Oota Toshiya
+    * Spanish translation updated
+    * Release 1.0.0
+
 2013-07-28 00:00 plcl
     * Finished Japanese translation, by Oota Toshiya
     * Release 0.7.5
