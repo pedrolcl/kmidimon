@@ -1,3 +1,6 @@
+2021-02-04 00:00 plcl
+    * Fixed file info dialog (initial tempo)
+
 2021-01-10 00:00 plcl
     * Dropped KDE dependency. It only depends on Qt5 now
     * Using Drumstick 2.0 for ALSA sequencer and File (MID/WRK) support

@@ -1471,6 +1471,9 @@ SequenceModel::loadFromFile(const QString& path)
     endInsertRows();
     m_items.setLast(m_tempSong.getLast());
     m_tempSong.clear();
+    if (m_initialTempo < 0) {
+        m_initialTempo = TEMPO_BPM;
+    }
 }
 
 void

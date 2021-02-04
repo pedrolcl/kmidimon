@@ -17,7 +17,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(kmidimon
-    VERSION 1.0.0
+    VERSION 1.0.1
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     LANGUAGES CXX
 )
