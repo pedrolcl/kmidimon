@@ -36,7 +36,11 @@ About::About(QWidget *parent)
 
 void About::retranslateUi()
 {
-    const QString PGM_VERSION(QT_STRINGIFY(VERSION));
+    QString strver(QT_STRINGIFY(VERSION));
+#ifdef REVISION
+    strver.append(" r");
+    strver.append(QT_STRINGIFY(REVISION));
+#endif
     const QString BLD_DATE(__DATE__);
     const QString BLD_TIME(__TIME__);
 #if defined(Q_CC_GNU) || defined(Q_CC_GCCE)
@@ -63,6 +67,6 @@ void About::retranslateUi()
                 "Compiler: %4"
               "</p>"
             "</body>"
-            "</html>").arg(PGM_VERSION, BLD_DATE, BLD_TIME, CMP_VERSION,
+            "</html>").arg(strver, BLD_DATE, BLD_TIME, CMP_VERSION,
                            qVersion(), drumstick::ALSA::getDrumstickLibraryVersion()));
 }

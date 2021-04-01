@@ -14,17 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.14)
 
 project(kmidimon
     VERSION 1.0.1
-    DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     LANGUAGES CXX
+    DESCRIPTION "ALSA Sequencer based MIDI Monitor"
+    HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
+include(SCMRevision)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED Yes)
 
