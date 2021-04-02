@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.sourceforge.kmidimon</id>
+  <name>Drumstick MIDI Monitor</name>
+  <summary>Drumstick MIDI Monitor is a MIDI monitor for Linux using ALSA sequencer</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <description>
+    <p>
+      Drumstick MIDI Monitor logs MIDI events coming from MIDI external ports or applications via the ALSA sequencer, 
+      and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug 
+      MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and 
+      sequencer parameters, support for MIDI and ALSA messages, and saving the recorded event list to a SMF or text file.
+    </p>
+  </description>
+  <url type="homepage">https://kmidimon.sourceforge.io/</url>
+  <developer_name>Pedro López-Cabanillas</developer_name>
+  <update_contact>plcl_AT_users.sourceforge.net</update_contact>
+  <launchable type="desktop-id">net.sourceforge.kmidimon.desktop</launchable>
+  <translation type="qt">kmidimon</translation>
+   <!-- <content_rating type="oars-1.1" /> this is broken, validator fail -->
+  <screenshots>
+    <!--TODO: pending better screenshots-->
+    <screenshot type="default">
+      <image>https://kmidimon.sourceforge.io/images/kmidimon1.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://kmidimon.sourceforge.io/images/kmidimon2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://kmidimon.sourceforge.io/images/kmidimon3.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.0" date="2021-01-10" />
+  </releases>  
+</component>

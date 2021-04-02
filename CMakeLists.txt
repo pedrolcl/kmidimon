@@ -90,8 +90,10 @@ add_custom_target ( tarball
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-install( FILES kmidimon.desktop
+install( FILES net.sourceforge.kmidimon.desktop
          DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
-         
+install( FILES net.sourceforge.kmidimon.appdata.xml
+         DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo )
+
 install( FILES standards.ins
          DESTINATION ${CMAKE_INSTALL_DATADIR}/kmidimon )
