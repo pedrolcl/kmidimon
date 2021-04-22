@@ -31,10 +31,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
   <property name="windowTitle">
    <string>About</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
-  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>

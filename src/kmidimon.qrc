@@ -5,5 +5,53 @@
         <file>icons/midi/icon32.png</file>
         <file>icons/midi/icon64.png</file>
         <file>icons/midi/icon128.png</file>
+        <file>icons/application-exit.png</file>
+        <file>icons/audio-midi.png</file>
+        <file>icons/audio-volume-high.png</file>
+        <file>icons/audio-volume-low.png</file>
+        <file>icons/audio-volume-muted.png</file>
+        <file>icons/chronometer.png</file>
+        <file>icons/colorize.png</file>
+        <file>icons/configure-shortcuts.png</file>
+        <file>icons/configure.png</file>
+        <file>icons/dialog-information.png</file>
+        <file>icons/document-new.png</file>
+        <file>icons/document-open-recent.png</file>
+        <file>icons/document-open.png</file>
+        <file>icons/document-save.png</file>
+        <file>icons/edit-clear.png</file>
+        <file>icons/edit-delete.png</file>
+        <file>icons/go-down.png</file>
+        <file>icons/go-home.png</file>
+        <file>icons/go-previous.png</file>
+        <file>icons/go-up.png</file>
+        <file>icons/help-about.png</file>
+        <file>icons/help-contents.png</file>
+        <file>icons/list-add.png</file>
+        <file>icons/list-remove.png</file>
+        <file>icons/media-playback-pause.png</file>
+        <file>icons/media-playback-start.png</file>
+        <file>icons/media-playback-stop.png</file>
+        <file>icons/media-playlist-repeat.png</file>
+        <file>icons/media-playlist-shuffle.png</file>
+        <file>icons/media-record.png</file>
+        <file>icons/media-skip-backward.png</file>
+        <file>icons/media-skip-forward.png</file>
+        <file>icons/midi.png</file>
+        <file>icons/object-locked.png</file>
+        <file>icons/object-unlocked.png</file>
+        <file>icons/palette-symbolic.png</file>
+        <file>icons/palette.png</file>
+        <file>icons/player-time.png</file>
+        <file>icons/player-volume-muted.png</file>
+        <file>icons/player-volume.png</file>
+        <file>icons/playlist-generator.png</file>
+        <file>icons/playlist-sort.png</file>
+        <file>icons/settings.png</file>
+        <file>icons/system-shutdown.png</file>
+        <file>icons/view-media-lyrics.png</file>
+        <file>icons/view-media-playlist.png</file>
+        <file>icons/view-media-title.png</file>
+        <file>icons/window-close.png</file>
     </qresource>
 </RCC>

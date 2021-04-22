@@ -25,7 +25,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>340</height>
+    <height>466</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,10 +40,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <height>340</height>
    </size>
   </property>
-  <property name="windowIcon">
-   <iconset resource="kmidimon.qrc">
-    <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
-  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -51,7 +47,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    <item row="0" column="0">
     <widget class="QTabWidget" name="m_tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabSequencer">
       <attribute name="title">
@@ -357,6 +353,37 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
        <string>Misc</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="8" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_translateCtrls">
+         <property name="text">
+          <string>Translate MIDI Programs and Controllers</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_forcedTheme">
+         <property name="text">
+          <string>Internal Icon Theme</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_resizeColumns">
+         <property name="text">
+          <string>Resize columns automatically while recording events</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="lblStyle">
+         <property name="text">
+          <string>Qt Style</string>
+         </property>
+         <property name="buddy">
+          <cstring>m_styles</cstring>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_4">
          <property name="font">
@@ -370,27 +397,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="m_useFixedFont">
-         <property name="whatsThis">
-          <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
-         </property>
-         <property name="text">
-          <string>Use Fixed Font</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_showClientNames">
-         <property name="whatsThis">
-          <string>Display ALSA client numbers or Names</string>
-         </property>
-         <property name="text">
-          <string>Translate ALSA Client IDs Into Names</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="QCheckBox" name="m_translateSysex">
          <property name="whatsThis">
           <string>Display some Universal Sysex messages as text, or hexadecimal numbers</string>
@@ -400,21 +407,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_translateNotes">
-         <property name="text">
-          <string>Translate Note Numbers into Names</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_translateCtrls">
-         <property name="text">
-          <string>Translate MIDI Programs and Controllers</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="lblInstrument">
          <property name="enabled">
           <bool>true</bool>
@@ -427,14 +420,24 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
-        <widget class="QComboBox" name="m_instruments">
-         <property name="enabled">
-          <bool>true</bool>
+       <item row="7" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_translateNotes">
+         <property name="text">
+          <string>Translate Note Numbers into Names</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_useFixedFont">
+         <property name="whatsThis">
+          <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
+         </property>
+         <property name="text">
+          <string>Use Fixed Font</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="2">
         <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -447,22 +450,45 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </spacer>
        </item>
-       <item row="9" column="0">
+       <item row="5" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_showClientNames">
+         <property name="whatsThis">
+          <string>Display ALSA client numbers or Names</string>
+         </property>
+         <property name="text">
+          <string>Translate ALSA Client IDs Into Names</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QComboBox" name="m_instruments">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QComboBox" name="m_codecs"/>
+       </item>
+       <item row="11" column="0">
         <widget class="QLabel" name="lblCodec">
          <property name="text">
           <string>SMF Text Encoding</string>
          </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QComboBox" name="m_codecs"/>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_resizeColumns">
-         <property name="text">
-          <string>Resize columns automatically while recording events</string>
+         <property name="buddy">
+          <cstring>m_codecs</cstring>
          </property>
         </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_forcedDarkMode">
+         <property name="text">
+          <string>Forced Dark Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="QComboBox" name="m_styles"/>
        </item>
       </layout>
      </widget>
@@ -478,10 +504,38 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
-<!-- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>-->
- <resources>
-  <include location="kmidimon.qrc"/>
- </resources>
+ <tabstops>
+  <tabstop>m_tabWidget</tabstop>
+  <tabstop>m_tempo</tabstop>
+  <tabstop>m_resolution</tabstop>
+  <tabstop>m_requestRealtime</tabstop>
+  <tabstop>m_channel</tabstop>
+  <tabstop>m_common</tabstop>
+  <tabstop>m_realtime</tabstop>
+  <tabstop>m_sysex</tabstop>
+  <tabstop>m_alsa</tabstop>
+  <tabstop>m_smfmsg</tabstop>
+  <tabstop>m_showTicksColumn</tabstop>
+  <tabstop>m_showTimeColumn</tabstop>
+  <tabstop>m_showSourceColumn</tabstop>
+  <tabstop>m_showEventTypeColumn</tabstop>
+  <tabstop>m_showChannelColumn</tabstop>
+  <tabstop>m_showData1Column</tabstop>
+  <tabstop>m_showData2Column</tabstop>
+  <tabstop>m_showData3Column</tabstop>
+  <tabstop>m_forcedDarkMode</tabstop>
+  <tabstop>m_forcedTheme</tabstop>
+  <tabstop>m_useFixedFont</tabstop>
+  <tabstop>m_resizeColumns</tabstop>
+  <tabstop>m_showClientNames</tabstop>
+  <tabstop>m_translateSysex</tabstop>
+  <tabstop>m_translateNotes</tabstop>
+  <tabstop>m_translateCtrls</tabstop>
+  <tabstop>m_instruments</tabstop>
+  <tabstop>m_codecs</tabstop>
+  <tabstop>m_styles</tabstop>
+ </tabstops>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

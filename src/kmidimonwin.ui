@@ -30,10 +30,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
   <property name="windowTitle">
    <string>Drumstick MIDI Monitor</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/midi/icons/midi/icon16.png</normaloff>:/midi/icons/midi/icon16.png</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

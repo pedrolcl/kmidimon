@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include <QTextCodec>
+#include <QStyle>
+#include <QStyleFactory>
 #include "configdialog.h"
 #include "iconutils.h"
 
@@ -25,9 +27,10 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent)
 {
     ui.setupUi(this);
-    IconUtils::SetWindowIcon(this);
+    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
     setWindowTitle(tr("KMidimon Configuration", "@title:window"));
     initEncodings();
+    initStyles();
 }
 
 bool ConfigDialog::showColumn(int colNum)
@@ -122,4 +125,48 @@ void ConfigDialog::setEncoding(const QString& name)
 {
     int index = ui.m_codecs->findText( name );
     ui.m_codecs->setCurrentIndex( index );
+}
+
+void ConfigDialog::initStyles()
+{
+    QStringList styleNames = QStyleFactory::keys();
+    ui.m_styles->addItems(styleNames);
+    QString currentStyle = qApp->style()->objectName();
+    foreach(const QString& s, styleNames) {
+        if (QString::compare(s, currentStyle, Qt::CaseInsensitive) == 0) {
+            ui.m_styles->setCurrentText(s);
+            break;
+        }
+    }
+}
+
+QString ConfigDialog::getStyle()
+{
+    return ui.m_styles->currentText();
+}
+
+void ConfigDialog::setStyle(const QString& name)
+{
+    int idx = ui.m_styles->findText(name);
+    ui.m_styles->setCurrentIndex(idx);
+}
+
+bool ConfigDialog::getDarkMode()
+{
+    return ui.m_forcedDarkMode->isChecked();
+}
+
+void ConfigDialog::setDarkMode(bool dark)
+{
+    ui.m_forcedDarkMode->setChecked(dark);
+}
+
+bool ConfigDialog::getInternalIcons()
+{
+    return ui.m_forcedTheme->isChecked();
+}
+
+void ConfigDialog::setInternalIcons(bool internal)
+{
+    ui.m_forcedTheme->setChecked(internal);
 }

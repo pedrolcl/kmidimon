@@ -76,6 +76,16 @@ public:
     QString getEncoding();
     void setEncoding(const QString& name);
 
+    void initStyles();
+    QString getStyle();
+    void setStyle(const QString& name);
+
+    bool getDarkMode();
+    void setDarkMode(bool dark);
+
+    bool getInternalIcons();
+    void setInternalIcons(bool internal);
+
     bool requestRealtime() { return ui.m_requestRealtime->isChecked(); }
     void setRequestRealtime(bool newValue) { ui.m_requestRealtime->setChecked(newValue); }
 

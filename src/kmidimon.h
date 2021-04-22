@@ -127,6 +127,8 @@ protected:
     void createLanguageMenu();
     QString configuredLanguage();
     void retranslateUi();
+    void applyVisualStyle();
+    void refreshIcons();
 
     void prependToRecentFiles(const QString &fileName);
     void setRecentFilesVisible(bool visible);
@@ -184,7 +186,9 @@ private:
     QAction *m_recentFileActs[MaxRecentFiles];
     QAction *m_recentFileSeparator;
     QAction *m_recentFileSubMenuAct;
-
+    QString m_style;
+    bool m_darkMode;
+    bool m_internalIcons;
 };
 
 #endif // KMIDIMON_H

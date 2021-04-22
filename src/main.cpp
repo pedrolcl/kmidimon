@@ -23,6 +23,7 @@
 #include <QFileInfo>
 #include <QDebug>
 #include "kmidimon.h"
+#include "iconutils.h"
 
 int main (int argc, char **argv)
 {

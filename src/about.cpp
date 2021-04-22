@@ -25,8 +25,8 @@ About::About(QWidget *parent)
 {
     ui.setupUi(this);
     retranslateUi();
-    IconUtils::SetLabelIcon(ui.labelIcon, ":/icons/midi/icon128.png");
-    IconUtils::SetWindowIcon(this);
+    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
+    ui.labelIcon->setPixmap(IconUtils::GetPixmap(":/icons/midi/icon128.png"));
 #if defined(SMALL_SCREEN)
     setWindowState(Qt::WindowActive | Qt::WindowMaximized);
 #else

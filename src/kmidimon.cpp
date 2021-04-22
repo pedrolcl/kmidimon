@@ -115,7 +115,7 @@ KMidimon::KMidimon() :
     QLocale::setDefault(locale);
     m_ui = new Ui::KMidimonWin();
     m_ui->setupUi(this);
-    IconUtils::SetWindowIcon(this);
+    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
@@ -124,6 +124,10 @@ KMidimon::KMidimon() :
     m_model = new SequenceModel(this);
     m_proxy = new ProxyModel(this);
     m_proxy->setSourceModel(m_model);
+    m_filter = new EventFilter(this);
+    m_model->setFilter(m_filter);
+    m_proxy->setFilter(m_filter);
+
     m_view = new QTreeView(this);
     m_view->setWhatsThis(tr("The events list"));
     m_view->setRootIsDecorated(false);
@@ -168,9 +172,10 @@ KMidimon::KMidimon() :
         vbox->setLayout(layout);
         setCentralWidget(vbox);
         setupActions();
-        createLanguageMenu();
         readConfiguration();
+        createLanguageMenu();
         translateActions();
+        applyVisualStyle();
         fileNew();
         record();
     } catch (drumstick::ALSA::SequencerError& ex) {
@@ -258,18 +263,18 @@ void KMidimon::setupActions()
     };*/
 
     m_new = new QAction(this);
-    m_new->setIcon(QIcon::fromTheme("document-new"));
+    m_new->setIcon(IconUtils::GetIcon("document-new"));
     connect(m_new, &QAction::triggered, this, &KMidimon::fileNew);
     m_ui->menuFile->addAction(m_new);
     m_ui->toolBar->addAction(m_new);
 
     m_open = new QAction(this);
-    m_open->setIcon(QIcon::fromTheme("document-open"));
+    m_open->setIcon(IconUtils::GetIcon("document-open"));
     connect(m_open, &QAction::triggered, this, &KMidimon::fileOpen);
     m_ui->menuFile->addAction(m_open);
     m_ui->toolBar->addAction(m_open);
 
-    m_recentFiles = m_ui->menuFile->addMenu(QIcon::fromTheme("document-open-recent"), tr("Recent files"));
+    m_recentFiles = m_ui->menuFile->addMenu(IconUtils::GetIcon("document-open-recent"), tr("Recent files"));
     connect(m_recentFiles, &QMenu::aboutToShow, this, &KMidimon::updateRecentFileActions);
     m_recentFileSubMenuAct = m_recentFiles->menuAction();
 
@@ -282,25 +287,25 @@ void KMidimon::setupActions()
     setRecentFilesVisible(KMidimon::hasRecentFiles());
 
     m_save = new QAction(this);
-    m_save->setIcon(QIcon::fromTheme("document-save"));
+    m_save->setIcon(IconUtils::GetIcon("document-save"));
     connect(m_save, &QAction::triggered, this, &KMidimon::fileSave);
     m_ui->menuFile->addAction(m_save);
     m_ui->toolBar->addAction(m_save);
 
     m_fileInfo = new QAction(this);
-    m_fileInfo->setIcon(QIcon::fromTheme("dialog-information"));
+    m_fileInfo->setIcon(IconUtils::GetIcon("dialog-information"));
     connect(m_fileInfo, &QAction::triggered, this, &KMidimon::songFileInfo);
     m_ui->menuFile->addAction(m_fileInfo);
     m_ui->menuFile->addSeparator();
 
     m_quit = new QAction(this);
-    m_quit->setIcon(QIcon::fromTheme("application-exit"));
+    m_quit->setIcon(IconUtils::GetIcon("application-exit"));
     connect(m_quit, &QAction::triggered, this, &QWidget::close);
     m_ui->menuFile->addAction(m_quit);
     m_ui->toolBar->addAction(m_quit);
 
     m_prefs = new QAction(this);
-    m_prefs->setIcon(QIcon::fromTheme("configure"));
+    m_prefs->setIcon(IconUtils::GetIcon("configure"));
     connect(m_prefs, &QAction::triggered, this, &KMidimon::preferences);
     m_ui->menuSettings->addAction(m_prefs);
     m_ui->toolBar->addAction(m_prefs);
@@ -320,40 +325,40 @@ void KMidimon::setupActions()
      */
 
     m_rewind = new QAction(this);
-    m_rewind->setIcon(QIcon::fromTheme("media-skip-backward"));
+    m_rewind->setIcon(IconUtils::GetIcon("media-skip-backward"));
     connect(m_rewind, &QAction::triggered, this, &KMidimon::rewind);
     m_ui->menuControl->addAction(m_rewind);
     m_ui->toolBar->addAction(m_rewind);
 
     m_play = new QAction(this);
     m_play->setShortcut( Qt::Key_MediaPlay );
-    m_play->setIcon(QIcon::fromTheme("media-playback-start"));
+    m_play->setIcon(IconUtils::GetIcon("media-playback-start"));
     connect(m_play, &QAction::triggered, this, &KMidimon::play);
     m_ui->menuControl->addAction(m_play);
     m_ui->toolBar->addAction(m_play);
 
     m_pause = new QAction(this);
     m_pause->setCheckable(true);
-    m_pause->setIcon(QIcon::fromTheme("media-playback-pause"));
+    m_pause->setIcon(IconUtils::GetIcon("media-playback-pause"));
     connect(m_pause, &QAction::triggered, this, &KMidimon::pause);
     m_ui->menuControl->addAction(m_pause);
     m_ui->toolBar->addAction(m_pause);
 
     m_forward = new QAction(this);
-    m_forward->setIcon(QIcon::fromTheme("media-skip-forward"));
+    m_forward->setIcon(IconUtils::GetIcon("media-skip-forward"));
     connect(m_forward, &QAction::triggered, this, &KMidimon::forward);
     m_ui->menuControl->addAction(m_forward);
     m_ui->toolBar->addAction(m_forward);
 
     m_record = new QAction(this);
-    m_record->setIcon(QIcon::fromTheme("media-record"));
+    m_record->setIcon(IconUtils::GetIcon("media-record"));
     m_record->setShortcut( Qt::Key_MediaRecord );
     connect(m_record, &QAction::triggered, this, &KMidimon::record);
     m_ui->menuControl->addAction(m_record);
     m_ui->toolBar->addAction(m_record);
 
     m_stop = new QAction(this);
-    m_stop->setIcon(QIcon::fromTheme("media-playback-stop"));
+    m_stop->setIcon(IconUtils::GetIcon("media-playback-stop"));
     m_stop->setShortcut( Qt::Key_MediaStop );
     connect(m_stop, &QAction::triggered, this, &KMidimon::stop);
     m_ui->menuControl->addAction(m_stop);
@@ -362,12 +367,12 @@ void KMidimon::setupActions()
     m_ui->menuControl->addSeparator();
 
     m_tempoSlider = new PlayerPopupSliderAction( this, SLOT(tempoSlider(int)), this );
-    m_tempoSlider->setIcon(QIcon::fromTheme("chronometer"));
+    m_tempoSlider->setIcon(IconUtils::GetIcon("chronometer"));
     m_ui->menuControl->addAction(m_tempoSlider);
     m_ui->toolBar->addAction(m_tempoSlider);
 
     m_tempo100 = new QAction(this);
-    m_tempo100->setIcon(QIcon::fromTheme("player-time"));
+    m_tempo100->setIcon(IconUtils::GetIcon("player-time"));
     connect(m_tempo100, &QAction::triggered, this, &KMidimon::tempoReset);
     m_ui->menuControl->addAction(m_tempo100);
     m_ui->toolBar->addAction(m_tempo100);
@@ -422,17 +427,14 @@ void KMidimon::setupActions()
         columns->addAction(m_popupAction[i]);
     }
 
-    m_filter = new EventFilter(this);
     QMenu* filtersMenu = m_filter->buildMenu(this);
     m_popup->addMenu( filtersMenu );
-    m_model->setFilter(m_filter);
-    m_proxy->setFilter(m_filter);
     connect(m_filter, &EventFilter::filterChanged, m_proxy, &QSortFilterProxyModel::invalidate);
     menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
 
     m_ui->actionAbout_Qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
-    m_ui->actionAbout->setIcon(QIcon(IconUtils::GetPixmap(this, ":/icons/midi/icon32.png")));
-    m_ui->actionContents->setIcon(QIcon::fromTheme("help-contents"));
+    m_ui->actionAbout->setIcon(QIcon(IconUtils::GetPixmap(":/icons/midi/icon32.png")));
+    m_ui->actionContents->setIcon(IconUtils::GetIcon("help-contents"));
     connect( m_ui->actionAbout, &QAction::triggered, this, &KMidimon::about );
     connect( m_ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt );
     connect( m_ui->actionContents, &QAction::triggered, this, &KMidimon::help );
@@ -453,6 +455,7 @@ void KMidimon::help()
     if (!finfo.exists()) {
         hname = "en/kmidimon.html";
     }
+    HelpWindow::internalIcons = m_internalIcons;
     HelpWindow::showPage(this, hname);
 //#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
 //    "kmidimon.md"
@@ -610,6 +613,9 @@ void KMidimon::saveConfiguration()
     config.setValue("fixed_font", getFixedFont());
     config.setValue("auto_resize", m_autoResizeColumns);
     config.setValue("language", m_language);
+    config.setValue("style", m_style);
+    config.setValue("dark_mode", m_darkMode);
+    config.setValue("internal_icons", m_internalIcons);
     for (i = 0; i < COLUMN_COUNT; ++i) {
         config.setValue(QString("show_column_%1").arg(i),
                 m_popupAction[i]->isChecked());
@@ -648,6 +654,9 @@ void KMidimon::readConfiguration()
     m_adaptor->queue_set_tempo();
     m_adaptor->setRequestRealtime(m_requestRealtimePrio);
     setFixedFont(config.value("fixed_font", false).toBool());
+    m_style = config.value("style", "fusion").toString();
+    m_darkMode = config.value("dark_mode", false).toBool();
+    m_internalIcons = config.value("internal_icons", false).toBool();
     for (i = 0; i < COLUMN_COUNT; ++i) {
         status = config.value(QString("show_column_%1").arg(i), true).toBool();
         setColumnStatus(i, status);
@@ -680,6 +689,9 @@ void KMidimon::preferences()
     dlg->setEncoding(m_model->getEncoding());
     dlg->setUseFixedFont(getFixedFont());
     dlg->setResizeColumns(m_autoResizeColumns);
+    dlg->setStyle(m_style);
+    dlg->setDarkMode(m_darkMode);
+    dlg->setInternalIcons(m_internalIcons);
     for (i = 0; i < COLUMN_COUNT; ++i) {
         dlg->setShowColumn(i, m_popupAction[i]->isChecked());
     }
@@ -703,11 +715,15 @@ void KMidimon::preferences()
             m_defaultTempo = dlg->getTempo();
             m_defaultResolution = dlg->getResolution();
             setFixedFont(dlg->useFixedFont());
+            m_style = dlg->getStyle();
+            m_darkMode = dlg->getDarkMode();
+            m_internalIcons = dlg->getInternalIcons();
             for (i = 0; i < COLUMN_COUNT; ++i) {
                 setColumnStatus(i, dlg->showColumn(i));
             }
             m_requestRealtimePrio = dlg->requestRealtime();
             m_adaptor->setRequestRealtime(m_requestRealtimePrio);
+            applyVisualStyle();
             if (was_running) record();
         }
     }
@@ -1194,6 +1210,35 @@ void KMidimon::retranslateUi()
     createLanguageMenu();
     translateActions();
     m_filter->retranslateMenu();
+}
+
+void KMidimon::applyVisualStyle()
+{
+    static QPalette light = qApp->palette();
+    static QPalette dark(QColor(0x30,0x30,0x30));
+    qApp->setPalette( m_darkMode ? dark : light );
+    qApp->setStyle( m_style );
+    refreshIcons();
+}
+
+void KMidimon::refreshIcons()
+{
+    m_new->setIcon(IconUtils::GetIcon("document-new", m_internalIcons));
+    m_open->setIcon(IconUtils::GetIcon("document-open", m_internalIcons));
+    m_recentFiles->setIcon(IconUtils::GetIcon("document-open-recent", m_internalIcons));
+    m_save->setIcon(IconUtils::GetIcon("document-save", m_internalIcons));
+    m_fileInfo->setIcon(IconUtils::GetIcon("dialog-information", m_internalIcons));
+    m_quit->setIcon(IconUtils::GetIcon("application-exit", m_internalIcons));
+    m_prefs->setIcon(IconUtils::GetIcon("configure", m_internalIcons));
+    m_rewind->setIcon(IconUtils::GetIcon("media-skip-backward", m_internalIcons));
+    m_play->setIcon(IconUtils::GetIcon("media-playback-start", m_internalIcons));
+    m_pause->setIcon(IconUtils::GetIcon("media-playback-pause", m_internalIcons));
+    m_forward->setIcon(IconUtils::GetIcon("media-skip-forward", m_internalIcons));
+    m_record->setIcon(IconUtils::GetIcon("media-record", m_internalIcons));
+    m_stop->setIcon(IconUtils::GetIcon("media-playback-stop", m_internalIcons));
+    m_tempoSlider->setIcon(IconUtils::GetIcon("chronometer", m_internalIcons));
+    m_tempo100->setIcon(IconUtils::GetIcon("player-time", m_internalIcons));
+    m_ui->actionContents->setIcon(IconUtils::GetIcon("help-contents", m_internalIcons));
 }
 
 void KMidimon::setRecentFilesVisible(bool visible)

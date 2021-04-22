@@ -28,10 +28,8 @@
 namespace  IconUtils
 {
     void PaintPixmap(QPixmap &pixmap, const QColor& color);
-    QPixmap GetPixmap(QWidget* widget, const QString& fileName);
-    void SetLabelIcon(QLabel *label, const QString& fileName);
-    void SetupComboFigures(QComboBox *combo);
-    void SetWindowIcon(QWidget *widget);
+    QPixmap GetPixmap(const QString& fileName);
+    QIcon GetIcon(const QString& name, bool forcedTheme = true);
 }
 
 #endif // ICONUTILS_H

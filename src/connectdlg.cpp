@@ -35,7 +35,7 @@ ConnectDlg::ConnectDlg( QWidget *parent,
     QDialog(parent)
 {
     setWindowTitle(tr("Connections"));
-    IconUtils::SetWindowIcon(this);
+    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
 
     setModal(true);
     setMinimumWidth(320);

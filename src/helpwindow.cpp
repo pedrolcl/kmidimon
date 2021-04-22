@@ -25,21 +25,23 @@
 #include "helpwindow.h"
 #include "iconutils.h"
 
+bool HelpWindow::internalIcons;
+
 HelpWindow::HelpWindow(const QString &path, const QString &page, QWidget *parent):
     QWidget(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setAttribute(Qt::WA_GroupLeader);
-    IconUtils::SetWindowIcon(this);
+    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
 
     textBrowser = new QTextBrowser(this);
     homeButton = new QPushButton(tr("&Home"), this);
-    homeButton->setIcon(QIcon::fromTheme("go-home"));
+    homeButton->setIcon(IconUtils::GetIcon("go-home", HelpWindow::internalIcons));
     backButton = new QPushButton(tr("&Back"), this);
-    backButton->setIcon(QIcon::fromTheme("go-previous"));
+    backButton->setIcon(IconUtils::GetIcon("go-previous", HelpWindow::internalIcons));
     closeButton = new QPushButton(tr("Close"), this);
     closeButton->setShortcut(tr("Esc"));
-    closeButton->setIcon(QIcon::fromTheme("window-close"));
+    closeButton->setIcon(IconUtils::GetIcon("window-close", HelpWindow::internalIcons));
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(homeButton);
