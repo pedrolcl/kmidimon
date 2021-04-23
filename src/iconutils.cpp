@@ -17,6 +17,7 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.*
  ***************************************************************************/
 
+#include <QDebug>
 #include <QApplication>
 #include <QPainter>
 #include <QFileInfo>
@@ -50,8 +51,8 @@ namespace IconUtils
     QIcon GetIcon(const QString& name, bool forcedIconTheme)
     {
         QIcon icon;
-        if (!forcedIconTheme) {
-            icon = IconUtils::GetIcon(name);
+        if (!forcedIconTheme && QIcon::hasThemeIcon(name)) {
+            icon = QIcon::fromTheme(name);
         }
         if (icon.isNull() || forcedIconTheme) {
             QString iconName = QString(":/icons/%1.png").arg(name);

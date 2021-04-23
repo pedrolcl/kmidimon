@@ -78,7 +78,6 @@ static QString trDirectory()
     return QLatin1String(":/");
 #else
     QDir test(KMidimon::dataDirectory() + "/translations/" );
-    //qDebug() << test.absolutePath();
     if (test.exists()) {
         return test.absolutePath();
     }
