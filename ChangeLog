@@ -1,3 +1,8 @@
+2021-04-23
+    * added action icons: internal theme based on breeze
+    * new settings: qt style, dark mode, and internal icon theme
+    * desktop icons replaced
+
 2021-04-01 00:00 plcl
     * added SCM Revision to the about box
 

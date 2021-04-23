@@ -2,7 +2,7 @@ TEMPLATE = app
 TARGET = kmidimon
 DEPENDPATH += . src
 INCLUDEPATH += . src
-VERSION = 1.0.0
+VERSION = 1.0.1
 QT += core gui widgets
 CONFIG += c++11 link_pkgconfig lrelease embed_translations
 DEFINES += VERSION=$$VERSION \
