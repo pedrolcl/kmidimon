@@ -1,3 +1,6 @@
+2021-04-25
+    * Standarization: MIDI texts/lyrics encoding defaults to Latin1
+
 2021-04-23
     * added action icons: internal theme based on breeze
     * new settings: qt style, dark mode, and internal icon theme

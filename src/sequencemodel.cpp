@@ -2005,8 +2005,8 @@ void
 SequenceModel::setEncoding(const QString& encoding)
 {
     if (m_encoding != encoding) {
-        //QString name = KGlobal::charsets()->encodingForName(encoding);
         QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
+        //qDebug() << Q_FUNC_INFO << m_encoding << codec;
         m_smf->setTextCodec(codec);
         m_wrk->setTextCodec(codec);
         m_encoding = encoding;

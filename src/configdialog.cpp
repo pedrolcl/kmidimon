@@ -101,7 +101,7 @@ void ConfigDialog::setInstruments( const QStringList& items )
 void ConfigDialog::initEncodings()
 {
     ui.m_codecs->clear();
-    ui.m_codecs->addItem(tr("Default ( ASCII )", "@item:inlistbox Default MIDI text encoding"));
+    ui.m_codecs->addItem(tr("Default ( Latin1 )", "@item:inlistbox Default MIDI text encoding"));
     QStringList encodings;
     foreach (auto m,  QTextCodec::availableMibs())
     {
