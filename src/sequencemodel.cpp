@@ -17,10 +17,6 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.*
  ***************************************************************************/
 
-#include "sequencemodel.h"
-#include "sequenceradaptor.h"
-#include "kmidimon.h"
-#include "eventfilter.h"
 #include <cmath>
 #include <QApplication>
 #include <QTextCodec>
@@ -34,6 +30,17 @@
 #include <QListIterator>
 #include <QTime>
 #include <QTextCodec>
+
+#include "sequencemodel.h"
+#include "sequenceradaptor.h"
+#include "kmidimon.h"
+#include "eventfilter.h"
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+#define endl Qt::endl
+#define hex Qt::hex
+#define dec Qt::dec
+#endif
 
 using namespace drumstick;
 using namespace ALSA;
