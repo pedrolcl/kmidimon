@@ -1,3 +1,6 @@
+2021-04-28
+    * Removed warnings building with Qt >= 5.15
+
 2021-04-25
     * Standarization: MIDI texts/lyrics encoding defaults to Latin1
 
@@ -7,6 +10,7 @@
     * desktop icons replaced
 
 2021-04-01 00:00 plcl
+    * CMake version >= 3.14
     * added SCM Revision to the about box
 
 2021-02-04 00:00 plcl
