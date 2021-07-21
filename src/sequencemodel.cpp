@@ -29,7 +29,6 @@
 #include <QDataStream>
 #include <QListIterator>
 #include <QTime>
-#include <QTextCodec>
 
 #include "sequencemodel.h"
 #include "sequenceradaptor.h"
@@ -2011,12 +2010,19 @@ SequenceModel::getDuration() const
 void
 SequenceModel::setEncoding(const QString& encoding)
 {
+    //qDebug() << Q_FUNC_INFO << encoding;
     if (m_encoding != encoding) {
-        QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
+        QTextCodec* codec;
+        if (encoding.isEmpty()) {
+            codec = QTextCodec::codecForName("latin1");
+            m_encoding = "latin1";
+        } else {
+            codec = QTextCodec::codecForName(encoding.toLatin1());
+            m_encoding = encoding;
+        }
         //qDebug() << Q_FUNC_INFO << m_encoding << codec;
         m_smf->setTextCodec(codec);
         m_wrk->setTextCodec(codec);
-        m_encoding = encoding;
     }
 }
 
@@ -2214,7 +2220,7 @@ void SequenceModel::timeSigEventWRK(int bar, int num, int den)
         if (!found) {
             TimeSigRec& lasts = m_bars.last();
             newts.time = lasts.time +
-                    (lasts.num * 4 / lasts.den * m_division * (bar - lasts.bar));
+                    (lasts.num * 4 * m_division / lasts.den * (bar - lasts.bar));
             m_bars.append(newts);
         }
     }

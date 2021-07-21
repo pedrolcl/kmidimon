@@ -118,6 +118,9 @@ void ConfigDialog::initEncodings()
 
 QString ConfigDialog::getEncoding()
 {
+    if (ui.m_codecs->currentIndex() == 0) {
+        return QLatin1String("latin1");
+    }
     return ui.m_codecs->currentText();
 }
 
