@@ -1,3 +1,9 @@
+2021-07-23
+    * Fixed system exclusive events processing in wrk format
+
+2021-07-21
+    * fixes: default encoding, and time signature wrk events
+
 2021-04-28
     * Removed warnings building with Qt >= 5.15
 

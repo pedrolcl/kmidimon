@@ -282,12 +282,8 @@ private:
     Instrument* m_ins2;
     EventFilter* m_filter;
 
-    struct SysexEventRec {
-        int track;
-        long time;
-        int bank;
-    };
-    QList<SysexEventRec> m_savedSysexEvents;
+    QMap<int, drumstick::ALSA::SysExEvent> m_savedSysexEvents;
+
     QString m_fileFormat;
 
     struct TrackMapRec {

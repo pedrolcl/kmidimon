@@ -2164,23 +2164,20 @@ void SequenceModel::chanPressEventWRK(int track, long time, int chan, int press)
 
 void SequenceModel::sysexEventWRK(int track, long time, int bank)
 {
-    SysexEventRec rec;
-    rec.track = track;
-    rec.time = time;
-    rec.bank = bank;
-    m_savedSysexEvents.append(rec);
+    if (m_savedSysexEvents.contains(bank)) {
+        SysExEvent *ev = m_savedSysexEvents[bank].clone();
+        (this->*m_appendFunc)(time, track, ev);
+    }
 }
 
 void SequenceModel::sysexEventBank(int bank, const QString& /*name*/, bool autosend, int /*port*/, const QByteArray& data)
 {
-    SysExEvent* ev = new SysExEvent(data);
-    if (autosend)
-       (this->*m_appendFunc)(0, 0, ev->clone());
-    foreach(const SysexEventRec& rec, m_savedSysexEvents) {
-        if (rec.bank == bank)
-           (this->*m_appendFunc)(rec.time, rec.track, ev->clone());
+    SysExEvent ev(data);
+    if (autosend) {
+        (this->*m_appendFunc)(0, 0, ev.clone());
+    } else {
+        m_savedSysexEvents[bank] = ev;
     }
-    delete ev;
 }
 
 void SequenceModel::textEventWRK(int track, long time, int /*type*/, const QString& data)
