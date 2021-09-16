@@ -1,3 +1,6 @@
+2021-09-16
+    * Supported RIFF RMID files (.rmi), provided by Drumstick 2.4
+
 2021-07-23
     * Fixed system exclusive events processing in wrk format
 

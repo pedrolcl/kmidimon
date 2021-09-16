@@ -546,8 +546,7 @@ void KMidimon::open(const QString& fileName)
 void KMidimon::fileOpen()
 {
     QFileDialog fd(this, tr("Open MIDI file"));
-    QStringList filters;
-    filters << "audio/midi" << "audio/cakewalk";
+    QStringList filters{"audio/midi","audio/cakewalk","audio/x-midi","application/x-riff"};
     fd.setMimeTypeFilters(filters);
     fd.selectMimeTypeFilter(filters[0]);
     fd.setFileMode(QFileDialog::ExistingFile);
@@ -1055,24 +1054,23 @@ KMidimon::songFileInfo()
         infostr = tr("No file loaded");
     else {
         QFileInfo finfo(m_currentFile);
-        infostr = tr("File: <b>%1</b><br/>"
-                       "Created: <b>%2</b><br/>"
-                       "Modified: <b>%3</b><br/>"
-                       "Format: <b>%4</b><br/>"
-                       "Number of tracks: <b>%5</b><br/>"
-                       "Number of events: <b>%6</b><br/>"
-                       "Division: <b>%7 ppq</b><br/>"
-                       "Initial tempo: <b>%8 bpm</b><br/>"
-                       "Duration: <b>%9</b>")
-                       .arg(finfo.fileName())
-                       .arg(finfo.birthTime().toString(Qt::DefaultLocaleLongDate))
-                       .arg(finfo.lastModified().toString(Qt::DefaultLocaleLongDate))
-                       .arg(m_model->getFileFormat())
-                       .arg(m_model->getSMFTracks())
-                       .arg(m_model->getSong()->size())
-                       .arg(m_model->getSMFDivision())
-                       .arg(m_model->getInitialTempo())
-                       .arg(m_model->getDuration());
+        infostr = tr( "File: <b>%1</b><br/>"
+                      "Date: <b>%2</b><br/>"
+                      "Format: <b>%3</b><br/>"
+                      "Number of tracks: <b>%4</b><br/>"
+                      "Number of events: <b>%5</b><br/>"
+                      "Division: <b>%6 ppq</b><br/>"
+                      "Initial tempo: <b>%7 bpm</b><br/>"
+                      "Duration: <b>%8</b><br/> %9").arg(
+                      finfo.fileName(),
+                      finfo.lastModified().toString(Qt::DefaultLocaleLongDate),
+                      m_model->getFileFormat(),
+                      QString::number( m_model->getSMFTracks() ),
+                      QString::number( m_model->getSong()->size() ),
+                      QString::number( m_model->getSMFDivision() ),
+                      QString::number( m_model->getInitialTempo() ),
+                      m_model->getDuration(),
+                      m_model->getMetadataInfo());
     }
     QMessageBox::information(this, tr("Sequence Information"), infostr);
 }

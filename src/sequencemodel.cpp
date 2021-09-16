@@ -97,6 +97,12 @@ SequenceModel::SequenceModel(QObject* parent) :
         m_filter(nullptr),
         m_appendFunc(nullptr)
 {
+    m_rmid = new Rmidi(this);
+    connect(m_rmid, &Rmidi::signalRiffData,
+                    this, &SequenceModel::dataHandler );
+    connect(m_rmid, &Rmidi::signalRiffInfo,
+                    this, &SequenceModel::infoHandler );
+
     m_smf = new QSmf(this);
     connect(m_smf, &QSmf::signalSMFHeader,
                    this, &SequenceModel::headerEvent);
@@ -389,6 +395,7 @@ SequenceModel::clear()
     m_bars.clear();
     m_tempos.clear();
     m_loadingMessages.clear();
+    m_infoMap.clear();
     m_lastCtlMSB = 0;
     m_lastCtlLSB = 0;
     for (int i=0; i<16; ++i) {
@@ -1457,11 +1464,17 @@ SequenceModel::loadFromFile(const QString& path)
     m_initialTempo = -1;
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForFile(path);
-    if (type.name() == "audio/midi") {
+    QFileInfo finfo(path);
+    QString ext = finfo.suffix().toLower();
+    if (type.name() == "audio/midi" || type.name() == "audio/x-midi" || ext == "mid" || ext == "midi") {
         m_appendFunc = &SequenceModel::appendSMFEvent;
         m_reportsFilePos = true;
         m_smf->readFromFile(path);
-    } else if (type.name() == "audio/cakewalk") {
+    } else if (type.name() == "application/x-riff" || ext == "rmi") {
+        m_appendFunc = &SequenceModel::appendSMFEvent;
+        m_reportsFilePos = true;
+        m_rmid->readFromFile(path);
+    } else if (type.name() == "audio/cakewalk" || ext == "wrk") {
         m_appendFunc = &SequenceModel::appendWRKEvent;
         m_reportsFilePos = true;
         m_wrk->readFromFile(path);
@@ -1660,6 +1673,58 @@ SequenceModel::ctlChangeEvent(int chan, int ctl, int value)
                 break;
         }
     }
+}
+
+QString SequenceModel::getMetadataInfo() const
+{
+    if (!m_infoMap.empty()) {
+        QString metadata;
+        QMap<QString,QString>::const_iterator i;
+        for(i = m_infoMap.constBegin(); i != m_infoMap.constEnd(); ++i) {
+            metadata += i.key() + ": <b>" + i.value() + "</b><br/>";
+        }
+        return metadata;
+    }
+    return QString();
+}
+
+void SequenceModel::dataHandler(const QString &dataType, const QByteArray &data)
+{
+    if (dataType == "RMID") {
+        QDataStream ds(data);
+        m_smf->readFromStream(&ds);
+        m_fileFormat += tr(" in RIFF container of type %1").arg(dataType);
+    }
+}
+
+void SequenceModel::infoHandler(const QString &infoType, const QByteArray &data)
+{
+    const QMap<QString,QString> keyMap{
+        {"IALB", "Album"},
+        {"IARL", "Archival Location"},
+        {"IART", "Artist"},
+        {"ICMS", "Commissioned"},
+        {"ICMT", "Comments"},
+        {"ICOP", "Copyright"},
+        {"ICRD", "Creation date"},
+        {"IENG", "Engineer"},
+        {"IGNR", "Genre"},
+        {"IKEY", "Keywords"},
+        {"IMED", "Medium"},
+        {"INAM", "Name"},
+        {"IPRD", "Product"},
+        {"ISBJ", "Subject"},
+        {"ISFT", "Software"},
+        {"ISRC", "Source"},
+        {"ISR", "Source Form"},
+        {"ITCH", "Technician"}};
+    QString key;
+    if (keyMap.contains(infoType)) {
+        key = keyMap[infoType];
+    } else {
+        key = infoType;
+    }
+    m_infoMap[key] = QString::fromLatin1(data);
 }
 
 void

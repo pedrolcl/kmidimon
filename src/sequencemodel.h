@@ -25,6 +25,7 @@
 
 #include <drumstick/alsaevent.h>
 #include <drumstick/qsmf.h>
+#include <drumstick/rmid.h>
 #include <drumstick/qwrk.h>
 
 #include <QAbstractItemModel>
@@ -133,7 +134,13 @@ public:
     QString getLoadingMessages() const { return m_loadingMessages; }
     void ctlChangeEvent(int chan, int ctl, int value);
 
+    QString getMetadataInfo() const;
+
 public slots:
+    /* RMID slots */
+    void dataHandler(const QString& dataType, const QByteArray& data);
+    void infoHandler(const QString& infoType, const QByteArray& data);
+
     /* SMF slots */
     void headerEvent(int format, int ntrks, int division);
     void trackStartEvent();
@@ -277,6 +284,7 @@ private:
     Song m_items;
     Song m_tempSong;
     drumstick::File::QSmf* m_smf;
+    drumstick::File::Rmidi* m_rmid;
     drumstick::File::QWrk* m_wrk;
     Instrument* m_ins;
     Instrument* m_ins2;
@@ -312,6 +320,8 @@ private:
     AppendFunc m_appendFunc;
 
     QString m_loadingMessages;
+
+    QMap<QString, QString> m_infoMap;
 };
 
 #endif /* SEQUENCEMODEL_H */
