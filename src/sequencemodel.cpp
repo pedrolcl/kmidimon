@@ -1724,7 +1724,14 @@ void SequenceModel::infoHandler(const QString &infoType, const QByteArray &data)
     } else {
         key = infoType;
     }
-    m_infoMap[key] = QString::fromLatin1(data);
+    QString value;
+    auto codec = m_smf->getTextCodec();
+    if ((m_encoding == "latin1") || (codec == nullptr)) {
+        value = QString::fromLatin1(data);
+    } else {
+        value = codec->toUnicode(data);
+    }
+    m_infoMap[key] = value;
 }
 
 void
