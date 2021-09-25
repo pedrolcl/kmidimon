@@ -18,7 +18,7 @@
   <update_contact>plcl_AT_users.sourceforge.net</update_contact>
   <launchable type="desktop-id">net.sourceforge.kmidimon.desktop</launchable>
   <translation type="qt">kmidimon</translation>
-   <!-- <content_rating type="oars-1.1" /> this is broken, validator fail -->
+  <content_rating type="oars-1.1" /> <!-- this is broken, validator fails -->
   <screenshots>
     <!--TODO: pending better screenshots-->
     <screenshot type="default">
@@ -32,6 +32,7 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.1.0" date="2021-09-19" />
     <release version="1.0.0" date="2021-01-10" />
   </releases>  
 </component>
