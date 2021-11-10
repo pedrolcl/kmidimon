@@ -22,13 +22,13 @@
 #include <QTextCodec>
 #include <QMimeDatabase>
 #include <QMimeType>
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QDataStream>
 #include <QListIterator>
 #include <QTime>
+#include <QDebug>
 
 #include "sequencemodel.h"
 #include "sequenceradaptor.h"
@@ -73,6 +73,16 @@ void Song::setMutedState(int track, bool muted)
     if (muted != m_mutedState[track]) {
         m_mutedState[track] = muted;
     }
+}
+
+Song Song::filtered()
+{
+    Song result;
+    std::copy_if(begin(), end(), std::back_inserter(result), [this](SequenceItem &item) -> bool {
+        return !m_mutedState[item.getTrack()];
+    });
+    result.setLast(getLast());
+    return result;
 }
 
 SequenceModel::SequenceModel(QObject* parent) :
@@ -214,6 +224,7 @@ SequenceModel::SequenceModel(QObject* parent) :
                    this, &SequenceModel::chord);
     connect(m_wrk, &QWrk::signalWRKExpression,
                    this, &SequenceModel::expression);
+    connect(m_wrk, &QWrk::signalWRKMarker, this, &SequenceModel::marker );
 
     QString data = KMidimon::dataDirectory();
     if (data.isEmpty()) {
@@ -2124,8 +2135,11 @@ void SequenceModel::fileHeader(int verh, int verl)
 {
     m_fileFormat = tr("WRK file version %1.%2").arg(verh).arg(verl);
     m_format = 1;
-    m_ntrks = 0;
+    m_ntrks = 1;
     m_division = 120;
+    m_currentTrack = 0;
+    TrackMapRec rec;
+    m_trackMap[m_currentTrack] = rec;
 }
 
 void SequenceModel::timeBase(int timebase)
@@ -2153,19 +2167,19 @@ void SequenceModel::trackHeader( const QString& name1, const QString& name2,
                            int pitch, int velocity, int /*port*/,
                            bool /*selected*/, bool muted, bool /*loop*/ )
 {
-    m_currentTrack = trackno;
+    m_currentTrack = trackno + 1;
     TrackMapRec rec;
     rec.channel = channel;
     rec.pitch = pitch;
     rec.velocity = velocity;
-    m_trackMap[trackno] = rec;
+    m_trackMap[trackno + 1] = rec;
     m_ntrks++;
     m_tempSong.setMutedState(m_currentTrack, muted);
     QString trkName = name1 + ' ' + name2;
     trkName = trkName.trimmed();
     if (!trkName.isEmpty()) {
         SequencerEvent* ev = new TextEvent(trkName, 3);
-        (this->*m_appendFunc)(0, trackno, ev);
+        (this->*m_appendFunc)(0, trackno + 1, ev);
     }
     if (m_reportsFilePos)
         emit loadProgress(m_wrk->getFilePos());
@@ -2173,72 +2187,72 @@ void SequenceModel::trackHeader( const QString& name1, const QString& name2,
 void SequenceModel::noteEvent(int track, long time, int chan, int pitch, int vol, int dur)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     int key = pitch + rec.pitch;
     int velocity = vol + rec.velocity;
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new NoteEvent(channel, key, velocity, dur);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::keyPressEventWRK(int track, long time, int chan, int pitch, int press)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     int key = pitch + rec.pitch;
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new KeyPressEvent(channel, key, press);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::wrkCtlChangeEvent(int track, long time, int chan, int ctl, int value)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     ctlChangeEvent(channel, ctl, value);
     SequencerEvent* ev = new ControllerEvent(channel, ctl, value);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::pitchBendEventWRK(int track, long time, int chan, int value)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new PitchBendEvent(channel, value);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::programEventWRK(int track, long time, int chan, int patch)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new ProgramChangeEvent(channel, patch);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::chanPressEventWRK(int track, long time, int chan, int press)
 {
     int channel = chan;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     SequencerEvent* ev = new ChanPressEvent(channel, press);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::sysexEventWRK(int track, long time, int bank)
 {
     if (m_savedSysexEvents.contains(bank)) {
         SysExEvent *ev = m_savedSysexEvents[bank].clone();
-        (this->*m_appendFunc)(time, track, ev);
+        (this->*m_appendFunc)(time, track+1, ev);
     }
 }
 
@@ -2255,7 +2269,7 @@ void SequenceModel::sysexEventBank(int bank, const QString& /*name*/, bool autos
 void SequenceModel::textEventWRK(int track, long time, int /*type*/, const QString& data)
 {
     SequencerEvent* ev = new TextEvent(data, 1);
-    (this->*m_appendFunc)(time, track, ev);
+    (this->*m_appendFunc)(time, track+1, ev);
 }
 
 void SequenceModel::timeSigEventWRK(int bar, int num, int den)
@@ -2325,10 +2339,10 @@ void SequenceModel::tempoEventWRK(long time, int tempo)
 void SequenceModel::trackPatch(int track, int patch)
 {
     int channel = 0;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
-    programEventWRK(track, 0, channel, patch);
+    programEventWRK(track+1, 0, channel, patch);
 }
 
 void SequenceModel::comments(const QString& cmt)
@@ -2365,16 +2379,16 @@ void SequenceModel::newTrackHeader( const QString& name,
                               int pitch, int velocity, int /*port*/,
                               bool /*selected*/, bool muted, bool /*loop*/ )
 {
-    m_currentTrack = trackno;
+    m_currentTrack = trackno + 1;
     TrackMapRec rec;
     rec.channel = channel;
     rec.pitch = pitch;
     rec.velocity = velocity;
-    m_trackMap[trackno] = rec;
+    m_trackMap[trackno + 1] = rec;
     m_ntrks++;
     m_tempSong.setMutedState(m_currentTrack, muted);
     if (!name.isEmpty())
-        textEventWRK(trackno, 0, 3, name);
+        textEventWRK(trackno + 1, 0, 3, name);
     if (m_reportsFilePos)
         emit loadProgress(m_wrk->getFilePos());
 }
@@ -2382,23 +2396,23 @@ void SequenceModel::newTrackHeader( const QString& name,
 void SequenceModel::trackName(int trackno, const QString& name)
 {
     SequencerEvent* ev = new TextEvent(name, 3);
-    (this->*m_appendFunc)(0, trackno, ev);
+    (this->*m_appendFunc)(0, trackno + 1, ev);
 }
 
 void SequenceModel::trackVol(int track, int vol)
 {
     int channel = 0;
     int lsb, msb;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     if (vol < 128)
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, vol);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, vol);
     else {
         lsb = vol % 0x80;
         msb = vol / 0x80;
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, msb);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_LSB_MAIN_VOLUME, lsb);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_MSB_MAIN_VOLUME, msb);
     }
 }
 
@@ -2407,7 +2421,7 @@ void SequenceModel::trackBank(int track, int bank)
     int method = 0;
     int channel = 0;
     int lsb, msb;
-    TrackMapRec rec = m_trackMap[track];
+    TrackMapRec rec = m_trackMap[track+1];
     if (rec.channel > -1)
         channel = rec.channel;
     if (channel == 9 && m_ins2 != nullptr)
@@ -2418,14 +2432,14 @@ void SequenceModel::trackBank(int track, int bank)
     case 0:
         lsb = bank % 0x80;
         msb = bank / 0x80;
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, msb);
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, lsb);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_MSB_BANK, msb);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_LSB_BANK, lsb);
         break;
     case 1:
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_MSB_BANK, bank);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_MSB_BANK, bank);
         break;
     case 2:
-        wrkCtlChangeEvent(track, 0, channel, MIDI_CTL_LSB_BANK, bank);
+        wrkCtlChangeEvent(track+1, 0, channel, MIDI_CTL_LSB_BANK, bank);
         break;
     default: /* if method is 3 or above, do nothing */
         break;
@@ -2437,7 +2451,7 @@ void SequenceModel::segment(int track, long time, const QString& name)
 {
     if (!name.isEmpty()) {
         SequencerEvent *ev = new TextEvent("Segment: " + name, 6);
-        (this->*m_appendFunc)(time, track, ev);
+        (this->*m_appendFunc)(time, track+1, ev);
     }
 }
 
@@ -2445,7 +2459,7 @@ void SequenceModel::chord(int track, long time, const QString& name, const QByte
 {
     if (!name.isEmpty()) {
         SequencerEvent *ev = new TextEvent("Chord: " + name, 1);
-        (this->*m_appendFunc)(time, track, ev);
+        (this->*m_appendFunc)(time, track+1, ev);
     }
 }
 
@@ -2453,7 +2467,15 @@ void SequenceModel::expression(int track, long time, int /*code*/, const QString
 {
     if (!text.isEmpty()) {
         SequencerEvent *ev = new TextEvent(text, 1);
-        (this->*m_appendFunc)(time, track, ev);
+        (this->*m_appendFunc)(time, track+1, ev);
+    }
+}
+
+void SequenceModel::marker(long time, int smpte, const QString &text)
+{
+    if (!text.isEmpty()) {
+        SequencerEvent *ev = new TextEvent(QString("Time: %1 Text: %2").arg(smpte == 0 ? "Ticks" : "SMPTE",  text), 6);
+        (this->*m_appendFunc)(time, 0, ev);
     }
 }
 
@@ -2473,8 +2495,9 @@ void SequenceModel::unknownChunk(int type, const QByteArray& data)
 int SequenceModel::getTrackForIndex(int idx)
 {
     QList<int> indexes = m_trackMap.keys();
-    if (!indexes.isEmpty())
+    //qDebug() << Q_FUNC_INFO << idx << indexes;
+    if (!indexes.isEmpty() && (idx < indexes.length()))
         return indexes.at(idx) + 1;
     else
-        return idx+1;
+        return 1;
 }

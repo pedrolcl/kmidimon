@@ -521,8 +521,10 @@ void KMidimon::open(const QString& fileName)
         m_adaptor->rewind();
         int ntrks = m_model->getSMFTracks();
         if (ntrks < 1) ntrks = 1;
-        for (int i = 0; i < ntrks; i++)
-            addNewTab(m_model->getTrackForIndex(i));
+        for (int i = 0; i < ntrks; i++) {
+            int tab = m_model->getTrackForIndex(i);
+            addNewTab(tab);
+        }
         m_tabBar->setCurrentIndex(0);
         m_proxy->setFilterTrack(0);
         m_model->setCurrentTrack(0);

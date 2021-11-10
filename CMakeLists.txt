@@ -17,7 +17,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(kmidimon
-    VERSION 1.1.1
+    VERSION 1.2.0
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
@@ -36,7 +36,7 @@ if(Qt5_FOUND)
     message(STATUS "Found Qt5 version: ${Qt5Core_VERSION_STRING}")
 endif()
 
-find_package(Drumstick 2.4 COMPONENTS ALSA File REQUIRED)
+find_package(Drumstick 2.5.0 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()

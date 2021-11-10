@@ -47,6 +47,7 @@ public:
     long getLast() { return m_last; }
     bool mutedState(int track) { return m_mutedState[track]; }
     void setMutedState(int track, bool muted);
+    Song filtered();
 
 private:
     long m_last;
@@ -205,6 +206,7 @@ public slots:
     void segment(int track, long time, const QString& name);
     void chord(int track, long time, const QString& name, const QByteArray& data);
     void expression(int track, long time, int code, const QString& text);
+    void marker(long time, int smpte, const QString& text);
 
 signals:
     void loadProgress(int);
@@ -295,6 +297,7 @@ private:
     QString m_fileFormat;
 
     struct TrackMapRec {
+        TrackMapRec(): channel(-1), pitch(-1), velocity(-1) {}
         int channel;
         int pitch;
         int velocity;
