@@ -20,8 +20,9 @@ extern "C" {
     #include <alsa/asoundlib.h>
 }
 
-#include "player.h"
 #include <drumstick/alsaqueue.h>
+#include "sequenceradaptor.h"
+#include "player.h"
 
 using namespace drumstick::ALSA;
 
@@ -31,7 +32,8 @@ Player::Player(MidiClient *seq, int portId)
     m_songIterator(nullptr),
     m_songPosition(0),
     m_lastIndex(0),
-    m_echoResolution(0)
+    m_echoResolution(0),
+    m_lastIndexSent(0)
 { }
 
 Player::~Player()
@@ -41,18 +43,21 @@ Player::~Player()
     }
     if (m_songIterator != nullptr) {
         delete m_songIterator;
+        m_songIterator = nullptr;
     }
 }
 
 void Player::setSong(Song* s, unsigned int division)
 {
+    Q_UNUSED(division)
     m_song = s;
     if (m_songIterator != nullptr) {
         delete m_songIterator;
+        m_songIterator = nullptr;
     }
-    if (m_song != nullptr) {
+    if ((m_song != nullptr) && !m_song->isEmpty()) {
         m_songIterator = new SongIterator(*m_song);
-        m_echoResolution = division / 24;
+        m_echoResolution = 0;
         resetPosition();
     }
 }
@@ -63,6 +68,7 @@ void Player::resetPosition()
         m_songIterator->toFront();
         m_songPosition = 0;
         m_lastIndex = 0;
+        m_lastIndexSent = 0;
     }
 }
 
@@ -82,14 +88,34 @@ bool Player::hasNext()
 {
     if (m_songIterator == nullptr)
         return false;
-    return m_songIterator->hasNext();
+    bool res = m_songIterator->hasNext();
+    bool muted = false;
+    do {
+        SequenceItem e = m_songIterator->peekNext();
+        muted = m_song->mutedState(e.getTrack());
+        if (muted) {
+            e = m_songIterator->next();
+            res = m_songIterator->hasNext();
+        }
+    } while (res && muted);
+    return res;
 }
 
 SequencerEvent* Player::nextEvent()
 {
-    if (m_songIterator == nullptr)
+    m_lastIndex = 0;
+    if (m_songIterator == nullptr) {
         return nullptr;
+    }
     SequenceItem itm = m_songIterator->next();
+    bool muted = m_song->mutedState(itm.getTrack());
+    while (muted && m_songIterator->hasNext()) {
+        itm = m_songIterator->next();
+        muted = m_song->mutedState(itm.getTrack());
+    }
+    if (muted) {
+        return nullptr;
+    }
     m_lastIndex = m_song->indexOf(itm);
     return itm.getEvent();
 }
@@ -97,12 +123,14 @@ SequencerEvent* Player::nextEvent()
 void
 Player::sendEchoEvent(int tick)
 {
-    if (!stopRequested() && m_MidiClient != nullptr) {
-        SystemEvent ev(SND_SEQ_EVENT_USR0);
-        ev.setRaw32(0, m_lastIndex);
-        ev.setSource(m_PortId);
-        ev.setDestination(m_MidiClient->getClientId(), m_PortId);
-        ev.scheduleTick(m_QueueId, tick, false);
-        sendSongEvent(&ev);
+    Q_UNUSED(tick)
+}
+
+void Player::sendSongEvent(drumstick::ALSA::SequencerEvent *ev)
+{
+    SequencerOutputThread::sendSongEvent(ev);
+    if (!stopRequested() && (m_lastIndex > m_lastIndexSent)) {
+        emit signalTicks(m_lastIndex);
+        m_lastIndexSent = m_lastIndex;
     }
 }

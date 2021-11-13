@@ -29,7 +29,6 @@
 #include <drumstick/subscription.h>
 #include <QStringList>
 #include <QApplication>
-//#include <klocale.h>
 
 using namespace std;
 using namespace drumstick::ALSA;
@@ -67,6 +66,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_player = new Player(m_client, m_port->getPortId());
     connect(m_player, &Player::playbackStopped, this, &SequencerAdaptor::shutupSound);
     connect(m_player, &Player::playbackFinished, this, &SequencerAdaptor::songFinished);
+    connect(m_player, &Player::signalTicks, this, &SequencerAdaptor::signalTicks);
     m_client->setRealTimeInput(false);
     m_client->startSequencerInput();
     m_state = StoppedState;
@@ -107,13 +107,10 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
         ev->setSubscribers();
         ev->scheduleTick(m_queue->getId(), ev->getTick(), false);
         SequenceItem itm(seconds, ticks, m_model->currentTrack(), ev);
-        if (SequencerEvent::isClient(ev)) updateModelClients();
+        if (SequencerEvent::isClient(ev)) {
+            updateModelClients();
+        }
         m_model->addItem(itm);
-    } else {
-        if (m_player->isRunning() &&
-            (ev->getSequencerType() == SND_SEQ_EVENT_USR0))
-            emit signalTicks(ev->getRaw32(0));
-        delete ev;
     }
 }
 
@@ -121,7 +118,9 @@ void SequencerAdaptor::play()
 {
     if (!m_model->isEmpty() && !m_player->isRunning()) {
         if (m_player->getInitialPosition() == 0) {
-            if (m_tempo == 0) return;
+            if (m_tempo == 0) {
+                return;
+            }
             m_player->setSong(m_model->getSong(), m_resolution);
             queue_set_tempo();
             m_client->drainOutput();
@@ -310,22 +309,27 @@ void SequencerAdaptor::songFinished()
     emit finished();
 }
 
-void SequencerAdaptor::shutupSound()
+void SequencerAdaptor::shutupChannel(int channel)
 {
     int portId = m_port->getPortId();
-    for (int channel = 0; channel < 16; ++channel) {
-        ControllerEvent ev1(channel, MIDI_CTL_ALL_NOTES_OFF, 0);
-        ev1.setSource(portId);
-        ev1.setSubscribers();
-        ev1.setDirect();
-        m_client->outputDirect(&ev1);
-        ControllerEvent ev2(channel, MIDI_CTL_ALL_SOUNDS_OFF, 0);
-        ev2.setSource(portId);
-        ev2.setSubscribers();
-        ev2.setDirect();
-        m_client->outputDirect(&ev2);
-    }
+    ControllerEvent ev1(channel, MIDI_CTL_ALL_NOTES_OFF, 0);
+    ev1.setSource(portId);
+    ev1.setSubscribers();
+    ev1.setDirect();
+    m_client->outputDirect(&ev1);
+    ControllerEvent ev2(channel, MIDI_CTL_ALL_SOUNDS_OFF, 0);
+    ev2.setSource(portId);
+    ev2.setSubscribers();
+    ev2.setDirect();
+    m_client->outputDirect(&ev2);
     m_client->drainOutput();
+}
+
+void SequencerAdaptor::shutupSound()
+{
+    for (int channel = 0; channel < 16; ++channel) {
+        shutupChannel(channel);
+    }
 }
 
 bool SequencerAdaptor::isPlaying()

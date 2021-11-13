@@ -90,6 +90,7 @@ public slots:
     /* handler for the sequencer events */
     void sequencerEvent( drumstick::ALSA::SequencerEvent* ev );
     void songFinished();
+    void shutupChannel(int chan);
     void shutupSound();
 
 signals:

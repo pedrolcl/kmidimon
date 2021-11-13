@@ -1022,11 +1022,14 @@ void KMidimon::reorderTabs(int fromIndex, int toIndex)
 
 void KMidimon::slotTicks(int row)
 {
+    /* row is an index to the Song (QList<SequencerItems>), but
+     * SequenceModel's items are stored in a Song, so ... */
     QModelIndex index = m_model->getRowIndex(row);
     if (index.isValid()) {
         QModelIndex vidx = m_proxy->mapFromSource(index);
-        if (vidx.isValid())
+        if (vidx.isValid()) {
             m_view->setCurrentIndex(vidx);
+        }
     }
 }
 
@@ -1102,7 +1105,11 @@ void KMidimon::muteTrack(int tabIndex)
     if (song != nullptr) {
         bool newState = !song->mutedState(track);
         song->setMutedState(track, newState);
-        if (newState) m_adaptor->removeTrackEvents(track);
+        m_tabBar->setTabIcon(tabIndex, newState ? IconUtils::GetIcon("player-volume-muted") : QIcon());
+        if (newState) {
+            m_adaptor->removeTrackEvents(track);
+            m_adaptor->shutupSound();
+        }
     }
 }
 

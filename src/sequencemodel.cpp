@@ -28,6 +28,7 @@
 #include <QDataStream>
 #include <QListIterator>
 #include <QTime>
+#include <QTextStream>
 #include <QDebug>
 
 #include "sequencemodel.h"
@@ -2487,7 +2488,8 @@ void SequenceModel::endOfWrk()
 
 void SequenceModel::unknownChunk(int type, const QByteArray& data)
 {
-    qDebug() << "dec:" << type
+    qDebug() << "unknown chunk type"
+             << "dec:" << type
              << "hex:" << hex << type << dec
              << "size:" << data.length();
 }
