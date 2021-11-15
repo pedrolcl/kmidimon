@@ -32,8 +32,7 @@ if(EMBED_TRANSLATIONS)
     add_qt_translations_resource(QT_RES cs es fr ja)
 endif()
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(ALSA REQUIRED IMPORTED_TARGET alsa>=1.0.0)
+find_package(ALSA 1.0.0 REQUIRED)
 
 set(kmidimon_SRCS
     about.cpp
@@ -81,7 +80,7 @@ target_link_libraries( kmidimon
     Qt5::Widgets
     Drumstick::File
     Drumstick::ALSA
-    PkgConfig::ALSA
+    ALSA::ALSA
 )
 
 target_compile_definitions( kmidimon PRIVATE

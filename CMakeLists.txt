@@ -83,7 +83,7 @@ add_custom_target ( tarball
     COMMAND cp -r icons kmidimon-${PROJECT_VERSION}
     COMMAND cp -r src kmidimon-${PROJECT_VERSION}
     COMMAND cp -r translations kmidimon-${PROJECT_VERSION}
-    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog INSTALL NEWS README TODO *.ins *.spec* *.desktop *.lsm *.qrc *.pro *.pri kmidimon-${PROJECT_VERSION}
+    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog *.md *.ins *.spec* *.desktop *.lsm *.qrc *.pro *.pri kmidimon-${PROJECT_VERSION}
     COMMAND tar -cj --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${PROJECT_VERSION}.tar.bz2 kmidimon-${PROJECT_VERSION}
     COMMAND tar -cz --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${PROJECT_VERSION}.tar.gz kmidimon-${PROJECT_VERSION}
     COMMAND rm -rf kmidimon-${PROJECT_VERSION}
@@ -94,6 +94,5 @@ install( FILES net.sourceforge.kmidimon.desktop
          DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
 install( FILES net.sourceforge.kmidimon.appdata.xml
          DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo )
-
 install( FILES standards.ins
          DESTINATION ${CMAKE_INSTALL_DATADIR}/kmidimon )
