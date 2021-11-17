@@ -20,7 +20,6 @@
   <translation type="qt">kmidimon</translation>
   <content_rating type="oars-1.1" /> <!-- this is broken, validator fails -->
   <screenshots>
-    <!--TODO: pending better screenshots-->
     <screenshot type="default">
       <image>https://kmidimon.sourceforge.io/images/kmidimon1.png</image>
     </screenshot>
@@ -30,9 +29,12 @@
     <screenshot>
       <image>https://kmidimon.sourceforge.io/images/kmidimon3.png</image>
     </screenshot>
+    <screenshot>
+      <image>https://kmidimon.sourceforge.io/images/kmidimon4.png</image>
+    </screenshot>
   </screenshots>
   <releases>
     <release version="1.1.0" date="2021-09-19" />
     <release version="1.0.0" date="2021-01-10" />
-  </releases>  
+  </releases>
 </component>
