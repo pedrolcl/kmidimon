@@ -90,7 +90,7 @@ bool Player::hasNext()
         return false;
     bool res = m_songIterator->hasNext();
     bool muted = false;
-    do {
+    if (res) do {
         SequenceItem e = m_songIterator->peekNext();
         muted = m_song->mutedState(e.getTrack());
         if (muted) {

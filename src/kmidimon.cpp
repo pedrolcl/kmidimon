@@ -562,10 +562,19 @@ void KMidimon::fileOpen()
 void KMidimon::fileSave()
 {
     QFileDialog fd(this, tr("Save MIDI monitor data"));
-    QString filters = tr("Plain text files (*.txt);;MIDI files (*.mid)");
-    fd.setNameFilter(filters);
+    QStringList filters = {tr("Plain text files (*.txt)"), tr("MIDI files (*.mid)")};
+    fd.setNameFilters(filters);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setAcceptMode(QFileDialog::AcceptSave);
+    fd.selectNameFilter(filters[0]);
+    fd.setDefaultSuffix("txt");
+    connect(&fd, &QFileDialog::filterSelected, this, [&fd](const QString& filter){
+        if (filter.contains("*.mid")) {
+            fd.setDefaultSuffix("mid");
+        } else {
+            fd.setDefaultSuffix("txt");
+        }
+    });
     if (fd.exec()) {
         auto path = fd.selectedFiles().constFirst();
         if (!path.isNull()) {

@@ -383,6 +383,7 @@ SequenceModel::addItem(SequenceItem& itm)
     beginInsertRows(QModelIndex(), where, where);
     m_items.append(itm);
     endInsertRows();
+    m_items.setLast(itm.getTicks());
 }
 
 void
@@ -1511,6 +1512,14 @@ void
 SequenceModel::processItems()
 {
     m_tempSong.clear();
+    // include always a tempo event in the saved MIDI song
+    auto res_tempo = std::find_if(m_items.constBegin(), m_items.constEnd(), [](SequenceItem itm) {
+        return (itm.getEvent()->getSequencerType() == SND_SEQ_EVENT_TEMPO);
+    });
+    if (res_tempo == m_items.constEnd()) {
+        SequenceItem itm(0, 0, 0, new TempoEvent(m_queueId, round(6e7 / m_initialTempo)));
+        m_items.append(itm);
+    }
     foreach ( const SequenceItem& itm, m_items ) {
         SequencerEvent* ev = itm.getEvent();
         double seconds = 0;
@@ -1539,6 +1548,7 @@ SequenceModel::processItems()
         }
     }
     m_tempSong.sort();
+    m_tempSong.setLast(m_items.getLast());
 }
 
 void
@@ -2048,7 +2058,10 @@ SequenceModel::trackHandler(int track)
         }
     }
     // final event
-    delta = m_tempSong.getLast() - last_tick;
+    delta = 0;
+    if (m_tempSong.getLast() > last_tick) {
+        delta = m_tempSong.getLast() - last_tick;
+    }
     m_smf->writeMetaEvent(delta, end_of_track);
 }
 
