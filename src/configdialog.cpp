@@ -127,6 +127,9 @@ QString ConfigDialog::getEncoding()
 void ConfigDialog::setEncoding(const QString& name)
 {
     int index = ui.m_codecs->findText( name );
+    if ((index == -1) && (name.isEmpty() || (name == QLatin1String("latin1")))) {
+        index = 0;
+    }
     ui.m_codecs->setCurrentIndex( index );
 }
 

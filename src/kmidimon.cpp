@@ -643,8 +643,8 @@ void KMidimon::readConfiguration()
     m_model->setTranslateSysex(config.value("translate_sysex", false).toBool());
     m_model->setTranslateNotes(config.value("translate_notes", false).toBool());
     m_model->setTranslateCtrls(config.value("translate_ctrls", false).toBool());
-    m_model->setInstrumentName(config.value("instrument", QString()).toString());
-    m_model->setEncoding(config.value("encoding", QString()).toString());
+    m_model->setInstrumentName(config.value("instrument", QLatin1String("General MIDI")).toString());
+    m_model->setEncoding(config.value("encoding", QLatin1String("latin1")).toString());
     m_autoResizeColumns = config.value("auto_resize", false).toBool();
     m_defaultResolution = config.value("resolution", RESOLUTION).toInt();
     m_defaultTempo = config.value("tempo", TEMPO_BPM).toInt();
@@ -653,8 +653,8 @@ void KMidimon::readConfiguration()
     m_adaptor->setTempo(m_defaultTempo);
     m_adaptor->queue_set_tempo();
     m_adaptor->setRequestRealtime(m_requestRealtimePrio);
-    setFixedFont(config.value("fixed_font", false).toBool());
-    m_style = config.value("style", "fusion").toString();
+    setFixedFont(config.value("fixed_font", true).toBool());
+    m_style = config.value("style", "Fusion").toString();
     m_darkMode = config.value("dark_mode", false).toBool();
     m_internalIcons = config.value("internal_icons", false).toBool();
     for (i = 0; i < COLUMN_COUNT; ++i) {
