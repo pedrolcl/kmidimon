@@ -23,7 +23,6 @@
 #include <QDialog>
 
 class QGroupBox;
-class QStringList;
 class QComboBox;
 
  class ConnectDlg : public QDialog

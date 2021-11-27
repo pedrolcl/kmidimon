@@ -34,8 +34,12 @@
 
 #include <QToolBar>
 #include <QKeyEvent>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
+#else
+#include <QScreen>
+#endif
 #include <QWidgetAction>
 
 /**
@@ -124,10 +128,18 @@ void PlayerPopupSliderAction::slotTriggered()
     } else {
 
       point = QCursor::pos() - QPoint (m_frame->width() / 2, m_frame->height() / 2);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
       if ( point.x() + m_frame->width() > QApplication::desktop()->width() )
         point.setX (QApplication::desktop()->width() - m_frame->width());
       if ( point.y() + m_frame->height() > QApplication::desktop()->height() )
         point.setY (QApplication::desktop()->height() - m_frame->height());
+#else
+      auto screenrect = m_frame->screen()->geometry();
+      if ( point.x() + m_frame->width() > screenrect.width() )
+        point.setX (screenrect.width() - m_frame->width());
+      if ( point.y() + m_frame->height() > screenrect.height() )
+        point.setY (screenrect.height() - m_frame->height());
+#endif
       if ( point.x() < 0 )
         point.setX (0);
       if ( point.y() < 0 )

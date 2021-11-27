@@ -41,6 +41,7 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 #include <QDirIterator>
+#include <QActionGroup>
 #include <QDebug>
 #include <drumstick/sequencererror.h>
 #include "kmidimon.h"
@@ -62,7 +63,7 @@ QString KMidimon::dataDirectory()
     if (test.exists()) {
         return test.absolutePath();
     }
-    QStringList candidates = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
+    QStringList candidates = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
     foreach(const QString& d, candidates) {
         test = QDir(d);
         if (test.exists()) {
@@ -1073,6 +1074,7 @@ KMidimon::songFileInfo()
     if (m_currentFile.isEmpty())
         infostr = tr("No file loaded");
     else {
+        QLocale locale(m_language);
         QFileInfo finfo(m_currentFile);
         infostr = tr( "File: <b>%1</b><br/>"
                       "Date: <b>%2</b><br/>"
@@ -1083,7 +1085,7 @@ KMidimon::songFileInfo()
                       "Initial tempo: <b>%7 bpm</b><br/>"
                       "Duration: <b>%8</b><br/> %9").arg(
                       finfo.fileName(),
-                      finfo.lastModified().toString(Qt::DefaultLocaleLongDate),
+                      locale.toString(finfo.lastModified(), QLocale::LongFormat),
                       m_model->getFileFormat(),
                       QString::number( m_model->getSMFTracks() ),
                       QString::number( m_model->getSong()->size() ),
