@@ -1,5 +1,5 @@
 /***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
+ *   Drumstick MIDI monitor based on the ALSA Sequencer                    *
  *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
@@ -27,7 +27,7 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent)
 {
     ui.setupUi(this);
-    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
+    IconUtils::SetWindowIcon(this);
     setWindowTitle(tr("KMidimon Configuration", "@title:window"));
     initEncodings();
     initStyles();

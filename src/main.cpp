@@ -1,5 +1,5 @@
 /***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
+ *   Drumstick MIDI monitor based on the ALSA Sequencer                    *
  *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
@@ -42,7 +42,7 @@ int main (int argc, char **argv)
     parser.setApplicationDescription(QSTR_DESCRIPTION);
     auto helpOption = parser.addHelpOption();
     auto versionOption = parser.addVersionOption();
-    parser.addPositionalArgument("file", "Input SMF/KAR/WRK file name.", "file");
+    parser.addPositionalArgument("file", "Input SMF/RMI/KAR/WRK file name.", "file");
     parser.process(app);
 
     if (parser.isSet(versionOption) || parser.isSet(helpOption)) {

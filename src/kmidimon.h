@@ -1,5 +1,5 @@
 /***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
+ *   Drumstick MIDI monitor based on the ALSA Sequencer                    *
  *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
@@ -41,12 +41,13 @@ class SequencerAdaptor;
 class SequenceModel;
 class ProxyModel;
 class PlayerPopupSliderAction;
+class HelpWindow;
 
 const int COLUMN_COUNT = 8;
 const int MaxRecentFiles = 10;
 
 namespace Ui {
-class KMidimonWin;
+    class KMidimonWin;
 }
 
 enum PlayerState {
@@ -64,6 +65,7 @@ public:
     KMidimon();
     virtual ~KMidimon();
     static QString dataDirectory();
+    QString configuredLanguage();
 
 public slots:
     void fileNew();
@@ -125,7 +127,6 @@ protected:
     bool askTrackFilter(int& track);
     void updateCaption();
     void createLanguageMenu();
-    QString configuredLanguage();
     void retranslateUi();
     void applyVisualStyle();
     void refreshIcons();
@@ -189,6 +190,7 @@ private:
     QString m_style;
     bool m_darkMode;
     bool m_internalIcons;
+    QPointer<HelpWindow> m_helpWindow;
 };
 
 #endif // KMIDIMON_H

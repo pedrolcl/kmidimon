@@ -1,5 +1,5 @@
 /***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
+ *   Drumstick MIDI monitor based on the ALSA Sequencer                    *
  *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
@@ -106,7 +106,7 @@ KMidimon::KMidimon() :
     QLocale locale(configuredLanguage());
     //qDebug() << "locale:" << locale << "path:" << trDirectory();
     if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
-        qWarning() << "Failure loading Qt5 translations for" << configuredLanguage();
+        qWarning() << "Failure loading Qt translations for" << configuredLanguage();
     }
     if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
         qWarning() << "Failure loading program translations for" << configuredLanguage();
@@ -114,7 +114,7 @@ KMidimon::KMidimon() :
     QLocale::setDefault(locale);
     m_ui = new Ui::KMidimonWin();
     m_ui->setupUi(this);
-    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
+    IconUtils::SetWindowIcon(this);
     QWidget *vbox = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout;
     m_useFixedFont = false;
@@ -126,7 +126,7 @@ KMidimon::KMidimon() :
     m_filter = new EventFilter(this);
     m_model->setFilter(m_filter);
     m_proxy->setFilter(m_filter);
-
+    m_helpWindow = new HelpWindow(this);
     m_view = new QTreeView(this);
     m_view->setWhatsThis(tr("The events list"));
     m_view->setRootIsDecorated(false);
@@ -187,6 +187,7 @@ KMidimon::KMidimon() :
         QMessageBox::critical(nullptr, tr("Error"), errorstr);
         close();
     }
+    m_helpWindow->applySettings();
 }
 
 void KMidimon::translateActions()
@@ -448,20 +449,13 @@ void KMidimon::about()
 
 void KMidimon::help()
 {
-    QDir hdir(":/help");
-    QString hname = QStringLiteral("%1/kmidimon.html").arg(m_language);
-    QFileInfo finfo(hdir, hname);
-    if (!finfo.exists()) {
-        hname = "en/kmidimon.html";
-    }
-    HelpWindow::internalIcons = m_internalIcons;
-    HelpWindow::showPage(this, hname);
-//#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
-//    "kmidimon.md"
-//#else
-//    "kmidimon.html"
-//#endif
-//    ));
+    QString hname = QStringLiteral("help/%1/index.html").arg(m_language);
+    //#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+    //    "index.md"
+    //#else
+    //    "index.html"
+    //#endif
+    m_helpWindow->showPage(hname);
 }
 
 void KMidimon::slotOpenWebSite()
@@ -673,6 +667,7 @@ void KMidimon::readConfiguration()
     m_outputConn = config.value("output_connection", QString()).toString();
     m_adaptor->connect_output(m_outputConn);
     m_filter->loadConfiguration();
+    m_helpWindow->setIcons(m_internalIcons);
 }
 
 void KMidimon::preferences()
@@ -727,6 +722,7 @@ void KMidimon::preferences()
             m_style = dlg->getStyle();
             m_darkMode = dlg->getDarkMode();
             m_internalIcons = dlg->getInternalIcons();
+            m_helpWindow->setIcons(m_internalIcons);
             for (i = 0; i < COLUMN_COUNT; ++i) {
                 setColumnStatus(i, dlg->showColumn(i));
             }
@@ -734,6 +730,7 @@ void KMidimon::preferences()
             m_adaptor->setRequestRealtime(m_requestRealtimePrio);
             applyVisualStyle();
             if (was_running) record();
+            m_helpWindow->applySettings();
         }
     }
     delete dlg;
@@ -1216,7 +1213,7 @@ void KMidimon::retranslateUi()
     auto lang = configuredLanguage();
     QLocale locale(lang);
     if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
-        qWarning() << "Failure loading Qt5 translations for" << lang;
+        qWarning() << "Failure loading Qt translations for" << lang;
     }
     if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
         qWarning() << "Failure loading program translations for" << lang;
@@ -1225,6 +1222,7 @@ void KMidimon::retranslateUi()
     createLanguageMenu();
     translateActions();
     m_filter->retranslateMenu();
+    m_helpWindow->retranslateUi();
 }
 
 void KMidimon::applyVisualStyle()

@@ -1,4 +1,4 @@
-# KMidimon - ALSA Sequencer based MIDI Monitor
+# Drumstick MIDI Monitor
 # Copyright (C) 2005-2021 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,11 @@ if(EMBED_TRANSLATIONS)
          ../translations/kmidimon_fr.ts
          ../translations/kmidimon_ja.ts
     )
-    qt5_add_translation(QM_FILES ${TRANSLATIONS})
+    if(QT_VERSION VERSION_LESS 5.15.0)
+        qt5_add_translation(QM_FILES ${TRANSLATIONS})
+    else()
+        qt_add_translation(QM_FILES ${TRANSLATIONS})
+    endif()
     include(TranslationUtils)
     add_app_translations_resource(APP_RES ${QM_FILES})
     add_qt_translations_resource(QT_RES cs es fr ja)
@@ -69,19 +73,29 @@ set(kmidimon_SRCS
     kmidimonwin.ui
     kmidimon.qrc
     ../datafiles.qrc
-    ../doc/en/docs.qrc
+    ../doc/docs.qrc
     ${APP_RES}
     ${QT_RES}
 )
 
 add_executable(kmidimon ${kmidimon_SRCS})
+if (BUILD_DOCS)
+    add_dependencies ( kmidimon update_helpfiles )
+endif()
 
 target_link_libraries( kmidimon
-    Qt5::Widgets
+    Qt${QT_VERSION_MAJOR}::Widgets
     Drumstick::File
     Drumstick::ALSA
     ALSA::ALSA
 )
+
+if (QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
+    target_link_libraries( kmidimon
+        Qt6::Gui
+        Qt6::Core5Compat
+    )
+endif()
 
 target_compile_definitions( kmidimon PRIVATE
     VERSION=${PROJECT_VERSION}

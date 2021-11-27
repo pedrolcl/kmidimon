@@ -1,5 +1,5 @@
 /*
-    KMetronome - ALSA Sequencer based MIDI metronome
+    Drumstick MIDI monitor based on the ALSA Sequencer
     Copyright (C) 2006-2021, Pedro Lopez-Cabanillas <plcl@users.sf.net>
 
     This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,8 @@ About::About(QWidget *parent)
 {
     ui.setupUi(this);
     retranslateUi();
-    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
-    ui.labelIcon->setPixmap(IconUtils::GetPixmap(":/icons/midi/icon128.png"));
+    IconUtils::SetLabelIcon(ui.labelIcon, ":/icons/midi/icon128.png");
+    IconUtils::SetWindowIcon(this);
 #if defined(SMALL_SCREEN)
     setWindowState(Qt::WindowActive | Qt::WindowMaximized);
 #else

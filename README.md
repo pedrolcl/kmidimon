@@ -11,10 +11,10 @@ For brief building instructions, see INSTALL.
 
 You need the following software:
 
-* CMake 3.14
-* Qt5 libraries
+* CMake 3.14 or later
+* Qt libraries 5.12 or later
 * ALSA library
-* Drumstick 2.0
+* Drumstick 2.5 or later
 
 ## Getting the development sources
 
@@ -39,6 +39,8 @@ example:
 $ svn co https://drumstick.svn.sourceforge.net/svnroot/drumstick/trunk drumstick 
 ~~~
 
+There is also a Git mirror at [GitHub](https://github.com/pedrolcl/drumstick)
+
 ### Check out the module kmidimon from the SVN repository.
 
 Host: kmidimon.svn.sourceforge.net
@@ -52,6 +54,8 @@ example:
 ~~~
 $ svn co https://kmidimon.svn.sourceforge.net/svnroot/kmidimon/trunk kmidimon 
 ~~~
+
+There is also a Git mirror at [GitHub](https://github.com/pedrolcl/kmidimon)
 
 ### Configure and compile
 

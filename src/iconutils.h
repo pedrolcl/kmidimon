@@ -1,5 +1,5 @@
 /***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
+ *   Drumstick MIDI monitor based on the ALSA Sequencer                    *
  *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
  *   plcl@users.sourceforge.net                                            *
  *                                                                         *
@@ -30,6 +30,8 @@ namespace  IconUtils
     void PaintPixmap(QPixmap &pixmap, const QColor& color);
     QPixmap GetPixmap(const QString& fileName);
     QIcon GetIcon(const QString& name, bool forcedTheme = false);
+    void SetLabelIcon(QLabel *label, const QString& fileName);
+    void SetWindowIcon(QWidget *widget);
 }
 
 #endif // ICONUTILS_H

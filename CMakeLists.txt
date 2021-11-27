@@ -23,7 +23,10 @@ project(kmidimon
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
+set(PROJECT_RELEASE_DATE "November 30, 2021")
+option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
+option(USE_QT "Choose which Qt major version (5 or 6) to prefer. By default uses whatever is found")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 include(SCMRevision)
@@ -31,12 +34,29 @@ include(SCMRevision)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED Yes)
 
-find_package(Qt5 5.12 COMPONENTS Widgets LinguistTools REQUIRED)
-if(Qt5_FOUND)
-    message(STATUS "Found Qt5 version: ${Qt5Core_VERSION_STRING}")
+if (USE_QT)
+    if (NOT (USE_QT EQUAL 5 OR USE_QT EQUAL 6))
+        message(FATAL_ERROR "Wrong Qt major version. Only 5 and 6 are valid options")
+    endif()
 endif()
 
-find_package(Drumstick 2.5.0 COMPONENTS ALSA File REQUIRED)
+if (USE_QT EQUAL 5)
+    find_package(QT NAMES Qt5)
+elseif (USE_QT EQUAL 6)
+    find_package(QT NAMES Qt6)
+else()
+    find_package(QT NAMES Qt5 Qt6)
+endif()
+if(QT_FOUND)
+    message(STATUS "Found Qt version: ${QT_VERSION}")
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} 5.12 COMPONENTS Gui Widgets LinguistTools REQUIRED)
+if(QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
+    find_package(Qt6 COMPONENTS Core5Compat SvgWidgets REQUIRED)
+endif()
+
+find_package(Drumstick 2.5 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()
@@ -45,9 +65,10 @@ message (STATUS "${PROJECT_NAME} v${PROJECT_VERSION}
     install prefix: ${CMAKE_INSTALL_PREFIX}
     Build configuration: ${CMAKE_BUILD_TYPE}
     Processor: ${CMAKE_SYSTEM_PROCESSOR}
-    Qt5: ${Qt5_VERSION}
+    Qt: ${QT_VERSION}
     Drumstick: ${Drumstick_VERSION}
-    Embed translations: ${EMBED_TRANSLATIONS}")
+    Embed translations: ${EMBED_TRANSLATIONS}
+    Build docs: ${BUILD_DOCS}")
 
 include(GNUInstallDirs)
 
@@ -56,7 +77,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang" 
 endif()
 
 add_subdirectory(icons)
-add_subdirectory(doc/en)
+add_subdirectory(doc)
 if(NOT EMBED_TRANSLATIONS)
     add_subdirectory(translations)
 endif()

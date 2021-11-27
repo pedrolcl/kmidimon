@@ -4,10 +4,10 @@
 
 You need the following software:
 
-* CMake 3.14
-* Qt5 libraries
+* CMake 3.14 or later
+* Qt libraries 5.12 or later
 * ALSA library
-* Drumstick 2.0
+* Drumstick 2.5 or later
 
 You will need CMake 3.14 or newer.  If your Linux distribution
 doesn't provide CMake, or if it provides an older version, you can get
@@ -21,7 +21,7 @@ supplied here:
 
 https://cmake.org/install/
 
-Qt5 and ALSA are probably available from your Linux distribution repositories.
+Qt and ALSA are probably available from your Linux distribution repositories.
 If not, you may find them here:
 
 https://download.qt.io/official_releases/online_installers/
@@ -32,7 +32,7 @@ This program needs the Drumstick libraries. You should install the development
 package before trying to compile kmidimon. Drumstick is available here:
 
 https://drumstick.sourceforge.io
-    
+
 ## Building
 
 Unpack the tarball or check out SVN.  Assuming that you have the
@@ -99,6 +99,14 @@ Some variables you may want to set:
 * **EMBED_TRANSLATIONS** (instead of installing translations):
 
   `cmake .. -DEMBED_TRANSLATIONS=Yes`
+
+* **BUILD_DOCS**  (default ON, to compile or use the pre-built documentation)
+
+  `cmake .. -DBUILD_DOCS=OFF`
+
+* **USE_QT**   
+
+  `cmake .. -DUSE_QT=6` (to choose explicitly among Qt5 or Qt6)
   
 * **Drumstick_DIR** (location of the custom Drumstick build):
 

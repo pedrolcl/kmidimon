@@ -1,10 +1,7 @@
 <RCC>
     <qresource prefix="/help">
-        <file>en/kmidimon.html</file>
-        <file>en/kmidimon.md</file>
-        <file>en/qjackctl.png</file>
-        <file>en/kmidimon3.png</file>
-        <file>en/kmidimon2.png</file>
-        <file>en/kmidimon1.png</file>
+        <file>en/index.html</file>
+        <file>es/index.html</file>
+        <file>ja/index.html</file>
     </qresource>
 </RCC>

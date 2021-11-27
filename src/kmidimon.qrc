@@ -52,5 +52,7 @@
         <file>icons/view-media-playlist.png</file>
         <file>icons/view-media-title.png</file>
         <file>icons/window-close.png</file>
+        <file>icons/format-font-size-less.png</file>
+        <file>icons/format-font-size-more.png</file>
     </qresource>
 </RCC>

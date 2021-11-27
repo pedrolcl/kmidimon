@@ -1,9 +1,12 @@
+2021-11-27
+    * Documentation updated
+
 2021-11-13
     * Fixed mute track functionality
     * Fixed event playback highlighting
 
 2021-11-10
-    * Support WRK file format markers
+    * Support WRK file format markers, provided by Drumstick 2.5
 
 2021-09-25
     * desktop icons replaced

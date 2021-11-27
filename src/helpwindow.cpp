@@ -1,86 +1,192 @@
-/***************************************************************************
- *   KMidimon - ALSA sequencer based MIDI monitor                          *
- *   Copyright (C) 2005-2021 Pedro Lopez-Cabanillas                        *
- *   plcl@users.sourceforge.net                                            *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License
- *   along with this program. If not, see <http://www.gnu.org/licenses/>.*
- ***************************************************************************/
+/*
+    Drumstick MIDI monitor based on the ALSA Sequencer
+    Copyright (C) 2006-2021, Pedro Lopez-Cabanillas <plcl@users.sf.net>
 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include <QDebug>
 #include <QApplication>
-#include <QWindow>
+#include <QMainWindow>
+#include <QWidget>
+#include <QToolBar>
+#include <QShowEvent>
+#include <QCloseEvent>
+#include <QSettings>
+#include <QFileInfo>
+#include <QDir>
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+#include <QDesktopWidget>
+#else
 #include <QScreen>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#endif
+
+#include "kmidimon.h"
 #include "helpwindow.h"
 #include "iconutils.h"
 
-bool HelpWindow::internalIcons;
-
-HelpWindow::HelpWindow(const QString &path, const QString &page, QWidget *parent):
-    QWidget(parent)
+HelpWindow::HelpWindow(QWidget *parent): QMainWindow(parent)
 {
-    setAttribute(Qt::WA_DeleteOnClose);
-    setAttribute(Qt::WA_GroupLeader);
-    setWindowIcon(IconUtils::GetIcon("midi/icon64", true));
+    setObjectName(QString::fromUtf8("HelpWindow"));
+    IconUtils::SetWindowIcon(this);
+    setWindowFlag(Qt::Tool, true);
+    setAttribute(Qt::WA_DeleteOnClose, false);
 
-    textBrowser = new QTextBrowser(this);
-    homeButton = new QPushButton(tr("&Home"), this);
-    homeButton->setIcon(IconUtils::GetIcon("go-home", HelpWindow::internalIcons));
-    backButton = new QPushButton(tr("&Back"), this);
-    backButton->setIcon(IconUtils::GetIcon("go-previous", HelpWindow::internalIcons));
-    closeButton = new QPushButton(tr("Close"), this);
-    closeButton->setShortcut(tr("Esc"));
-    closeButton->setIcon(IconUtils::GetIcon("window-close", HelpWindow::internalIcons));
+    QToolBar* tbar = new QToolBar(this);
+    tbar->setObjectName("toolbar");
+    tbar->setMovable(false);
+    tbar->setFloatable(false);
+    tbar->setIconSize(QSize(22,22));
+    tbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    addToolBar(tbar);
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(homeButton);
-    buttonLayout->addWidget(backButton);
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(closeButton);
+    m_textBrowser = new QTextBrowser(this);
+    m_home = new QAction(tr("&Home"), this);
+    m_back = new QAction(tr("&Back"), this);
+    m_close = new QAction(tr("Close"), this);
+    m_zoomIn = new QAction(tr("Zoom In"), this);
+    m_zoomOut = new QAction(tr("Zoom Out"), this);
+    QWidget* spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addLayout(buttonLayout);
-    mainLayout->addWidget(textBrowser);
-    setLayout(mainLayout);
+    tbar->addAction(m_home);
+    tbar->addAction(m_back);
+    tbar->addAction(m_zoomIn);
+    tbar->addAction(m_zoomOut);
+    tbar->addWidget(spacer);
+    tbar->addAction(m_close);
 
-    connect(homeButton, &QAbstractButton::clicked, textBrowser, &QTextBrowser::home);
-    connect(backButton, &QAbstractButton::clicked, textBrowser, &QTextBrowser::backward);
-    connect(closeButton, &QAbstractButton::clicked, this, &QWidget::close);
-    connect(textBrowser, &QTextBrowser::sourceChanged, this, &HelpWindow::updateWindowTitle);
+    setCentralWidget(m_textBrowser);
 
-    QPalette p = textBrowser->palette();
-    p.setColor(QPalette::Base, Qt::white);
-    p.setColor(QPalette::Text, Qt::black);
-    textBrowser->setPalette(p);
+    connect(m_home, &QAction::triggered, m_textBrowser, &QTextBrowser::home);
+    connect(m_back, &QAction::triggered, m_textBrowser, &QTextBrowser::backward);
+    connect(m_zoomIn, &QAction::triggered, this, [=]{ m_textBrowser->zoomIn(); });
+    connect(m_zoomOut, &QAction::triggered, this, [=]{ m_textBrowser->zoomOut(); });
+    connect(m_close, &QAction::triggered, this, &QWidget::close);
+    connect(m_textBrowser, &QTextBrowser::sourceChanged, this, &HelpWindow::updateWindowTitle);
 
-    textBrowser->setSearchPaths(QStringList({path,":/help",":/help/en"}));
-    textBrowser->setSource(page);
-    textBrowser->setOpenExternalLinks(true);
+    m_textBrowser->setOpenExternalLinks(true);
+    m_textBrowser->setSearchPaths({":/help/en",":/help", ":/"});
+
+    applySettings();
 }
 
 void HelpWindow::updateWindowTitle()
 {
-    setWindowTitle(tr("Help: %1").arg(textBrowser->documentTitle()));
+    setWindowTitle(m_textBrowser->documentTitle());
 }
 
-void HelpWindow::showPage(QWidget *parent, const QString &page)
+void HelpWindow::showPage(const QString &page)
 {
-    HelpWindow *browser = new HelpWindow(QLatin1String(":/"), page);
-    browser->resize(640, 480);
-    QScreen *screen = parent->window()->windowHandle()->screen();
-    browser->setGeometry(QStyle::alignedRect(
-        Qt::LeftToRight, Qt::AlignCenter, browser->size(),
-        screen->availableGeometry()));
-    browser->show();
+    //qDebug() << Q_FUNC_INFO << page;
+    QDir hdir(":/");
+    QFileInfo finfo(hdir, page);
+    if (finfo.exists()) {
+        m_page = page;
+    } else {
+        m_page = "help/en/index.html";
+    }
+    m_textBrowser->clear();
+    m_textBrowser->clearHistory();
+    m_textBrowser->setSource(m_page);
+    show();
+}
+
+void HelpWindow::setIcons(bool internal)
+{
+    m_internalIcons = internal;
+}
+
+void HelpWindow::readSettings()
+{
+    QSettings settings;
+    settings.beginGroup("HelpWindow");
+    const QByteArray geometry = settings.value("geometry").toByteArray();
+    const QByteArray state = settings.value("windowState").toByteArray();
+    const int fontSize = settings.value("fontSize", 0).toInt();
+
+    if (geometry.isEmpty()) {
+        const QRect availableGeometry =
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+                QApplication::desktop()->availableGeometry(this);
+#else
+                screen()->availableGeometry();
+#endif
+        QSize size(640,480);
+        setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter,
+                                        size, availableGeometry));
+    } else {
+        restoreGeometry(geometry);
+    }
+    if (!state.isEmpty()) {
+        restoreState(state);
+    }
+    if (fontSize > 0) {
+        //qDebug() << Q_FUNC_INFO << fontSize;
+        auto font = m_textBrowser->font();
+        font.setPointSize(fontSize);
+        m_textBrowser->setFont(font);
+    }
+    settings.endGroup();
+}
+
+void HelpWindow::writeSettings()
+{
+    QSettings settings;
+    settings.beginGroup("HelpWindow");
+    auto fontSize = m_textBrowser->font().pointSize();
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    settings.setValue("fontSize", fontSize);
+    settings.endGroup();
+    //qDebug() << Q_FUNC_INFO << fontSize;
+}
+
+void HelpWindow::showEvent(QShowEvent *event)
+{
+    static bool firstTime = true;
+    QMainWindow::showEvent(event);
+    if (firstTime) {
+        readSettings();
+        firstTime = false;
+    }
+}
+
+void HelpWindow::closeEvent(QCloseEvent *event)
+{
+    writeSettings();
+    event->accept();
+}
+
+void HelpWindow::retranslateUi()
+{
+    QString language = qobject_cast<KMidimon*>(parent())->configuredLanguage();
+    m_page = QStringLiteral("help/%1/index.html").arg(language);
+    showPage(m_page);
+    updateWindowTitle();
+    m_home->setText(tr("&Home"));
+    m_back->setText(tr("&Back"));
+    m_close->setText(tr("Close"));
+    m_zoomIn->setText(tr("Zoom In"));
+    m_zoomOut->setText(tr("Zoom Out"));
+}
+
+void HelpWindow::applySettings()
+{
+    m_home->setIcon(IconUtils::GetIcon("go-home"));
+    m_back->setIcon(IconUtils::GetIcon("go-previous"));
+    m_close->setIcon(IconUtils::GetIcon("window-close"));
+    m_zoomIn->setIcon(IconUtils::GetIcon("format-font-size-more"));
+    m_zoomOut->setIcon(IconUtils::GetIcon("format-font-size-less"));
 }
