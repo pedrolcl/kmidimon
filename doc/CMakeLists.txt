@@ -25,7 +25,7 @@ if (BUILD_DOCS)
                 DESTINATION ${CMAKE_INSTALL_MANDIR}/ja/man1
                 RENAME ${MANPAGE})
     endif()
-    update_helpfiles(en es ja)
+    update_helpfiles(cs en es fr ja)
 else()
     if (UNIX AND NOT APPLE)
         install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${MANPAGE}
@@ -33,7 +33,7 @@ else()
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.ja.1
                 DESTINATION ${CMAKE_INSTALL_MANDIR}/ja/man1
                 RENAME ${MANPAGE})
-        foreach(_lang IN ITEMS en es ja)
+        foreach(_lang IN ITEMS cs en es fr ja)
             install( FILES "${_lang}/index.html"
                      DESTINATION ${CMAKE_INSTALL_DOCDIR}/${_lang}/${PROJECT_NAME} )
         endforeach()

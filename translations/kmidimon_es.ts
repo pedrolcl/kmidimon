@@ -6,7 +6,8 @@
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Versión: %1&lt;br/&gt;Version de Qt: %5&lt;br/&gt;Versión de Drumstick: %6&lt;br/&gt;Fecha de compilación: %2&lt;br/&gt;Hora de compilación: %3&lt;br/&gt;Compilador: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -48,7 +49,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Copyright © 2002-2021, &lt;/span&gt;&lt;a href=&quot;mailto:plcl@users.sf.net?subject=VMPK&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Pedro Lopez-Cabanillas &amp;lt;plcl@users.sf.net&amp;gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -61,7 +69,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Default ( ASCII )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation>Por omisión (ASCII)</translation>
+        <translation type="vanished">Por omisión (ASCII)</translation>
+    </message>
+    <message>
+        <source>Default ( Latin1 )</source>
+        <comment>@item:inlistbox Default MIDI text encoding</comment>
+        <translation>Por omisión ( Latin1 )</translation>
     </message>
 </context>
 <context>
@@ -268,6 +281,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Resize columns automatically while recording events</source>
         <translation>Redimensionar columnas automáticamente durante la grabación de eventos</translation>
+    </message>
+    <message>
+        <source>Internal Icon Theme</source>
+        <translation>Tema interno de iconos</translation>
+    </message>
+    <message>
+        <source>Qt Style</source>
+        <translation>Estilo de Qt</translation>
+    </message>
+    <message>
+        <source>Forced Dark Mode</source>
+        <translation>Modo oscuro forzado</translation>
     </message>
 </context>
 <context>
@@ -502,11 +527,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Esc</source>
-        <translation>Esc</translation>
+        <translation type="vanished">Esc</translation>
     </message>
     <message>
         <source>Help: %1</source>
-        <translation>Ayuda: %1</translation>
+        <translation type="vanished">Ayuda: %1</translation>
+    </message>
+    <message>
+        <source>Zoom In</source>
+        <translation>Aumentar</translation>
+    </message>
+    <message>
+        <source>Zoom Out</source>
+        <translation>Disminuir</translation>
     </message>
 </context>
 <context>
@@ -765,7 +798,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
-        <translation>Texto simple (*.txt);;Archivos MIDI (*.mid)</translation>
+        <translation type="vanished">Texto simple (*.txt);;Archivos MIDI (*.mid)</translation>
     </message>
     <message>
         <source>(no file)</source>
@@ -813,7 +846,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
-        <translation>Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Creado: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modificado: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%7 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%8 npm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%9&lt;/b&gt;</translation>
+        <translation type="vanished">Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Creado: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modificado: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%7 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%8 npm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%9&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Sequence Information</source>
@@ -864,6 +897,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Recent files</source>
         <translation>Archivos recientes</translation>
+    </message>
+    <message>
+        <source>Plain text files (*.txt)</source>
+        <translation>Ficheros de texto plano (*.txt)</translation>
+    </message>
+    <message>
+        <source>MIDI files (*.mid)</source>
+        <translation>Archivos MIDI (*.mid)</translation>
+    </message>
+    <message>
+        <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
+        <translation>Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Fecha: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%6 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%7 ppm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</translation>
     </message>
 </context>
 <context>
@@ -929,31 +974,31 @@ p, li { white-space: pre-wrap; }
     <name>QApplication</name>
     <message>
         <source>Whole</source>
-        <translation>Redonda</translation>
+        <translation type="vanished">Redonda</translation>
     </message>
     <message>
         <source>Half</source>
-        <translation>Blanca</translation>
+        <translation type="vanished">Blanca</translation>
     </message>
     <message>
         <source>Quarter</source>
-        <translation>Negra</translation>
+        <translation type="vanished">Negra</translation>
     </message>
     <message>
         <source>Eight</source>
-        <translation>Corchea</translation>
+        <translation type="vanished">Corchea</translation>
     </message>
     <message>
         <source>Sixteenth</source>
-        <translation>Semicorchea</translation>
+        <translation type="vanished">Semicorchea</translation>
     </message>
     <message>
         <source>Thirty-Second</source>
-        <translation>Fusa</translation>
+        <translation type="vanished">Fusa</translation>
     </message>
     <message>
         <source>Sixty-Fourth</source>
-        <translation>Semifusa</translation>
+        <translation type="vanished">Semifusa</translation>
     </message>
     <message>
         <source>Note</source>
@@ -1833,6 +1878,10 @@ p, li { white-space: pre-wrap; }
         <source>minor</source>
         <comment>minor mode scale</comment>
         <translation>menor</translation>
+    </message>
+    <message>
+        <source> in RIFF container of type %1</source>
+        <translation> en contenedor RIFF de tipo %1</translation>
     </message>
 </context>
 <context>

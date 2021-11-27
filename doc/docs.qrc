@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/help">
+        <file>cs/index.html</file>
         <file>en/index.html</file>
         <file>es/index.html</file>
+        <file>fr/index.html</file>
         <file>ja/index.html</file>
     </qresource>
 </RCC>

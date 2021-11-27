@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Index nápovědy</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Index nápovědy</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#úvod">Úvod</a></li>
+<li><a href="#začínáme">Začínáme</a><ul>
+<li><a href="#hlavní-okno">Hlavní okno</a></li>
+<li><a href="#možnosti-konfigurace">Možnosti konfigurace</a></li>
+</ul></li>
+<li><a href="#kredity-a-licence">Kredity a licence</a></li>
+<li><a href="#instalace">Instalace</a><ul>
+<li><a href="#jak-získat-drumstick-midi-monitor">Jak získat Drumstick MIDI Monitor</a></li>
+<li><a href="#požadavky">Požadavky</a></li>
+<li><a href="#kompilace-a-instalace">Kompilace a instalace</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="úvod">Úvod</h1>
+<p><a href="https://kmidimon.sourceforge.io">Drumstick MIDI Monitor</a> zaznamenává nadcházející události z externího MIDI portu nebo aplikace přes sekvencer ALSA nebo uloženy jako standardní MIDI soubory. to je zvláště užitečné, pokud chcete ladit MIDI software nebo vaše MIDI nastavení. Vyznačuje se pěkným grafickým uživatelským rozhraním, přizpůsobitelnými filtry událostí a parametry sekvenceru, podpora všech MIDI zpráv a některých ALSA zpráv a uložení seznamu zaznamenaných událostí do textového souboru nebo SMF.</p>
+<h1 id="začínáme">Začínáme</h1>
+<h2 id="hlavní-okno">Hlavní okno</h2>
+<p>Program se spustí ve stavu nahrávání, registruje všechny příchozí MIDI události, dokud nestisknete tlačítko stop. K dispozici jsou také tlačítka pro přehrávání, pozastavit, přetočit zpět a vpřed, s obvyklým chováním jakéhokoli jiného média hráč.</p>
+<p>Nad mřížkou seznamu událostí můžete najít sadu karet, pro každou jednu stopa definovaná v SMF. Můžete přidat nové karty nebo zavřít karty bez ztráty zaznamenaných událostí, protože se jedná pouze o pohledy nebo události filtry.</p>
+<p>Můžete ovládat MIDI připojení sekvenceru ALSA k programům a zařízení zevnitř Drumstick MIDI monitoru. Chcete-li to provést, použijte možnosti v nabídce &quot;Připojení&quot; v hlavní nabídce. Existují možnosti připojení a odpojte každý dostupný vstupní port od Drumstick MIDI monitoru a také dialogové okno kde si můžete vybrat porty, které mají být monitorovány, a výstupní.</p>
+<p>Můžete také použít nástroj pro připojení MIDI, jako je <a href="https://linux.die.net/man/1/aconnect">aconnect(1)</a> nebo <a href="https://qjackctl.sourceforge.io">QJackCtl</a> pro připojení aplikace nebo MIDI port pro Drumstick MIDI Monitor.</p>
+<p>Když byl port MIDI OUT připojen ke vstupnímu portu Drumstick MIDI Monitor in stav nahrávání, zobrazí příchozí MIDI události, pokud je vše v pořádku opravit.</p>
+<p>Každá přijatá MIDI událost je zobrazena na jednom řádku. Sloupce mají následující význam.</p>
+<ul>
+<li><strong>Ticks</strong>: Hudební čas příjezdu události</li>
+<li><strong>Čas</strong>: Skutečný čas v sekundách od příchodu události</li>
+<li><strong>Zdroj</strong>: ALSA identifikátor MIDI zařízení, ze kterého pochází událost. Budete schopni rozpoznat, jaká událost ke které patří zařízení, pokud je připojeno několik současně. Tady je konfigurační volba pro zobrazení názvu klienta ALSA namísto a číslo</li>
+<li><strong>Druh události</strong>: Typ události: nota on/off, control change, ALSA a již brzy</li>
+<li><strong>Chan</strong> MIDI kanál události (pokud se jedná o událost kanálu). To se také používá k zobrazení kanálu Sysex.</li>
+<li><strong>Data 1</strong>: Záleží na typu přijímané události. Pro kontrolu Změnit událost nebo poznámku, je to kontrolní číslo nebo číslo poznámky</li>
+<li><strong>Data 2</strong>: Záleží na typu přijímané události. Pro kontrolu Změnit to bude hodnota a pro událost Note to bude rychlost</li>
+<li><strong>Data 3</strong>: Textová reprezentace System Exclusive nebo Meta událostí.</li>
+</ul>
+<p>Pomocí kontextové nabídky můžete libovolný sloupec skrýt nebo zobrazit. Chcete-li to otevřít stiskněte sekundární tlačítko myši nad seznamem událostí. Můžete také pomocí dialogového okna Konfigurace vyberte viditelné sloupce.</p>
+<p>Seznam událostí vždy zobrazuje novější zaznamenané události ve spodní části mřížka.</p>
+<p>Drumstick MIDI Monitor umí uložit zaznamenané události jako textový soubor (ve formátu CSV) popř standardní MIDI soubor (SMF).</p>
+<h2 id="možnosti-konfigurace">Možnosti konfigurace</h2>
+<p>Dialog Konfigurace otevřete v menu Nastavení → Konfigurovat nebo klikněte na příslušnou ikonu na panelu nástrojů.</p>
+<p>Toto je seznam možností konfigurace.</p>
+<ul>
+<li><strong>Karta Sekvencer</strong>. Výchozí nastavení fronty má vliv na čas události přesnost.</li>
+<li><strong>Karta Filtry</strong>. Zde můžete zkontrolovat několik rodin událostí zobrazeny v seznamu událostí.</li>
+<li><strong>Karta Zobrazení</strong>. První skupina zaškrtávacích políček umožňuje zobrazit/skrýt odpovídající sloupce seznamu událostí. ** Různé záložka**. Mezi různé možnosti patří:
+<ul>
+<li>Přeložte ID klientů ALSA na jména. Pokud je zaškrtnuto, klient ALSA jména se používají místo ID čísel ve sloupci &quot;Zdroj&quot; pro všechny krále událostí a datové sloupce pro události ALSA.</li>
+<li>Překladač zpráv Universal System Exclusive. Pokud je zaškrtnuto, Universal System Exclusive zprávy (v reálném čase, mimo reálný čas, MMC, MTC a několik dalších typů) jsou interpretovány a překládány. Jinak se zobrazí hexadecimální výpis.</li>
+<li>Použít pevné písmo. Ve výchozím nastavení Drumstick MIDI Monitor používá systémové písmo v seznam událostí. Pokud je tato možnost zaškrtnuta, použije se pevné písmo namísto.</li>
+</ul></li>
+</ul>
+<h1 id="kredity-a-licence">Kredity a licence</h1>
+<p>Copyright © 2005-2021 Pedro Lopez-Cabanillas</p>
+<p>Dokumentace Copyright © 2005 Christoph Eckert</p>
+<p>Dokumentace Copyright © 2008-2021 Pedro Lopez-Cabanillas</p>
+<h1 id="instalace">Instalace</h1>
+<h2 id="jak-získat-drumstick-midi-monitor">Jak získat Drumstick MIDI Monitor</h2>
+<p><a href="https://sourceforge.net/projects/kmidimon/files/">Zde</a> můžete najít poslední verzi. K dispozici je také zrcadlo Git <a href="https://github.com/pedrolcl/kmidimon">GitHub</a></p>
+<h2 id="požadavky">Požadavky</h2>
+<p>Abyste mohli úspěšně používat Drumstick MIDI Monitor, potřebujete Qt 5, Drumstick 2 a ALSA ovladače a knihovna.</p>
+<p>Systém sestavení vyžaduje <a href="http://www.cmake.org">CMake</a> 3.14 nebo novější.</p>
+<p>Knihovnu ALSA, ovladače a nástroje naleznete na <a href="http://www.alsa-project.org">Domovská stránka ALSA</a></p>
+<p>Seznam změn najdete na https://sourceforge.net/p/kmidimon</p>
+<h2 id="kompilace-a-instalace">Kompilace a instalace</h2>
+<p>Chcete-li zkompilovat a nainstalovat Drumstick MIDI Monitor na váš systém, zadejte následující v základním adresáři distribuce Drumstick MIDI Monitor:</p>
+<pre><code>% cmake .
+% udělat
+% provést instalaci</code></pre>
+<p>Protože Drumstick MIDI Monitor používá <code>cmake</code> a <code>make</code>, neměli byste mít žádné potíže jeho sestavování. Pokud narazíte na problémy, nahlaste je na autora nebo systému sledování chyb projektu.</p>
+</body>
+</html>

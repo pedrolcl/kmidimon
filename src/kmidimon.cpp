@@ -239,6 +239,15 @@ void KMidimon::translateActions()
     m_recentFiles->setTitle(tr("Recent files"));
 }
 
+void KMidimon::translateTabs()
+{
+    for(int i = 0; i < m_tabBar->count(); ++i) {
+        int track = m_tabBar->tabData(i).toInt();
+        m_tabBar->setTabText(i, tr("Track %1","song track").arg(track));
+        m_tabBar->setTabWhatsThis(i, tr("Track %1 View Selector","track selector").arg(track));
+    }
+}
+
 void KMidimon::setupActions()
 {
     const QString columnName[COLUMN_COUNT] = {
@@ -1221,6 +1230,7 @@ void KMidimon::retranslateUi()
     m_ui->retranslateUi(this);
     createLanguageMenu();
     translateActions();
+    translateTabs();
     m_filter->retranslateMenu();
     m_helpWindow->retranslateUi();
 }

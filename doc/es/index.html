@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Índice de ayuda</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Índice de ayuda</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#introducción">Introducción</a></li>
+<li><a href="#empezando">Empezando</a><ul>
+<li><a href="#ventana-principal">Ventana principal</a></li>
+<li><a href="#opciones-de-configuración">Opciones de configuración</a></li>
+</ul></li>
+<li><a href="#créditos-y-licencia">Créditos y Licencia</a></li>
+<li><a href="#instalación">Instalación</a><ul>
+<li><a href="#cómo-obtener-drumstick-midi-monitor">Cómo obtener Drumstick MIDI Monitor</a></li>
+<li><a href="#requisitos">Requisitos</a></li>
+<li><a href="#compilación-e-instalación">Compilación e instalación</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="introducción">Introducción</h1>
+<p><a href="https://kmidimon.sourceforge.io">Drumstick MIDI Monitor</a> registra los eventos que vienen desde una aplicación o puerto externo MIDI a través del secuenciador ALSA, o almacenados como archivos MIDI estándar. Está especialmente útil si desea depurar software MIDI o su configuración MIDI. Cuenta con una agradable interfaz gráfica de usuario, filtros de eventos personalizables. y parámetros del secuenciador, soporte para todos los mensajes MIDI y algunos ALSA mensajes y guardar la lista de eventos grabados en un archivo de texto o SMF.</p>
+<h1 id="empezando">Empezando</h1>
+<h2 id="ventana-principal">Ventana principal</h2>
+<p>El programa comienza en estado de grabación, registrando todos los MIDI entrantes. eventos hasta que presione el botón de parada. También hay botones para jugar, pausar, rebobinar y avanzar, con el comportamiento habitual de cualquier otro medio jugador.</p>
+<p>Sobre la cuadrícula de la lista de eventos puede encontrar un conjunto de pestañas, una para cada pista definida en un SMF. Puede agregar pestañas nuevas o cerrar pestañas sin perder los eventos registrados, porque son solo vistas o evento filtros.</p>
+<p>Puede controlar las conexiones MIDI del secuenciador ALSA a programas y dispositivos desde el interior del Drumstick MIDI Monitor. Para hacerlo, use las opciones en el menú &quot;Conexiones&quot; en el menú principal. Hay opciones para conectarse y desconecte todos los puertos de entrada disponibles para Drumstick MIDI Monitor, y también un cuadro de diálogo donde puede elegir los puertos a monitorear y el de salida.</p>
+<p>También puede utilizar una herramienta de conexión MIDI como <a href="https://linux.die.net/man/1/aconnect">aconnect (1)</a> o <a href="https://qjackctl.sourceforge.io">QJackCtl</a> para conectar la aplicación o puerto MIDI a Drumstick MIDI Monitor.</p>
+<p>Cuando se ha conectado un puerto MIDI OUT al puerto de entrada de Drumstick MIDI Monitor en estado de grabación, mostrará los eventos MIDI entrantes si todo está correcto.</p>
+<p>Cada evento MIDI recibido se muestra en una sola fila. Las columnas tienen el siguiente significado.</p>
+<ul>
+<li><strong>Tics</strong>: El tiempo musical de la llegada del evento.</li>
+<li><strong>Tiempo</strong>: El tiempo real en segundos de la llegada del evento.</li>
+<li><strong>Origen</strong>: el identificador ALSA del dispositivo MIDI que origina el evento. Podrás reconocer qué evento pertenece a qué dispositivo si tiene varios conectados simultáneamente. Hay un opción de configuración para mostrar el nombre del cliente ALSA en lugar de un número</li>
+<li><strong>Tipo de evento </strong>: el tipo de evento: nota activada / desactivada, cambio de control, ALSA y pronto</li>
+<li><strong>Canal</strong> El canal MIDI del evento (si es un evento de canal). Eso también se utiliza para mostrar el canal Sysex.</li>
+<li><strong>Datos 1</strong>: Depende del tipo de evento recibido. Por un control Cambiar evento o una nota, es el número de control o el número de nota</li>
+<li><strong>Datos 2</strong>: Depende del tipo de evento recibido. Por un control Cambiarlo será el valor, y para un evento de Nota será el velocidad</li>
+<li><strong>Datos 3</strong>: Representación de texto de exclusivos del sistema o metaeventos.</li>
+</ul>
+<p>Puede ocultar o mostrar cualquier columna utilizando el menú contextual. Para abrir esto menú, presione el botón secundario del mouse sobre la lista de eventos. Tú también puedes utilice el cuadro de diálogo Configuración para elegir las columnas visibles.</p>
+<p>La lista de eventos siempre muestra los eventos registrados más nuevos en la parte inferior de la red.</p>
+<p>Drumstick MIDI Monitor puede guardar los eventos grabados como un archivo de texto (en formato CSV) o un archivo MIDI estándar (SMF).</p>
+<h2 id="opciones-de-configuración">Opciones de configuración</h2>
+<p>Para abrir el cuadro de diálogo Configuración, vaya a la Opción de menú Ajustes → Preferencias o haga clic en el icono correspondiente en la barra de herramientas.</p>
+<p>Esta es una lista de algunas de las opciones de configuración.</p>
+<ul>
+<li><strong>Pestaña Secuenciador</strong>. La configuración predeterminada de la cola afecta a la hora del evento precisión.</li>
+<li><strong>Pestaña Filtros</strong>. Aquí puede consultar varias familias de eventos para mostrado en la lista de eventos.</li>
+<li><strong>Pestaña de visualización</strong>. El primer grupo de casillas de verificación permite mostrar / ocultar la columnas correspondientes de la lista de eventos.</li>
+<li><strong>Pestaña Miscelánea</strong>. Las opciones misceláneas incluyen:
+<ul>
+<li>Traducir las ID de cliente de ALSA a nombres. Si está marcado, cliente de ALSA se utilizan nombres en lugar de números de identificación en la columna &quot;Fuente&quot; para todo el rey de los eventos, y las columnas de datos para los eventos de ALSA.</li>
+<li>Traducir mensajes exclusivos del sistema universal. Si está marcado, Mensajes exclusivos del sistema universal (en tiempo real, no en tiempo real, MMC, MTC y algunos otros tipos) se interpretan y traducen. De lo contrario, se muestra el volcado hexadecimal.</li>
+<li>Usar fuente fija. Por defecto, Drumstick MIDI Monitor utiliza la fuente del sistema en el lista de eventos. Si esta opción está marcada, se usa una fuente fija en lugar de.</li>
+</ul></li>
+</ul>
+<h1 id="créditos-y-licencia">Créditos y Licencia</h1>
+<p>Programa Copyright © 2005-2021 Pedro Lopez-Cabanillas</p>
+<p>Copyright de la documentación © 2005 Christoph Eckert</p>
+<p>Copyright de la documentación © 2008-2021 Pedro Lopez-Cabanillas</p>
+<h1 id="instalación">Instalación</h1>
+<h2 id="cómo-obtener-drumstick-midi-monitor">Cómo obtener Drumstick MIDI Monitor</h2>
+<p><a href="https://sourceforge.net/projects/kmidimon/files/">Aquí</a> puedes encontrar la última versión. También hay un espejo Git en <a href="https://github.com/pedrolcl/kmidimon">GitHub</a></p>
+<h2 id="requisitos">Requisitos</h2>
+<p>Para utilizar con éxito Drumstick MIDI Monitor, necesita Qt 5, Drumstick 2 y controladores y biblioteca ALSA.</p>
+<p>El sistema de compilación requiere <a href="http://www.cmake.org">CMake</a> 3.14 o más reciente.</p>
+<p>La biblioteca, los controladores y las utilidades de ALSA se pueden encontrar en <a href="http://www.alsa-project.org">Página de inicio de ALSA</a></p>
+<p>Puede encontrar una lista de cambios en https://sourceforge.net/p/kmidimon</p>
+<h2 id="compilación-e-instalación">Compilación e instalación</h2>
+<p>Para compilar e instalar Drumstick MIDI Monitor en su sistema, escriba el siguiente en el directorio base de la distribución Drumstick MIDI Monitor:</p>
+<pre><code>$ cmake .
+$ make
+$ make install</code></pre>
+<p>Dado que Drumstick MIDI Monitor usa <code>cmake</code> y<code>make</code>, no debería tener problemas compilándolo. Si tiene algún problema, infórmelo al autor o el sistema de seguimiento de errores del proyecto.</p>
+</body>
+</html>

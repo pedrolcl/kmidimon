@@ -53,7 +53,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Default ( ASCII )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation>Défaut ( ASCII )</translation>
+        <translation type="vanished">Défaut ( ASCII )</translation>
+    </message>
+    <message>
+        <source>Default ( Latin1 )</source>
+        <comment>@item:inlistbox Default MIDI text encoding</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -260,6 +265,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Resize columns automatically while recording events</source>
         <translation>Redimensionner les colonnes automatiquement lors de l&apos;enregistrement des événements</translation>
+    </message>
+    <message>
+        <source>Internal Icon Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forced Dark Mode</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -493,11 +510,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Fermer</translation>
     </message>
     <message>
-        <source>Esc</source>
+        <source>Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Help: %1</source>
+        <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -756,10 +773,6 @@ p, li { white-space: pre-wrap; }
         <translation>Sauvegarder les données du moniteur MIDI</translation>
     </message>
     <message>
-        <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>(no file)</source>
         <translation>(pas de fichier)</translation>
     </message>
@@ -805,7 +818,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
-        <translation>Fichier : &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Créé : &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modifié : &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format : &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Nombre de pistes : &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Nombre d&apos;événements : &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division : &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Tempo initial : &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Durée : &lt;b&gt;%9&lt;/b&gt;</translation>
+        <translation type="vanished">Fichier : &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Créé : &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modifié : &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format : &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Nombre de pistes : &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Nombre d&apos;événements : &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division : &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Tempo initial : &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Durée : &lt;b&gt;%9&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Sequence Information</source>
@@ -855,6 +868,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Recent files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plain text files (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MIDI files (*.mid)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -919,34 +944,6 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>QApplication</name>
-    <message>
-        <source>Whole</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Half</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quarter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Eight</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sixteenth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thirty-Second</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sixty-Fourth</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Note</source>
         <translation type="unfinished">Note</translation>
@@ -1825,6 +1822,10 @@ p, li { white-space: pre-wrap; }
         <source>minor</source>
         <comment>minor mode scale</comment>
         <translation type="unfinished">mineur</translation>
+    </message>
+    <message>
+        <source> in RIFF container of type %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

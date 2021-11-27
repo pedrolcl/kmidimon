@@ -173,7 +173,9 @@ void HelpWindow::retranslateUi()
 {
     QString language = qobject_cast<KMidimon*>(parent())->configuredLanguage();
     m_page = QStringLiteral("help/%1/index.html").arg(language);
-    showPage(m_page);
+    if (isVisible()) {
+        showPage(m_page);
+    }
     updateWindowTitle();
     m_home->setText(tr("&Home"));
     m_back->setText(tr("&Back"));

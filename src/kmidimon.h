@@ -121,6 +121,7 @@ protected:
     void readConfiguration();
     void setupActions();
     void translateActions();
+    void translateTabs();
     void setFixedFont(bool newValue);
     bool getFixedFont() const { return m_useFixedFont; }
     void addNewTab(int data);

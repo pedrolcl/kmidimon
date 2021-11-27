@@ -69,7 +69,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Default ( ASCII )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation>既定値 ( ASCII )</translation>
+        <translation type="vanished">既定値 ( ASCII )</translation>
+    </message>
+    <message>
+        <source>Default ( Latin1 )</source>
+        <comment>@item:inlistbox Default MIDI text encoding</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -278,6 +283,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Resize columns automatically while recording events</source>
         <translation>記録イベント中に自動的にカラムをリサイズ</translation>
+    </message>
+    <message>
+        <source>Internal Icon Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forced Dark Mode</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -512,11 +529,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Esc</source>
-        <translation>Esc</translation>
+        <translation type="vanished">Esc</translation>
     </message>
     <message>
         <source>Help: %1</source>
-        <translation>Help: %1</translation>
+        <translation type="vanished">Help: %1</translation>
+    </message>
+    <message>
+        <source>Zoom In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom Out</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -774,10 +799,6 @@ p, li { white-space: pre-wrap; }
         <translation>MIDIモニタデータを保存</translation>
     </message>
     <message>
-        <source>Plain text files (*.txt);;MIDI files (*.mid)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>(no file)</source>
         <translation>(ファイルなし)</translation>
     </message>
@@ -823,7 +844,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Created: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modified: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%9&lt;/b&gt;</source>
-        <translation>ファイル: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;作成: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;変更: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;形式: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;トラック数: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;イベント数: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;初期テンポ: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;デュレーション: &lt;b&gt;%9&lt;/b&gt;</translation>
+        <translation type="vanished">ファイル: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;作成: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;変更: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;形式: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;トラック数: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;イベント数: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%7 ppq&lt;/b&gt;&lt;br/&gt;初期テンポ: &lt;b&gt;%8 bpm&lt;/b&gt;&lt;br/&gt;デュレーション: &lt;b&gt;%9&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Sequence Information</source>
@@ -874,6 +895,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Recent files</source>
         <translation>最近使ったファイル</translation>
+    </message>
+    <message>
+        <source>Plain text files (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MIDI files (*.mid)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -939,31 +972,31 @@ p, li { white-space: pre-wrap; }
     <name>QApplication</name>
     <message>
         <source>Whole</source>
-        <translation>Whole</translation>
+        <translation type="vanished">Whole</translation>
     </message>
     <message>
         <source>Half</source>
-        <translation>Half</translation>
+        <translation type="vanished">Half</translation>
     </message>
     <message>
         <source>Quarter</source>
-        <translation>Quarter</translation>
+        <translation type="vanished">Quarter</translation>
     </message>
     <message>
         <source>Eight</source>
-        <translation>Eight</translation>
+        <translation type="vanished">Eight</translation>
     </message>
     <message>
         <source>Sixteenth</source>
-        <translation>Sixteenth</translation>
+        <translation type="vanished">Sixteenth</translation>
     </message>
     <message>
         <source>Thirty-Second</source>
-        <translation>Thirty-Second</translation>
+        <translation type="vanished">Thirty-Second</translation>
     </message>
     <message>
         <source>Sixty-Fourth</source>
-        <translation>Sixty-Fourth</translation>
+        <translation type="vanished">Sixty-Fourth</translation>
     </message>
     <message>
         <source>Note</source>
@@ -1843,6 +1876,10 @@ p, li { white-space: pre-wrap; }
         <source>minor</source>
         <comment>minor mode scale</comment>
         <translation>短調</translation>
+    </message>
+    <message>
+        <source> in RIFF container of type %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
