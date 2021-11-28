@@ -106,10 +106,10 @@ KMidimon::KMidimon() :
     QApplication::installTranslator(m_trp);
     QLocale locale(configuredLanguage());
     //qDebug() << "locale:" << locale << "path:" << trDirectory();
-    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory()) && (configuredLanguage() != "en")) {
         qWarning() << "Failure loading Qt translations for" << configuredLanguage();
     }
-    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory()) && (configuredLanguage() != "en")) {
         qWarning() << "Failure loading program translations for" << configuredLanguage();
     }
     QLocale::setDefault(locale);
@@ -193,6 +193,16 @@ KMidimon::KMidimon() :
 
 void KMidimon::translateActions()
 {
+    const QString columnName[COLUMN_COUNT] = {
+            tr("Ticks"),
+            tr("Time"),
+            tr("Source", "event origin"),
+            tr("Event Kind", "type of event"),
+            tr("Channel"),
+            tr("Data 1"),
+            tr("Data 2"),
+            tr("Data 3")
+    };
     m_new->setText(tr("&New"));
     m_new->setWhatsThis(tr("Clear the current data and start a new empty session"));
     m_open->setText(tr("&Open"));
@@ -238,6 +248,11 @@ void KMidimon::translateActions()
     m_muteTrack->setText(tr("Mute Track"));
     m_muteTrack->setWhatsThis(tr("Mute (silence) the track"));
     m_recentFiles->setTitle(tr("Recent files"));
+    m_menuTracks->setTitle(tr("Tracks"));
+    m_menuColumns->setTitle(tr("Show Columns"));
+    for ( int i = 0; i < COLUMN_COUNT; ++i ) {
+        m_popupAction[i]->setText(columnName[i]);
+    }
 }
 
 void KMidimon::translateTabs()
@@ -407,26 +422,26 @@ void KMidimon::setupActions()
     connect(m_resizeColumns, &QAction::triggered, this, &KMidimon::resizeAllColumns);
     m_popup->addAction(m_resizeColumns);
 
-    QMenu* tracks = m_popup->addMenu(tr("Tracks"));
+    m_menuTracks = m_popup->addMenu(tr("Tracks"));
 
     m_createTrack = new QAction(this);
     connect(m_createTrack, &QAction::triggered, this, &KMidimon::addTrack);
-    tracks->addAction(m_createTrack);
+    m_menuTracks->addAction(m_createTrack);
 
     m_deleteTrack = new QAction(this);
     connect(m_deleteTrack, &QAction::triggered, this, &KMidimon::deleteCurrentTrack);
-    tracks->addAction(m_deleteTrack);
+    m_menuTracks->addAction(m_deleteTrack);
 
     m_changeTrack = new QAction(this);
     connect(m_changeTrack, &QAction::triggered, this, &KMidimon::changeCurrentTrack);
-    tracks->addAction(m_changeTrack);
+    m_menuTracks->addAction(m_changeTrack);
 
     m_muteTrack = new QAction(this);
     m_muteTrack->setCheckable(true);
     connect(m_muteTrack, &QAction::triggered, this, &KMidimon::muteCurrentTrack);
-    tracks->addAction(m_muteTrack);
+    m_menuTracks->addAction(m_muteTrack);
 
-    QMenu* columns = m_popup->addMenu(tr("Show Columns"));
+    m_menuColumns = m_popup->addMenu(tr("Show Columns"));
 
     for ( int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i] = new QAction(columnName[i], this);
@@ -434,7 +449,7 @@ void KMidimon::setupActions()
         m_popupAction[i]->setChecked(true);
         m_popupAction[i]->setWhatsThis(tr("Toggle the %1 column").arg(columnName[i]));
         connect(m_popupAction[i], &QAction::triggered, this, [=] {toggleColumn(i);});
-        columns->addAction(m_popupAction[i]);
+        m_menuColumns->addAction(m_popupAction[i]);
     }
 
     QMenu* filtersMenu = m_filter->buildMenu(this);
@@ -1223,10 +1238,10 @@ void KMidimon::retranslateUi()
 {
     auto lang = configuredLanguage();
     QLocale locale(lang);
-    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory()) && (lang != "en")) {
         qWarning() << "Failure loading Qt translations for" << lang;
     }
-    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory()) && (lang != "en")) {
         qWarning() << "Failure loading program translations for" << lang;
     }
     m_ui->retranslateUi(this);

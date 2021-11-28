@@ -192,6 +192,8 @@ private:
     bool m_darkMode;
     bool m_internalIcons;
     QPointer<HelpWindow> m_helpWindow;
+    QMenu *m_menuTracks;
+    QMenu *m_menuColumns;
 };
 
 #endif // KMIDIMON_H
