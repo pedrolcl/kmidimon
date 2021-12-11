@@ -1,5 +1,20 @@
+2021-12-12
+    * Release 1.2.0
+
+2021-12-11    
+    * Czech translation, by Pavel Fric
+
 2021-11-27
-    * Documentation updated
+    * New build options: USE_QT and BUILD_DOCS
+    * Qt6 compatibility fixes
+    * Documentation and help system updated
+    * Using pandoc for help documents and manpages generation
+
+2021-11-19
+    * Save recording corrections:
+      Use the chosen file suffix from the save dialog when not given by the user
+      Save always an initial tempo event
+      Fixed saved tracks duration
 
 2021-11-13
     * Fixed mute track functionality
@@ -9,7 +24,7 @@
     * Support WRK file format markers, provided by Drumstick 2.5
 
 2021-09-25
-    * desktop icons replaced
+    * Desktop icons replaced
 
 2021-09-19
     * Release 1.1.0

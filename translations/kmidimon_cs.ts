@@ -45,7 +45,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is free software; you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Kopírovací právo © 2002-2021, &lt;/span&gt;&lt;a href=&quot;mailto:plcl@users.sf.net?subject=VMPK&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Pedro Lopez-Cabanillas &amp;lt;plcl@users.sf.net&amp;gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Tento program je svobodným softwarem; můžete jej rozdávat a/nebo upravovat za podmínek GNU General Public License (GPL), jak jsou zveřejněny Free Software Foundation; buď ve verzi 2 licence, nebo (podle své volby) v kterékoli pozdější verzi.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Tento program je šířen v naději, že bude užitečný, ale BEZ JAKÉKOLI ZÁRUKY; také bez předpokládané záruky PRODEJNOSTI nebo POUŽITELNOSTI PRO NĚJAKÝ URČITÝ ÚČEL: Více podrobností naleznete v GNU Library General Public License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Kopii GNU Library General Public License byste měl obdržet společně s tímto programem; a pokud ne, podívejte se na &lt;/span&gt;&lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -63,7 +70,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Default ( Latin1 )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí (Latin1)</translation>
     </message>
 </context>
 <context>
@@ -273,15 +280,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Internal Icon Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzhled vlastních ikon</translation>
     </message>
     <message>
         <source>Qt Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl Qt</translation>
     </message>
     <message>
         <source>Forced Dark Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Vynucen tmavý vzhled</translation>
     </message>
 </context>
 <context>
@@ -524,11 +531,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Přiblížit</translation>
     </message>
     <message>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Oddálit</translation>
     </message>
 </context>
 <context>
@@ -889,15 +896,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Plain text files (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory s prostým textem (*.txt)</translation>
     </message>
     <message>
         <source>MIDI files (*.mid)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory MIDI (*.mid)</translation>
     </message>
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Datum: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Formát: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt; Počet stop: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Počet událostí: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Rozdělení: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Počáteční tempo: &lt;b&gt;%7 M.M.&lt;/b&gt;&lt;br/&gt;Doba trvání: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt;%9</translation>
     </message>
 </context>
 <context>
@@ -1870,7 +1877,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> in RIFF container of type %1</source>
-        <translation type="unfinished"></translation>
+        <translation> v kontejneru RIFF typu %1</translation>
     </message>
 </context>
 <context>
