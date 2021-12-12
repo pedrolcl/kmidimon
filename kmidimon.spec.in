@@ -4,7 +4,7 @@
 # norootforbuild
 
 Name:           kmidimon
-Version:        @VERSION@
+Version:        @PROJECT_VERSION@
 Release:        0
 License:        GPL v2 or later
 Summary:        MIDI Monitor for ALSA Sequencer

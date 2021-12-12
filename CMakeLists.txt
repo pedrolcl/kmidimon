@@ -104,7 +104,7 @@ add_custom_target ( tarball
     COMMAND cp -r icons kmidimon-${PROJECT_VERSION}
     COMMAND cp -r src kmidimon-${PROJECT_VERSION}
     COMMAND cp -r translations kmidimon-${PROJECT_VERSION}
-    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog *.md *.ins *.spec* *.desktop *.lsm *.qrc *.pro *.pri kmidimon-${PROJECT_VERSION}
+    COMMAND cp CMakeLists.txt AUTHORS COPYING ChangeLog configure.* *.md *.ins *.spec* *.desktop *.lsm *.qrc *.pro *.pri *.xml kmidimon-${PROJECT_VERSION}
     COMMAND tar -cj --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${PROJECT_VERSION}.tar.bz2 kmidimon-${PROJECT_VERSION}
     COMMAND tar -cz --exclude .svn --exclude *.old --exclude *~ -f kmidimon-${PROJECT_VERSION}.tar.gz kmidimon-${PROJECT_VERSION}
     COMMAND rm -rf kmidimon-${PROJECT_VERSION}
