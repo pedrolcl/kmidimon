@@ -1,9 +1,9 @@
 # Drumstick MIDI Monitor (a.k.a. kmidimon)
 
-[Drumstick MIDI Monitor](https://kmidimon.sourceforge.io) logs MIDI events 
-coming from MIDI external ports or applications via the ALSA sequencer, 
-and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug 
-MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and 
+[Drumstick MIDI Monitor](https://kmidimon.sourceforge.io) logs MIDI events
+coming from MIDI external ports or applications via the ALSA sequencer,
+and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug
+MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and
 sequencer parameters, support for MIDI and ALSA messages, and saving the recorded event list to a SMF or text file.
 
 For brief building instructions, see INSTALL.
