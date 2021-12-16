@@ -17,13 +17,13 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(kmidimon
-    VERSION 1.2.0
+    VERSION 1.2.1
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
-set(PROJECT_RELEASE_DATE "December 12, 2021")
+#set(PROJECT_RELEASE_DATE "December 12, 2021")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
 option(USE_QT "Choose which Qt major version (5 or 6) to prefer. By default uses whatever is found")

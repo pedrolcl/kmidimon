@@ -1,11 +1,22 @@
 # Drumstick MIDI Monitor (a.k.a. kmidimon)
 
-Drumstick MIDI Monitor logs MIDI events coming from MIDI external ports or applications via the ALSA sequencer, 
+[Drumstick MIDI Monitor](https://kmidimon.sourceforge.io) logs MIDI events 
+coming from MIDI external ports or applications via the ALSA sequencer, 
 and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug 
 MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and 
 sequencer parameters, support for MIDI and ALSA messages, and saving the recorded event list to a SMF or text file.
 
 For brief building instructions, see INSTALL.
+
+## Downloads
+
+Sources: https://sourceforge.net/projects/kmidimon/files/
+
+[![Download Drumstick MIDI Monitor](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/kmidimon/files/latest/download)
+
+[<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/>](https://flathub.org/apps/details/net.sourceforge.kmidimon)
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/kmidimon.svg)](https://repology.org/project/kmidimon/versions)
 
 ## Developers environment
 
