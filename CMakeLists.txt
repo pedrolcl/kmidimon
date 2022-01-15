@@ -113,7 +113,7 @@ add_custom_target ( tarball
 
 install( FILES net.sourceforge.kmidimon.desktop
          DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
-install( FILES net.sourceforge.kmidimon.appdata.xml
+install( FILES net.sourceforge.kmidimon.metainfo.xml
          DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo )
 install( FILES standards.ins
          DESTINATION ${CMAKE_INSTALL_DATADIR}/kmidimon )
