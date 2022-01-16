@@ -1,3 +1,6 @@
+2022-01-16
+    * Fixed ticket #4 install failure with BUILD_DOCS=OFF
+
 2022-01-15
     * AppStream MetaInfo renamed.
 
