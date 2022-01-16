@@ -30,7 +30,7 @@ else()
     if (UNIX AND NOT APPLE)
         install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${MANPAGE}
                 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
-        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.ja.1
+        install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.ja.1
                 DESTINATION ${CMAKE_INSTALL_MANDIR}/ja/man1
                 RENAME ${MANPAGE})
         foreach(_lang IN ITEMS cs en es fr ja)
