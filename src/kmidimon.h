@@ -172,7 +172,7 @@ private:
     QString m_outputConn;
     EventFilter* m_filter;
     QAction *m_muteTrack;
-	bool m_useFixedFont;
+    bool m_useFixedFont;
     int m_defaultTempo;
     int m_defaultResolution;
     QString m_currentFile;
@@ -181,8 +181,8 @@ private:
     bool m_requestRealtimePrio;
     Ui::KMidimonWin *m_ui;
     QString m_language;
-    QTranslator* m_trp;
-    QTranslator* m_trq;
+    QPointer<QTranslator> m_trp;
+    QPointer<QTranslator> m_trq;
     QAction* m_currentLang;
     QMenu *m_recentFiles;
     QAction *m_recentFileActs[MaxRecentFiles];

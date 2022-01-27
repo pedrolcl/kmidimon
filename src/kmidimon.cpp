@@ -98,21 +98,35 @@ static QString trQtDirectory()
 KMidimon::KMidimon() :
     QMainWindow(nullptr),
     m_state(InvalidState),
-    m_adaptor(nullptr)
+    m_adaptor(nullptr),
+    m_trp(nullptr),
+    m_trq(nullptr),
+    m_currentLang(nullptr)
 {
-    m_trq = new QTranslator(this);
-    QApplication::installTranslator(m_trq);
-    m_trp = new QTranslator(this);
-    QApplication::installTranslator(m_trp);
-    QLocale locale(configuredLanguage());
-    //qDebug() << "locale:" << locale << "path:" << trDirectory();
-    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory()) && (configuredLanguage() != "en")) {
-        qWarning() << "Failure loading Qt translations for" << configuredLanguage();
+    QString lang = configuredLanguage();
+    QLocale locale;
+    if (!lang.isEmpty()) {
+        locale = QLocale(lang);
     }
-    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory()) && (configuredLanguage() != "en")) {
-        qWarning() << "Failure loading program translations for" << configuredLanguage();
+    if (locale.language() != QLocale::C && locale.language() != QLocale::English) {
+        m_trq = new QTranslator(this);
+        if (m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+            QApplication::installTranslator(m_trq);
+        } else {
+            qWarning() << "Failure loading Qt translations for" << lang
+                       << "from" << trQtDirectory();
+            delete m_trq;
+        }
+        m_trp = new QTranslator(this);
+        if (m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+            QApplication::installTranslator(m_trp);
+        } else {
+            qWarning() << "Failure loading program translations for" << lang
+                       << "from" << trQtDirectory();
+            delete m_trp;
+        }
     }
-    QLocale::setDefault(locale);
+
     m_ui = new Ui::KMidimonWin();
     m_ui->setupUi(this);
     IconUtils::SetWindowIcon(this);
@@ -474,7 +488,11 @@ void KMidimon::about()
 
 void KMidimon::help()
 {
-    QString hname = QStringLiteral("help/%1/index.html").arg(m_language);
+    QString lang = configuredLanguage();
+    if (lang == "C") {
+        lang = "en";
+    }
+    QString hname = QStringLiteral("help/%1/index.html").arg(lang);
     //#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
     //    "index.md"
     //#else
@@ -1171,12 +1189,10 @@ QString KMidimon::configuredLanguage()
 {
     if (m_language.isEmpty()) {
         QSettings settings;
-        QString defLang = QLocale::system().name().left(2);
         settings.beginGroup("Settings");
-        m_language = settings.value("language", defLang).toString();
+        m_language = settings.value("language").toString();
         settings.endGroup();
     }
-    //qDebug() << Q_FUNC_INFO << m_language;
     return m_language;
 }
 
@@ -1184,7 +1200,7 @@ void KMidimon::slotSwitchLanguage(QAction *action)
 {
     QString lang = action->data().toString();
     QLocale qlocale(lang);
-    QString localeName = qlocale.nativeLanguageName();
+    QString localeName = lang == "C" ? QLocale::languageToString(QLocale::English) : qlocale.nativeLanguageName();
     if ( QMessageBox::question (this, tr("Language Changed"),
             tr("The language for this application is going to change to %1. "
                "Do you want to continue?").arg(localeName),
@@ -1203,12 +1219,19 @@ void KMidimon::slotSwitchLanguage(QAction *action)
 void KMidimon::createLanguageMenu()
 {
     QString currentLang = configuredLanguage();
+    if (currentLang.isEmpty()) {
+        QLocale loc;
+        if (loc.language() == QLocale::C || loc.language() == QLocale::English)
+            currentLang = "C";
+        else
+            currentLang = QLocale().name().left(2);
+    }
     QActionGroup *languageGroup = new QActionGroup(this);
     connect(languageGroup, &QActionGroup::triggered,
             this, &KMidimon::slotSwitchLanguage);
     QStringList locales;
-    locales << "en";
-    QDirIterator it(trDirectory(), {"*.qm"}, QDir::NoFilter, QDirIterator::NoIteratorFlags);
+    locales << "C";
+    QDirIterator it(trDirectory(), {"kmidimon*.qm"}, QDir::NoFilter, QDirIterator::NoIteratorFlags);
     while (it.hasNext()) {
         QFileInfo f(it.next());
         QString locale = f.fileName();
@@ -1221,7 +1244,7 @@ void KMidimon::createLanguageMenu()
     m_ui->menuLanguage->clear();
     foreach (const QString& loc, locales) {
         QLocale qlocale(loc);
-        QString localeName = loc == "en" ? QLocale::languageToString(qlocale.language()) : qlocale.nativeLanguageName();
+        QString localeName = loc == "C" ? QLocale::languageToString(QLocale::English) : qlocale.nativeLanguageName();
         QAction *action = new QAction(localeName.section(" ", 0, 0), this);
         action->setCheckable(true);
         action->setData(loc);
@@ -1236,13 +1259,36 @@ void KMidimon::createLanguageMenu()
 
 void KMidimon::retranslateUi()
 {
-    auto lang = configuredLanguage();
-    QLocale locale(lang);
-    if (!m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory()) && (lang != "en")) {
-        qWarning() << "Failure loading Qt translations for" << lang;
+    QLocale locale;
+    QString lang = configuredLanguage();
+    if (!lang.isEmpty()) {
+        locale = QLocale(lang);
     }
-    if (!m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory()) && (lang != "en")) {
-        qWarning() << "Failure loading program translations for" << lang;
+    if (m_trq) {
+        QCoreApplication::removeTranslator(m_trq);
+        delete m_trq;
+    }
+    if (m_trp) {
+        QCoreApplication::removeTranslator(m_trp);
+        delete m_trp;
+    }
+    if (locale.language() != QLocale::C && locale.language() != QLocale::English) {
+        m_trq = new QTranslator(this);
+        if (m_trq->load(locale, QLatin1String("qt"), QLatin1String("_"), trQtDirectory())) {
+            QCoreApplication::installTranslator(m_trq);
+        } else {
+            qWarning() << "Failure loading Qt translations for" << lang
+                       << "from" << trQtDirectory();
+            delete m_trq;
+        }
+        m_trp = new QTranslator(this);
+        if (m_trp->load(locale, QLatin1String("kmidimon"), QLatin1String("_"), trDirectory())) {
+            QCoreApplication::installTranslator(m_trp);
+        } else {
+            qWarning() << "Failure loading program translations for" << lang
+                       << "from" << trDirectory();
+            delete m_trp;
+        }
     }
     m_ui->retranslateUi(this);
     createLanguageMenu();

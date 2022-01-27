@@ -1,3 +1,6 @@
+2022-01-27
+    * Avoid loading translations for English
+
 2022-01-16
     * Fixed ticket #4 install failure with BUILD_DOCS=OFF
 

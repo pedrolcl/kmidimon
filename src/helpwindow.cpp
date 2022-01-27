@@ -172,6 +172,9 @@ void HelpWindow::closeEvent(QCloseEvent *event)
 void HelpWindow::retranslateUi()
 {
     QString language = qobject_cast<KMidimon*>(parent())->configuredLanguage();
+    if (language == "C") {
+        language = "en";
+    }
     m_page = QStringLiteral("help/%1/index.html").arg(language);
     if (isVisible()) {
         showPage(m_page);
