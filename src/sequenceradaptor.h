@@ -86,6 +86,9 @@ public:
     void setRequestRealtime(bool newValue);
     bool requestedRealtime();
 
+    bool isThruEnabled() const;
+    void setThruEnabled(bool enable);
+
 public slots:
     /* handler for the sequencer events */
     void sequencerEvent( drumstick::ALSA::SequencerEvent* ev );
@@ -103,6 +106,7 @@ private:
     State m_state;
     int m_resolution;
     int m_tempo;
+    bool m_thru;
 
     drumstick::ALSA::MidiClient* m_client;
     drumstick::ALSA::MidiQueue* m_queue;

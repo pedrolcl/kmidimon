@@ -48,6 +48,8 @@ ConnectDlg::ConnectDlg( QWidget *parent,
         chk->setChecked(subs.contains(inputs[i]) > 0);
         vbl2->addWidget(chk);
     }
+    m_thru = new QCheckBox(tr("MIDI Thru on MIDI OUT"), this);
+    vbl1->addWidget(m_thru);
     QLabel* lbl = new QLabel(tr("<b>Output Connection:</b>"), this);
     vbl1->addWidget(lbl);
     m_output = new QComboBox(this);
@@ -81,4 +83,14 @@ QStringList ConnectDlg::getSelectedInputs() const
 QString ConnectDlg::getSelectedOutput() const
 {
     return m_output->currentText();
+}
+
+void ConnectDlg::setThruEnabled(bool enable)
+{
+    m_thru->setChecked(enable);
+}
+
+bool ConnectDlg::isThruEnabled() const
+{
+    return m_thru->isChecked();
 }

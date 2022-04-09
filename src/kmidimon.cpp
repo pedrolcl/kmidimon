@@ -717,7 +717,7 @@ void KMidimon::preferences()
 {
     int i;
     bool was_running;
-    QPointer<ConfigDialog> dlg = new ConfigDialog(this);
+    QScopedPointer<ConfigDialog> dlg(new ConfigDialog(this));
     dlg->setTempo(m_defaultTempo);
     dlg->setResolution(m_defaultResolution);
     dlg->setRequestRealtime(m_requestRealtimePrio);
@@ -776,7 +776,6 @@ void KMidimon::preferences()
             m_helpWindow->applySettings();
         }
     }
-    delete dlg;
 }
 
 void KMidimon::record()
@@ -925,7 +924,8 @@ void KMidimon::configConnections()
     QStringList subs = m_adaptor->list_subscribers();
     QStringList outputs = m_adaptor->outputConnections();
     m_outputConn = m_adaptor->output_subscriber();
-    QPointer<ConnectDlg> dlg = new ConnectDlg(this, inputs, subs, outputs, m_outputConn);
+    QScopedPointer<ConnectDlg> dlg(new ConnectDlg(this, inputs, subs, outputs, m_outputConn));
+    dlg->setThruEnabled(m_adaptor->isThruEnabled());
     if (dlg->exec() == QDialog::Accepted) {
         if (dlg != nullptr) {
             QStringList desired = dlg->getSelectedInputs();
@@ -946,9 +946,9 @@ void KMidimon::configConnections()
                 m_adaptor->disconnect_output(m_outputConn);
                 m_adaptor->connect_output(m_outputConn = newOut);
             }
+            m_adaptor->setThruEnabled(dlg->isThruEnabled());
         }
     }
-    delete dlg;
 }
 
 void KMidimon::setColumnStatus(int colNum, bool status)

@@ -24,6 +24,7 @@
 
 class QGroupBox;
 class QComboBox;
+class QCheckBox;
 
  class ConnectDlg : public QDialog
 {
@@ -39,9 +40,13 @@ class QComboBox;
     QStringList getSelectedInputs() const;
     QString getSelectedOutput() const;
 
+    void setThruEnabled(bool enable);
+    bool isThruEnabled() const;
+
 private:
     QGroupBox* m_group;
     QComboBox* m_output;
+    QCheckBox* m_thru;
 };
 
 #endif

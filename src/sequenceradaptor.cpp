@@ -37,7 +37,8 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     QObject(parent),
     m_state(ErrorState),
     m_resolution(RESOLUTION),
-    m_tempo(TEMPO_BPM)
+    m_tempo(TEMPO_BPM),
+    m_thru(false)
 {
     m_client = new MidiClient(this);
     m_client->open();
@@ -111,6 +112,9 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
             updateModelClients();
         }
         m_model->addItem(itm);
+    }
+    if (m_thru && !SequencerEvent::isConnectionChange(ev)) {
+        m_client->outputDirect(ev);
     }
 }
 
@@ -229,6 +233,16 @@ QStringList SequencerAdaptor::list_ports(PortInfoList& refs)
         lst += QString("%1:%2").arg(p.getClientName()).arg(p.getPort());
     }
     return lst;
+}
+
+bool SequencerAdaptor::isThruEnabled() const
+{
+    return m_thru;
+}
+
+void SequencerAdaptor::setThruEnabled(bool enable)
+{
+    m_thru = enable;
 }
 
 void SequencerAdaptor::connect_input(QString name)
