@@ -17,18 +17,18 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.*
  ***************************************************************************/
 
-#include "sequenceradaptor.h"
-#include "sequenceitem.h"
-#include "sequencemodel.h"
-#include "player.h"
-
+#include <QApplication>
+#include <QStringList>
 #include <drumstick/alsaclient.h>
 #include <drumstick/alsaport.h>
 #include <drumstick/alsaqueue.h>
 #include <drumstick/alsaevent.h>
 #include <drumstick/subscription.h>
-#include <QStringList>
-#include <QApplication>
+
+#include "sequenceradaptor.h"
+#include "sequenceitem.h"
+#include "sequencemodel.h"
+#include "player.h"
 
 using namespace std;
 using namespace drumstick::ALSA;
