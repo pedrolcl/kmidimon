@@ -68,6 +68,17 @@ protected:
     int m_textType;
 };
 
+class EchoEvent : public drumstick::ALSA::SequencerEvent
+{
+public:
+    EchoEvent();
+    explicit EchoEvent(const snd_seq_event_t* event);
+    explicit EchoEvent(const int val);
+    int getValue() const { return m_event.data.control.value; }
+    void setValue(const int val) { m_event.data.control.value = val; }
+    virtual EchoEvent* clone() const override;
+};
+
 typedef QListIterator<SequenceItem> SongIterator;
 
 class SequenceModel : public QAbstractItemModel
@@ -95,6 +106,8 @@ public:
     void addItem(SequenceItem& itm);
     const SequenceItem* getItem(const int row) const;
     const drumstick::ALSA::SequencerEvent* getEvent(const int row) const;
+    //QString dumpItem(const int row) const;
+
     void clear();
     void saveToTextStream(QTextStream& str);
     void saveToFile(const QString& path);

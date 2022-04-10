@@ -96,16 +96,17 @@ bool ProxyModel::filterSequencerEvent(const SequencerEvent* ev) const
 bool ProxyModel::filterAcceptsRow(int sourceRow,
         const QModelIndex& /*sourceParent*/) const
 {
+    bool result = false;
     SequenceModel* sModel = static_cast<SequenceModel*>(sourceModel());
     const SequenceItem* itm = sModel->getItem(sourceRow);
     if (itm != nullptr) {
         const SequencerEvent* ev = itm->getEvent();
         if (ev != nullptr) {
-            return (itm->getTrack() == m_trackFilter) &&
-                   filterSequencerEvent(ev);
+            result = (itm->getTrack() == m_trackFilter) &&
+                     filterSequencerEvent(ev);
         }
     }
-    return false;
+    return result;
 }
 
 bool ProxyModel::showChannelMsg() const

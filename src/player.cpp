@@ -130,7 +130,13 @@ void Player::sendSongEvent(drumstick::ALSA::SequencerEvent *ev)
 {
     SequencerOutputThread::sendSongEvent(ev);
     if (!stopRequested() && (m_lastIndex > m_lastIndexSent)) {
-        emit signalTicks(m_lastIndex);
+
+        EchoEvent echo(m_lastIndex);
+        echo.setSource(m_PortId);
+        echo.setDestination(m_MidiClient->getClientId(), m_PortId);
+        echo.scheduleTick(m_QueueId, ev->getTick(), false);
+        SequencerOutputThread::sendSongEvent(&echo);
+
         m_lastIndexSent = m_lastIndex;
     }
 }

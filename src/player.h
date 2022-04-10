@@ -44,9 +44,6 @@ protected:
     virtual void sendEchoEvent(int tick) override;
     virtual void sendSongEvent(drumstick::ALSA::SequencerEvent* ev) override;
 
-signals:
-    void signalTicks(int tick);
-
 private:
     Song *m_song;
     SongIterator* m_songIterator;

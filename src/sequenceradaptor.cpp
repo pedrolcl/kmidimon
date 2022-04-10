@@ -42,7 +42,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 {
     m_client = new MidiClient(this);
     m_client->open();
-    m_client->setPoolOutput(100);
+    m_client->setPoolOutput(50); // small buffer size, for better feedback
     m_client->setClientName("KMidimon");
     connect(m_client, &MidiClient::eventReceived,
             this, &SequencerAdaptor::sequencerEvent);
@@ -67,7 +67,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_player = new Player(m_client, m_port->getPortId());
     connect(m_player, &Player::playbackStopped, this, &SequencerAdaptor::shutupSound);
     connect(m_player, &Player::playbackFinished, this, &SequencerAdaptor::songFinished);
-    connect(m_player, &Player::signalTicks, this, &SequencerAdaptor::signalTicks);
     m_client->setRealTimeInput(false);
     m_client->startSequencerInput();
     m_state = StoppedState;
@@ -101,6 +100,12 @@ void SequencerAdaptor::updateModelClients()
 
 void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 {
+    if ((ev != nullptr) && (ev->getSequencerType() == SND_SEQ_EVENT_ECHO)) {
+        EchoEvent *echo = static_cast<EchoEvent*>(ev);
+        emit signalTicks(echo->getValue());
+        delete ev;
+        return;
+    }
     if (m_state == RecordingState) {
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
@@ -115,6 +120,9 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
     }
     if (m_thru && !SequencerEvent::isConnectionChange(ev)) {
         m_client->outputDirect(ev);
+    }
+    if (m_state != RecordingState) {
+        delete ev;
     }
 }
 

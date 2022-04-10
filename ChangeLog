@@ -2,6 +2,7 @@
     * Moved encoding combo box from the settings dialog to the toolbar
     * Allow to switch encodings on the fly without reloading the song
     * Avoid deprecated signals and methods of drumstick-file classes
+    * Fixed row highlighting as playback feedback
 
 2022-04-09
     * New MIDI Thru connection option

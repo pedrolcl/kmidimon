@@ -157,6 +157,34 @@ TextEvent2* TextEvent2::clone() const
     return new TextEvent2(&m_event);
 }
 
+/* EchoEvent is a loopback sequencer event with an int value parameter */
+
+EchoEvent::EchoEvent(): drumstick::ALSA::SequencerEvent()
+{
+    snd_seq_ev_set_fixed(&m_event);
+    setSequencerType(SND_SEQ_EVENT_ECHO);
+    setValue(-1);
+};
+
+EchoEvent::EchoEvent(const snd_seq_event_t* event): SequencerEvent(event)
+{
+    snd_seq_ev_set_fixed(&m_event);
+    setSequencerType(SND_SEQ_EVENT_ECHO);
+    setValue(-1);
+};
+
+EchoEvent::EchoEvent(int val) : SequencerEvent()
+{
+    snd_seq_ev_set_fixed(&m_event);
+    setSequencerType(SND_SEQ_EVENT_ECHO);
+    setValue(val);
+}
+
+EchoEvent* EchoEvent::clone() const
+{
+    return new EchoEvent(&m_event);
+}
+
 /* SequenceModel */
 
 SequenceModel::SequenceModel(QObject* parent) :
@@ -1547,6 +1575,24 @@ SequenceModel::getEvent(const int row) const
         return m_items[row].getEvent();
     return nullptr;
 }
+
+/*QString SequenceModel::dumpItem(const int row) const
+{
+    Q_UNUSED(row)
+    QString evstr;
+    QTextStream str(&evstr);
+    const SequencerEvent *ev = getEvent(row);
+    if (ev != nullptr) {
+        str << event_ticks(ev).trimmed() << ","
+            << event_source(ev).trimmed() << ","
+            << event_channel(ev).trimmed() << ","
+            << event_kind(ev).trimmed() << ","
+            << event_data1(ev).trimmed() << ","
+            << event_data2(ev).trimmed() << ","
+            << event_data3(ev).trimmed();
+    }
+    return evstr;
+}*/
 
 void
 SequenceModel::loadFromFile(const QString& path)
