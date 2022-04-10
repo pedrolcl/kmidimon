@@ -93,7 +93,11 @@ static QString trQtDirectory()
 #if defined(TRANSLATIONS_EMBEDDED)
     return QLatin1String(":/");
 #else
-    return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    #else
+        return QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+    #endif
 #endif
 }
 

@@ -40,6 +40,8 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_tempo(TEMPO_BPM),
     m_thru(false)
 {
+    qRegisterMetaType<SequencerEvent*>();
+
     m_client = new MidiClient(this);
     m_client->open();
     m_client->setPoolOutput(50); // small buffer size, for better feedback
