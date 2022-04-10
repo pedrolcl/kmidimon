@@ -70,7 +70,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Default ( Latin1 )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation>Výchozí (Latin1)</translation>
+        <translation type="vanished">Výchozí (Latin1)</translation>
     </message>
 </context>
 <context>
@@ -272,7 +272,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>SMF Text Encoding</source>
-        <translation>Kódování textu SMF</translation>
+        <translation type="vanished">Kódování textu SMF</translation>
     </message>
     <message>
         <source>Resize columns automatically while recording events</source>
@@ -304,6 +304,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&lt;b&gt;Output Connection:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Výstupní spojení:&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>MIDI Thru on MIDI OUT</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -905,6 +909,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
         <translation>Soubor: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Datum: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Formát: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt; Počet stop: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Počet událostí: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Rozdělení: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Počáteční tempo: &lt;b&gt;%7 M.M.&lt;/b&gt;&lt;br/&gt;Doba trvání: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt;%9</translation>
+    </message>
+    <message>
+        <source>Text Encoding:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default ( Latin1 )</source>
+        <comment>@item:inlistbox Default MIDI text encoding</comment>
+        <translation type="unfinished">Výchozí (Latin1)</translation>
     </message>
 </context>
 <context>
