@@ -42,6 +42,8 @@
 #include <QDesktopServices>
 #include <QDirIterator>
 #include <QActionGroup>
+#include <QComboBox>
+#include <QTextCodec>
 #include <QDebug>
 #include <drumstick/sequencererror.h>
 #include "kmidimon.h"
@@ -267,6 +269,7 @@ void KMidimon::translateActions()
     for ( int i = 0; i < COLUMN_COUNT; ++i ) {
         m_popupAction[i]->setText(columnName[i]);
     }
+    m_combolbl->setText(tr("Text Encoding:"));
 }
 
 void KMidimon::translateTabs()
@@ -471,6 +474,14 @@ void KMidimon::setupActions()
     connect(m_filter, &EventFilter::filterChanged, m_proxy, &QSortFilterProxyModel::invalidate);
     menuBar()->insertMenu( menuBar()->actions().last(), filtersMenu );
 
+    m_ui->toolBar->addSeparator();
+    m_combolbl = new QLabel(tr("Text Encoding:"));
+    m_ui->toolBar->addWidget(m_combolbl);
+    m_textcodecs = new QComboBox(this);
+    m_ui->toolBar->addWidget(m_textcodecs);
+    initTextCodecs();
+    connect( m_textcodecs, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KMidimon::textCodecChanged);
+
     m_ui->actionAbout_Qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
     m_ui->actionAbout->setIcon(QIcon(IconUtils::GetPixmap(":/icons/midi/icon32.png")));
     m_ui->actionContents->setIcon(IconUtils::GetIcon("help-contents"));
@@ -531,51 +542,57 @@ void KMidimon::fileNew()
 void KMidimon::open(const QString& fileName)
 {
     //qDebug() << Q_FUNC_INFO << fileName;
+    QString loadingMsg;
     try {
         QFileInfo finfo(fileName);
-        m_currentFile = finfo.absoluteFilePath();
-        m_view->blockSignals(true);
-        stop();
-        m_model->clear();
-        for (int i = m_tabBar->count() - 1; i >= 0; i--) {
-            m_tabBar->removeTab(i);
+        if (finfo.exists()) {
+            m_currentFile = finfo.absoluteFilePath();
+            m_view->blockSignals(true);
+            stop();
+            m_model->clear();
+            for (int i = m_tabBar->count() - 1; i >= 0; i--) {
+                m_tabBar->removeTab(i);
+            }
+            m_pd = new QProgressDialog(this);
+            m_pd->setLabelText(tr("Loading..."));
+            m_pd->setWindowTitle(tr("Load file"));
+            m_pd->setCancelButton(nullptr);
+            m_pd->setMinimumDuration(500);
+            m_pd->setRange(0, finfo.size());
+            m_pd->setValue(0);
+            connect( m_model, &SequenceModel::loadProgress, m_pd.data(), &QProgressDialog::setValue );
+            m_model->loadFromFile(fileName);
+            m_pd->setValue(finfo.size());
+            m_adaptor->setResolution(m_model->getSMFDivision());
+            if (m_model->getInitialTempo() > 0) {
+                m_adaptor->setTempo(m_model->getInitialTempo());
+                m_adaptor->queue_set_tempo();
+            }
+            m_adaptor->rewind();
+            int ntrks = m_model->getSMFTracks();
+            if (ntrks < 1) ntrks = 1;
+            for (int i = 0; i < ntrks; i++) {
+                int tab = m_model->getTrackForIndex(i);
+                addNewTab(tab);
+            }
+            m_tabBar->setCurrentIndex(0);
+            m_proxy->setFilterTrack(0);
+            m_model->setCurrentTrack(0);
+            for (int i = 0; i < COLUMN_COUNT; ++i)
+                m_view->resizeColumnToContents(i);
+            tempoReset();
+            prependToRecentFiles(fileName);
+            updateCaption();
+            loadingMsg = m_model->getLoadingMessages();
+        } else {
+            loadingMsg = tr("file not found");
         }
-        m_pd = new QProgressDialog(this);
-        m_pd->setLabelText(tr("Loading..."));
-        m_pd->setWindowTitle(tr("Load file"));
-        m_pd->setCancelButton(nullptr);
-        m_pd->setMinimumDuration(500);
-        m_pd->setRange(0, finfo.size());
-        m_pd->setValue(0);
-        connect( m_model, &SequenceModel::loadProgress, m_pd.data(), &QProgressDialog::setValue );
-        m_model->loadFromFile(fileName);
-        m_pd->setValue(finfo.size());
-        m_adaptor->setResolution(m_model->getSMFDivision());
-        if (m_model->getInitialTempo() > 0) {
-            m_adaptor->setTempo(m_model->getInitialTempo());
-            m_adaptor->queue_set_tempo();
-        }
-        m_adaptor->rewind();
-        int ntrks = m_model->getSMFTracks();
-        if (ntrks < 1) ntrks = 1;
-        for (int i = 0; i < ntrks; i++) {
-            int tab = m_model->getTrackForIndex(i);
-            addNewTab(tab);
-        }
-        m_tabBar->setCurrentIndex(0);
-        m_proxy->setFilterTrack(0);
-        m_model->setCurrentTrack(0);
-        for (int i = 0; i < COLUMN_COUNT; ++i)
-            m_view->resizeColumnToContents(i);
-        tempoReset();
     } catch (...) {
         m_model->clear();
     }
     m_view->blockSignals(false);
-    prependToRecentFiles(fileName);
-    updateCaption();
     delete m_pd;
-    QString loadingMsg = m_model->getLoadingMessages();
+    m_pd = nullptr;
     if (!loadingMsg.isEmpty()) {
         loadingMsg.insert(0, tr("Warning, this file may be non-standard or damaged.<br/>"));
         QMessageBox::warning(this, tr("File parsing error"), loadingMsg);
@@ -690,7 +707,7 @@ void KMidimon::readConfiguration()
     m_model->setTranslateNotes(config.value("translate_notes", false).toBool());
     m_model->setTranslateCtrls(config.value("translate_ctrls", false).toBool());
     m_model->setInstrumentName(config.value("instrument", QLatin1String("General MIDI")).toString());
-    m_model->setEncoding(config.value("encoding", QLatin1String("latin1")).toString());
+    setTextCodec(config.value("encoding", QLatin1String("latin1")).toString());
     m_autoResizeColumns = config.value("auto_resize", false).toBool();
     m_defaultResolution = config.value("resolution", RESOLUTION).toInt();
     m_defaultTempo = config.value("tempo", TEMPO_BPM).toInt();
@@ -733,7 +750,6 @@ void KMidimon::preferences()
     dlg->setTranslateCtrls(m_model->translateCtrls());
     dlg->setInstruments(m_model->getInstruments());
     dlg->setInstrumentName(m_model->getInstrumentName());
-    dlg->setEncoding(m_model->getEncoding());
     dlg->setUseFixedFont(getFixedFont());
     dlg->setResizeColumns(m_autoResizeColumns);
     dlg->setStyle(m_style);
@@ -757,7 +773,6 @@ void KMidimon::preferences()
             m_model->setTranslateNotes(dlg->translateNotes());
             m_model->setTranslateCtrls(dlg->translateCtrls());
             m_model->setInstrumentName(dlg->getInstrumentName());
-            m_model->setEncoding(dlg->getEncoding());
             m_autoResizeColumns = dlg->resizeColumns();
             m_defaultTempo = dlg->getTempo();
             m_defaultResolution = dlg->getResolution();
@@ -1367,14 +1382,11 @@ bool KMidimon::hasRecentFiles()
 void KMidimon::prependToRecentFiles(const QString &fileName)
 {
     QSettings settings;
-
     const QStringList oldRecentFiles = readRecentFiles(settings);
     QStringList recentFiles = oldRecentFiles;
     recentFiles.removeAll(fileName);
     recentFiles.prepend(fileName);
-    if (oldRecentFiles != recentFiles)
-        writeRecentFiles(recentFiles, settings);
-
+    writeRecentFiles(recentFiles, settings);
     setRecentFilesVisible(!recentFiles.isEmpty());
 }
 
@@ -1385,10 +1397,13 @@ void KMidimon::updateRecentFileActions()
     const int count = qMin(int(MaxRecentFiles), recentFiles.size());
     int i = 0;
     for ( ; i < count; ++i) {
-        const QString fileName = QFileInfo(recentFiles.at(i)).fileName();
-        m_recentFileActs[i]->setText(tr("&%1 %2").arg(i + 1).arg(fileName));
-        m_recentFileActs[i]->setData(recentFiles.at(i));
-        m_recentFileActs[i]->setVisible(true);
+        QFileInfo fi(recentFiles.at(i));
+        if (fi.exists()) {
+            const QString fileName = fi.fileName();
+            m_recentFileActs[i]->setText(tr("&%1 %2").arg(i + 1).arg(fileName));
+            m_recentFileActs[i]->setData(recentFiles.at(i));
+            m_recentFileActs[i]->setVisible(true);
+        }
     }
     for ( ; i < MaxRecentFiles; ++i)
         m_recentFileActs[i]->setVisible(false);
@@ -1398,4 +1413,39 @@ void KMidimon::openRecentFile()
 {
     if (const QAction *action = qobject_cast<const QAction *>(sender()))
         open(action->data().toString());
+}
+
+void KMidimon::initTextCodecs()
+{
+    m_textcodecs->clear();
+    m_textcodecs->addItem(tr("Default ( Latin1 )", "@item:inlistbox Default MIDI text encoding"));
+    QStringList encodings;
+    foreach (auto m,  QTextCodec::availableMibs())
+    {
+        if (QTextCodec* c = QTextCodec::codecForMib(m))
+        {
+            QString name = c->name();
+            if (!encodings.contains(name))
+                encodings.append(name);
+        }
+    }
+    encodings.sort();
+    m_textcodecs->addItems(encodings);
+    m_textcodecs->setCurrentIndex(-1);
+}
+
+void KMidimon::setTextCodec(const QString &encoding)
+{
+    int index = m_textcodecs->findText( encoding );
+    if (index == -1 || encoding.isEmpty() || (encoding == QLatin1String("latin1"))) {
+        index = 0;
+    }
+    m_textcodecs->setCurrentIndex( index );
+}
+
+void KMidimon::textCodecChanged(int index)
+{
+    QString codecName = index <= 0 ? QLatin1String("latin1") : m_textcodecs->itemText(index);
+    m_model->setEncoding(codecName);
+    m_proxy->invalidate();
 }

@@ -29,7 +29,6 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     ui.setupUi(this);
     IconUtils::SetWindowIcon(this);
     setWindowTitle(tr("KMidimon Configuration", "@title:window"));
-    initEncodings();
     initStyles();
 }
 
@@ -96,41 +95,6 @@ void ConfigDialog::setInstruments( const QStringList& items )
 {
     ui.m_instruments->clear();
     ui.m_instruments->addItems(items);
-}
-
-void ConfigDialog::initEncodings()
-{
-    ui.m_codecs->clear();
-    ui.m_codecs->addItem(tr("Default ( Latin1 )", "@item:inlistbox Default MIDI text encoding"));
-    QStringList encodings;
-    foreach (auto m,  QTextCodec::availableMibs())
-    {
-        if (QTextCodec* c = QTextCodec::codecForMib(m))
-        {
-            QString name = c->name();
-            if (!encodings.contains(name))
-                encodings.append(name);
-        }
-    }
-    encodings.sort();
-    ui.m_codecs->addItems(encodings);
-}
-
-QString ConfigDialog::getEncoding()
-{
-    if (ui.m_codecs->currentIndex() == 0) {
-        return QLatin1String("latin1");
-    }
-    return ui.m_codecs->currentText();
-}
-
-void ConfigDialog::setEncoding(const QString& name)
-{
-    int index = ui.m_codecs->findText( name );
-    if ((index == -1) && (name.isEmpty() || (name == QLatin1String("latin1")))) {
-        index = 0;
-    }
-    ui.m_codecs->setCurrentIndex( index );
 }
 
 void ConfigDialog::initStyles()

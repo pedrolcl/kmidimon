@@ -17,7 +17,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(kmidimon
-    VERSION 1.2.1
+    VERSION 1.3.0
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"

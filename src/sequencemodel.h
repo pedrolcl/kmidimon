@@ -54,6 +54,20 @@ private:
     QMap<int, bool> m_mutedState;
 };
 
+class TextEvent2 : public drumstick::ALSA::VariableEvent
+{
+public:
+    TextEvent2();
+    explicit TextEvent2(const snd_seq_event_t* event);
+    explicit TextEvent2(const QByteArray& text, const int textType = 1);
+    TextEvent2(const TextEvent2& other);
+    TextEvent2(const unsigned int datalen, char* dataptr);
+    int getTextType() const;
+    virtual TextEvent2* clone() const override;
+protected:
+    int m_textType;
+};
+
 typedef QListIterator<SequenceItem> SongIterator;
 
 class SequenceModel : public QAbstractItemModel
@@ -157,7 +171,7 @@ public slots:
     void sysexEvent(const QByteArray& data);
     void seqSpecificEvent(const QByteArray& data);
     void metaMiscEvent(int typ, const QByteArray& data);
-    void textEvent(int type, const QString& data);
+    void textEvent(int type, const QByteArray &data);
     void tempoEvent(int tempo);
     void timeSigEvent(int b0, int b1, int b2, int b3);
     void keySigEventSMF(int b0, int b1);
@@ -175,7 +189,7 @@ public slots:
     void endOfWrk();
     void streamEndEvent(long time);
 
-    void trackHeader(const QString& name1, const QString& name2,
+    void trackHeader(const QByteArray &name1, const QByteArray &name2,
                      int trackno, int channel, int pitch,
                      int velocity, int port,
                      bool selected, bool muted, bool loop);
@@ -189,24 +203,24 @@ public slots:
     void chanPressEventWRK(int track, long time, int chan, int press);
     void sysexEventWRK(int track, long time, int bank);
     void sysexEventBank(int bank, const QString& name, bool autosend, int port, const QByteArray& data);
-    void textEventWRK(int track, long time, int typ, const QString& data);
+    void textEventWRK(int track, long time, int typ, const QByteArray &data);
     void timeSigEventWRK(int bar, int num, int den);
     void keySigEventWRK(int bar, int alt);
     void tempoEventWRK(long time, int tempo);
     void trackPatch(int track, int patch);
-    void comments(const QString& cmt);
+    void comments(const QByteArray &cmt);
     void variableRecord(const QString& name, const QByteArray& data);
-    void newTrackHeader(const QString& name,
+    void newTrackHeader(const QByteArray &name,
                         int trackno, int channel, int pitch,
                         int velocity, int port,
                         bool selected, bool muted, bool loop);
-    void trackName(int trackno, const QString& name);
+    void trackName(int trackno, const QByteArray &name);
     void trackVol(int track, int vol);
     void trackBank(int track, int bank);
-    void segment(int track, long time, const QString& name);
+    void segment(int track, long time, const QByteArray &name);
     void chord(int track, long time, const QString& name, const QByteArray& data);
-    void expression(int track, long time, int code, const QString& text);
-    void marker(long time, int smpte, const QString& text);
+    void expression(int track, long time, int code, const QByteArray &text);
+    void marker(long time, int smpte, const QByteArray &text);
 
 signals:
     void loadProgress(int);
@@ -291,6 +305,7 @@ private:
     Instrument* m_ins;
     Instrument* m_ins2;
     EventFilter* m_filter;
+    QTextCodec* m_codec;
 
     QMap<int, drumstick::ALSA::SysExEvent> m_savedSysexEvents;
 

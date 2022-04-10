@@ -35,6 +35,8 @@ class QModelIndex;
 class QMenu;
 class QSettings;
 class QDir;
+class QLabel;
+class QComboBox;
 
 class EventFilter;
 class SequencerAdaptor;
@@ -137,6 +139,9 @@ protected:
     bool hasRecentFiles();
     QStringList readRecentFiles(QSettings &settings);
     void writeRecentFiles(const QStringList &files, QSettings &settings);
+    void initTextCodecs();
+    void setTextCodec(const QString &encoding);
+    void textCodecChanged(int index);
 
 private:
     PlayerState m_state;
@@ -194,6 +199,8 @@ private:
     QPointer<HelpWindow> m_helpWindow;
     QMenu *m_menuTracks;
     QMenu *m_menuColumns;
+    QLabel *m_combolbl;
+    QComboBox *m_textcodecs;
 };
 
 #endif // KMIDIMON_H

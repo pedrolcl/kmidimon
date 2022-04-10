@@ -25,7 +25,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>466</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -353,10 +353,41 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
        <string>Misc</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="3" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_useFixedFont">
+         <property name="whatsThis">
+          <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
+         </property>
+         <property name="text">
+          <string>Use Fixed Font</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_forcedDarkMode">
+         <property name="text">
+          <string>Forced Dark Mode</string>
+         </property>
+        </widget>
+       </item>
        <item row="8" column="0" colspan="2">
         <widget class="QCheckBox" name="m_translateCtrls">
          <property name="text">
           <string>Translate MIDI Programs and Controllers</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_translateNotes">
+         <property name="text">
+          <string>Translate Note Numbers into Names</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QComboBox" name="m_instruments">
+         <property name="enabled">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -374,7 +405,20 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
+       <item row="5" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_showClientNames">
+         <property name="whatsThis">
+          <string>Display ALSA client numbers or Names</string>
+         </property>
+         <property name="text">
+          <string>Translate ALSA Client IDs Into Names</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QComboBox" name="m_styles"/>
+       </item>
+       <item row="11" column="0">
         <widget class="QLabel" name="lblStyle">
          <property name="text">
           <string>Qt Style</string>
@@ -407,37 +451,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="lblInstrument">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>MIDI Instrument</string>
-         </property>
-         <property name="buddy">
-          <cstring>m_instruments</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_translateNotes">
-         <property name="text">
-          <string>Translate Note Numbers into Names</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_useFixedFont">
-         <property name="whatsThis">
-          <string>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</string>
-         </property>
-         <property name="text">
-          <string>Use Fixed Font</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0" colspan="2">
+       <item row="13" column="0" colspan="2">
         <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -450,45 +464,18 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </property>
         </spacer>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_showClientNames">
-         <property name="whatsThis">
-          <string>Display ALSA client numbers or Names</string>
-         </property>
-         <property name="text">
-          <string>Translate ALSA Client IDs Into Names</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QComboBox" name="m_instruments">
+       <item row="10" column="0">
+        <widget class="QLabel" name="lblInstrument">
          <property name="enabled">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QComboBox" name="m_codecs"/>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="lblCodec">
          <property name="text">
-          <string>SMF Text Encoding</string>
+          <string>MIDI Instrument</string>
          </property>
          <property name="buddy">
-          <cstring>m_codecs</cstring>
+          <cstring>m_instruments</cstring>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_forcedDarkMode">
-         <property name="text">
-          <string>Forced Dark Mode</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QComboBox" name="m_styles"/>
        </item>
       </layout>
      </widget>
@@ -532,7 +519,6 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.
   <tabstop>m_translateNotes</tabstop>
   <tabstop>m_translateCtrls</tabstop>
   <tabstop>m_instruments</tabstop>
-  <tabstop>m_codecs</tabstop>
   <tabstop>m_styles</tabstop>
  </tabstops>
  <resources/>

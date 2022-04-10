@@ -72,10 +72,6 @@ public:
     void setInstrumentName(const QString& name);
     void setInstruments(const QStringList& items);
 
-    void initEncodings();
-    QString getEncoding();
-    void setEncoding(const QString& name);
-
     void initStyles();
     QString getStyle();
     void setStyle(const QString& name);
@@ -91,7 +87,6 @@ public:
 
     bool resizeColumns() { return ui.m_resizeColumns->isChecked(); }
     void setResizeColumns(bool newValue) { ui.m_resizeColumns->setChecked(newValue); }
-
 private:
     Ui::ConfigDialogBase ui;
 };
