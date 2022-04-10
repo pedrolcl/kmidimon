@@ -167,6 +167,13 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2);// tr("Meta (unregistered)"));
 }
 
+EventFilter::~EventFilter()
+{
+    foreach(auto f, m_cats) {
+        delete f;
+    }
+}
+
 void EventFilter::checkGroup(int c)
 {
     EvCategory cat = (EvCategory) c;

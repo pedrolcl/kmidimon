@@ -65,7 +65,7 @@ class EventFilter : public QObject {
     Q_OBJECT
 public:
     EventFilter(QObject* parent);
-    virtual ~EventFilter() {}
+    virtual ~EventFilter();
 
     QString getName(EvCategory c);
     QString getName(snd_seq_event_type_t t);

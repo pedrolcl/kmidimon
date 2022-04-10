@@ -77,6 +77,7 @@ SequencerAdaptor::~SequencerAdaptor()
     m_client->stopSequencerInput();
     m_port->detach();
     m_client->close();
+    delete m_player;
 }
 
 void SequencerAdaptor::setModel(SequenceModel* m)
