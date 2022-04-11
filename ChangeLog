@@ -1,3 +1,8 @@
+2022-04-11
+    * Fixed update state member
+    * Fixed resetting position after playback finished
+    * Fixed MIDI thru: only while recording
+
 2022-04-10
     * Moved encoding combo box from the settings dialog to the toolbar
     * Allow to switch encodings on the fly without reloading the song

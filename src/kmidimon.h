@@ -52,18 +52,20 @@ namespace Ui {
     class KMidimonWin;
 }
 
-enum PlayerState {
-    InvalidState,
-    RecordingState,
-    PlayingState,
-    PausedState,
-    StoppedState
-};
-
 class KMidimon : public QMainWindow
 {
     Q_OBJECT
+
 public:
+    enum PlayerState {
+        InvalidState,
+        RecordingState,
+        PlayingState,
+        PausedState,
+        StoppedState
+    };
+    Q_ENUM(PlayerState)
+
     KMidimon();
     virtual ~KMidimon();
     static QString dataDirectory();

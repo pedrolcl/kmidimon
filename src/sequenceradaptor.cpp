@@ -103,13 +103,8 @@ void SequencerAdaptor::updateModelClients()
 
 void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
 {
-    if ((ev != nullptr) && (ev->getSequencerType() == SND_SEQ_EVENT_ECHO)) {
-        EchoEvent *echo = static_cast<EchoEvent*>(ev);
-        emit signalTicks(echo->getValue());
-        delete ev;
-        return;
-    }
-    if (m_state == RecordingState) {
+    switch(m_state) {
+    case RecordingState: {
         QueueStatus s = m_queue->getStatus();
         unsigned int ticks = s.getTickTime();
         double seconds = s.getClockTime();
@@ -120,11 +115,16 @@ void SequencerAdaptor::sequencerEvent(SequencerEvent* ev)
             updateModelClients();
         }
         m_model->addItem(itm);
+        if (m_thru && !SequencerEvent::isConnectionChange(ev)) {
+            m_client->outputDirect(ev);
+        }
+        break;
     }
-    if (m_thru && !SequencerEvent::isConnectionChange(ev)) {
-        m_client->outputDirect(ev);
-    }
-    if (m_state != RecordingState) {
+    default:
+        if ((ev != nullptr) && (ev->getSequencerType() == SND_SEQ_EVENT_ECHO)) {
+            EchoEvent *echo = static_cast<EchoEvent*>(ev);
+            emit signalTicks(echo->getValue());
+        }
         delete ev;
     }
 }

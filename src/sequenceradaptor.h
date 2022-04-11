@@ -45,6 +45,7 @@ public:
 	    PausedState,
 	    ErrorState
 	};
+    Q_ENUM(State)
 
     SequencerAdaptor(QObject *parent);
     ~SequencerAdaptor();

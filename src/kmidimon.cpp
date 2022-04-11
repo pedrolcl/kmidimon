@@ -545,7 +545,6 @@ void KMidimon::fileNew()
 
 void KMidimon::open(const QString& fileName)
 {
-    //qDebug() << Q_FUNC_INFO << fileName;
     QString loadingMsg;
     try {
         QFileInfo finfo(fileName);
@@ -863,6 +862,7 @@ void KMidimon::updateState(PlayerState newState)
 {
     if (m_state == newState)
         return;
+    m_state = newState;
     switch (newState) {
     case InvalidState:
         m_rewind->setEnabled(false);
@@ -1095,7 +1095,7 @@ void KMidimon::slotTicks(int row)
     QModelIndex index = m_model->getRowIndex(row);
     if (index.isValid()) {
         QModelIndex vidx = m_proxy->mapFromSource(index);
-        if (vidx.isValid()) {
+        if (vidx.isValid() && (m_state == PlayingState)) {
             m_view->setCurrentIndex(vidx);
         }
     }
