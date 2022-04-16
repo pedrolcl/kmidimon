@@ -307,7 +307,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>MIDI Thru on MIDI OUT</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI thru na MIDI out</translation>
     </message>
 </context>
 <context>
@@ -912,16 +912,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Text Encoding:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kódování textu:</translation>
     </message>
     <message>
         <source>file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>soubor nenalezen</translation>
     </message>
     <message>
         <source>Default ( Latin1 )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
-        <translation type="unfinished">Výchozí (Latin1)</translation>
+        <translation>Výchozí (Latin1)</translation>
     </message>
 </context>
 <context>
