@@ -92,7 +92,7 @@ Some variables you may want to set:
   `cmake .. -DCMAKE_INSTALL_PREFIX=/opt` is the equivalent to
   `./configure --prefix=/opt` for programs that use autotools
   
-* **CMAKE_PREFIX_PATH** (location of alternative Qt5 libs):
+* **CMAKE_PREFIX_PATH** (location of alternative Qt5 or other libs):
 
   `cmake .. -DCMAKE_PREFIX_PATH=~/Qt/5.15.2/gcc_64`
   

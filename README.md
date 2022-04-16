@@ -38,32 +38,20 @@ https://sourceforge.net/p/forge/documentation/svn/
 
 ### Check out the module Drumstick from the SVN repository.
 
-Host: drumstick.svn.sourceforge.net
-
-Path: /svnroot/drumstick/trunk
-
-Module: drumstick
-
 example:
 
 ~~~
-$ svn co https://drumstick.svn.sourceforge.net/svnroot/drumstick/trunk drumstick 
+$ svn checkout https://svn.code.sf.net/p/drumstick/code/trunk drumstick
 ~~~
 
 There is also a Git mirror at [GitHub](https://github.com/pedrolcl/drumstick)
 
 ### Check out the module kmidimon from the SVN repository.
 
-Host: kmidimon.svn.sourceforge.net
-
-Path: /svnroot/kmidimon/trunk
-
-Module: kmidimon
-
 example:
 
 ~~~
-$ svn co https://kmidimon.svn.sourceforge.net/svnroot/kmidimon/trunk kmidimon 
+$ svn checkout https://svn.code.sf.net/p/kmidimon/code/trunk kmidimon
 ~~~
 
 There is also a Git mirror at [GitHub](https://github.com/pedrolcl/kmidimon)
@@ -74,5 +62,7 @@ There is also a Git mirror at [GitHub](https://github.com/pedrolcl/kmidimon)
 $ cmake . -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=/usr/local
 $ make VERBOSE=1
 ~~~
+ 
+See also [INSTALL.md](INSTALL.md)
  
 ### Hack and enjoy!
