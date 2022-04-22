@@ -36,6 +36,7 @@ int main (int argc, char **argv)
     QCoreApplication::setOrganizationDomain(QSTR_DOMAIN);
     QCoreApplication::setApplicationName(QSTR_APPNAME);
     QCoreApplication::setApplicationVersion(QSTR_VERSION);
+    QGuiApplication::setDesktopFileName("net.sourceforge.kmidimon");
     QApplication app(argc, argv);
 
     QCommandLineParser parser;
