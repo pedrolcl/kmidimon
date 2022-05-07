@@ -17,13 +17,13 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(kmidimon
-    VERSION 1.3.0
+    VERSION 1.3.1
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
-set(PROJECT_RELEASE_DATE "April 17, 2022")
+#set(PROJECT_RELEASE_DATE "April 17, 2022")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
 option(USE_QT "Choose which Qt major version (5 or 6) to prefer. By default uses whatever is found")
@@ -53,7 +53,7 @@ endif()
 
 find_package(Qt${QT_VERSION_MAJOR} 5.12 COMPONENTS Gui Widgets LinguistTools REQUIRED)
 if(QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
-    find_package(Qt6 COMPONENTS Core5Compat SvgWidgets REQUIRED)
+    find_package(Qt6Core5Compat REQUIRED)
 endif()
 
 find_package(Drumstick 2.5 COMPONENTS ALSA File REQUIRED)

@@ -1,3 +1,6 @@
+2022-05-07
+    * Replaced deprecated QRegExp by QRegularExpression for better Qt6 compatibility
+
 2022-04-22
     * Using QGuiApplication::setDesktopFileName to fix the wrong icon in KDE+Wayland
 
