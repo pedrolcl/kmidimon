@@ -1,3 +1,7 @@
+2022-08-05
+    * Help window fixed and simplified
+    * Drumstick 2.7.0 required because alsaevent.h includes qMetaType declaration for SequencerEvent*
+
 2022-05-07
     * Replaced deprecated QRegExp by QRegularExpression for better Qt6 compatibility
 

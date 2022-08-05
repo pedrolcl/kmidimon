@@ -75,32 +75,18 @@ HelpWindow::HelpWindow(QWidget *parent): QMainWindow(parent)
     connect(m_zoomOut, &QAction::triggered, this, [=]{ m_textBrowser->zoomOut(); });
     connect(m_close, &QAction::triggered, this, &QWidget::close);
     connect(m_textBrowser, &QTextBrowser::sourceChanged, this, &HelpWindow::updateWindowTitle);
+    connect(m_textBrowser, &QTextBrowser::backwardAvailable, m_back, &QAction::setEnabled);
 
     m_textBrowser->setOpenExternalLinks(true);
     m_textBrowser->setSearchPaths({":/help/en",":/help", ":/"});
 
     applySettings();
+    retranslateUi();
 }
 
 void HelpWindow::updateWindowTitle()
 {
     setWindowTitle(m_textBrowser->documentTitle());
-}
-
-void HelpWindow::showPage(const QString &page)
-{
-    //qDebug() << Q_FUNC_INFO << page;
-    QDir hdir(":/");
-    QFileInfo finfo(hdir, page);
-    if (finfo.exists()) {
-        m_page = page;
-    } else {
-        m_page = "help/en/index.html";
-    }
-    m_textBrowser->clear();
-    m_textBrowser->clearHistory();
-    m_textBrowser->setSource(m_page);
-    show();
 }
 
 void HelpWindow::setIcons(bool internal)
@@ -175,10 +161,15 @@ void HelpWindow::retranslateUi()
     if (language == "C") {
         language = "en";
     }
-    m_page = QStringLiteral("help/%1/index.html").arg(language);
-    if (isVisible()) {
-        showPage(m_page);
+    QString page = QStringLiteral("help/%1/index.html").arg(language);
+    QDir hdir(":/");
+    QFileInfo finfo(hdir, page);
+    if (!finfo.exists()) {
+        page = "help/en/index.html";
     }
+    m_textBrowser->clear();
+    m_textBrowser->setSource(page);
+    m_textBrowser->clearHistory();
     updateWindowTitle();
     m_home->setText(tr("&Home"));
     m_back->setText(tr("&Back"));

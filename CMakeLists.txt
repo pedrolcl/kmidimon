@@ -56,7 +56,7 @@ if(QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
     find_package(Qt6Core5Compat REQUIRED)
 endif()
 
-find_package(Drumstick 2.5 COMPONENTS ALSA File REQUIRED)
+find_package(Drumstick 2.7 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()

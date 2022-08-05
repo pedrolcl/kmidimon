@@ -35,7 +35,6 @@ public:
     void writeSettings();
     void retranslateUi();
     void applySettings();
-    void showPage(const QString &page);
     void setIcons(bool internal);
 
 private slots:
@@ -51,7 +50,6 @@ private:
     QAction *m_zoomIn;
     QAction *m_zoomOut;
     bool m_internalIcons;
-    QString m_page;
 };
 
 #endif // HELPWINDOW_H

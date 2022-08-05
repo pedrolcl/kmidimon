@@ -503,17 +503,7 @@ void KMidimon::about()
 
 void KMidimon::help()
 {
-    QString lang = configuredLanguage();
-    if (lang == "C") {
-        lang = "en";
-    }
-    QString hname = QStringLiteral("help/%1/index.html").arg(lang);
-    //#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
-    //    "index.md"
-    //#else
-    //    "index.html"
-    //#endif
-    m_helpWindow->showPage(hname);
+    m_helpWindow->show();
 }
 
 void KMidimon::slotOpenWebSite()

@@ -54,8 +54,6 @@ private:
     QMap<int, bool> m_mutedState;
 };
 
-Q_DECLARE_METATYPE(drumstick::ALSA::SequencerEvent*)
-
 class TextEvent2 : public drumstick::ALSA::VariableEvent
 {
 public:
