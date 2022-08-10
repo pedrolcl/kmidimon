@@ -23,7 +23,7 @@ project(kmidimon
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
-#set(PROJECT_RELEASE_DATE "April 17, 2022")
+set(PROJECT_RELEASE_DATE "August 10, 2022")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
 option(USE_QT "Choose which Qt major version (5 or 6) to prefer. By default uses whatever is found")
