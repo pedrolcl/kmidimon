@@ -97,7 +97,7 @@ Esta es una lista de algunas de las opciones de configuración.
 
 # Créditos y Licencia
 
-Programa Copyright © 2005-2022 Pedro Lopez-Cabanillas
+Programa Copyright © 2005-2023 Pedro Lopez-Cabanillas
 
 Copyright de la documentación © 2005 Christoph Eckert
 

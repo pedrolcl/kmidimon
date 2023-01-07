@@ -97,11 +97,11 @@ Toto je seznam možností konfigurace.
 
 # Kredity a licence
 
-Copyright © 2005-2022 Pedro Lopez-Cabanillas
+Copyright © 2005-2023 Pedro Lopez-Cabanillas
 
 Dokumentace Copyright © 2005 Christoph Eckert
 
-Dokumentace Copyright © 2008-2022 Pedro Lopez-Cabanillas
+Dokumentace Copyright © 2008-2023 Pedro Lopez-Cabanillas
 
 # Instalace
 
