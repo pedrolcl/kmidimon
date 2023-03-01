@@ -1197,9 +1197,14 @@ void KMidimon::dropEvent( QDropEvent * event )
 QString KMidimon::configuredLanguage()
 {
     if (m_language.isEmpty()) {
+        QLocale loc;
+        QString defLang = QLocale::languageToCode(loc.language());
+        if (defLang.isEmpty() || defLang == "en") {
+            defLang = "C";
+        }
         QSettings settings;
         settings.beginGroup("Settings");
-        m_language = settings.value("language").toString();
+        m_language = settings.value("language", defLang).toString();
         settings.endGroup();
     }
     return m_language;
