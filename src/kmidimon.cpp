@@ -1198,7 +1198,11 @@ QString KMidimon::configuredLanguage()
 {
     if (m_language.isEmpty()) {
         QLocale loc;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 3, 0)
         QString defLang = QLocale::languageToCode(loc.language());
+#else
+        QString defLang = loc.name().split('_').at(0).toLower();
+#endif
         if (defLang.isEmpty() || defLang == "en") {
             defLang = "C";
         }

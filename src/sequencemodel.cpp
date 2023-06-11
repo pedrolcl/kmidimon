@@ -1727,11 +1727,10 @@ SequenceModel::appendSMFEvent(long, int, SequencerEvent* ev)
     QApplication::processEvents();
 }
 
-void
-SequenceModel::headerEvent(int format, int ntrks, int division)
+void SequenceModel::headerEvent(int format, int /*ntrks*/, int division)
 {
     m_format = format;
-    m_ntrks = ntrks;
+    m_ntrks = 0; // ntrks may be incorrect;
     m_division = division;
     m_fileFormat = tr("SMF type %1").arg(format);
 }
@@ -1739,6 +1738,7 @@ SequenceModel::headerEvent(int format, int ntrks, int division)
 void
 SequenceModel::trackStartEvent()
 {
+    m_ntrks++;
     m_currentTrack++;
     TrackMapRec rec;
     rec.channel = -1;
@@ -2025,9 +2025,10 @@ void
 SequenceModel::errorHandlerSMF(const QString& errorStr)
 {
     m_loadingMessages.append(errorStr);
-    if (m_reportsFilePos)
-        m_loadingMessages.append(
-            tr(" at offset %1").arg(m_smf->getFilePos()));
+    if (m_reportsFilePos) {
+        m_loadingMessages.append(tr(" at offset %1").arg(m_smf->getFilePos()));
+    }
+    m_loadingMessages.append("<br/>");
 }
 
 void
@@ -2261,9 +2262,10 @@ SequenceModel::appendWRKEvent(long ticks, int track, SequencerEvent* ev)
 void SequenceModel::errorHandlerWRK(const QString& errorStr)
 {
     m_loadingMessages.append(errorStr);
-    if (m_reportsFilePos)
-        m_loadingMessages.append(
-            tr(" at offset %1").arg(m_wrk->getFilePos()));
+    if (m_reportsFilePos) {
+        m_loadingMessages.append(tr(" at offset %1").arg(m_wrk->getFilePos()));
+    }
+    m_loadingMessages.append("<br/>");
 }
 
 void SequenceModel::fileHeader(int verh, int verl)

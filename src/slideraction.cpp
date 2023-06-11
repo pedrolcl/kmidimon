@@ -105,10 +105,14 @@ void PlayerPopupSliderAction::slotTriggered()
 {
     QPoint point;
 
-    QList<QWidget*> associatedWidgetsList = associatedWidgets();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QList<QWidget *> associatedWidgetsList = associatedWidgets();
+#else
+    QList<QObject *> associatedWidgetsList = associatedObjects();
+#endif
 
-    QWidget* associatedWidget = nullptr;
-    QWidget* associatedToolButton = nullptr;
+    QObject *associatedWidget = nullptr;
+    QWidget *associatedToolButton = nullptr;
 
     // find the toolbutton which was clicked on
     foreach(associatedWidget, associatedWidgetsList) {
