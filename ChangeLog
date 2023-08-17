@@ -1,3 +1,11 @@
+2023-08-17
+    * Better compatibility with Qt < 6.3.0
+
+2023-06-11
+    * Fixes after Drumstick SF ticket 48:
+    *   Report better SMF loading errors
+    *   Don't believe SMF header about the number of tracks
+
 2023-03-01
     * Fixed default language setting
 
@@ -50,7 +58,7 @@
 2021-12-12
     * Release 1.2.0
 
-2021-12-11    
+2021-12-11
     * Czech translation, by Pavel Fric
 
 2021-11-27
@@ -140,7 +148,7 @@
     * better reporting of file loading errors
 
 2010-09-13 00:00 plcl
-    * parse/play OVE files (Overture) 
+    * parse/play OVE files (Overture)
 
 2010-09-10 00:00 plcl
     * config option to request real-time priority
@@ -163,14 +171,14 @@
 
 2010-02-12 00:00 plcl
     * Switch to SVN
-    * Replacing aseqmm by Drumstick 
+    * Replacing aseqmm by Drumstick
 
 2009-12-23 00:00 plcl
 
     * Release 0.7.2
     * Build system improvements
     * Fixed dynamic linking issues with aseqmm
-    * assorted fixes 
+    * assorted fixes
 
 2009-12-16 00:00 plcl
 
@@ -198,7 +206,7 @@
 
 2009-08-30 00:00 plcl
 
-    * show file creation/modification dates in the SMF info dialog  
+    * show file creation/modification dates in the SMF info dialog
 
 2009-08-28 00:00 plcl
 
@@ -213,14 +221,14 @@
     * Version 0.7.1
 
 2009-08-09 00:00 plcl
-    
+
     * Tempo scale
 
 2009-08-08 00:00 plcl
 
     * Fix unregistered bug: don't change tempo/PPQ from the preferences
       dialog, it may trash the current song
-    * New sequence information dialog 
+    * New sequence information dialog
 
 2009-08-07 00:00 plcl
 
@@ -264,7 +272,7 @@
     * Fix the crash at startup when ALSA is not loaded
     * Fixed position of the context menu to the mouse pointer
     * Version 0.5.1
-    
+
 2006-12-28 01:57  plcl
 
     * updated install instructions
@@ -293,7 +301,7 @@
 
 2005-08-29 00:23  plcl
 
-    * Internationalization updates 
+    * Internationalization updates
     * Spanish translation updated
 
 2005-08-28 22:44  plcl
@@ -310,31 +318,31 @@
 
 2005-08-26 02:00  plcl
 
-    * Configuration dialog redesign, using tabs to take less 
+    * Configuration dialog redesign, using tabs to take less
           screen real estate.
 
 2005-08-25 18:00  plcl
 
-    * Option for using fixed font 
-    * Format sysex with 2 hex digits per byte 
-    * Show/hide columns 
-    * Option for translating universal sysex messages 
+    * Option for using fixed font
+    * Format sysex with 2 hex digits per byte
+    * Show/hide columns
+    * Option for translating universal sysex messages
     * Configure dialog available even when recording
 
 2005-08-05 00:10  plcl
 
     * Version 0.3 released
-    
-    * New Connections menu, with three items: connect-all, 
+
+    * New Connections menu, with three items: connect-all,
       disconnect-all and a dialog allowing the user to configure
       ALSA sequencer connections from inside the program
-      
+
     * New column showing the source ALSA client/port for
       each event.
-      
-    * New configurable option to show the ALSA client name 
+
+    * New configurable option to show the ALSA client name
       or number, applied to the new column and elsewhere
-      
+
 2005-05-13 00:02  plcl
 
     * Version 0.2 released
