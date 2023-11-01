@@ -19,12 +19,13 @@
 #ifndef HELPWINDOW_H
 #define HELPWINDOW_H
 
-#include <QObject>
-#include <QMainWindow>
-#include <QTextBrowser>
 #include <QAction>
 #include <QCloseEvent>
+#include <QMainWindow>
+#include <QObject>
 #include <QShowEvent>
+#include <QTextBrowser>
+#include <mutex>
 
 class HelpWindow : public QMainWindow
 {
@@ -50,6 +51,7 @@ private:
     QAction *m_zoomIn;
     QAction *m_zoomOut;
     bool m_internalIcons;
+    std::once_flag m_firstTime;
 };
 
 #endif // HELPWINDOW_H

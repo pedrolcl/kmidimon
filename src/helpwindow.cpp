@@ -141,12 +141,8 @@ void HelpWindow::writeSettings()
 
 void HelpWindow::showEvent(QShowEvent *event)
 {
-    static bool firstTime = true;
     QMainWindow::showEvent(event);
-    if (firstTime) {
-        readSettings();
-        firstTime = false;
-    }
+    std::call_once(m_firstTime, &HelpWindow::readSettings, this);
 }
 
 void HelpWindow::closeEvent(QCloseEvent *event)
