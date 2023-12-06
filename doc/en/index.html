@@ -5,7 +5,145 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <title>Help Index</title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
 </head>
 <body>
 <div id="header">
@@ -14,12 +152,14 @@
 <div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#getting-started">Getting Started</a>
+<ul>
 <li><a href="#main-window">Main Window</a></li>
 <li><a href="#configuration-options">Configuration Options</a></li>
 </ul></li>
 <li><a href="#credits-and-license">Credits and License</a></li>
-<li><a href="#installation">Installation</a><ul>
+<li><a href="#installation">Installation</a>
+<ul>
 <li><a href="#how-to-obtain-drumstick-midi-monitor">How to obtain Drumstick MIDI Monitor</a></li>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#compilation-and-installation">Compilation and Installation</a></li>
@@ -32,7 +172,7 @@
 <h2 id="main-window">Main Window</h2>
 <p>The program starts in recording state, registering all incoming MIDI events until you press the stop button. There are also buttons to play, pause, rewind and forward, with the usual behavior of any other media player.</p>
 <p>Above the events list grid you can find a set of tabs, one for each track defined in a SMF. You can add new tabs or close tabs without losing the recorded events, because they are only views or event filters.</p>
-<p>You can control the ALSA sequencer MIDI connections to programs and devices from inside Drumstick MIDI Monitor. To do so, use the options under the menu &quot;Connections&quot; in the main menu. There are options to connect and disconnect every available input port to Drumstick MIDI Monitor, and also a dialog box where you can choose the ports to be monitored and the output one.</p>
+<p>You can control the ALSA sequencer MIDI connections to programs and devices from inside Drumstick MIDI Monitor. To do so, use the options under the menu “Connections” in the main menu. There are options to connect and disconnect every available input port to Drumstick MIDI Monitor, and also a dialog box where you can choose the ports to be monitored and the output one.</p>
 <p>You can also use a MIDI connection tool like <a href="https://linux.die.net/man/1/aconnect">aconnect(1)</a> or <a href="https://qjackctl.sourceforge.io">QJackCtl</a> to connect the application or MIDI port to Drumstick MIDI Monitor.</p>
 <p>When a MIDI OUT port has been connected to the input port of Drumstick MIDI Monitor in recording state, it will show incoming MIDI events if everything is correct.</p>
 <p>Each received MIDI event is shown in a single row. The columns have the following meaning.</p>
@@ -53,12 +193,12 @@
 <p>To open the Configuration dialog go to Settings → Configure menu option or click on the corresponding icon on the toolbar.</p>
 <p>This is a list of the configuration options.</p>
 <ul>
-<li><strong>Sequencer tab</strong>. The Queue Default Settings affect to the event's time precision.</li>
+<li><strong>Sequencer tab</strong>. The Queue Default Settings affect to the event’s time precision.</li>
 <li><strong>Filters tab</strong>. Here you can check several event families to be displayed in the event list.</li>
 <li><strong>Display tab</strong>. The first group of checkboxes allows to show/hide the corresponding columns of the events list.</li>
 <li><strong>Misc. tab</strong>. Miscellaneous options include:
 <ul>
-<li>Translate ALSA Client IDs into names. If checked, ALSA client names are used instead of ID numbers in the &quot;Source&quot; column for all king of events, and the data columns for the ALSA events.</li>
+<li>Translate ALSA Client IDs into names. If checked, ALSA client names are used instead of ID numbers in the “Source” column for all king of events, and the data columns for the ALSA events.</li>
 <li>Translate Universal System Exclusive messages. If checked, Universal System Exclusive messages (real time, non real time, MMC, MTC and a few other types) are interpreted and translated. Otherwise, the hexadecimal dump is shown.</li>
 <li>Use fixed font. By default Drumstick MIDI Monitor uses the system font in the event list. If this option is checked, a fixed font is used instead.</li>
 </ul></li>
@@ -80,6 +220,6 @@
 <pre><code>% cmake .
 % make
 % make install</code></pre>
-<p>Since Drumstick MIDI Monitor uses <code>cmake</code> and <code>make</code> you should have no trouble compiling it. Should you run into problems please report them to the author or the project's bug tracking system.</p>
+<p>Since Drumstick MIDI Monitor uses <code>cmake</code> and <code>make</code> you should have no trouble compiling it. Should you run into problems please report them to the author or the project’s bug tracking system.</p>
 </body>
 </html>

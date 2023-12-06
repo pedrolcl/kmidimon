@@ -1,20 +1,22 @@
-# KMidimon - ALSA Sequencer based MIDI Monitor
-# Copyright (C) 2005-2023 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#[==========================================================================[
+KMidimon - ALSA Sequencer based MIDI Monitor
+Copyright (C) 2005-2023 Pedro Lopez-Cabanillas <plcl@users.sourceforge.net>
 
-cmake_minimum_required(VERSION 3.14)
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+#]==========================================================================]
+
+cmake_minimum_required(VERSION 3.16)
 
 project(kmidimon
     VERSION 1.3.2
@@ -26,26 +28,18 @@ project(kmidimon
 #set(PROJECT_RELEASE_DATE "August 10, 2022")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
-option(USE_QT "Choose which Qt major version (5 or 6) to prefer. By default uses whatever is found")
+option(USE_QT5 "Choose to build with Qt5 instead of Qt6" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 include(SCMRevision)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED Yes)
 
-if (USE_QT)
-    if (NOT (USE_QT EQUAL 5 OR USE_QT EQUAL 6))
-        message(FATAL_ERROR "Wrong Qt major version. Only 5 and 6 are valid options")
-    endif()
-endif()
-
-if (USE_QT EQUAL 5)
-    find_package(QT NAMES Qt5)
-elseif (USE_QT EQUAL 6)
-    find_package(QT NAMES Qt6)
+if (USE_QT5)
+    find_package(QT NAMES Qt5 REQUIRED)
 else()
-    find_package(QT NAMES Qt5 Qt6)
+    find_package(QT NAMES Qt6 REQUIRED)
 endif()
 if(QT_FOUND)
     message(STATUS "Found Qt version: ${QT_VERSION}")
@@ -56,7 +50,7 @@ if(QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
     find_package(Qt6Core5Compat REQUIRED)
 endif()
 
-find_package(Drumstick 2.7 COMPONENTS ALSA File REQUIRED)
+find_package(Drumstick 2.9 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()

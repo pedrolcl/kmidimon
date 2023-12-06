@@ -4,22 +4,161 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title>Index de l'aide</title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <title>Index de l’aide</title>
+  <style type="text/css">
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
 </head>
 <body>
 <div id="header">
-<h1 class="title">Index de l'aide</h1>
+<h1 class="title">Index de l’aide</h1>
 </div>
 <div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#commencer">Commencer</a><ul>
+<li><a href="#commencer">Commencer</a>
+<ul>
 <li><a href="#fenêtre-principale">Fenêtre principale</a></li>
 <li><a href="#options-de-configuration">Options de configuration</a></li>
 </ul></li>
-<li><a href="#crédits-et-licence">Crédits et licence</a></li>
-<li><a href="#installation">Installation</a><ul>
+<li><a href="#crédits-et-licence">Crédits et licence</a>
+<ul>
 <li><a href="#comment-obtenir-drumstick-midi-monitor">Comment obtenir Drumstick MIDI Monitor</a></li>
 <li><a href="#conditions">Conditions</a></li>
 <li><a href="#compilation-et-installation">Compilation et installation</a></li>
@@ -27,38 +166,38 @@
 </ul>
 </div>
 <h1 id="introduction">Introduction</h1>
-<p>[Drumstick MIDI Monitor] (https://kmidimon.sourceforge.io) enregistre les événements à venir depuis un port externe MIDI ou une application via le séquenceur ALSA, ou stocké sous forme de fichiers MIDI standard. Il est particulièrement utile si vous souhaitez déboguer un logiciel MIDI ou votre configuration MIDI. Il dispose d'une interface utilisateur graphique agréable, de filtres d'événements personnalisables et paramètres du séquenceur, prise en charge de tous les messages MIDI et de certains ALSA messages et en sauvegardant la liste des événements enregistrés dans un fichier texte ou SMF.</p>
+<p>[Drumstick MIDI Monitor] (https://kmidimon.sourceforge.io) enregistre les événements à venir depuis un port externe MIDI ou une application via le séquenceur ALSA, ou stocké sous forme de fichiers MIDI standard. Il est particulièrement utile si vous souhaitez déboguer un logiciel MIDI ou votre configuration MIDI. Il dispose d’une interface utilisateur graphique agréable, de filtres d’événements personnalisables et paramètres du séquenceur, prise en charge de tous les messages MIDI et de certains ALSA messages et en sauvegardant la liste des événements enregistrés dans un fichier texte ou SMF.</p>
 <h1 id="commencer">Commencer</h1>
 <h2 id="fenêtre-principale">Fenêtre principale</h2>
-<p>Le programme démarre en état d'enregistrement, enregistrant tous les messages MIDI entrants événements jusqu'à ce que vous appuyiez sur le bouton d'arrêt. Il y a aussi des boutons pour jouer, pause, rembobinage et avance, avec le comportement habituel de tout autre média joueur.</p>
-<p>Au-dessus de la grille de la liste des événements, vous pouvez trouver un ensemble d'onglets, un pour chaque piste définie dans un SMF. Vous pouvez ajouter de nouveaux onglets ou fermer des onglets sans perdre les événements enregistrés, car ce ne sont que des vues ou des événements filtres.</p>
-<p>Vous pouvez contrôler les connexions MIDI du séquenceur ALSA aux programmes et périphériques de l'intérieur de Drumstick MIDI Monitor. Pour ce faire, utilisez les options du menu &quot;Connexions&quot; dans le menu principal. Il existe des options pour se connecter et déconnectez tous les ports d'entrée disponibles vers Drumstick MIDI Monitor, ainsi qu'une boîte de dialogue où vous pouvez choisir les ports à surveiller et celui de sortie.</p>
-<p>Vous pouvez également utiliser un outil de connexion MIDI comme <a href="https://linux.die.net/man/1/aconnect">aconnect(1)</a> ou <a href="https://qjackctl.sourceforge.io">QJackCtl</a> pour connecter l'application ou port MIDI vers Drumstick MIDI Monitor.</p>
-<p>Lorsqu'un port MIDI OUT a été connecté au port d'entrée de Drumstick MIDI Monitor dans l'état d'enregistrement, il affichera les événements MIDI entrants si tout est correct.</p>
+<p>Le programme démarre en état d’enregistrement, enregistrant tous les messages MIDI entrants événements jusqu’à ce que vous appuyiez sur le bouton d’arrêt. Il y a aussi des boutons pour jouer, pause, rembobinage et avance, avec le comportement habituel de tout autre média joueur.</p>
+<p>Au-dessus de la grille de la liste des événements, vous pouvez trouver un ensemble d’onglets, un pour chaque piste définie dans un SMF. Vous pouvez ajouter de nouveaux onglets ou fermer des onglets sans perdre les événements enregistrés, car ce ne sont que des vues ou des événements filtres.</p>
+<p>Vous pouvez contrôler les connexions MIDI du séquenceur ALSA aux programmes et périphériques de l’intérieur de Drumstick MIDI Monitor. Pour ce faire, utilisez les options du menu “Connexions” dans le menu principal. Il existe des options pour se connecter et déconnectez tous les ports d’entrée disponibles vers Drumstick MIDI Monitor, ainsi qu’une boîte de dialogue où vous pouvez choisir les ports à surveiller et celui de sortie.</p>
+<p>Vous pouvez également utiliser un outil de connexion MIDI comme <a href="https://linux.die.net/man/1/aconnect">aconnect(1)</a> ou <a href="https://qjackctl.sourceforge.io">QJackCtl</a> pour connecter l’application ou port MIDI vers Drumstick MIDI Monitor.</p>
+<p>Lorsqu’un port MIDI OUT a été connecté au port d’entrée de Drumstick MIDI Monitor dans l’état d’enregistrement, il affichera les événements MIDI entrants si tout est correct.</p>
 <p>Chaque événement MIDI reçu est affiché sur une seule ligne. Les colonnes ont le sens suivant.</p>
 <ul>
-<li><strong>Ticks</strong> : L'heure musicale de l'arrivée de l'événement</li>
-<li><strong>Temps</strong> : Le temps réel en secondes de l'arrivée de l'événement</li>
-<li><strong>Source</strong> : l'identifiant ALSA de l'appareil MIDI à l'origine du un événement. Vous serez en mesure de reconnaître à quel événement appartient appareil si vous en avez plusieurs connectés simultanément. Il y a un option de configuration pour afficher le nom du client ALSA au lieu d'un numéro</li>
-<li><strong>Type d'événement</strong> : Le type d'événement : note on/off, control change, ALSA et bientôt</li>
-<li><strong>Chan</strong> Le canal MIDI de l'événement (s'il s'agit d'un événement de canal). Ce est également utilisé pour afficher le canal Sysex.</li>
-<li><strong>Données 1</strong> : Cela dépend du type d'événement reçu. Pour un contrôle Changer d'événement ou de note, c'est le numéro de contrôle, ou le numéro de note</li>
-<li><strong>Données 2</strong> : Cela dépend du type d'événement reçu. Pour un contrôle Changer ce sera la valeur, et pour un événement Note ce sera le rapidité</li>
+<li><strong>Ticks</strong> : L’heure musicale de l’arrivée de l’événement</li>
+<li><strong>Temps</strong> : Le temps réel en secondes de l’arrivée de l’événement</li>
+<li><strong>Source</strong> : l’identifiant ALSA de l’appareil MIDI à l’origine du un événement. Vous serez en mesure de reconnaître à quel événement appartient appareil si vous en avez plusieurs connectés simultanément. Il y a un option de configuration pour afficher le nom du client ALSA au lieu d’un numéro</li>
+<li><strong>Type d’événement</strong> : Le type d’événement : note on/off, control change, ALSA et bientôt</li>
+<li><strong>Chan</strong> Le canal MIDI de l’événement (s’il s’agit d’un événement de canal). Ce est également utilisé pour afficher le canal Sysex.</li>
+<li><strong>Données 1</strong> : Cela dépend du type d’événement reçu. Pour un contrôle Changer d’événement ou de note, c’est le numéro de contrôle, ou le numéro de note</li>
+<li><strong>Données 2</strong> : Cela dépend du type d’événement reçu. Pour un contrôle Changer ce sera la valeur, et pour un événement Note ce sera le rapidité</li>
 <li><strong>Données 3</strong> : représentation textuelle des événements exclusifs ou méta.</li>
 </ul>
-<p>Vous pouvez masquer ou afficher n'importe quelle colonne à l'aide du menu contextuel. Pour ouvrir ce menu, appuyez sur le bouton secondaire de la souris sur la liste des événements. Vous pouvez également utilisez la boîte de dialogue Configuration pour choisir les colonnes visibles.</p>
+<p>Vous pouvez masquer ou afficher n’importe quelle colonne à l’aide du menu contextuel. Pour ouvrir ce menu, appuyez sur le bouton secondaire de la souris sur la liste des événements. Vous pouvez également utilisez la boîte de dialogue Configuration pour choisir les colonnes visibles.</p>
 <p>La liste des événements affiche toujours les événements enregistrés les plus récents au bas de la la grille.</p>
 <p>Drumstick MIDI Monitor peut sauvegarder les événements enregistrés sous forme de fichier texte (au format CSV) ou un fichier MIDI standard (SMF).</p>
 <h2 id="options-de-configuration">Options de configuration</h2>
-<p>Pour ouvrir la boîte de dialogue de configuration, accédez à l'option de menu Paramètres → Configurer ou cliquez sur l'icône correspondante dans la barre d'outils.</p>
+<p>Pour ouvrir la boîte de dialogue de configuration, accédez à l’option de menu Paramètres → Configurer ou cliquez sur l’icône correspondante dans la barre d’outils.</p>
 <p>Ceci est une liste des options de configuration.</p>
 <ul>
-<li><strong>Onglet Séquenceur</strong>. Les paramètres par défaut de la file d'attente affectent l'heure de l'événement précision.</li>
-<li><strong>Onglet Filtres</strong>. Ici, vous pouvez consulter plusieurs familles d'événements à affiché dans la liste des événements.</li>
-<li><strong>Onglet Affichage</strong>. Le premier groupe de cases à cocher permet d'afficher/masquer les colonnes correspondantes de la liste des événements.</li>
+<li><strong>Onglet Séquenceur</strong>. Les paramètres par défaut de la file d’attente affectent l’heure de l’événement précision.</li>
+<li><strong>Onglet Filtres</strong>. Ici, vous pouvez consulter plusieurs familles d’événements à affiché dans la liste des événements.</li>
+<li><strong>Onglet Affichage</strong>. Le premier groupe de cases à cocher permet d’afficher/masquer les colonnes correspondantes de la liste des événements.</li>
 <li><strong>Divers. languette</strong>. Les options diverses incluent :
 <ul>
-<li>Traduisez les identifiants des clients ALSA en noms. Si coché, le client ALSA les noms sont utilisés à la place des numéros d'identification dans la colonne &quot;Source&quot; pour tous les types d'événements et les colonnes de données pour les événements ALSA.</li>
+<li>Traduisez les identifiants des clients ALSA en noms. Si coché, le client ALSA les noms sont utilisés à la place des numéros d’identification dans la colonne “Source” pour tous les types d’événements et les colonnes de données pour les événements ALSA.</li>
 <li>Traduisez les messages exclusifs du système universel. Si coché, Messages universels exclusifs au système (en temps réel, en temps différé, MMC, MTC et quelques autres types) sont interprétés et traduits. Sinon, le vidage hexadécimal est affiché.</li>
 <li>Utilisez une police fixe. Par défaut, Drumstick MIDI Monitor utilise la police système dans le liste des événements. Si cette option est cochée, une police fixe est utilisée au lieu.</li>
 </ul></li>
@@ -67,19 +206,19 @@
 <p>Programme Copyright © 2005-2023 Pedro Lopez-Cabanillas</p>
 <p>Documentation Copyright © 2005 Christoph Eckert</p>
 <p>Documentation Copyright © 2008-2023 Pedro Lopez-Cabanillas</p>
-<h1 id="installation">Installation</h1>
+<p>#Installation</p>
 <h2 id="comment-obtenir-drumstick-midi-monitor">Comment obtenir Drumstick MIDI Monitor</h2>
 <p><a href="https://sourceforge.net/projects/kmidimon/files/">Ici</a> vous pouvez trouver la dernière version. Il y a aussi un miroir Git à <a href="https://github.com/pedrolcl/kmidimon">GitHub</a></p>
 <h2 id="conditions">Conditions</h2>
 <p>Pour utiliser avec succès Drumstick MIDI Monitor, vous avez besoin de Qt 5, Drumstick 2 et les pilotes et la bibliothèque ALSA.</p>
 <p>Le système de construction requiert <a href="http://www.cmake.org">CMake</a> 3.14 ou plus récent.</p>
-<p>La bibliothèque ALSA, les pilotes et les utilitaires peuvent être trouvés sur <a href="http://www.alsa-project.org">Page d'accueil d'ALSA</a></p>
+<p>La bibliothèque ALSA, les pilotes et les utilitaires peuvent être trouvés sur <a href="http://www.alsa-project.org">Page d’accueil d’ALSA</a></p>
 <p>Vous pouvez trouver une liste des changements sur https://sourceforge.net/p/kmidimon</p>
 <h2 id="compilation-et-installation">Compilation et installation</h2>
 <p>Pour compiler et installer Drumstick MIDI Monitor sur votre système, tapez le suivant dans le répertoire de base de la distribution Drumstick MIDI Monitor :</p>
 <pre><code>$ cmake .
 $ make
 $ make install</code></pre>
-<p>Étant donné que Drumstick MIDI Monitor utilise <code>cmake</code> et <code>make</code> vous ne devriez avoir aucun problème le compiler. Si vous rencontrez des problèmes, veuillez les signaler au l'auteur ou le système de suivi des bogues du projet.</p>
+<p>Étant donné que Drumstick MIDI Monitor utilise <code>cmake</code> et <code>make</code> vous ne devriez avoir aucun problème le compiler. Si vous rencontrez des problèmes, veuillez les signaler au l’auteur ou le système de suivi des bogues du projet.</p>
 </body>
 </html>
