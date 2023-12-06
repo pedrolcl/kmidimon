@@ -51,7 +51,7 @@ int main (int argc, char **argv)
     }
 
     QStringList fileNames, positionalArgs = parser.positionalArguments();
-    for(const QString& a : qAsConst(positionalArgs)) {
+    for (const QString &a : std::as_const(positionalArgs)) {
         QFileInfo f(a);
         if (f.exists())
             fileNames += f.canonicalFilePath();
