@@ -7,9 +7,9 @@
   <project_license>GPL-2.0-or-later</project_license>
   <description>
     <p>
-      Drumstick MIDI Monitor logs MIDI events coming from MIDI external ports or applications via the ALSA sequencer, 
-      and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug 
-      MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and 
+      Drumstick MIDI Monitor logs MIDI events coming from MIDI external ports or applications via the ALSA sequencer,
+      and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug
+      MIDI software or your MIDI setup. It features a nice graphical user interface, customizable event filters and
       sequencer parameters, support for MIDI and ALSA messages, and saving the recorded event list to a SMF or text file.
     </p>
   </description>
@@ -34,6 +34,7 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.4.0" date="2023-12-25" />
     <release version="1.3.1" date="2022-08-10" />
     <release version="1.3.0" date="2022-04-17" />
     <release version="1.2.0" date="2021-12-12" />

@@ -19,16 +19,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 cmake_minimum_required(VERSION 3.16)
 
 project(kmidimon
-    VERSION 1.3.2
+    VERSION 1.4.0
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
-#set(PROJECT_RELEASE_DATE "August 10, 2022")
+set(PROJECT_RELEASE_DATE "December 25, 2023")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
-option(USE_QT5 "Choose to build with Qt5 instead of Qt6" OFF)
+option(USE_QT5 "Prefer building with Qt5 instead of Qt6" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_admin")
 include(SCMRevision)
@@ -38,16 +38,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED Yes)
 
 if (USE_QT5)
     find_package(QT NAMES Qt5 REQUIRED)
+    find_package(Qt5 5.12 COMPONENTS Gui Widgets LinguistTools REQUIRED)
 else()
     find_package(QT NAMES Qt6 REQUIRED)
+    find_package(Qt6 6.2 COMPONENTS Gui Widgets LinguistTools Core5Compat REQUIRED)
 endif()
 if(QT_FOUND)
     message(STATUS "Found Qt version: ${QT_VERSION}")
-endif()
-
-find_package(Qt${QT_VERSION_MAJOR} 5.12 COMPONENTS Gui Widgets LinguistTools REQUIRED)
-if(QT_VERSION VERSION_GREATER_EQUAL 6.0.0)
-    find_package(Qt6Core5Compat REQUIRED)
 endif()
 
 find_package(Drumstick 2.9 COMPONENTS ALSA File REQUIRED)

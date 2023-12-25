@@ -1,5 +1,8 @@
+2023-12-25
+    * Release 1.4.0
+
 2023-12-06
-    * Preparations for release 1.3.2
+    * Preparations for release 1.4.0
         Build with Qt6 by default
         For Qt6 compatibility, the USE_QT5 option must be set
         C++ compiler and runtime requirements upgraded to C++17
