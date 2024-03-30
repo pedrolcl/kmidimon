@@ -1,5 +1,7 @@
 # Drumstick MIDI Monitor (a.k.a. kmidimon)
 
+[![Build on Linux](https://github.com/pedrolcl/kmidimon/actions/workflows/linux-build.yml/badge.svg)](https://github.com/pedrolcl/kmidimon/actions/workflows/linux-build.yml)
+
 [Drumstick MIDI Monitor](https://kmidimon.sourceforge.io) logs MIDI events
 coming from MIDI external ports or applications via the ALSA sequencer,
 and from SMF (Standard MIDI files) or WRK (Cakewalk/Sonar) files. It is especially useful if you want to debug
