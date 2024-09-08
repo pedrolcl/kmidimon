@@ -1040,7 +1040,17 @@ SequenceModel::event_ticks(const SequencerEvent *ev) const
 QString
 SequenceModel::event_time(const SequenceItem& itm) const
 {
-    return QString::number(itm.getSeconds(), 'f', 4);
+    constexpr quint64 onehour = 60 * 60 * 1000;
+    constexpr quint64 oneminute = 60 * 1000;
+    auto ms = static_cast<quint64>(itm.getSeconds() * 1000);
+    QTime t = QTime::fromMSecsSinceStartOfDay(ms);
+    if (ms >= onehour) {
+        return t.toString("h:mm:ss.zzz");
+    } else if (ms >= oneminute) {
+        return t.toString("m:ss.zzz");
+    } else {
+        return t.toString("s.zzz");
+    }
 }
 
 QString

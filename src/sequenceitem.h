@@ -28,17 +28,14 @@ public:
     SequenceItem(double seconds,
                  unsigned int ticks,
                  unsigned int track,
-                 drumstick::ALSA::SequencerEvent* ev):
-    m_seconds(seconds),
-    m_ticks(ticks),
-    m_track(track),
-    m_event(ev)
+                 drumstick::ALSA::SequencerEvent *ev)
+        : m_seconds(seconds)
+        , m_ticks(ticks)
+        , m_track(track)
+        , m_event(ev)
     {}
 
-    virtual ~SequenceItem()
-    {}
-
-    bool operator==(const SequenceItem& other) const;
+    bool operator==(const SequenceItem &other) const;
 
     double getSeconds() const { return m_seconds; }
     unsigned int  getTicks() const { return m_ticks; }
