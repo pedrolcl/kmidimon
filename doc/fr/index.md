@@ -97,11 +97,11 @@ Ceci est une liste des options de configuration.
 
 # Crédits et licence
 
-Programme Copyright © 2005-2023 Pedro Lopez-Cabanillas
+Programme Copyright © 2005-2024 Pedro Lopez-Cabanillas
 
 Documentation Copyright © 2005 Christoph Eckert
 
-Documentation Copyright © 2008-2023 Pedro Lopez-Cabanillas
+Documentation Copyright © 2008-2024 Pedro Lopez-Cabanillas
 
 #Installation
 
