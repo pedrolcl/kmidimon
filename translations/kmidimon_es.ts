@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es" sourcelanguage="en">
+<TS version="2.1" language="es_ES" sourcelanguage="en_US">
 <context>
     <name>About</name>
     <message>
+        <location filename="../src/about.cpp" line="55"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-family:&apos;Sans Serif&apos;; font-size:12pt; font-style:normal;&quot;&gt;&lt;p style=&quot;margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Version: %1&lt;br/&gt;Qt version: %5&lt;br/&gt;Drumstick version: %6&lt;br/&gt;Build date: %2&lt;br/&gt;Build time: %3&lt;br/&gt;Compiler: %4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -13,10 +14,14 @@ p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;
 <context>
     <name>AboutClass</name>
     <message>
+        <location filename="../src/about.ui" line="32"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_about.h" line="167"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
+        <location filename="../src/about.ui" line="176"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_about.h" line="168"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -29,6 +34,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Drumstick MIDI Monitor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
+        <location filename="../src/about.ui" line="187"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_about.h" line="173"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -41,6 +48,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://kmidimon.sourceforge.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://kmidimon.sourceforge.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
+        <location filename="../src/about.ui" line="213"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_about.h" line="178"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -62,6 +71,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ConfigDialog</name>
     <message>
+        <location filename="../src/configdialog.cpp" line="31"/>
         <source>KMidimon Configuration</source>
         <comment>@title:window</comment>
         <translation>Configuración de KMidimon</translation>
@@ -80,197 +90,297 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ConfigDialogBase</name>
     <message>
+        <location filename="../src/configdialogbase.ui" line="54"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="422"/>
         <source>Sequencer</source>
         <translation>Secuenciador</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="66"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="412"/>
         <source>Queue Default Settings</source>
         <translation>Opciones por omisión de la Cola</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="73"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="413"/>
         <source>Tempo (BPM)</source>
         <translation>Tempo (PPM)</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="86"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="415"/>
         <source>The number of beats per minute, or music speed. This is a default value; MIDI files may change this value.</source>
         <translation>El número de pulsos por minuto, o velocidad de la música. Este es un valor por omisión; los archivos MIDI pueden cambiar este valor.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="99"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="417"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="112"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="419"/>
         <source>The number of MIDI ticks per quarter note. This is a default value; a MIDI file (SMF) may change this value.</source>
         <translation>El número de subdivisiones de tiempo MIDI por negra. Esto es un valor por omisión; un archivo MIDI (SMF) puede cambiar este valor.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="138"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="421"/>
         <source>Request realtime priority for MIDI input</source>
         <translation>Solicitar prioridad de tiempo real para la entrada MIDI</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="146"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="448"/>
         <source>Filters</source>
         <translation>Filtros</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="158"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="423"/>
         <source>Filter Message Types</source>
         <translation>Filtros de tipo de mensaje</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="165"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="425"/>
         <source>MIDI Channel messages include: Note On/Off, Control Change, Program Change, Pitch Wheel, Key and Channel Pressure.</source>
         <translation>Los mensajes MIDI de canal incluyen: nota activada/desactivada, cambio de control, cambio de programa, inflexión de tono, Presión de nota y de canal.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="168"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="427"/>
         <source>MIDI Channel Messages</source>
         <translation>Mensajes MIDI de canal</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="175"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="429"/>
         <source>System common messages are: quarter frame, song position and tune request.</source>
         <translation>Mensajes comunes del sistema son: marco de negra, posición de canción, y petición de afinación.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="178"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="431"/>
         <source>MIDI System Common Messages</source>
         <translation>Mensajes MIDI de sistema común</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="185"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="433"/>
         <source>System realtime messages are: clock, start, continue, stop, active sensing and reset.</source>
         <translation>Los mensajes del sistema de tiempo real son: reloj, iniciar, continuar, parar, sensor de actividad y restablecer.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="188"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="435"/>
         <source>MIDI System Real-Time Messages</source>
         <translation>Mensajes MIDI de tiempo real</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="195"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="437"/>
         <source>System exclusive messages can be: universal and manufacturer defined.</source>
         <translation>Los mensajes de sistema exclusivo pueden ser: universales y definidos por el fabricante.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="198"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="439"/>
         <source>MIDI System Exclusive Messages</source>
         <translation>Mensajes MIDI de sistema exclusivo</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="205"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="441"/>
         <source>ALSA Messages are: client and port start/exit, and connection changes.</source>
         <translation>Los mensajes de ALSA son: inicio/terminación de cliente y puerto, y cambios de conexiones.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="208"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="443"/>
         <source>ALSA Messages</source>
         <translation>Mensajes de ALSA</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="215"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="445"/>
         <source>Standard MIDI file (SMF) messages include: key/time signature and text messages</source>
         <translation>Los mensajes de archivos MIDI estándar (SMF) incluyen: armadura de tono, medida del compás y mensajes de texto</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="218"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="447"/>
         <source>SMF Messages</source>
         <translation>Mensajes de SMF</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="239"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="482"/>
         <source>Display</source>
         <comment>Columns to show</comment>
         <translation>Mostrar</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="252"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="449"/>
         <source>Show Columns</source>
         <translation>Mostrar columnas</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="259"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="451"/>
         <source>Ticks are the musical time units. It is relative to tempo and resolution.</source>
         <translation>Tics son las unidades de tiempo musicales. Se relacionan con el tempo y la resolución.</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="262"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="453"/>
         <source>Ticks</source>
         <translation>Tics</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="269"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="455"/>
         <source>Seconds are absolute time units</source>
         <translation>Segundos son las unidades de tiempo absolutas</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="272"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="457"/>
         <source>Time (in seconds)</source>
         <translation>Tiempo (en segundos)</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="279"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="459"/>
         <source>MIDI port originating the messages</source>
         <translation>Puerto MIDI donde se originan los mensajes</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="282"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="461"/>
         <source>Source</source>
         <comment>Origin of the event</comment>
         <translation>Origen</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="289"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="463"/>
         <source>Message type displayed as a text string</source>
         <translation>Tipo de mensaje representado como una cadena de texto</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="292"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="465"/>
         <source>Message Type</source>
         <translation>Tipo de mensaje</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="299"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="467"/>
         <source>MIDI Channel (1 to 16)</source>
         <translation>Canal MIDI (entre 1 y 16)</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="302"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="469"/>
         <source>Channel</source>
         <comment>MIDI Channel Number</comment>
         <translation>Canal</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="309"/>
+        <location filename="../src/configdialogbase.ui" line="319"/>
+        <location filename="../src/configdialogbase.ui" line="329"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="471"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="475"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="479"/>
         <source>Parameter data depending on the message type</source>
         <translation>Datos de parámetros, dependiendo del tipo de mensaje</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="312"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="473"/>
         <source>Data 1</source>
         <translation>Datos 1</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="322"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="477"/>
         <source>Data 2</source>
         <translation>Datos 2</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="332"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="481"/>
         <source>Data 3</source>
         <translation>Datos 3</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="353"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="503"/>
         <source>Misc</source>
         <translation>Miscelánea</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="440"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="497"/>
         <source>Miscellaneous Options</source>
         <translation>Opciones diversas</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="359"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="484"/>
         <source>The font used in the event grid can be fixed or variable, taken from the KDE fonts configuration (kcmshell4 fonts).</source>
         <translation>La fuente tipográfica utilizada en la lista de eventos puede ser fija o variable, tomada de la configuración de fuentes de KDE (kcmshell4 fonts).</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="362"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="486"/>
         <source>Use Fixed Font</source>
         <translation>Usar fuente de paso fijo</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="411"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="493"/>
         <source>Display ALSA client numbers or Names</source>
         <translation>Mostrar clientes ALSA como números o nombres</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="414"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="495"/>
         <source>Translate ALSA Client IDs Into Names</source>
         <translation>Traducir IDs de clientes ALSA como nombres</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="447"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="499"/>
         <source>Display some Universal Sysex messages as text, or hexadecimal numbers</source>
         <translation>Mostrar algunos mensajes de sistema exclusivo como texto, o como números hexadecimales</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="450"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="501"/>
         <source>Translate Universal SysEx Messages</source>
         <translation>Traducir mensajes universales de sistema exclusivo</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="383"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="489"/>
         <source>Translate Note Numbers into Names</source>
         <translation>Traducir números de notas como nombres</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="376"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="488"/>
         <source>Translate MIDI Programs and Controllers</source>
         <translation>Traducir programas y controladores MIDI</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="473"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="502"/>
         <source>MIDI Instrument</source>
         <translation>Instrumento MIDI</translation>
     </message>
@@ -279,18 +389,26 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Codificación de texto SMF</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="404"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="491"/>
         <source>Resize columns automatically while recording events</source>
         <translation>Redimensionar columnas automáticamente durante la grabación de eventos</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="397"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="490"/>
         <source>Internal Icon Theme</source>
         <translation>Tema interno de iconos</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="424"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="496"/>
         <source>Qt Style</source>
         <translation>Estilo de Qt</translation>
     </message>
     <message>
+        <location filename="../src/configdialogbase.ui" line="369"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_configdialogbase.h" line="487"/>
         <source>Forced Dark Mode</source>
         <translation>Modo oscuro forzado</translation>
     </message>
@@ -298,18 +416,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ConnectDlg</name>
     <message>
+        <location filename="../src/connectdlg.cpp" line="37"/>
         <source>Connections</source>
         <translation>Conexiones</translation>
     </message>
     <message>
+        <location filename="../src/connectdlg.cpp" line="43"/>
         <source>Available Input Connections:</source>
         <translation>Puertos de entrada disponibles:</translation>
     </message>
     <message>
+        <location filename="../src/connectdlg.cpp" line="53"/>
         <source>&lt;b&gt;Output Connection:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Conexión de la salida:&lt;/b&gt;</translation>
     </message>
     <message>
+        <location filename="../src/connectdlg.cpp" line="51"/>
         <source>MIDI Thru on MIDI OUT</source>
         <translation>MIDI Thru en la salida MIDI</translation>
     </message>
@@ -317,26 +439,38 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>EventFilter</name>
     <message>
+        <location filename="../src/eventfilter.cpp" line="117"/>
+        <location filename="../src/eventfilter.cpp" line="257"/>
         <source>MIDI Channel</source>
         <translation>Canal MIDI</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="118"/>
+        <location filename="../src/eventfilter.cpp" line="258"/>
         <source>MIDI System Common</source>
         <translation>Mensajes MIDI de sistema común</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="119"/>
+        <location filename="../src/eventfilter.cpp" line="259"/>
         <source>MIDI System Real-Time</source>
         <translation>Mensajes MIDI de tiempo real</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="120"/>
+        <location filename="../src/eventfilter.cpp" line="260"/>
         <source>MIDI System Exclusive</source>
         <translation>Mensajes MIDI de sistema exclusivo</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="121"/>
+        <location filename="../src/eventfilter.cpp" line="261"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="122"/>
+        <location filename="../src/eventfilter.cpp" line="262"/>
         <source>SMF</source>
         <translation>SMF</translation>
     </message>
@@ -497,10 +631,13 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Meta (no registrado)</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="256"/>
         <source>Filters</source>
         <translation>Filtros</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="266"/>
+        <location filename="../src/eventfilter.cpp" line="292"/>
         <source>Nothing</source>
         <translation>Ninguno</translation>
     </message>
@@ -510,6 +647,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Iniciar</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="265"/>
+        <location filename="../src/eventfilter.cpp" line="289"/>
         <source>All</source>
         <comment>check all types</comment>
         <translation>Todos</translation>
@@ -518,14 +657,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>HelpWindow</name>
     <message>
+        <location filename="../src/helpwindow.cpp" line="55"/>
+        <location filename="../src/helpwindow.cpp" line="170"/>
         <source>&amp;Home</source>
         <translation>&amp;Inicio</translation>
     </message>
     <message>
+        <location filename="../src/helpwindow.cpp" line="56"/>
+        <location filename="../src/helpwindow.cpp" line="171"/>
         <source>&amp;Back</source>
         <translation>&amp;Atrás</translation>
     </message>
     <message>
+        <location filename="../src/helpwindow.cpp" line="57"/>
+        <location filename="../src/helpwindow.cpp" line="172"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
@@ -538,10 +683,14 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ayuda: %1</translation>
     </message>
     <message>
+        <location filename="../src/helpwindow.cpp" line="58"/>
+        <location filename="../src/helpwindow.cpp" line="173"/>
         <source>Zoom In</source>
         <translation>Aumentar</translation>
     </message>
     <message>
+        <location filename="../src/helpwindow.cpp" line="59"/>
+        <location filename="../src/helpwindow.cpp" line="174"/>
         <source>Zoom Out</source>
         <translation>Disminuir</translation>
     </message>
@@ -549,130 +698,168 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>KMidimon</name>
     <message>
+        <location filename="../src/kmidimon.cpp" line="152"/>
         <source>The events list</source>
         <translation>La lista de eventos</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="171"/>
         <source>Track view selectors</source>
         <translation>Selectores de vista de pistas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="202"/>
         <source>Fatal error from the ALSA sequencer. This usually happens when the kernel doesn&apos;t have ALSA support, or the device node (/dev/snd/seq) doesn&apos;t exists, or the kernel module (snd_seq) is not loaded. Please check your ALSA/MIDI configuration. Returned error was: %1</source>
         <translation>Error fatal abriendo el secuenciador ALSA. Esto ocurre normalmente cuando el núcleo no tiene soporte ALSA, o el nodo de dispositivo (/dev/snd/seq) no existe, o bien el módulo del núcleo (snd_seq) no ha sido cargado.Por favor, compruebe la configuración de ALSA y MIDI. El error devuelto ha sido %1</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="208"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="217"/>
+        <location filename="../src/kmidimon.cpp" line="291"/>
         <source>Ticks</source>
         <translation>Tics</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="218"/>
+        <location filename="../src/kmidimon.cpp" line="292"/>
         <source>Time</source>
         <translation>Tiempo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="221"/>
+        <location filename="../src/kmidimon.cpp" line="295"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="222"/>
+        <location filename="../src/kmidimon.cpp" line="296"/>
         <source>Data 1</source>
         <translation>Datos 1</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="223"/>
+        <location filename="../src/kmidimon.cpp" line="297"/>
         <source>Data 2</source>
         <translation>Datos 2</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="224"/>
+        <location filename="../src/kmidimon.cpp" line="298"/>
         <source>Data 3</source>
         <translation>Datos 3</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="226"/>
         <source>&amp;New</source>
         <translation>&amp;Nuevo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="227"/>
         <source>Clear the current data and start a new empty session</source>
         <translation>Limpiar los datos actuales e iniciar una nueva sesión vacía</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="228"/>
         <source>&amp;Open</source>
         <translation>&amp;Abrir</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="229"/>
         <source>Open a disk file</source>
         <translation>Abrir archivo del disco</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="230"/>
         <source>&amp;Save</source>
         <translation>&amp;Guardar</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="231"/>
         <source>Store the session data on a disk file</source>
         <translation>Almacenar los datos de la sesión en un archivo en disco</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="234"/>
         <source>Sequence Info</source>
         <translation>Información de secuencia</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="235"/>
         <source>Display information about the loaded sequence</source>
         <translation>Mostrar información acerca de la secuencia cargada</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="232"/>
         <source>Quit</source>
         <translation>Terminar</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="233"/>
         <source>Exit the application</source>
         <translation>Terminar la aplicación</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="236"/>
         <source>Preferences</source>
         <translation>Preferencias</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="237"/>
         <source>Configure the program setting several preferences</source>
         <translation>Configurar el programa estableciendo varias preferencias</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="239"/>
         <source>Move the playback position to the first event</source>
         <translation>Mover la posición de reproducción al primer evento</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="240"/>
         <source>&amp;Play</source>
         <translation>&amp;Reproducir</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="241"/>
         <source>Start playback of the current session</source>
         <translation>Iniciar la reproducción de la sesión actual</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="242"/>
         <source>Pause</source>
         <translation>Pausa</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="243"/>
         <source>Pause the playback</source>
         <translation>Interrumpir la reproducción</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="245"/>
         <source>Move the playback position to the last event</source>
         <translation>Mover la posición de reproducción al último evento</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="246"/>
         <source>Record</source>
         <translation>Grabar</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="247"/>
         <source>Append new recorded events to the current session</source>
         <translation>Añadir nuevos eventos grabados a la sesión actual</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="248"/>
         <source>Stop</source>
         <translation>Detener</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="249"/>
         <source>Stop playback or recording</source>
         <translation>Detener la reproducción o grabación</translation>
     </message>
@@ -685,118 +872,149 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Iniciar de nuevo la reproducción al final de la canción</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="250"/>
         <source>Scale Tempo</source>
         <translation>Escalado de Tempo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="251"/>
         <source>Display a slider to scale the tempo between 50% and 200%</source>
         <translation>Mostrar un control deslizante para escalar el tempo entre un 50% y un 200%</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="252"/>
         <source>Reset Tempo</source>
         <translation>Restablecer Tempo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="253"/>
         <source>Reset the tempo scale to 100%</source>
         <translation>Restablecer la escala del tempo al 100%</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="254"/>
         <source>Connect All Inputs</source>
         <translation>Conectar todas las entradas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="255"/>
         <source>Connect all readable MIDI ports</source>
         <translation>Conectar todas las entradas MIDI</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="256"/>
         <source>Disconnect All Inputs</source>
         <translation>Desconectar todas las entradas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="257"/>
         <source>Disconnect all input MIDI ports</source>
         <translation>Desconectar todas las entradas MIDI</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="258"/>
         <source>Configure Connections</source>
         <translation>Configurar conexiones</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="259"/>
         <source>Open the Connections dialog</source>
         <translation>Abrir el diálogo de conexiones</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="260"/>
         <source>Resize columns</source>
         <translation>Redimensionar columnas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="261"/>
         <source>Resize the columns width to fit it&apos;s contents</source>
         <translation>Redimensionar el ancho de las columnas para encajar sus contenidos</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="271"/>
+        <location filename="../src/kmidimon.cpp" line="446"/>
         <source>Tracks</source>
         <translation>Pistas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="262"/>
         <source>Add Track View</source>
         <translation>Añadir vista de pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="263"/>
         <source>Create a new tab/track view</source>
         <translation>Crear una nueva pestaña/vista de pistas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="264"/>
         <source>Delete Track View</source>
         <translation>Eliminar vista de pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="265"/>
         <source>Delete the tab/track view</source>
         <translation>Eliminar pestaña/vista de pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="266"/>
         <source>Change Track View</source>
         <translation>Cambiar vista de pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="267"/>
         <source>Change the track number of the view</source>
         <translation>Cambiar el número de pista de la vista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="268"/>
         <source>Mute Track</source>
         <translation>Silenciar pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="269"/>
         <source>Mute (silence) the track</source>
         <translation>Enmudecer (silenciar) la pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="272"/>
+        <location filename="../src/kmidimon.cpp" line="465"/>
         <source>Show Columns</source>
         <translation>Mostrar columnas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="471"/>
         <source>Toggle the %1 column</source>
         <translation>Conmutar la columna %1</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="550"/>
         <source>Loading...</source>
         <translation>Cargando...</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="551"/>
         <source>Load file</source>
         <translation>Cargar archivo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="590"/>
         <source>Warning, this file may be non-standard or damaged.&lt;br/&gt;</source>
         <translation>Advertencia, este archivo puede no ser estándar o estar dañado.&lt;br/&gt;</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="591"/>
         <source>File parsing error</source>
         <translation>Error de proceso de archivo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="597"/>
         <source>Open MIDI file</source>
         <translation>Abrir archivo MIDI</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="611"/>
         <source>Save MIDI monitor data</source>
         <translation>Guardar datos MIDI registrados</translation>
     </message>
@@ -805,46 +1023,57 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Texto simple (*.txt);;Archivos MIDI (*.mid)</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="847"/>
         <source>(no file)</source>
         <translation>(ningún archivo)</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="848"/>
         <source>%1 [%2]</source>
         <translation>%1 [%2]</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="866"/>
         <source>empty</source>
         <translation>vacío</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="877"/>
         <source>recording</source>
         <translation>grabando</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="888"/>
         <source>playing</source>
         <translation>reproduciendo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="899"/>
         <source>paused</source>
         <translation>en pausa</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="910"/>
         <source>stopped</source>
         <translation>detenido</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="913"/>
         <source>uninitialized</source>
         <translation>sin inicializar</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1027"/>
         <source>Change track</source>
         <translation>Cambiar pista</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1028"/>
         <source>Change the track filter:</source>
         <translation>Cambiar el filtro de la pista:</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1117"/>
         <source>No file loaded</source>
         <translation>No hay archivo cargado</translation>
     </message>
@@ -853,76 +1082,101 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Creado: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Modificado: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%6&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%7 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%8 npm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%9&lt;/b&gt;</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1139"/>
         <source>Sequence Information</source>
         <translation>Información de la secuencia</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1222"/>
         <source>Language Changed</source>
         <translation>Cambio de idioma</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1223"/>
         <source>The language for this application is going to change to %1. Do you want to continue?</source>
         <translation>El idioma de esta aplicación está a punto de cambiar a %1. ¿Desea continuar?</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="238"/>
         <source>Backward</source>
         <comment>player skip backward</comment>
         <translation>Retroceder</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="244"/>
         <source>Forward</source>
         <comment>player skip forward</comment>
         <translation>Avanzar</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="219"/>
+        <location filename="../src/kmidimon.cpp" line="293"/>
         <source>Source</source>
         <comment>event origin</comment>
         <translation>Origen</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="220"/>
+        <location filename="../src/kmidimon.cpp" line="294"/>
         <source>Event Kind</source>
         <comment>type of event</comment>
         <translation>Tipo de evento</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="283"/>
+        <location filename="../src/kmidimon.cpp" line="1011"/>
+        <location filename="../src/kmidimon.cpp" line="1052"/>
         <source>Track %1</source>
         <comment>song track</comment>
         <translation>Pista: %1</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="284"/>
+        <location filename="../src/kmidimon.cpp" line="1014"/>
+        <location filename="../src/kmidimon.cpp" line="1055"/>
         <source>Track %1 View Selector</source>
         <comment>track selector</comment>
         <translation>Selector de vista de pista %1</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1406"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="270"/>
+        <location filename="../src/kmidimon.cpp" line="323"/>
         <source>Recent files</source>
         <translation>Archivos recientes</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="612"/>
         <source>Plain text files (*.txt)</source>
         <translation>Ficheros de texto plano (*.txt)</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="612"/>
         <source>MIDI files (*.mid)</source>
         <translation>Archivos MIDI (*.mid)</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1121"/>
         <source>File: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Date: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Format: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Number of tracks: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Number of events: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;Division: &lt;b&gt;%6 ppq&lt;/b&gt;&lt;br/&gt;Initial tempo: &lt;b&gt;%7 bpm&lt;/b&gt;&lt;br/&gt;Duration: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</source>
         <translation>Archivo: &lt;b&gt;%1&lt;/b&gt;&lt;br/&gt;Fecha: &lt;b&gt;%2&lt;/b&gt;&lt;br/&gt;Formato: &lt;b&gt;%3&lt;/b&gt;&lt;br/&gt;Número de pistas: &lt;b&gt;%4&lt;/b&gt;&lt;br/&gt;Número de eventos: &lt;b&gt;%5&lt;/b&gt;&lt;br/&gt;División: &lt;b&gt;%6 ppn&lt;/b&gt;&lt;br/&gt;Tempo inicial: &lt;b&gt;%7 ppm&lt;/b&gt;&lt;br/&gt;Duración: &lt;b&gt;%8&lt;/b&gt;&lt;br/&gt; %9</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="276"/>
+        <location filename="../src/kmidimon.cpp" line="482"/>
         <source>Text Encoding:</source>
         <translation>Codificación de texto:</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="581"/>
         <source>file not found</source>
         <translation>archivo no encontrado</translation>
     </message>
     <message>
+        <location filename="../src/kmidimon.cpp" line="1424"/>
         <source>Default ( Latin1 )</source>
         <comment>@item:inlistbox Default MIDI text encoding</comment>
         <translation>Por omisión ( Latin1 )</translation>
@@ -931,58 +1185,86 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>KMidimonWin</name>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="45"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="143"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="50"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="144"/>
         <source>Control</source>
         <translation>Control</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="55"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="145"/>
         <source>Connections</source>
         <translation>Conexiones</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="60"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="146"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="68"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="147"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="72"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="148"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="92"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="149"/>
         <source>toolBar</source>
         <translation>Barra de herramientas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="109"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="137"/>
         <source>Show Toolbar</source>
         <translation>Mostrar barra de herramientas</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="120"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="138"/>
         <source>Show Statusbar</source>
         <translation>Mostrar barra de estado</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="125"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="139"/>
         <source>Contents</source>
         <translation>Contenido</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="130"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="140"/>
         <source>Web Site</source>
         <translation>Sitio web</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="135"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="141"/>
         <source>About...</source>
         <translation>Acerca de...</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="140"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="142"/>
         <source>About Qt</source>
         <translation>Acerca de Qt</translation>
     </message>
     <message>
+        <location filename="../src/kmidimonwin.ui" line="31"/>
+        <location filename="../build/Desktop_Qt_6_7_2-Debug/src/kmidimon_autogen/include/ui_kmidimonwin.h" line="136"/>
         <source>Drumstick MIDI Monitor</source>
         <translation>Monitor MIDI Drumstick</translation>
     </message>
@@ -1018,163 +1300,209 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Semifusa</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="58"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="59"/>
         <source>Note on</source>
         <translation>Nota activada</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="60"/>
         <source>Note off</source>
         <translation>Nota desactivada</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="61"/>
         <source>Polyphonic aftertouch</source>
         <translation>Post-pulsación polifónica</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="62"/>
+        <location filename="../src/eventfilter.cpp" line="66"/>
         <source>Control change</source>
         <translation>Cambio de controlador</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="63"/>
         <source>Program change</source>
         <translation>Cambio de programa</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="64"/>
         <source>Channel aftertouch</source>
         <translation>Post-pulsación de canal</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="65"/>
         <source>Pitch bend</source>
         <translation>Inflexión de tono</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="68"/>
         <source>Non-registered parameter</source>
         <translation>Parámetro no registrado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="69"/>
         <source>Registered parameter</source>
         <translation>Parámetro registrado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="71"/>
         <source>System exclusive</source>
         <translation>Sistema exclusivo</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="73"/>
         <source>Song Position</source>
         <translation>Posición de canción</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="74"/>
         <source>Song Selection</source>
         <translation>Selección de canción</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="75"/>
         <source>MTC Quarter Frame</source>
         <translation>MTC Cuarto de fotograma</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="76"/>
         <source>Tune Request</source>
         <translation>Solicitud de afinación</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="78"/>
         <source>Start</source>
         <comment>player start</comment>
         <translation>Iniciar</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="79"/>
         <source>Continue</source>
         <translation>Continuar</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="80"/>
         <source>Stop</source>
         <translation>Detener</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="81"/>
         <source>Clock</source>
         <translation>Reloj</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="82"/>
         <source>Tick</source>
         <translation>Tic</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="83"/>
         <source>Reset</source>
         <translation>Restablecer</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="84"/>
         <source>Active Sensing</source>
         <translation>Sensor de actividad</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="86"/>
         <source>ALSA Port start</source>
         <translation>Puerto ALSA iniciado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="87"/>
         <source>ALSA Port exit</source>
         <translation>Puerto ALSA finalizado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="88"/>
         <source>ALSA Port change</source>
         <translation>Puerto ALSA cambiado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="89"/>
         <source>ALSA Client start</source>
         <translation>Cliente ALSA iniciado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="90"/>
         <source>ALSA Client exit</source>
         <translation>Cliente ALSA finalizado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="91"/>
         <source>ALSA Client change</source>
         <translation>Cliente ALSA cambiado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="93"/>
         <source>ALSA Port subscribed</source>
         <translation>Subscripción de puerto ALSA</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="95"/>
         <source>ALSA Port unsubscribed</source>
         <translation>Subscripción terminada de puerto ALSA</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="97"/>
         <source>Tempo</source>
         <translation>Tempo</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="98"/>
         <source>SMF Text</source>
         <translation>Texto SMF</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="99"/>
         <source>Time Signature</source>
         <translation>Medida del compás</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="100"/>
         <source>Key Signature</source>
         <translation>Armadura de tonalidad</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="101"/>
         <source>Sequence Number</source>
         <translation>Número de secuencia</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="102"/>
         <source>Forced Channel</source>
         <translation>Canal forzado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="103"/>
         <source>Forced Port</source>
         <translation>Puerto forzado</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="104"/>
         <source>SMPTE Offset</source>
         <translation>Desplazamiento SMPTE</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="105"/>
+        <source>End Of Track</source>
+        <translation>Final de pista</translation>
+    </message>
+    <message>
+        <location filename="../src/eventfilter.cpp" line="106"/>
         <source>Sequencer Specific</source>
         <translation>Específico del secuenciador</translation>
     </message>
     <message>
+        <location filename="../src/eventfilter.cpp" line="107"/>
         <source>Meta (unregistered)</source>
         <translation>Meta (no registrado)</translation>
     </message>
@@ -1182,14 +1510,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../src/instrument.cpp" line="484"/>
         <source>Cakewalk Instrument Definition File</source>
         <translation>Archivo de definición de instrumento de Cakewalk</translation>
     </message>
     <message>
+        <location filename="../src/instrument.cpp" line="494"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
+        <location filename="../src/instrument.cpp" line="496"/>
         <source>Date</source>
         <translation>Fecha</translation>
     </message>
@@ -1197,618 +1528,805 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SequenceModel</name>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="367"/>
         <source>Ticks</source>
         <translation>Tics</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="369"/>
         <source>Time</source>
         <translation>Tiempo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="373"/>
         <source>Event kind</source>
         <translation>Tipo de evento</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="375"/>
         <source>Chan</source>
         <translation>Canal</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="377"/>
         <source>Data 1</source>
         <translation>Datos 1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="379"/>
         <source>Data 2</source>
         <translation>Datos 2</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="381"/>
         <source>Data 3</source>
         <translation>Datos 3</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="554"/>
         <source>Universal Non Real Time SysEx</source>
         <translation>Sistema exclusivo universal no tiempo real</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="556"/>
         <source>Universal Real Time SysEx</source>
         <translation>Sistema exclusivo universal de tiempo real</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="579"/>
         <source>device %1</source>
         <translation>dispositivo %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="602"/>
+        <location filename="../src/sequencemodel.cpp" line="606"/>
         <source>Sample Dump</source>
         <translation>Volcado de muestra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="604"/>
+        <location filename="../src/sequencemodel.cpp" line="636"/>
         <source>MTC</source>
         <translation>MTC</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="610"/>
         <source>File Dump</source>
         <translation>Volcado de archivo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="612"/>
+        <location filename="../src/sequencemodel.cpp" line="650"/>
         <source>Tuning</source>
         <translation>Afinación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="620"/>
         <source>End of File</source>
         <translation>Fin archivo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="622"/>
         <source>Wait</source>
         <translation>Esperar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="624"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="626"/>
         <source>NAK</source>
         <translation>Rechazo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="628"/>
         <source>ACK</source>
         <translation>Confirmación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="638"/>
         <source>Show Control</source>
         <translation>Control de escenografía</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="640"/>
         <source>Notation</source>
         <translation>Notación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="642"/>
         <source>Device Control</source>
         <translation>Control de dispositivo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="644"/>
         <source>MTC Cueing</source>
         <translation>Señalización MTC</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="646"/>
         <source>MMC Command</source>
         <translation>Mandato MMC</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="648"/>
         <source>MMC Response</source>
         <translation>Respuesta MMC</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="676"/>
         <source>Punch In Points</source>
         <translation>Puntos de comienzo de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="678"/>
         <source>Punch Out Points</source>
         <translation>Puntos de parada de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="680"/>
         <source>Delete Punch In Points</source>
         <translation>Borrar puntos de inicio de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="682"/>
         <source>Delete Punch Out Points</source>
         <translation>Borrar puntos de parada de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="684"/>
         <source>Event Start Point</source>
         <translation>Evento Punto de inicio</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="686"/>
         <source>Event Stop Point</source>
         <translation>Evento Punto de parada</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="688"/>
         <source>Event Start Point With Info</source>
         <translation>Evento Punto de inicio con información</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="690"/>
         <source>Event Stop Point With Info</source>
         <translation>Evento Punto de parada con información</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="692"/>
         <source>Delete Event Start Point</source>
         <translation>Borrar evento Punto de inicio</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="694"/>
         <source>Delete Event Stop Point</source>
         <translation>Borrar evento Punto de parada</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="696"/>
         <source>Cue Points</source>
         <translation>Señales de escena</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="698"/>
         <source>Cue Points With Info</source>
         <translation>Señales de escena con información</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="700"/>
         <source>Delete Cue Point</source>
         <translation>Borrar señal de escena</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="702"/>
         <source>Event Name</source>
         <translation>Nombre de Evento</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="714"/>
         <source>Stop</source>
         <translation>Detener</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="716"/>
         <source>Play</source>
         <translation>Iniciar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="718"/>
         <source>Deferred play</source>
         <translation>Inicio diferido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="720"/>
         <source>Fast forward</source>
         <translation>Avance rápido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="722"/>
         <source>Rewind</source>
         <translation>Rebobinar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="724"/>
         <source>Punch in</source>
         <translation>Inicio de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="726"/>
         <source>Punch out</source>
         <translation>Marca de fin de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="728"/>
         <source>Pause recording</source>
         <translation>Pausa de grabación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="730"/>
         <source>Pause</source>
         <translation>Pausa</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="732"/>
         <source>Eject</source>
         <translation>Expulsión</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="734"/>
         <source>Chase</source>
         <translation>Persecución</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="736"/>
         <source>Error reset</source>
         <translation>Restablecer error</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="738"/>
         <source>Reset</source>
         <translation>Restablecer</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="740"/>
         <source>Write</source>
         <translation>Escribir</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="742"/>
         <source>Masked Write</source>
         <translation>Escritura con máscara</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="744"/>
         <source>Read</source>
         <translation>Leer</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="746"/>
         <source>Update</source>
         <translation>Actualizar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="748"/>
         <source>Locate</source>
         <translation>Localización</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="750"/>
         <source>Variable play</source>
         <translation>Reproducción variable</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="752"/>
         <source>Search</source>
         <translation>Búsqueda</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="754"/>
         <source>Shuttle</source>
         <translation>Transporte</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="756"/>
         <source>Step</source>
         <translation>Paso</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="778"/>
+        <location filename="../src/sequencemodel.cpp" line="819"/>
         <source>Header</source>
         <translation>Cabecera</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="780"/>
+        <location filename="../src/sequencemodel.cpp" line="821"/>
         <source>Data Packet</source>
         <translation>Paquete de datos</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="782"/>
+        <location filename="../src/sequencemodel.cpp" line="823"/>
         <source>Request</source>
         <translation>Solicitud</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="789"/>
         <source>Loop Points Send</source>
         <translation>Envío de puntos de repetición</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="791"/>
         <source>Loop Points Request</source>
         <translation>Solicitud de puntos de repetición</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="793"/>
         <source>Sample Name Send</source>
         <translation>Envío de nombre de muestra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="795"/>
         <source>Sample Name Request</source>
         <translation>Solicitud de nombre de muestra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="797"/>
         <source>Ext.Dump Header</source>
         <translation>Cabecera de volcado extra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="799"/>
         <source>Ext.Loop Points Send</source>
         <translation>Envío de puntos de repetición extra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="801"/>
         <source>Ext.Loop Points Request</source>
         <translation>Solicitud de puntos de repetición extra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="809"/>
         <source>Identity Request</source>
         <translation>Solicitud de identificación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="811"/>
         <source>Identity Reply</source>
         <translation>Respuesta de identificación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="831"/>
         <source>Dump Request</source>
         <translation>Solicitud de volcado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="833"/>
         <source>Bulk Dump</source>
         <translation>Volcado masivo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="835"/>
         <source>Note Change</source>
         <translation>Cambio de nota</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="837"/>
         <source>Tuning Dump Request</source>
         <translation>Solicitud de volcado de afinación</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="839"/>
         <source>Key-based Tuning Dump</source>
         <translation>Volcado de afinación por tecla</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="841"/>
         <source>Scale/Octave Dump 1b</source>
         <translation>Volcado de escala/octava  1b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="843"/>
         <source>Scale/Octave Dump 2b</source>
         <translation>Volcado de escala/octava 2b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="845"/>
         <source>Single Note Change</source>
         <translation>Cambio de una nota</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="847"/>
         <source>Scale/Octave Tuning 1b</source>
         <translation>Afinación de escala/octava 1b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="849"/>
         <source>Scale/Octave Tuning 2b</source>
         <translation>Afinación de escala/octava 2b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="857"/>
         <source>GM On</source>
         <translation>GM activado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="859"/>
         <source>GM Off</source>
         <translation>GM desactivado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="861"/>
         <source>GM2 On</source>
         <translation>GM2 activado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="869"/>
         <source>DLS On</source>
         <translation>DLS activado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="871"/>
         <source>DLS Off</source>
         <translation>DLS desactivado</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="873"/>
         <source>DLS Voice Alloc. Off</source>
         <translation>DLS reserva voz desactivada</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="875"/>
         <source>DLS Voice Alloc. On</source>
         <translation>DLS reserva voz activada</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="883"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="885"/>
         <source>Select Contents</source>
         <translation>Seleccionar contenidos</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="887"/>
         <source>Open and Select</source>
         <translation>Abrir y seleccionar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="889"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="904"/>
         <source>Full Frame</source>
         <translation>Cuadro completo</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="906"/>
         <source>User Bits</source>
         <translation>Bits de usuario</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="914"/>
         <source>MSC Extension</source>
         <translation>Extensión MSC</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="916"/>
         <source>MSC Cmd.%1</source>
         <translation>Mandato MSC %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="922"/>
         <source>Bar Marker</source>
         <translation>Barra de compás</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="925"/>
         <source>Time Signature</source>
         <translation>Medida del compás</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="937"/>
         <source>Fine Tuning</source>
         <translation>Afinación fina</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="939"/>
         <source>Coarse Tuning</source>
         <translation>Afinación basta</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="941"/>
         <source>Global Parameter</source>
         <translation>Parámetro global</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="951"/>
         <source>Response %1</source>
         <translation>Respuesta %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="955"/>
         <source>Single Note</source>
         <translation>Nota simple</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="957"/>
         <source>Single Note with Bank</source>
         <translation>Nota simple con banco</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="959"/>
         <source>Scale/Octave 1b</source>
         <translation>Escala/octava 1b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="961"/>
         <source>Scale/Octave 2b</source>
         <translation>Escala/octava 2b</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="969"/>
         <source>Channel aftertouch</source>
         <translation>Post-pulsación de canal</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="971"/>
         <source>Polyphonic aftertouch</source>
         <translation>Post-pulsación polifónica</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="973"/>
         <source>Controller</source>
         <translation>Controlador</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1137"/>
         <source>Event type %1</source>
         <translation>Evento de tipo %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1157"/>
+        <location filename="../src/sequencemodel.cpp" line="1159"/>
+        <location filename="../src/sequencemodel.cpp" line="1373"/>
+        <location filename="../src/sequencemodel.cpp" line="1376"/>
         <source>C</source>
         <translation>Do</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1157"/>
         <source>C♯</source>
         <translation>Do♯</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1157"/>
+        <location filename="../src/sequencemodel.cpp" line="1159"/>
+        <location filename="../src/sequencemodel.cpp" line="1373"/>
+        <location filename="../src/sequencemodel.cpp" line="1376"/>
         <source>D</source>
         <translation>Re</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1157"/>
         <source>D♯</source>
         <translation>Re♯</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1157"/>
+        <location filename="../src/sequencemodel.cpp" line="1159"/>
+        <location filename="../src/sequencemodel.cpp" line="1374"/>
+        <location filename="../src/sequencemodel.cpp" line="1377"/>
         <source>E</source>
         <translation>Mi</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
+        <location filename="../src/sequencemodel.cpp" line="1372"/>
+        <location filename="../src/sequencemodel.cpp" line="1376"/>
         <source>F</source>
         <translation>Fa</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
         <source>F♯</source>
         <translation>Fa♯</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
+        <location filename="../src/sequencemodel.cpp" line="1373"/>
+        <location filename="../src/sequencemodel.cpp" line="1376"/>
         <source>G</source>
         <translation>Sol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
         <source>G♯</source>
         <translation>Sol♯</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
+        <location filename="../src/sequencemodel.cpp" line="1373"/>
+        <location filename="../src/sequencemodel.cpp" line="1377"/>
         <source>A</source>
         <translation>La</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
         <source>A♯</source>
         <translation>La♯</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1158"/>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
+        <location filename="../src/sequencemodel.cpp" line="1374"/>
+        <location filename="../src/sequencemodel.cpp" line="1377"/>
         <source>B</source>
         <translation>Si</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1159"/>
         <source>D♭</source>
         <translation>Re♭</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1159"/>
         <source>E♭</source>
         <translation>Mi♭</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
         <source>G♭</source>
         <translation>Sol♭</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
         <source>A♭</source>
         <translation>La♭</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1160"/>
         <source>B♭</source>
         <translation>Si♭</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1288"/>
         <source>%1 bpm</source>
         <translation>%1 npm</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1310"/>
         <source>Text:1</source>
         <translation>Texto:1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1312"/>
         <source>Copyright:2</source>
         <translation>Copyright:2</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1316"/>
         <source>Instrument:4</source>
         <translation>Instrumento:4</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1318"/>
         <source>Lyric:5</source>
         <translation>Letra:5</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1320"/>
         <source>Marker:6</source>
         <translation>Marcador:6</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1322"/>
         <source>Cue:7</source>
         <translation>Señal:7</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1349"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1355"/>
         <source>%1 clocks per click, %2 32nd per quarter</source>
         <translation>%1 tiempos por clic, %2 fusas por negra</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1364"/>
         <source>%1%2</source>
         <translation>%1%2</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1371"/>
         <source>C flat</source>
         <translation>Do bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1371"/>
         <source>G flat</source>
         <translation>Sol bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1371"/>
         <source>D flat</source>
         <translation>Re bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1372"/>
+        <location filename="../src/sequencemodel.cpp" line="1375"/>
         <source>A flat</source>
         <translation>La bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1372"/>
+        <location filename="../src/sequencemodel.cpp" line="1375"/>
         <source>E flat</source>
         <translation>Mi bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1372"/>
+        <location filename="../src/sequencemodel.cpp" line="1375"/>
         <source>B flat</source>
         <translation>Si bemol</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1374"/>
+        <location filename="../src/sequencemodel.cpp" line="1377"/>
         <source>F sharp</source>
         <translation>Fa sostenido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1374"/>
+        <location filename="../src/sequencemodel.cpp" line="1377"/>
         <source>C sharp</source>
         <translation>Do sostenido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1378"/>
         <source>G sharp</source>
         <translation>Sol sostenido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1378"/>
         <source>D sharp</source>
         <translation>Re sostenido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1378"/>
         <source>A sharp</source>
         <translation>La sostenido</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1392"/>
         <source>%1:%2:%3:%4:%5</source>
         <translation>%1:%2:%3:%4:%5</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1746"/>
         <source>SMF type %1</source>
         <translation>SMF de tipo %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="2042"/>
+        <location filename="../src/sequencemodel.cpp" line="2279"/>
         <source> at offset %1</source>
         <translation> en la posición %1</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="2286"/>
         <source>WRK file version %1.%2</source>
         <translation>Archivo WRK versión %1.%2</translation>
     </message>
@@ -1817,86 +2335,103 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Archivo de Overture</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="371"/>
         <source>Source</source>
         <comment>event origin</comment>
         <translation>Origen</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="577"/>
         <source>broadcast</source>
         <comment>cast or scattered in all directions</comment>
         <translation>difusión</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="608"/>
         <source>Gen.Info</source>
         <comment>General Info</comment>
         <translation>Info.general</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="614"/>
         <source>GM Mode</source>
         <comment>General MIDI mode</comment>
         <translation>Modo GM</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="616"/>
         <source>DLS</source>
         <comment>Downloadable Sounds</comment>
         <translation>DLS</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="618"/>
         <source>File Ref.</source>
         <comment>File Reference</comment>
         <translation>Ref.archivo.</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="652"/>
         <source>GM2 Destination</source>
         <comment>General MIDI 2 Controller Destination</comment>
         <translation>Destino GM2</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="654"/>
         <source>Instrument</source>
         <comment>Key-based Instrument Control</comment>
         <translation>Instrumento</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="656"/>
         <source>Polyphony</source>
         <comment>Scalable Polyphony MIDI MIP Message</comment>
         <translation>Polifonía</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="658"/>
         <source>Mobile Phone</source>
         <comment>Mobile Phone Control Message</comment>
         <translation>Teléfono móvil</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="674"/>
         <source>Special</source>
         <comment>MTC special setup</comment>
         <translation>Especial</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="933"/>
         <source>Volume</source>
         <comment>sound volume</comment>
         <translation>Volumen</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="935"/>
         <source>Balance</source>
         <comment>sound balance</comment>
         <translation>Balance</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1314"/>
         <source>Name:3</source>
         <comment>song or track name</comment>
         <translation>Nombre:3</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1383"/>
         <source>major</source>
         <comment>major mode scale</comment>
         <translation>mayor</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1384"/>
         <source>minor</source>
         <comment>minor mode scale</comment>
         <translation>menor</translation>
     </message>
     <message>
+        <location filename="../src/sequencemodel.cpp" line="1857"/>
         <source> in RIFF container of type %1</source>
         <translation> en contenedor RIFF de tipo %1</translation>
     </message>

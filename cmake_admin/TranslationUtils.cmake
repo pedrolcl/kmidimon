@@ -109,7 +109,7 @@ endfunction()
 
 file(GLOB TRANSLATION_FILES ${PROJECT_SOURCE_DIR}/translations/*.ts)
 add_custom_target(lupdate
-    COMMAND ${Qt5_LUPDATE_EXECUTABLE} -recursive . -ts ${TRANSLATION_FILES}
+    COMMAND Qt${QT_VERSION_MAJOR}::lupdate -recursive . -ts ${TRANSLATION_FILES}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Updating translations"
     VERBATIM
