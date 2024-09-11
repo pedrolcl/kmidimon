@@ -347,8 +347,7 @@ private:
     };
     QList<TempoRec> m_tempos;
 
-    typedef void (SequenceModel::*AppendFunc)(long,int,drumstick::ALSA::SequencerEvent*);
-    AppendFunc m_appendFunc;
+    std::function<void(SequenceModel *, long, int, drumstick::ALSA::SequencerEvent *)> m_appender;
 
     QString m_loadingMessages;
 

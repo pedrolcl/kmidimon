@@ -1,3 +1,7 @@
+2024-09-11
+    * added meta-event end-of-track
+    * using std::function instead of raw function pointers
+
 2024-09-08
     * better formatting of event times in 'hh:mm:ss.zzz'
 

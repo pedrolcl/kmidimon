@@ -19,13 +19,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 cmake_minimum_required(VERSION 3.16)
 
 project(kmidimon
-    VERSION 1.4.0
+    VERSION 1.4.1
     LANGUAGES CXX
     DESCRIPTION "ALSA Sequencer based MIDI Monitor"
     HOMEPAGE_URL "https://kmidimon.sourceforge.io/"
 )
 
-set(PROJECT_RELEASE_DATE "December 25, 2023")
+#set(PROJECT_RELEASE_DATE "December 25, 2023")
 option(BUILD_DOCS "Process Markdown sources of man pages and help files" ON)
 option(EMBED_TRANSLATIONS "Embed translations instead of installing" OFF)
 option(USE_QT5 "Prefer building with Qt5 instead of Qt6" OFF)

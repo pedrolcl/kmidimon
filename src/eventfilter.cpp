@@ -54,55 +54,57 @@ void CategoryFilter::insert(QObject* parent, snd_seq_event_type_t t)
 
 QString CategoryFilter::nameOfEvent(int t)
 {
-    QHash<int, QString> names {
-        /* MIDI Channel events */
-        {SND_SEQ_EVENT_NOTE, QApplication::tr("Note")},
-        {SND_SEQ_EVENT_NOTEON, QApplication::tr("Note on")},
-        {SND_SEQ_EVENT_NOTEOFF, QApplication::tr("Note off")},
-        {SND_SEQ_EVENT_KEYPRESS, QApplication::tr("Polyphonic aftertouch")},
-        {SND_SEQ_EVENT_CONTROLLER, QApplication::tr("Control change")},
-        {SND_SEQ_EVENT_PGMCHANGE, QApplication::tr("Program change")},
-        {SND_SEQ_EVENT_CHANPRESS, QApplication::tr("Channel aftertouch")},
-        {SND_SEQ_EVENT_PITCHBEND, QApplication::tr("Pitch bend")},
-        {SND_SEQ_EVENT_CONTROL14, QApplication::tr("Control change")},
-        {SND_SEQ_EVENT_NONREGPARAM, QApplication::tr("Non-registered parameter")},
-        {SND_SEQ_EVENT_REGPARAM, QApplication::tr("Registered parameter")},
-        /* MIDI System exclusive events */
-        {SND_SEQ_EVENT_SYSEX, QApplication::tr("System exclusive")},
-        /* MIDI Common events */
-        {SND_SEQ_EVENT_SONGPOS, QApplication::tr("Song Position")},
-        {SND_SEQ_EVENT_SONGSEL, QApplication::tr("Song Selection")},
-        {SND_SEQ_EVENT_QFRAME, QApplication::tr("MTC Quarter Frame")},
-        {SND_SEQ_EVENT_TUNE_REQUEST, QApplication::tr("Tune Request")},
-        /* MIDI Realtime Events */
-        {SND_SEQ_EVENT_START, QApplication::tr("Start", "player start")},
-        {SND_SEQ_EVENT_CONTINUE, QApplication::tr("Continue")},
-        {SND_SEQ_EVENT_STOP, QApplication::tr("Stop")},
-        {SND_SEQ_EVENT_CLOCK, QApplication::tr("Clock")},
-        {SND_SEQ_EVENT_TICK, QApplication::tr("Tick")},
-        {SND_SEQ_EVENT_RESET, QApplication::tr("Reset")},
-        {SND_SEQ_EVENT_SENSING, QApplication::tr("Active Sensing")},
-        /* ALSA Client/Port events */
-        {SND_SEQ_EVENT_PORT_START, QApplication::tr("ALSA Port start")},
-        {SND_SEQ_EVENT_PORT_EXIT, QApplication::tr("ALSA Port exit")},
-        {SND_SEQ_EVENT_PORT_CHANGE, QApplication::tr("ALSA Port change")},
-        {SND_SEQ_EVENT_CLIENT_START, QApplication::tr("ALSA Client start")},
-        {SND_SEQ_EVENT_CLIENT_EXIT, QApplication::tr("ALSA Client exit")},
-        {SND_SEQ_EVENT_CLIENT_CHANGE, QApplication::tr("ALSA Client change")},
-        {SND_SEQ_EVENT_PORT_SUBSCRIBED, QApplication::tr("ALSA Port subscribed")},
-        {SND_SEQ_EVENT_PORT_UNSUBSCRIBED, QApplication::tr("ALSA Port unsubscribed")},
-        /* SMF events */
-        {SND_SEQ_EVENT_TEMPO, QApplication::tr("Tempo")},
-        {SND_SEQ_EVENT_USR_VAR0, QApplication::tr("SMF Text")},
-        {SND_SEQ_EVENT_TIMESIGN, QApplication::tr("Time Signature")},
-        {SND_SEQ_EVENT_KEYSIGN, QApplication::tr("Key Signature")},
-        {SND_SEQ_EVENT_USR1, QApplication::tr("Sequence Number")},
-        {SND_SEQ_EVENT_USR2, QApplication::tr("Forced Channel")},
-        {SND_SEQ_EVENT_USR3, QApplication::tr("Forced Port")},
-        {SND_SEQ_EVENT_USR4, QApplication::tr("SMPTE Offset")},
-        {SND_SEQ_EVENT_USR_VAR1, QApplication::tr("Sequencer Specific")},
-        {SND_SEQ_EVENT_USR_VAR2, QApplication::tr("Meta (unregistered)")}
-    };
+    QHash<int, QString> names{/* MIDI Channel events */
+                              {SND_SEQ_EVENT_NOTE, QApplication::tr("Note")},
+                              {SND_SEQ_EVENT_NOTEON, QApplication::tr("Note on")},
+                              {SND_SEQ_EVENT_NOTEOFF, QApplication::tr("Note off")},
+                              {SND_SEQ_EVENT_KEYPRESS, QApplication::tr("Polyphonic aftertouch")},
+                              {SND_SEQ_EVENT_CONTROLLER, QApplication::tr("Control change")},
+                              {SND_SEQ_EVENT_PGMCHANGE, QApplication::tr("Program change")},
+                              {SND_SEQ_EVENT_CHANPRESS, QApplication::tr("Channel aftertouch")},
+                              {SND_SEQ_EVENT_PITCHBEND, QApplication::tr("Pitch bend")},
+                              {SND_SEQ_EVENT_CONTROL14, QApplication::tr("Control change")},
+                              {SND_SEQ_EVENT_NONREGPARAM,
+                               QApplication::tr("Non-registered parameter")},
+                              {SND_SEQ_EVENT_REGPARAM, QApplication::tr("Registered parameter")},
+                              /* MIDI System exclusive events */
+                              {SND_SEQ_EVENT_SYSEX, QApplication::tr("System exclusive")},
+                              /* MIDI Common events */
+                              {SND_SEQ_EVENT_SONGPOS, QApplication::tr("Song Position")},
+                              {SND_SEQ_EVENT_SONGSEL, QApplication::tr("Song Selection")},
+                              {SND_SEQ_EVENT_QFRAME, QApplication::tr("MTC Quarter Frame")},
+                              {SND_SEQ_EVENT_TUNE_REQUEST, QApplication::tr("Tune Request")},
+                              /* MIDI Realtime Events */
+                              {SND_SEQ_EVENT_START, QApplication::tr("Start", "player start")},
+                              {SND_SEQ_EVENT_CONTINUE, QApplication::tr("Continue")},
+                              {SND_SEQ_EVENT_STOP, QApplication::tr("Stop")},
+                              {SND_SEQ_EVENT_CLOCK, QApplication::tr("Clock")},
+                              {SND_SEQ_EVENT_TICK, QApplication::tr("Tick")},
+                              {SND_SEQ_EVENT_RESET, QApplication::tr("Reset")},
+                              {SND_SEQ_EVENT_SENSING, QApplication::tr("Active Sensing")},
+                              /* ALSA Client/Port events */
+                              {SND_SEQ_EVENT_PORT_START, QApplication::tr("ALSA Port start")},
+                              {SND_SEQ_EVENT_PORT_EXIT, QApplication::tr("ALSA Port exit")},
+                              {SND_SEQ_EVENT_PORT_CHANGE, QApplication::tr("ALSA Port change")},
+                              {SND_SEQ_EVENT_CLIENT_START, QApplication::tr("ALSA Client start")},
+                              {SND_SEQ_EVENT_CLIENT_EXIT, QApplication::tr("ALSA Client exit")},
+                              {SND_SEQ_EVENT_CLIENT_CHANGE, QApplication::tr("ALSA Client change")},
+                              {SND_SEQ_EVENT_PORT_SUBSCRIBED,
+                               QApplication::tr("ALSA Port subscribed")},
+                              {SND_SEQ_EVENT_PORT_UNSUBSCRIBED,
+                               QApplication::tr("ALSA Port unsubscribed")},
+                              /* SMF events */
+                              {SND_SEQ_EVENT_TEMPO, QApplication::tr("Tempo")},
+                              {SND_SEQ_EVENT_USR_VAR0, QApplication::tr("SMF Text")},
+                              {SND_SEQ_EVENT_TIMESIGN, QApplication::tr("Time Signature")},
+                              {SND_SEQ_EVENT_KEYSIGN, QApplication::tr("Key Signature")},
+                              {SND_SEQ_EVENT_USR1, QApplication::tr("Sequence Number")},
+                              {SND_SEQ_EVENT_USR2, QApplication::tr("Forced Channel")},
+                              {SND_SEQ_EVENT_USR3, QApplication::tr("Forced Port")},
+                              {SND_SEQ_EVENT_USR4, QApplication::tr("SMPTE Offset")},
+                              {SND_SEQ_EVENT_USR5, QApplication::tr("End Of Track")},
+                              {SND_SEQ_EVENT_USR_VAR1, QApplication::tr("Sequencer Specific")},
+                              {SND_SEQ_EVENT_USR_VAR2, QApplication::tr("Meta (unregistered)")}};
     if (names.contains(t)) {
         return names[t];
     }
@@ -163,8 +165,9 @@ EventFilter::EventFilter(QObject* parent)
     insert(SMFCategory, SND_SEQ_EVENT_USR2);// tr("Forced Channel"));
     insert(SMFCategory, SND_SEQ_EVENT_USR3);// tr("Forced Port"));
     insert(SMFCategory, SND_SEQ_EVENT_USR4);// tr("SMPTE Offset"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1);// tr("Sequencer Specific"));
-    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2);// tr("Meta (unregistered)"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR5);     // tr("End Of Track"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR1); // tr("Sequencer Specific"));
+    insert(SMFCategory, SND_SEQ_EVENT_USR_VAR2); // tr("Meta (unregistered)"));
 }
 
 EventFilter::~EventFilter()
