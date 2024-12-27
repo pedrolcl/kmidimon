@@ -7,7 +7,7 @@ You need the following software:
 * CMake 3.16 or later
 * Qt libraries 6.2 or later (or Qt5 >= 5.12)
 * ALSA library
-* Drumstick 2.9 or later
+* Drumstick 2.10 or later
 
 You will need CMake 3.16 or newer.  If your Linux distribution
 doesn't provide CMake, or if it provides an older version, you can get

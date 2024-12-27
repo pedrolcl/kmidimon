@@ -27,7 +27,7 @@ You need the following software:
 * CMake 3.16 or later
 * Qt libraries 6.2 or later (Qt >= 5.12 using USE_QT5=On)
 * ALSA library
-* Drumstick 2.9 or later
+* Drumstick 2.10 or later
 
 ## Getting the development sources
 

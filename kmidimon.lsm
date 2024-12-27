@@ -1,7 +1,7 @@
 Begin4
 Title:          Drumstick MIDI Monitor
-Version:        1.4.0
-Entered-date:   2023-12-25
+Version:        1.4.1
+Entered-date:   2024-12-28
 Description:    ALSA Sequencer MIDI monitor
 Keywords:       MIDI Qt ALSA monitor
 Author:         plcl@users.sourceforge.net (Pedro Lopez-Cabanillas)

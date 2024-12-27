@@ -1,3 +1,6 @@
+2024-12-27
+    * Release 1.4.1 preparations
+
 2024-09-11
     * added meta-event end-of-track
     * using std::function instead of raw function pointers
