@@ -46,8 +46,11 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
     m_client->open();
     m_client->setPoolOutput(50); // small buffer size, for better feedback
     m_client->setClientName("KMidimon");
-    connect(m_client, &MidiClient::eventReceived,
-            this, &SequencerAdaptor::sequencerEvent);
+    connect(m_client,
+            &MidiClient::eventReceived,
+            this,
+            &SequencerAdaptor::sequencerEvent,
+            Qt::UniqueConnection);
 
     m_queue = m_client->createQueue("KMidimon");
 
