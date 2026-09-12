@@ -54,8 +54,7 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 
     m_queue = m_client->createQueue("KMidimon");
 
-    m_port = new MidiPort(this);
-    m_port->attach( m_client );
+    m_port = m_client->createPort();
     m_port->setPortName("KMidimon");
     m_port->setCapability( SND_SEQ_PORT_CAP_READ |
                            SND_SEQ_PORT_CAP_WRITE |
@@ -80,7 +79,6 @@ SequencerAdaptor::SequencerAdaptor(QObject *parent):
 SequencerAdaptor::~SequencerAdaptor()
 {
     m_client->stopSequencerInput();
-    m_port->detach();
     m_client->close();
     delete m_player;
 }
