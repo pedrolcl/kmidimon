@@ -13,36 +13,89 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: '🟥', arch: "x86_64", os: "ubuntu-24.04" }
+          - { icon: '🟩', arch: "aarch64", os: "ubuntu-24.04-arm" }
+    runs-on: ${{ matrix.os }}
+    name: '${{ matrix.icon }} Linux CI ${{ matrix.arch }}'
 
     steps:
     - uses: actions/checkout@v7
 
-    - uses: dawidd6/action-download-artifact@v24
+    - name: '${{ matrix.icon }} Download Drumstick artifact'
+      uses: dawidd6/action-download-artifact@v24
       with:
-        name: ${{env.DRUMSTICKNAME}}
+        name: ${{env.DRUMSTICKNAME}}-${{matrix.arch}}.tar.gz
         github_token: ${{secrets.GH_PAT}}
         repo: pedrolcl/drumstick
         allow_forks: false
-        workflow: cmake.yml
+        workflow: linux.yml
+        skip_unpack: true
 
-    - name: Extract downloaded files
-      run: tar xvf ${{env.DRUMSTICKNAME}}.tar
+    - name: '${{ matrix.icon }} Extract Drumstick artifact'
+      run: |
+        if [ -f ${{env.DRUMSTICKNAME}}-${{matrix.arch}}.tar.gz.zip ]; then
+          mv ${{env.DRUMSTICKNAME}}-${{matrix.arch}}.tar.gz.zip ${{env.DRUMSTICKNAME}}-${{matrix.arch}}.tar.gz
+        fi
+        tar xvzf ${{env.DRUMSTICKNAME}}-${{matrix.arch}}.tar.gz
 
-    - name: Install Qt
+    - name: '${{ matrix.icon }} Install Qt'
       uses: jurplel/install-qt-action@v4
       with:
         version: '6.11.1'
         modules: qt5compat
 
-    - name: Dependencies
+    - name: '${{ matrix.icon }} Install Dependencies'
       run: sudo apt-get update && sudo apt-get install -yq pkg-config libasound2-dev
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build
+    - name: '${{ matrix.icon }} Configure CMake'
+      id: configuration
+      run: >
+        cmake -B ${{github.workspace}}/build
         -DBUILD_DOCS=OFF
         -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         -DCMAKE_PREFIX_PATH="${{env.DRUMSTICK_LOCATION}}"
+        -DCMAKE_INSTALL_PREFIX=/usr
+        -DCMAKE_INSTALL_LIBDIR=lib
+        -DCMAKE_INSTALL_RPATH="\$ORIGIN/../lib"
+        -DINSTALL_DEPENDENCIES=ON
 
-    - name: Build
+    - name: '${{ matrix.icon }} Build'
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: '${{ matrix.icon }} Install'
+      env:
+        DESTDIR: ${{github.workspace}}/build/kmidimon-v${{steps.configuration.outputs.config_version}}-${{matrix.arch}}.AppDir
+      run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: '${{ matrix.icon }} Archive'
+      env:
+        INSTALL_LOCATION: kmidimon-v${{steps.configuration.outputs.config_version}}-${{matrix.arch}}.AppDir
+      run: |
+        cd ${{github.workspace}}/build/
+        tar -cvzf ${{env.INSTALL_LOCATION}}.tar.gz ${{env.INSTALL_LOCATION}}
+
+    - name: '${{ matrix.icon }} Upload Archive'
+      env:
+        INSTALL_LOCATION: kmidimon-v${{steps.configuration.outputs.config_version}}-${{matrix.arch}}.AppDir
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{env.INSTALL_LOCATION}}
+        path: ${{github.workspace}}/build/${{env.INSTALL_LOCATION}}.tar.gz
+        retention-days: 90
+        overwrite: true
+        archive: false
+
+    - name: '${{ matrix.icon }} Upload AppImage'
+      env:
+        INSTALL_LOCATION: kmidimon-v${{steps.configuration.outputs.config_version}}-${{matrix.arch}}.AppImage
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{env.INSTALL_LOCATION}}
+        path: ${{github.workspace}}/build/${{env.INSTALL_LOCATION}}
+        retention-days: 90
+        overwrite: true
+        archive: false
