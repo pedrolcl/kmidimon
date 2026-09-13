@@ -1662,26 +1662,28 @@ SequenceModel::processItems()
         double seconds = 0;
         long ticks = itm.getTicks();
         int track = itm.getTrack();
-        if ( ev != nullptr && ev->getSequencerType() == SND_SEQ_EVENT_NOTE ) {
-            NoteEvent* note = static_cast<NoteEvent*>(ev);
-            NoteOnEvent* noteon = new NoteOnEvent( note->getChannel(),
-                                                   note->getKey(),
-                                                   note->getVelocity() );
-            noteon->scheduleTick(m_queueId, ticks, false);
-            noteon->setTag(track);
-            SequenceItem itm1(seconds, ticks, track, noteon);
-            m_tempSong.append(itm1);
-            NoteOffEvent* noteoff = new NoteOffEvent( note->getChannel(),
+        if (ev != nullptr) {
+            if (ev->getSequencerType() == SND_SEQ_EVENT_NOTE) {
+                NoteEvent *note = static_cast<NoteEvent *>(ev);
+                NoteOnEvent *noteon = new NoteOnEvent(note->getChannel(),
                                                       note->getKey(),
-                                                      note->getVelocity() );
-            ticks += note->getDuration();
-            noteoff->scheduleTick(m_queueId, ticks, false);
-            noteoff->setTag(track);
-            SequenceItem itm2(seconds, ticks, track, noteoff);
-            m_tempSong.append(itm2);
-        } else {
-            SequenceItem itm(seconds, ticks, track, ev->clone());
-            m_tempSong.append(itm);
+                                                      note->getVelocity());
+                noteon->scheduleTick(m_queueId, ticks, false);
+                noteon->setTag(track);
+                SequenceItem itm1(seconds, ticks, track, noteon);
+                m_tempSong.append(itm1);
+                NoteOffEvent *noteoff = new NoteOffEvent(note->getChannel(),
+                                                         note->getKey(),
+                                                         note->getVelocity());
+                ticks += note->getDuration();
+                noteoff->scheduleTick(m_queueId, ticks, false);
+                noteoff->setTag(track);
+                SequenceItem itm2(seconds, ticks, track, noteoff);
+                m_tempSong.append(itm2);
+            } else {
+                SequenceItem itm(seconds, ticks, track, ev->clone());
+                m_tempSong.append(itm);
+            }
         }
     }
     m_tempSong.sort();
@@ -1694,10 +1696,14 @@ SequenceModel::saveToFile(const QString& path)
     QFileInfo info(path);
     if (info.suffix().toLower() == "txt") {
         QFile file(path);
-        file.open(QIODevice::WriteOnly);
-        QTextStream stream(&file);
-        saveToTextStream(stream);
-        file.close();
+        auto ok = file.open(QIODevice::WriteOnly);
+        if (ok) {
+            QTextStream stream(&file);
+            saveToTextStream(stream);
+            file.close();
+        } else {
+            qWarning() << "Error opening" << path << "for output";
+        }
     } else { // MIDI
         processItems();
         m_smf->setDivision(m_division);

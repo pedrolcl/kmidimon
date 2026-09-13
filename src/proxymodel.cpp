@@ -27,8 +27,14 @@ using namespace drumstick::ALSA;
 void ProxyModel::setFilterTrack(int track)
 {
     if (track != m_trackFilter) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_trackFilter = track;
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_trackFilter = track;
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -36,8 +42,14 @@ void ProxyModel::setFilterChannelMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(ChannelCategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(ChannelCategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(ChannelCategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -45,8 +57,14 @@ void ProxyModel::setFilterCommonMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(SysCommonCategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(SysCommonCategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(SysCommonCategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -54,8 +72,14 @@ void ProxyModel::setFilterRealTimeMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(SysRTCategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(SysRTCategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(SysRTCategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -63,8 +87,14 @@ void ProxyModel::setFilterSysexMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(SysExCategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(SysExCategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(SysExCategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -72,8 +102,14 @@ void ProxyModel::setFilterAlsaMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(ALSACategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(ALSACategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(ALSACategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
@@ -81,8 +117,14 @@ void ProxyModel::setFilterSmfMsg(bool newValue)
 {
     bool oldValue = m_filter->getFilter(SMFCategory);
     if (oldValue != newValue) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 10, 0))
         m_filter->setFilter(SMFCategory, newValue);
         invalidateFilter();
+#else
+        beginFilterChange();
+        m_filter->setFilter(SMFCategory, newValue);
+        endFilterChange(Direction::Rows);
+#endif
     }
 }
 
