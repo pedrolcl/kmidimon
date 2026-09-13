@@ -48,7 +48,7 @@ public:
     Q_ENUM(State)
 
     SequencerAdaptor(QObject *parent);
-    ~SequencerAdaptor();
+    ~SequencerAdaptor() override;
 
     bool isRecording() { return m_state == RecordingState; }
     bool isPaused() { return m_state == PausedState; }
