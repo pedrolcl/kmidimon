@@ -18,6 +18,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.16)
 
+if (POLICY CMP0153)
+    cmake_policy(SET CMP0153 NEW)
+endif()
+
+if (POLICY CMP0207)
+    cmake_policy(SET CMP0207 NEW)
+endif()
+
 project(kmidimon
     VERSION 1.4.2
     LANGUAGES CXX
@@ -47,7 +55,7 @@ if(QT_FOUND)
     message(STATUS "Found Qt version: ${QT_VERSION}")
 endif()
 
-find_package(Drumstick 2.10 COMPONENTS ALSA File REQUIRED)
+find_package(Drumstick 2.11 COMPONENTS ALSA File REQUIRED)
 if(Drumstick_FOUND)
     message(STATUS "Found Drumstick version: ${Drumstick_VERSION}")
 endif()
