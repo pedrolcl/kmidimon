@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>net.sourceforge.kmidimon</id>
   <name>Drumstick MIDI Monitor</name>
-  <summary>Drumstick MIDI Monitor is a MIDI monitor for Linux using ALSA sequencer</summary>
+  <summary>Drumstick MIDI Monitor for Linux using ALSA sequencer</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
   <description>
@@ -14,11 +14,13 @@
     </p>
   </description>
   <url type="homepage">https://kmidimon.sourceforge.io/</url>
-  <developer_name>Pedro López-Cabanillas</developer_name>
+  <developer id="net.sourceforge.plcl">
+    <name>Pedro López-Cabanillas</name>
+  </developer>
   <update_contact>plcl_AT_users.sourceforge.net</update_contact>
   <launchable type="desktop-id">net.sourceforge.kmidimon.desktop</launchable>
   <translation type="qt">kmidimon</translation>
-  <content_rating type="oars-1.1" /> <!-- this is broken, validator fails -->
+  <content_rating type="oars-1.1" />
   <screenshots>
     <screenshot type="default">
       <image>https://kmidimon.sourceforge.io/images/kmidimon1.png</image>
@@ -38,6 +40,7 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.4.2" date="2026-11-07" />
     <release version="1.4.1" date="2024-12-28" />
     <release version="1.4.0" date="2023-12-25" />
     <release version="1.3.1" date="2022-08-10" />
