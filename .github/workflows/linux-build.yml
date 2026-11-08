@@ -62,7 +62,7 @@ jobs:
         -DCMAKE_INSTALL_LIBDIR=lib
         -DCMAKE_INSTALL_RPATH="\$ORIGIN/../lib"
         -DINSTALL_DEPENDENCIES=ON
-        -EMBED_TRANSLATIONS=ON
+        -DEMBED_TRANSLATIONS=ON
 
     - name: '${{ matrix.icon }} Build'
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
